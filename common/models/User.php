@@ -53,6 +53,14 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['username', 'name', 'auth_key', 'password_hash', 'created_at', 'updated_at', 'role'], 'required'],
+            [['status', 'created_at', 'updated_at', 'role'], 'integer'],
+            [['username', 'name', 'password_hash', 'password_reset_token'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['name'], 'unique'],
+            // [['name'], 'unique', 'targetAttribute' => 'name', 'targetClass' => '\common\models\User', 'message' => 'Nama ini sudah digunakan', ],
+            [['password_reset_token'], 'unique'],
+            [['role'], 'exist', 'skipOnError' => true, 'targetClass' => Role::className(), 'targetAttribute' => ['role' => 'id']],
         ];
     }
 
