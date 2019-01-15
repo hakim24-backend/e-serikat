@@ -103,15 +103,15 @@ class SerikatintiController extends Controller
             // var_dump($model);die;
             // return $this->redirect(['view', 'id' => $model->role])
 
-            // if ($model->role == 4) {
+            if ($model->role == 4) {
 
-            // $sekre = new Secretariat();
-            // $sekre->secretariat_code = 'asdas12312';
-            // $sekre->secretariat_name = 'asdasd12313';
-            // $sekre->user_id = $id;
-            // $sekre->save();
+            $sekre = new Secretariat();
+            $sekre->secretariat_code = 'asdas12312';
+            $sekre->secretariat_name = 'asdasd12313';
+            $sekre->user_id = $model->id;
+            $sekre->save();
 
-            // }
+            }
 
             return $this->redirect(['index']);
         }
