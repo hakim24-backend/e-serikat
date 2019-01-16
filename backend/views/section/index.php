@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Seksi';
+$this->title = 'Department';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="section-index">
