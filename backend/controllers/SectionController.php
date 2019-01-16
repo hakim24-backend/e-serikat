@@ -4,6 +4,12 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Section;
+use common\models\Department;
+use common\models\Chief;
+use common\models\Role;
+use common\models\User;
+use common\models\Registrasi;
+use common\models\Secretariat;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -36,11 +42,26 @@ class SectionController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Section::find(),
+            'query' => Department::find(),
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionHighlight($id)
+    {
+    
+        $model = new User();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Section::find(),
+        ]);
+
+        return $this->render('highlight', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+            'id'=>$id
         ]);
     }
 
@@ -62,16 +83,41 @@ class SectionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
-        $model = new Section();
+        $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $password = 123456;
+            $model->role = 8;   
+            $model->username = str_replace(" ","_",$model->name);
+            $model->created_at = time();
+            $model->updated_at = time();
+            $model->setPassword($password);
+            $model->generateAuthKey();
+            $save = $model->save(false);
+
+
+            if ($save) {
+            $section = new Section();
+            $depart = Department::find()->where(['id'=>$id])->one();
+
+            $code = Yii::$app->security->generateRandomString();
+            $section->section_name = $model->name;
+            $section->id_depart = $depart->id;
+            $section->status_budget = 0;
+            $section->section_code = $code;
+            $section->user_id = $model->id;
+            $section->save(false);
+
+            }
+
+            return $this->redirect(['index']);
         }
-
         return $this->render('create', [
             'model' => $model,
+            // 'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -84,12 +130,23 @@ class SectionController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $section = Section::find()->where(['id'=>$id])->one();
+        $model = User::find()->where(['id'=>$section])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->name = $model->name;
+            $model->username = $model->name;
+            $model->updated_at = time();
+            $save = $model->save(false);
+
+            if ($save) {
+            $section->section_name = $model->name;
+            $section->save(false);
+            }
+
+            return $this->redirect(['index']);
+
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -104,7 +161,11 @@ class SectionController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $section = Section::find()->where(['id'=>$id])->one();        
+        $model = User::find()->where(['id'=>$section])->one();
+
+        $section -> delete();
+        $model->delete();
 
         return $this->redirect(['index']);
     }

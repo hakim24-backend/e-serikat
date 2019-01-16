@@ -4,10 +4,17 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Department;
+use common\models\Chief;
+use common\models\Section;
+use common\models\Role;
+use common\models\User;
+use common\models\Registrasi;
+use common\models\Secretariat;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * DepartmentController implements the CRUD actions for Department model.
@@ -35,12 +42,28 @@ class DepartmentController extends Controller
      */
     public function actionIndex()
     {
+        
         $dataProvider = new ActiveDataProvider([
-            'query' => Department::find(),
+            'query' => Chief::find(),
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionHighlight($id)
+    {
+    
+        $model = new User();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Department::find(),
+        ]);
+
+        return $this->render('highlight', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+            'id'=>$id
         ]);
     }
 
@@ -62,16 +85,42 @@ class DepartmentController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
-        $model = new Department();
+        
+        $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $password = 123456;
+            $model->role = 7;   
+            $model->username = str_replace(" ","_",$model->name);
+            $model->created_at = time();
+            $model->updated_at = time();
+            $model->setPassword($password);
+            $model->generateAuthKey();
+            $save = $model->save(false);
+
+
+            if ($save) {
+            $depart = new Department();
+            $chief = Chief::find()->where(['id'=>$id])->one();
+
+            $code = Yii::$app->security->generateRandomString();
+            $depart->depart_name = $model->name;
+            $depart->id_chief = $chief->id;
+            $depart->status_budget = 0;
+            $depart->depart_code = $code;
+            $depart->user_id = $model->id;
+            $depart->save(false);
+
+            }
+
+            return $this->redirect(['index']);
         }
-
         return $this->render('create', [
             'model' => $model,
+            // 'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -84,12 +133,23 @@ class DepartmentController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $depart = Department::find()->where(['id'=>$id])->one();
+        $model = User::find()->where(['id'=>$depart])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->name = $model->name;
+            $model->username = $model->name;
+            $model->updated_at = time();
+            $save = $model->save(false);
+
+            if ($save) {
+            $depart->depart_name = $model->name;
+            $depart->save(false);
+            }
+
+            return $this->redirect(['index']);
+
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -104,7 +164,19 @@ class DepartmentController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // $this->findModel($id)->delete();
+
+        $depart = Department::find()->where(['id'=>$id])->one();
+        $section = Section::find()->where(['id_depart'=>$depart])->one();        
+        $model = User::find()->where(['id'=>$depart])->one();
+
+        if ($section) {
+            Yii::$app->getSession()->setFlash('error', "Harus hapus data di section");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        $depart -> delete();
+        $model-> delete();
 
         return $this->redirect(['index']);
     }

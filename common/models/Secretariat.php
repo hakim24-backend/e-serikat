@@ -53,6 +53,11 @@ class Secretariat extends \yii\db\ActiveRecord
         ];
     }
 
+    public function setPassword($password)
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

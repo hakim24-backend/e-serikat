@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
@@ -14,9 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
 
-    <p>
+    <!-- <p>
         <?= Html::a('Buat Akun', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    </p> -->
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,14 +25,43 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'section_name',
-            'id_depart',
+            'depart_name',
+            'depart_code',
             'status_budget',
-            'section_code',
-            //'user_id',
+            'user_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [   
+                'class' => 'yii\grid\ActionColumn',
+                'header' => 'Action',
+                'template' => '| {highligt} |',
+                'buttons' => [
+                    
+
+                    'highligt' => function($url, $model, $key)
+                    {
+                        if ($model->user) {
+                            $url = Url::toRoute(['/section/highlight', 'id' => $model->id]);
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-th-list"></span>',
+                                $url, 
+                                [
+                                    'title' => 'Higlight ',
+                                ]
+                            );
+                        }
+                        else{
+                            $url = Url::toRoute(['/section/view', 'id' => $model->id]);
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-plus"></span>',
+                                $url, 
+                                [
+                                    'title' => 'View Data',
+                                ]
+                            );
+                        }
+                    }
+                ]
+            ],
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
 </div>

@@ -5,21 +5,18 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Serikatinti */
-/* @var $form yii\widgets\ActiveForm */
+
+$this->title = 'Buat Akun E-Serikat';
+$this->params['breadcrumbs'][] = ['label' => 'Serikatintis', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="serikatinti-form">
+<?php $form = ActiveForm::begin(['id' => 'form-signup', 'enableClientValidation' => true,]); ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+				<?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
 
-    <?= $form->field($model, 'name_role')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'name_role')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'name_role')->textInput(['maxlength' => true]) ?>
+                <div class="form-group">
+                    <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                </div>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
+<?php ActiveForm::end(); ?>

@@ -1,9 +1,10 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Chief */
+/* @var $model common\models\Serikatinti */
 
 $this->title = 'Create Chief';
 $this->params['breadcrumbs'][] = ['label' => 'Chiefs', 'url' => ['index']];

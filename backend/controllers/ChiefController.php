@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Chief;
+use common\models\Department;
 use common\models\Role;
 use common\models\User;
 use common\models\Registrasi;
@@ -68,12 +69,34 @@ class ChiefController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Chief();
+        
+        $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $password = 123456;
+            $model->role = 6;
+            $model->username = str_replace(" ","_",$model->name);
+            $model->created_at = time();
+            $model->updated_at = time();
+            $model->setPassword($password);
+            $model->generateAuthKey();
+            $save = $model->save(false);
+
+
+            if ($save) {
+            $chief = new Chief();
+            $code = Yii::$app->security->generateRandomString();
+            $chief->chief_name = $model->name;
+            $chief->chief_code = $code;
+            $chief->status_budget = 0;
+            $chief->user_id = $model->id;
+            $chief->save(false);
+
+            }
+
+            return $this->redirect(['index']);
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -88,12 +111,23 @@ class ChiefController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $chief = Chief::find()->where(['id'=>$id])->one();
+        $model = User::find()->where(['id'=>$chief])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->name = $model->name;
+            $model->username = $model->name;
+            $model->updated_at = time();
+            $save = $model->save(false);
+
+            if ($save) {
+            $chief->chief_name = $model->name;
+            $chief->save(false);
+            }
+
+            return $this->redirect(['index']);
+
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -108,9 +142,20 @@ class ChiefController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $chief = Chief::find()->where(['id'=>$id])->one();
+        $department = Department::find()->where(['id_chief'=>$chief])->one();
+        $model = User::find()->where(['id'=>$chief])->one();
+
+        if ($department) {
+            Yii::$app->getSession()->setFlash('error', "Harus hapus data di departemen");
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            $chief -> delete();
+            $model->delete();
+            return $this->redirect(['index']);
+        }
     }
 
     /**

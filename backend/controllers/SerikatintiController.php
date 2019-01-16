@@ -87,9 +87,6 @@ class SerikatintiController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
-        //     if (!$this->validate()) {
-        //     return null;
-        // }
 
             $password = 123456;
             $model->role = $id;
@@ -99,24 +96,23 @@ class SerikatintiController extends Controller
             $model->updated_at = time();
             $model->setPassword($password);
             $model->generateAuthKey();
-            $model->save();
-            // var_dump($model);die;
-            // return $this->redirect(['view', 'id' => $model->role])
+            $model->save(false);
 
             if ($model->role == 4) {
 
             $sekre = new Secretariat();
-            $sekre->secretariat_code = 'asdas12312';
-            $sekre->secretariat_name = 'asdasd12313';
+            $code = Yii::$app->security->generateRandomString();
+            $sekre->secretariat_code = $code;
+            $sekre->secretariat_name = $model->name;
             $sekre->user_id = $model->id;
-            $sekre->save();
+            $sekre->save(false);
 
             }
 
             return $this->redirect(['index']);
         }
 
-        return $this->render('registrasi', [
+        return $this->render('create', [
             'model' => $model,
         ]);
     }
@@ -130,17 +126,25 @@ class SerikatintiController extends Controller
      */
     public function actionUpdate($id)
     {
+
         $model = User::find()->where(['role'=>$id])->one();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->name = $model->name;
             $model->username = $model->name;
             $model->updated_at = time();
-            $model->save(false);
-            return $this->redirect(['view', 'id' => $model->role]);
+            $save = $model->save(false);
+
+            if ($save) {
+            $sekre = Secretariat::find()->where(['user_id'=>$model->id])->one();
+            $sekre->secretariat_name = $model->name;
+            $sekre->save();
+            }
+            
+            return $this->redirect(['index']);
         }
 
-        return $this->render('registrasi', [
+        return $this->render('create', [
             'model' => $model,
         ]);
     }
@@ -157,6 +161,12 @@ class SerikatintiController extends Controller
         // $this->findModel($id)->delete();
 
         $model = User::find()->where(['role'=>$id])->one();
+
+        $sekre = Secretariat::find()->where(['user_id'=>$model->id])->one();
+
+        if($sekre){
+            $sekre->delete();
+        }
 
         $model->delete();
 

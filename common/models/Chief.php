@@ -56,6 +56,11 @@ class Chief extends \yii\db\ActiveRecord
         ];
     }
 
+    public function setPassword($password)
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -94,5 +99,17 @@ class Chief extends \yii\db\ActiveRecord
     public function getDepartments()
     {
         return $this->hasMany(Department::className(), ['id_chief' => 'id']);
+    }
+
+    public function generateRandomString($length = 32)
+    {
+        if (!is_int($length)) {
+            throw new InvalidArgumentException('First parameter ($length) must be an integer');
+        }
+        if ($length < 1) {
+            throw new InvalidArgumentException('First parameter ($length) must be greater than 0');
+        }
+        $bytes = $this->generateRandomKey($length);
+        return substr(StringHelper::base64UrlEncode($bytes), 0, $length);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -31,9 +32,34 @@ $this->params['breadcrumbs'][] = $this->title;
             [   
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Action',
-                'template' => '| {update} | {view} | {delete} |',
-                
+                'template' => '| {edit} | {view} | {delete} |',
+                'buttons' => [
+                    
 
+                    'edit' => function($url, $model, $key)
+                    {
+                        if ($model->user) {
+                            $url = Url::toRoute(['/chief/update', 'id' => $model->id]);
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-pencil"></span>',
+                                $url, 
+                                [
+                                    'title' => 'Edit User',
+                                ]
+                            );
+                        }
+                        else{
+                            $url = Url::toRoute(['/chief/create', 'id' => $model->id]);
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-plus"></span>',
+                                $url, 
+                                [
+                                    'title' => 'Buat User',
+                                ]
+                            );
+                        }
+                    }
+                ]
             ],
         ],
     ]); ?>
