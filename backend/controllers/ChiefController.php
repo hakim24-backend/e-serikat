@@ -67,12 +67,20 @@ class ChiefController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         
+        $user = User::find()->all();
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
+
+            foreach ($user as $value) {
+                if ( $value->name == $model->name) {
+                    Yii::$app->getSession()->setFlash('error', "Tidak Bisa Create Karena Nama Sama");
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+            }
 
             $password = 123456;
             $model->role = 6;
@@ -142,19 +150,25 @@ class ChiefController extends Controller
      */
     public function actionDelete($id)
     {
-        // $this->findModel($id)->delete();
-
         $chief = Chief::find()->where(['id'=>$id])->one();
         $department = Department::find()->where(['id_chief'=>$chief])->one();
         $model = User::find()->where(['id'=>$chief])->one();
+        $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
+        $id_user = User::find()->where(['id'=>$user])->one();
+        $permission = Chief::find()->where(['user_id'=>$id_user])->andWhere(['id'=>$id])->one();
 
-        if ($department) {
-            Yii::$app->getSession()->setFlash('error', "Harus hapus data di departemen");
+        if ($permission) {
+            Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
             return $this->redirect(Yii::$app->request->referrer);
         } else {
+            if ($department) {
+            Yii::$app->getSession()->setFlash('error', "Harus hapus data di departemen");
+            return $this->redirect(Yii::$app->request->referrer);
+            } else {
             $chief -> delete();
             $model->delete();
             return $this->redirect(['index']);
+            }
         }
     }
 

@@ -21,16 +21,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => 'Belum Terisi'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
-            'name_role',
+            // // 'id',
+            // 'name_role',
+            // 'usersOne.username',
+            [
+            'header' => 'Nama Role',
+            'attribute' => 'name_role',
+            ],
+
+            [
+            'header' => 'Username',
+            'attribute' => 'usersOne.username',
+            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Action',
-                'template' => '| {edit} | {view} | {delete} |',
+                'template' => '| {edit} | {delete} |',
                 'buttons' => [
                     
 

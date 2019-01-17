@@ -164,21 +164,26 @@ class DepartmentController extends Controller
      */
     public function actionDelete($id)
     {
-        // $this->findModel($id)->delete();
-
         $depart = Department::find()->where(['id'=>$id])->one();
         $section = Section::find()->where(['id_depart'=>$depart])->one();        
         $model = User::find()->where(['id'=>$depart])->one();
+        $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
+        $id_user = User::find()->where(['id'=>$user])->one();
+        $permission = Department::find()->where(['user_id'=>$id_user])->andWhere(['id'=>$id])->one();
 
-        if ($section) {
+        if ($permission) {
+            Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            if ($section) {
             Yii::$app->getSession()->setFlash('error', "Harus hapus data di section");
             return $this->redirect(Yii::$app->request->referrer);
+            } else{
+            $depart -> delete();
+            $model-> delete();
+            return $this->redirect(['index']);
+            }
         }
-
-        $depart -> delete();
-        $model-> delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

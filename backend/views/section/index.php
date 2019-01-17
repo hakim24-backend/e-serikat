@@ -45,17 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 '<span class="glyphicon glyphicon-th-list"></span>',
                                 $url, 
                                 [
-                                    'title' => 'Higlight ',
-                                ]
-                            );
-                        }
-                        else{
-                            $url = Url::toRoute(['/section/view', 'id' => $model->id]);
-                            return Html::a(
-                                '<span class="glyphicon glyphicon-plus"></span>',
-                                $url, 
-                                [
-                                    'title' => 'View Data',
+                                    'title' => 'Creare Seksi',
                                 ]
                             );
                         }

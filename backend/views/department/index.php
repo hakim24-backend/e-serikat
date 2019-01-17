@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 '<span class="glyphicon glyphicon-th-list"></span>',
                                 $url, 
                                 [
-                                    'title' => 'Higlight ',
+                                    'title' => 'Cretae Department ',
                                 ]
                             );
                         }

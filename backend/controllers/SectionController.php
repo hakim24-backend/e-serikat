@@ -163,11 +163,19 @@ class SectionController extends Controller
     {
         $section = Section::find()->where(['id'=>$id])->one();        
         $model = User::find()->where(['id'=>$section])->one();
+        $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
+        $id_user = User::find()->where(['id'=>$user])->one();
+        $permission = Section::find()->where(['user_id'=>$id_user])->andWhere(['id'=>$id])->one();
 
+        if ($permission) {
+        Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
+        return $this->redirect(Yii::$app->request->referrer);
+        } else {
         $section -> delete();
         $model->delete();
 
         return $this->redirect(['index']);
+        }
     }
 
     /**

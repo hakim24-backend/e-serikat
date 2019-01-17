@@ -84,9 +84,17 @@ class SerikatintiController extends Controller
      */
     public function actionCreate($id)
     {
+        $user = User::find()->all();
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
+
+            foreach ($user as $value) {
+                if ( $value->name == $model->name) {
+                    Yii::$app->getSession()->setFlash('error', "Tidak Bisa Create Karena Nama Sama");
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+            }
 
             $password = 123456;
             $model->role = $id;
@@ -135,7 +143,7 @@ class SerikatintiController extends Controller
             $model->updated_at = time();
             $save = $model->save(false);
 
-            if ($save) {
+            if ($model->role == 4) {
             $sekre = Secretariat::find()->where(['user_id'=>$model->id])->one();
             $sekre->secretariat_name = $model->name;
             $sekre->save();
@@ -144,7 +152,7 @@ class SerikatintiController extends Controller
             return $this->redirect(['index']);
         }
 
-        return $this->render('create', [
+        return $this->render('update', [
             'model' => $model,
         ]);
     }
@@ -158,19 +166,23 @@ class SerikatintiController extends Controller
      */
     public function actionDelete($id)
     {
-        // $this->findModel($id)->delete();
-
         $model = User::find()->where(['role'=>$id])->one();
-
         $sekre = Secretariat::find()->where(['user_id'=>$model->id])->one();
+        $permission = User::find()->where(['username'=>Yii::$app->user->identity->username])->andWhere(['id'=>$model])->one();
 
-        if($sekre){
+        if ($permission) {
+            Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            if ($sekre) {
             $sekre->delete();
+            $model->delete();
+            return $this->redirect(['index']);
+            }else{
+            $model->delete();
+            return $this->redirect(['index']);
+            }
         }
-
-        $model->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**
