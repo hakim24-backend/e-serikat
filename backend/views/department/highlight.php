@@ -25,11 +25,37 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'depart_name',
-            'id_chief',
-            'depart_code',
-            'status_budget',
-            'user_id',
+            // 'depart_name',
+            // 'id_chief',
+            // 'depart_code',
+            // 'status_budget',
+            // 'user_id',
+
+            [
+            'header' => 'Nama Ketua',
+            'attribute' => 'depart_name',
+            ],
+
+            [
+            'header' => 'ID Ketua',
+            'attribute' => 'id_chief',
+            ],
+
+            [
+            'header' => 'Kode Departemen',
+            'attribute' => 'depart_code',
+            ],
+
+
+            [
+            'header' => 'Status Budget',
+            'attribute' => 'status_budget',
+            ],
+
+            [
+            'header' => 'Username ID',
+            'attribute' => 'user_id',
+            ],
 
             [   
                 'class' => 'yii\grid\ActionColumn',
