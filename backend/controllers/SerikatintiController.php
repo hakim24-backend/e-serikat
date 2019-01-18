@@ -157,6 +157,33 @@ class SerikatintiController extends Controller
         ]);
     }
 
+    public function actionUpdatePassword($id)
+    {
+        $model = $this->findModelUser($id);
+        if ($model->load(Yii::$app->request->post())){
+            if($model['currentPassword'] == NULL || $model['currentPassword'] == ""){
+                \Yii::$app->getSession()->setFlash('danger', 'Kolom password kosong !');
+                return $this->redirect(Yii::$app->request->referrer);
+            }else{
+                if (Yii::$app->getSecurity()->validatePassword($model['currentPassword'], $model['password_hash'])) {
+                    // jika password sama
+                    $model['password_hash'] = Yii::$app->getSecurity()->generatePasswordHash($model['newPassword']);
+                    $model->save();
+                    \Yii::$app->getSession()->setFlash('success', 'Password Telah Diganti');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }else{
+                    // Jika berbeda
+                    \Yii::$app->getSession()->setFlash('error', 'Maaf Password yang anda masukan tidak cocok');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+            }
+        }else{
+            return $this->render('update_password', [
+                'model' => $model,
+            ]);
+        }
+    }
+
     /**
      * Deletes an existing Serikatinti model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -195,6 +222,15 @@ class SerikatintiController extends Controller
     protected function findModel($id)
     {
         if (($model = Role::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function findModelUser($id)
+    {
+        if (($model = User::findOne($id)) !== null) {
             return $model;
         }
 

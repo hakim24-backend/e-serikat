@@ -25,6 +25,7 @@ class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+    public $newPassword, $currentPassword;
 
 
     /**
@@ -55,7 +56,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             [['username', 'name', 'auth_key', 'password_hash', 'created_at', 'updated_at', 'role'], 'required'],
             [['status', 'created_at', 'updated_at', 'role'], 'integer'],
-            [['username', 'name', 'password_hash', 'password_reset_token'], 'string', 'max' => 255],
+            [['username', 'name', 'password_hash', 'password_reset_token','newPassword', 'currentPassword'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['name'], 'unique'],
             // [['name'], 'unique', 'targetAttribute' => 'name', 'targetClass' => '\common\models\User', 'message' => 'Nama ini sudah digunakan', ],
@@ -168,7 +169,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->password = Yii::$app->getSecurity()->generatePasswordHash($password);
     }
 
     /**

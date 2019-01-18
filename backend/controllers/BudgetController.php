@@ -66,8 +66,13 @@ class BudgetController extends Controller
     {
         $model = new Budget();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->budget_code = $model->budget_value.'-'.$model->budget_year;
+            $model->budget_year = $model->budget_year;
+            $model->budget_name = $model->budget_name;
+            $model->budget_value = $model->budget_value;
+            $model->save(false);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
@@ -87,7 +92,7 @@ class BudgetController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
