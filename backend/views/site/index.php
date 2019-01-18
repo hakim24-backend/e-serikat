@@ -2,52 +2,360 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'E-Serikat';
 ?>
 <div class="site-index">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="fa fa-user-secret"></i></span>
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Jumlah Ketua</span>
+                            <span class="info-box-number">90<small>%</small></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><i class="fa fa-user"></i></span>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Jumlah Departemen</span>
+                            <span class="info-box-number">41,410</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><i class="fa fa-users"></i></span>
 
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Jumlah Seksi</span>
+                            <span class="info-box-number">760</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
             </div>
         </div>
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Kegiatan yang belum di setujui</h3>
 
-    </div>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Item</th>
+                                <th>Status</th>
+                                <th>Popularity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                                <td>Call of Duty IV</td>
+                                <td><span class="label label-success">Shipped</span></td>
+                                <td>
+                                    <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                        <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                                <td>Samsung Smart TV</td>
+                                <td><span class="label label-warning">Pending</span></td>
+                                <td>
+                                    <div class="sparkbar" data-color="#f39c12" data-height="20">
+                                        <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                <td>iPhone 6 Plus</td>
+                                <td><span class="label label-danger">Delivered</span></td>
+                                <td>
+                                    <div class="sparkbar" data-color="#f56954" data-height="20">
+                                        <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                <td>Samsung Smart TV</td>
+                                <td><span class="label label-info">Processing</span></td>
+                                <td>
+                                    <div class="sparkbar" data-color="#00c0ef" data-height="20">
+                                        <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                                <td>Samsung Smart TV</td>
+                                <td><span class="label label-warning">Pending</span></td>
+                                <td>
+                                    <div class="sparkbar" data-color="#f39c12" data-height="20">
+                                        <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                <td>iPhone 6 Plus</td>
+                                <td><span class="label label-danger">Delivered</span></td>
+                                <td>
+                                    <div class="sparkbar" data-color="#f56954" data-height="20">
+                                        <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                                <td>Call of Duty IV</td>
+                                <td><span class="label label-success">Shipped</span></td>
+                                <td>
+                                    <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                        <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <!-- /.box-footer -->
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Kegiatan</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Item</th>
+                                        <th>Status</th>
+                                        <th>Popularity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                                        <td>Call of Duty IV</td>
+                                        <td><span class="label label-success">Shipped</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                                        <td>Samsung Smart TV</td>
+                                        <td><span class="label label-warning">Pending</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                        <td>iPhone 6 Plus</td>
+                                        <td><span class="label label-danger">Delivered</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f56954" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                        <td>Samsung Smart TV</td>
+                                        <td><span class="label label-info">Processing</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#00c0ef" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                                        <td>Samsung Smart TV</td>
+                                        <td><span class="label label-warning">Pending</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                        <td>iPhone 6 Plus</td>
+                                        <td><span class="label label-danger">Delivered</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f56954" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                                        <td>Call of Duty IV</td>
+                                        <td><span class="label label-success">Shipped</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.box-body -->
+                    <!-- /.box-footer -->
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Kegiatan Rutin</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Item</th>
+                                        <th>Status</th>
+                                        <th>Popularity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                                        <td>Call of Duty IV</td>
+                                        <td><span class="label label-success">Shipped</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                                        <td>Samsung Smart TV</td>
+                                        <td><span class="label label-warning">Pending</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                        <td>iPhone 6 Plus</td>
+                                        <td><span class="label label-danger">Delivered</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f56954" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                        <td>Samsung Smart TV</td>
+                                        <td><span class="label label-info">Processing</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#00c0ef" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                                        <td>Samsung Smart TV</td>
+                                        <td><span class="label label-warning">Pending</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                                        <td>iPhone 6 Plus</td>
+                                        <td><span class="label label-danger">Delivered</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f56954" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                                        <td>Call of Duty IV</td>
+                                        <td><span class="label label-success">Shipped</span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.box-body -->
+                    <!-- /.box-footer -->
+                </div>
+            </div>
+        </div>
+    </section>
+
 </div>
