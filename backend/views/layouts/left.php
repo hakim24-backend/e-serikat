@@ -31,7 +31,7 @@
                         'url' => '#',
                         'items' => [
                             ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
-                            ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/relokasi'],],
+                            ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
                             ['label' => 'Pemindahan Dana', 'icon' => 'dashboard', 'url' => ['/debug'],],
                             
                         ],
