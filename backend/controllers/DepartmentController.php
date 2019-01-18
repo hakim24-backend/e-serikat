@@ -113,7 +113,7 @@ class DepartmentController extends Controller
                 $counter = explode('-', $listDepartemen['depart_code'])[2];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
-            $code = $kodeDepartemen.'-'.$counter;
+            $code = $kodeDepartemen.''.$counter;
             $depart->depart_name = $model->name;
             $depart->id_chief = $chief->id;
             $depart->status_budget = 0;
@@ -123,7 +123,7 @@ class DepartmentController extends Controller
 
             }
 
-            return $this->redirect(['index']);
+            return $this->redirect(['department/highlight/','id'=> $id]);
         }
         return $this->render('create', [
             'model' => $model,
@@ -154,7 +154,7 @@ class DepartmentController extends Controller
             $depart->save(false);
             }
 
-            return $this->redirect(['index']);
+            return $this->redirect(['department/highlight/','id'=>$id]);
 
         }
         return $this->render('update', [
@@ -188,7 +188,7 @@ class DepartmentController extends Controller
             } else{
             $depart -> delete();
             $model-> delete();
-            return $this->redirect(['index']);
+            return $this->redirect(['department/highlight/','id'=>$id]);
             }
         }
     }

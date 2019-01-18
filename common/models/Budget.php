@@ -34,8 +34,8 @@ class Budget extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['budget_code', 'budget_year', 'budget_name', 'budget_value'], 'required'],
-            [['budget_value'], 'number'],
+            [['budget_code', 'budget_year', 'budget_name', 'budget_value','budget_rek'], 'required'],
+            [['budget_value','budget_rek'], 'number'],
             [['budget_code', 'budget_year', 'budget_name'], 'string', 'max' => 255],
         ];
     }
@@ -51,6 +51,7 @@ class Budget extends \yii\db\ActiveRecord
             'budget_year' => 'Budget Year',
             'budget_name' => 'Budget Name',
             'budget_value' => 'Budget Value',
+            'budget_rek' => 'Budget Rek',
         ];
     }
 

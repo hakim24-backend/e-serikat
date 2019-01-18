@@ -32,7 +32,7 @@
                         'items' => [
                             ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
                             ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
-                            ['label' => 'Pemindahan Dana', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                            ['label' => 'Pemindahan Dana', 'icon' => 'dashboard', 'url' => ['/relokasi'],],
                             
                         ],
                     ],
@@ -41,9 +41,9 @@
                         'icon' => 'money',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                            ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
+                            ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
+                            ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/tanggungjawab'],],
                         ],
                     ],
 

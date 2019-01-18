@@ -67,10 +67,11 @@ class BudgetController extends Controller
         $model = new Budget();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->budget_code = $model->budget_value.'-'.$model->budget_year;
+            $model->budget_code = $model->budget_rek.'-'.$model->budget_year;
             $model->budget_year = $model->budget_year;
             $model->budget_name = $model->budget_name;
             $model->budget_value = $model->budget_value;
+            $model->budget_rek = $model->budget_rek;
             $model->save(false);
             return $this->redirect(['index']);
         }

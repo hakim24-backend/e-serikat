@@ -26,7 +26,9 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'budget_name')->textInput(['maxlength' => true])->label('Nama Budget') ?>
 
-    <?= $form->field($model, 'budget_value')->textInput()->label('Nilai Budget') ?>
+    <?= $form->field($model, 'budget_value')->textInput()->label('Nilai Saldo') ?>
+
+    <?= $form->field($model, 'budget_rek')->textInput()->label('Nilai Rekening') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

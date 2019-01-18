@@ -103,7 +103,7 @@ class ChiefController extends Controller
                 $counter = explode('-', $listKetua['chief_code'])[2];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
-                $code = $kodeKetua.'-'.$counter;
+                $code = $kodeKetua.''.$counter;
 
             $chief->chief_name = $model->name;
             $chief->chief_code = $code;

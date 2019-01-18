@@ -45,8 +45,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             [
-            'header' => 'Nilai Budget',
+            'header' => 'Nilai Saldo',
             'attribute' => 'budget_value',
+            ],
+
+                        [
+            'header' => 'Nilai Rekening',
+            'attribute' => 'budget_rek',
             ],
 
             [

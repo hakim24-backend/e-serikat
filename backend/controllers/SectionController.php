@@ -107,7 +107,7 @@ class SectionController extends Controller
             if ($listSeksi == null) {
                 $counter = '001';
             } else {
-                $counter = explode('-', $listSeksi['section_code'])[2];
+                $counter = explode('', $listSeksi['section_code'])[2];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
             $code = $kodeSeksi.'-'.$counter;
@@ -119,7 +119,7 @@ class SectionController extends Controller
             $section->save(false);
             }
 
-            return $this->redirect(['index']);
+            return $this->redirect(['section/highlight/','id'=>$id]);
         }
         return $this->render('create', [
             'model' => $model,
@@ -150,7 +150,7 @@ class SectionController extends Controller
             $section->save(false);
             }
 
-            return $this->redirect(['index']);
+            return $this->redirect(['section/highlight/','id'=>$id]);
 
         }
         return $this->render('update', [
@@ -180,7 +180,7 @@ class SectionController extends Controller
         $section -> delete();
         $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['section/highlight/','id'=>$id]);
         }
     }
 
