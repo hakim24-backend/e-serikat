@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             [
-            'header' => 'Budget Tahunan',
+            'header' => 'Tahun Budget',
             'attribute' => 'budget_year',
             ],
 
@@ -49,7 +49,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'budget_value',
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+
+            'class' => 'yii\grid\ActionColumn',
+            'header' => 'Action',
+            'template' => '| {update} | {view} | {delete} |',
+            
+            ],
         ],
     ]); ?>
 </div>

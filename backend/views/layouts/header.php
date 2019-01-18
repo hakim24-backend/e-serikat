@@ -1,5 +1,9 @@
 <?php
 use yii\helpers\Html;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -34,6 +38,13 @@ use yii\helpers\Html;
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
+                            <div class="pull-left">
+                                <?= Html::a(
+                                    'Ubah Kata Sandi',
+                                    ['/serikatinti/update-password', 'id' => Yii::$app->user->identity->id],
+                                    ['class' => 'btn btn-default btn-flat']
+                                ) ?>
+                            </div>
                             <div class="pull-right">
                                 <?= Html::a(
                                     'Sign out',
