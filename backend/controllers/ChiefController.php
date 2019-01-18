@@ -94,7 +94,17 @@ class ChiefController extends Controller
 
             if ($save) {
             $chief = new Chief();
-            $code = Yii::$app->security->generateRandomString();
+
+            $kodeKetua = 'Ketua-';
+            $listKetua = Chief::find()->where(['LIKE','chief_code',$kodeKetua])->orderBy(['chief_code'=> SORT_DESC])->limit(1)->one();
+            if ($listKetua == null) {
+                    $counter = '001';
+            } else {
+                $counter = explode('-', $listKetua['chief_code'])[2];
+                $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
+            }
+                $code = $kodeKetua.'-'.$counter;
+
             $chief->chief_name = $model->name;
             $chief->chief_code = $code;
             $chief->status_budget = 0;

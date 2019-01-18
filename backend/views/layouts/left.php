@@ -30,7 +30,7 @@
                         'icon' => 'archive',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                            ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
                             ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/debug'],],
                             ['label' => 'Pemindahan Dana', 'icon' => 'dashboard', 'url' => ['/debug'],],
                             

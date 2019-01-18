@@ -105,8 +105,15 @@ class DepartmentController extends Controller
             if ($save) {
             $depart = new Department();
             $chief = Chief::find()->where(['id'=>$id])->one();
-
-            $code = Yii::$app->security->generateRandomString();
+            $kodeDepartemen = 'Departemen-';
+            $listDepartemen = Department::find()->where(['LIKE','depart_code',$kodeDepartemen])->orderBy(['depart_code'=> SORT_DESC])->limit(1)->one();
+            if ($listDepartemen == null) {
+                $counter = '001';
+            } else {
+                $counter = explode('-', $listDepartemen['depart_code'])[2];
+                $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
+            }
+            $code = $kodeDepartemen.'-'.$counter;
             $depart->depart_name = $model->name;
             $depart->id_chief = $chief->id;
             $depart->status_budget = 0;

@@ -102,15 +102,21 @@ class SectionController extends Controller
             if ($save) {
             $section = new Section();
             $depart = Department::find()->where(['id'=>$id])->one();
-
-            $code = Yii::$app->security->generateRandomString();
+            $kodeSeksi = 'Seksi-';
+            $listSeksi = Section::find()->where(['LIKE','section_code',$kodeSeksi])->orderBy(['section_code'=> SORT_DESC])->limit(1)->one();
+            if ($listSeksi == null) {
+                $counter = '001';
+            } else {
+                $counter = explode('-', $listSeksi['section_code'])[2];
+                $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
+            }
+            $code = $kodeSeksi.'-'.$counter;
             $section->section_name = $model->name;
             $section->id_depart = $depart->id;
             $section->status_budget = 0;
             $section->section_code = $code;
             $section->user_id = $model->id;
             $section->save(false);
-
             }
 
             return $this->redirect(['index']);
