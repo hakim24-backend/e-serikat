@@ -43,7 +43,7 @@
                         'items' => [
                             ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                             ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
-                            ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/tanggungjawab'],],
+                            ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/approve'],],
                         ],
                     ],
 
