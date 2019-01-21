@@ -134,10 +134,11 @@ class RelokasiController extends \yii\web\Controller
 
     public function actionNilaiAnggaran(){
     	$post = Yii::$app->request->post();
+        // var_dump($post);die;
     	if ($post['tipe']=='4') {
     		$data = SecretariatBudget::findOne($post['kode']);
     		if ($data) {
-    			$data['message']= "
+    			$datas['message']= "
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
@@ -149,9 +150,9 @@ class RelokasiController extends \yii\web\Controller
 		        <br>
 		        <br>
     			";
-    			$data['max']=$data->secretariat_budget_value;
+    			$datas['max']=$data->secretariat_budget_value;
     		}else{
-    			$data['message']= "
+    			$datas['message']= "
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
@@ -163,7 +164,7 @@ class RelokasiController extends \yii\web\Controller
 		        <br>
 		        <br>
     			";
-    			$data['max']=0;
+    			$datas['max']=0;
     		}
     	}elseif ($post['tipe']=='6') {
     		$data = ChiefBudget::findOne($post['kode']);

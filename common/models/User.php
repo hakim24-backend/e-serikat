@@ -195,4 +195,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public function getRoles() {
+        return $this->hasOne(Role::className(), ['id' => 'role']);
+    }
+    
+    public function roleName()
+    {
+         return \Yii::$app->user->identity->roles->name_role;
+    }
+
 }
