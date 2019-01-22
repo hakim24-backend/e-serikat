@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 
@@ -24,14 +25,15 @@ use kartik\date\DatePicker;
     ]
 	])->label('Tahun Budget') ?>
 
-    <?= $form->field($model, 'budget_name')->textInput(['maxlength' => true])->label('Nama Budget') ?>
+    <?= $form->field($model, 'budget_name')->textInput(['maxlength' => true, 'required'=>true])->label('Nama Budget') ?>
 
-    <?= $form->field($model, 'budget_value')->textInput()->label('Nilai Saldo') ?>
+    <?= $form->field($model, 'budget_value')->textInput(['required'=>true])->label('Nilai Saldo') ?>
 
-    <?= $form->field($model, 'budget_rek')->textInput()->label('Nilai Rekening') ?>
+    <?= $form->field($model, 'budget_rek')->textInput(['required'=>true])->label('Nilai Rekening') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>
 
     <?php ActiveForm::end(); ?>

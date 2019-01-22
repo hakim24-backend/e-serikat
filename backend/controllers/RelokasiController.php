@@ -43,7 +43,6 @@ class RelokasiController extends \yii\web\Controller
                 $data->save();
                 $kode_asal = $data->section_budget_code;
             }
-
             if ($post['jenis_sdm_dest']=='4') {
                 $data = SecretariatBudget::findOne($post['dest_sdm']);
                 $data->secretariat_budget_value=$data->secretariat_budget_value+(float)$post['source_value'];

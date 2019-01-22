@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => 'Belum Terisi'],
+        'options' => ['style' => 'text-alignt:center'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -31,6 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
             'header' => 'Nama Role',
             'attribute' => 'name_role',
+            ],
+
+            [
+            'header' => 'Kode Serikat',
+            'attribute' => 'id',
             ],
 
             [

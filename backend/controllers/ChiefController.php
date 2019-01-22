@@ -87,7 +87,7 @@ class ChiefController extends Controller
             $model->username = str_replace(" ","_",$model->name);
             $model->created_at = time();
             $model->updated_at = time();
-            $model->setPassword($password);
+            $model->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
             $model->generateAuthKey();
             $save = $model->save(false);
 
@@ -100,7 +100,7 @@ class ChiefController extends Controller
             if ($listKetua == null) {
                 $counter = '001';
             } else {
-                $counter = explode('-', $listKetua['chief_code'])[2];
+                $counter = explode('-', $listKetua['chief_code'])[1];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
                 $code = $kodeKetua.''.$counter;

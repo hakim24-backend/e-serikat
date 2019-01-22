@@ -55,7 +55,7 @@ class SectionController extends Controller
     
         $model = new User();
         $dataProvider = new ActiveDataProvider([
-            'query' => Section::find(),
+            'query' => Section::find()->where(['id_depart'=>$id]),
         ]);
 
         return $this->render('highlight', [
@@ -94,7 +94,7 @@ class SectionController extends Controller
             $model->username = str_replace(" ","_",$model->name);
             $model->created_at = time();
             $model->updated_at = time();
-            $model->setPassword($password);
+            $model->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
             $model->generateAuthKey();
             $save = $model->save(false);
 
@@ -107,10 +107,10 @@ class SectionController extends Controller
             if ($listSeksi == null) {
                 $counter = '001';
             } else {
-                $counter = explode('', $listSeksi['section_code'])[2];
+                $counter = explode('-', $listSeksi['section_code'])[1];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
-            $code = $kodeSeksi.'-'.$counter;
+            $code = $kodeSeksi.''.$counter;
             $section->section_name = $model->name;
             $section->id_depart = $depart->id;
             $section->status_budget = 0;

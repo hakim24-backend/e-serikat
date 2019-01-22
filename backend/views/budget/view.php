@@ -30,10 +30,31 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'budget_code',
-            'budget_year',
-            'budget_name',
-            'budget_value',
+            // 'budget_code',
+            // 'budget_year',
+            // 'budget_name',
+            // 'budget_value',
+
+            [
+                'attribute'=>'budget_code',
+                'label'=>'Kode Budget'
+            ],
+            [
+                'attribute'=>'budget_year',
+                'label'=>'Tahun Budget'
+            ],
+            [
+                'attribute'=>'budget_name',
+                'label'=>'Nama Budget'
+            ],
+            [
+                'attribute'=>'budget_value',
+                'label'=>'Nilai Saldo'
+            ],
+            [
+                'attribute'=>'budget_rek',
+                'label'=>'Nilai Rekening'
+            ]
         ],
     ]) ?>
 

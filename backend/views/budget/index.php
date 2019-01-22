@@ -1,7 +1,10 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
+
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Input Budget', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    
+      <?php Pjax::begin(); ?>
+      <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -49,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'budget_value',
             ],
 
-                        [
+            [
             'header' => 'Nilai Rekening',
             'attribute' => 'budget_rek',
             ],
@@ -63,4 +68,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 </div>

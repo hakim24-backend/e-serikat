@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'user_id',
 
             [
-            'header' => 'Nama Ketua',
+            'header' => 'Nama Departemen',
             'attribute' => 'depart_name',
             ],
 

@@ -1,18 +1,23 @@
-<?php
+ <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\widgets\Pjax;
+use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
+use kartik\daterange\DateRangePicker;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Department */
+/* @var $model common\models\ActivityDaily */
 /* @var $form yii\widgets\ActiveForm */
-$this->title = 'Pemindahan Dana';
+$range = date('Y-m-d').' to '.date('Y-m-d');
+    $range_start = date('Y-m-d');
+    $range_end = date('Y-m-d');
 ?>
-<?php $form = ActiveForm::begin(['id' => 'form-signup', 'enableClientValidation' => true]); ?>
-<div class="box box-info">
+
+<div class="activity-daily-form">
+
+    <?php $form = ActiveForm::begin(); ?>
+    <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">Sumber</h3>
 
@@ -26,7 +31,7 @@ $this->title = 'Pemindahan Dana';
             <div class="form-group">
                 <label class="col-sm-4">Jenis SDM</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_source', [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null, [4=>'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
                 </div>
             </div>
         </div>
@@ -69,7 +74,7 @@ $this->title = 'Pemindahan Dana';
             <div class="form-group">
                 <label class="col-sm-4">Jenis SDM</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_dest', null, [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-tujuan']) ?>
+                    <?= Html::dropDownList('jenis_sdm_dest', null, [4=>'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-tujuan']) ?>
                 </div>
             </div>
         </div>
@@ -86,23 +91,80 @@ $this->title = 'Pemindahan Dana';
         <br>
         <br>
         <div id="nilai-anggaran-dest">
-            
+        
         </div>
     </div>
 </div>
+<div class="box box-info">
+    <div class="box-body">
+        <!-- <?= $form->field($model, 'finance_status')->textInput() ?>
 
-<div class="form-group">
-    <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'submit-button']) ?>
-    <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
+    <?= $form->field($model, 'department_status')->textInput() ?>
+
+    <?= $form->field($model, 'chief_status')->textInput() ?>
+
+    <?= $form->field($model, 'chief_code_id')->textInput() ?>
+
+    <?= $form->field($model, 'department_code_id')->textInput() ?> -->
+
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true,'required'=>true])->label('Judul') ?>
+
+    <?= $form->field($model, 'description')->textarea(['rows' => 6,'required'=>true])->label('Deskripsi') ?>
+
+
+
+    
+            <div class="" style="padding: 10px;">
+              <div class="">
+               <label style="font-size: 14px;">Tanggal</label>
+               <?php 
+                    $addon = <<< HTML
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+HTML;
+                        echo '<div class="input-group drp-container">';
+                        echo DateRangePicker::widget([
+                            'name'=>'date_range',
+                            'value'=>$range,
+                            'useWithAddon'=>true,
+                            'convertFormat'=>true,
+                            'startAttribute' => 'from_date',
+                            'endAttribute' => 'to_date',
+                            'startInputOptions' => ['value' => $range_start],
+                            'endInputOptions' => ['value' => $range_end],
+                            'options' => [
+                                'class' => 'form-control',
+                            ],
+                            'pluginOptions'=>[
+                                'locale'=>[
+                                    'format' => 'Y-m-d'
+                                ],
+                                'minDate' => date('Y-m-d',strtotime("-3 days")),
+                                'maxDate' => date('Y-m-d',strtotime("+1 month")),
+                            ]
+                        ]) . $addon;
+                        echo '</div>';
+               ?>
+              </div>
+            </div>
+        </div>
+
+<!--     <?= $form->field($model, 'done')->textInput() ?> -->
+    </div>
 </div>
 
-<?php ActiveForm::end(); ?>
+    <div class="form-group">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
+    </div>
 
-
+    <?php ActiveForm::end(); ?>
+</div>
 
 <?php
-$url = Yii::$app->urlManager->createUrl('/relokasi/kode-tujuan?id=');
-$url2 = Yii::$app->urlManager->createUrl('/relokasi/nilai-anggaran');
+$url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
+$url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');
 
 $js=<<<js
 $('#jenis-tujuan').on('change',function(){
@@ -167,3 +229,4 @@ $('#kode-tujuan').on('change',function(){
 js;
 $this->registerJs($js);
 ?>
+

@@ -57,10 +57,9 @@ class DepartmentController extends Controller
     
         $model = new User();
         $dataProvider = new ActiveDataProvider([
-            'query' => Department::find(),
+            'query' => Department::find()->where(['id_chief'=>$id]),
         ]);
-
-        return $this->render('highlight', [
+            return $this->render('highlight', [
             'model' => $model,
             'dataProvider' => $dataProvider,
             'id'=>$id
@@ -97,7 +96,7 @@ class DepartmentController extends Controller
             $model->username = str_replace(" ","_",$model->name);
             $model->created_at = time();
             $model->updated_at = time();
-            $model->setPassword($password);
+            $model->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
             $model->generateAuthKey();
             $save = $model->save(false);
 
@@ -110,7 +109,7 @@ class DepartmentController extends Controller
             if ($listDepartemen == null) {
                 $counter = '001';
             } else {
-                $counter = explode('-', $listDepartemen['depart_code'])[2];
+                $counter = explode('-', $listDepartemen['depart_code'])[1];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
             $code = $kodeDepartemen.''.$counter;

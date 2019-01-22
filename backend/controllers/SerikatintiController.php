@@ -102,7 +102,7 @@ class SerikatintiController extends Controller
             $model->username = str_replace(" ","_",$model->name);
             $model->created_at = time();
             $model->updated_at = time();
-            $model->setPassword($password);
+            $model->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
             $model->generateAuthKey();
             $model->save(false);
 
