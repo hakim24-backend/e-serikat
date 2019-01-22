@@ -207,7 +207,7 @@ class TransferController extends Controller
                 $sekretariat = new SecretariatBudget();
                 $sekretariat->secretariat_budget_id = $sumber_dana_find->id;
                 $sekretariat->secretariat_budget_value = $value['nilai'];
-                $sekretariat->secretariat_id = $value['id_sekretariat'];
+                $sekretariat->secretariat_id = $value['id'];
 
                 $kodeAnggaran = 'SEKRETARIAT'.'-'.$sumber_dana_find->budget_code.'-';
 
