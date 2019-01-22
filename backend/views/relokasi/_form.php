@@ -26,7 +26,7 @@ $this->title = 'Pemindahan Dana';
             <div class="form-group">
                 <label class="col-sm-4">Jenis SDM</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_source', [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null, [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
                 </div>
             </div>
         </div>

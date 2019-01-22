@@ -44,7 +44,7 @@ class ActivityDaily extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['finance_status', 'department_status', 'chief_status', 'chief_code_id', 'department_code_id', 'title', 'description', 'role', 'date'], 'required'],
+            [['finance_status', 'department_status', 'chief_status', 'chief_code_id', 'department_code_id', 'title', 'description', 'role', 'date_start','date_end'], 'required'],
             [['finance_status', 'department_status', 'chief_status', 'chief_code_id', 'department_code_id', 'role', 'done'], 'integer'],
             [['description'], 'string'],
             // [['date'], 'safe'],

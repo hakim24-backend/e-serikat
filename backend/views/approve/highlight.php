@@ -1,20 +1,19 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Activity Responsibilities';
+$this->title = 'Form Pertanggungjawaban';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-responsibility-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Create Activity Responsibility', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Buat Pertanggungjawaban', ['create','id' => $id], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -22,14 +21,34 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'description:ntext',
-            'responsibility_value',
-            'file:ntext',
-            'photo:ntext',
+            // 'id',
+            // 'description:ntext',
+            // 'responsibility_value',
+            // 'file:ntext',
+            // 'photo:ntext',
             //'activity_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+            'header' => 'Deskripsi',
+            'attribute' => 'description',
+            ],
+
+            // [
+            // 'header' => 'File',
+            // 'attribute' => 'file',
+            // ],
+
+            // [
+            // 'header' => 'Foto',
+            // 'attribute' => 'photo',
+            // ],
+
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => 'Action',
+                'template' => '| {view} | {update} | {delete}',
+            ],
         ],
     ]); ?>
 </div>

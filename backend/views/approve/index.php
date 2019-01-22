@@ -52,15 +52,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'chief_status',
             ],
 
-            [
-            'header' => 'Kode ID Ketua',
-            'attribute' => 'chief_code_id',
-            ],
+            // [
+            // 'header' => 'Kode ID Ketua',
+            // 'attribute' => 'chief_code_id',
+            // ],
 
-            [
-            'header' => 'Kode ID Departemen',
-            'attribute' => 'department_code_id',
-            ],
+            // [
+            // 'header' => 'Kode ID Departemen',
+            // 'attribute' => 'department_code_id',
+            // ],
 
             [
             'header' => 'Judul',

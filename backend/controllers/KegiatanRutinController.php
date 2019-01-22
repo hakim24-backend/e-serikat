@@ -73,8 +73,34 @@ class KegiatanRutinController extends Controller
     {
         $model = new ActivityDaily();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            // return $this->redirect(['view', 'id' => $model->id]);
+            $post = Yii::$app->request->post();
+            if ($post['jenis_sdm_source']=='4') {
+                $data = SecretariatBudget::findOne($post['source_sdm']);
+                $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['source_value'];
+                $data->save(false);
+                $kode_asal = $data->secretariat_budget_code;
+            }
+
+            if ($post['jenis_sdm_dest']=='4') {
+                $data = SecretariatBudget::findOne($post['dest_sdm']);
+                $data->secretariat_budget_value=$data->secretariat_budget_value+(float)$post['source_value'];
+                $data->save(false);
+                $kode_tujuan = $data->secretariat_budget_code;
+            }
+
+            $model->finance_status = 0;
+            $model->title = $model->title;
+            $model->description = $model->description;
+            $model->role = 4;
+            $model->date_start = 'qweqweqw';
+            $model->date_end = '12312e';
+            $model->done = 0;
+            $model->save(false);
+            // var_dump($model);die;
+            return $this->redirect(['index']);
+
         }
 
         return $this->render('create', [

@@ -7,6 +7,7 @@ use common\models\Role;
 use common\models\User;
 use common\models\Registrasi;
 use common\models\Secretariat;
+use common\models\SecretariatBudget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -109,7 +110,16 @@ class SerikatintiController extends Controller
             if ($model->role == 4) {
 
             $sekre = new Secretariat();
-            $code = Yii::$app->security->generateRandomString();
+            $kodeSekretariat = 'Sekretariat-';
+            $listSekretariat = Secretariat::find()->where(['LIKE','secretariat_code',$kodeSekretariat])->orderBy(['secretariat_code'=> SORT_DESC])->limit(1)->one();
+            if ($listSekretariat == null) {
+                $counter = '001';
+            } else {
+                $counter = explode('-', $listSekretariat['secretariat_code'])[1];
+                $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
+            }
+                $code = $kodeSekretariat.''.$counter;
+
             $sekre->secretariat_code = $code;
             $sekre->secretariat_name = $model->name;
             $sekre->user_id = $model->id;
@@ -195,13 +205,19 @@ class SerikatintiController extends Controller
     {
         $model = User::find()->where(['role'=>$id])->one();
         $sekre = Secretariat::find()->where(['user_id'=>$model->id])->one();
+        $sekreBudget = SecretariatBudget::find()->where(['secretariat_id'=>$sekre->id])->one();
         $permission = User::find()->where(['username'=>Yii::$app->user->identity->username])->andWhere(['id'=>$model])->one();
 
         if ($permission) {
             Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
             return $this->redirect(Yii::$app->request->referrer);
         } else {
-            if ($sekre) {
+            if ($sekreBudget) {
+            $sekreBudget->delete();
+            $sekre->delete();
+            $model->delete();
+            return $this->redirect(['index']);
+            }elseif($sekre){
             $sekre->delete();
             $model->delete();
             return $this->redirect(['index']);

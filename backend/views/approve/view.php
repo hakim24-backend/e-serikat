@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */
 
-$this->title = $model->title;
+$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -17,30 +17,36 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'finance_status',
-            'department_status',
-            'chief_status',
-            'chief_code_id',
-            'department_code_id',
-            'title',
-            'description:ntext',
-            'role',
-            'date',
-            'done',
+            // 'description',
+            // 'responsibility_value',
+            // 'file',
+            // 'photo',
+            // 'activity_id',
+
+            [
+                'attribute'=>'description',
+                'label'=>'Deskripsi'
+            ],
+            [
+                'attribute'=>'responsibility_value',
+                'label'=>'Nilai Pertangungjawaban'
+            ],
+            [
+                'attribute'=>'file',
+                'label'=>'File'
+            ],
+            [
+                'attribute'=>'photo',
+                'value'=>'../../web/template/'.$model->photo,
+                'format' => ['image',['width'=>'100','height'=>'100']],
+                'label'=>'Foto'
+            ],
         ],
     ]) ?>
-
 </div>

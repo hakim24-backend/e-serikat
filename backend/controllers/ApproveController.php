@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Approve;
+use common\models\ActivityResponsibility;
+use common\models\ActivityDaily;
 use common\models\User;
 use common\models\TransferRecord;
 use common\models\SecretariatBudget;
@@ -14,6 +16,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ApproveController implements the CRUD actions for Approve model.
@@ -55,7 +58,7 @@ class ApproveController extends Controller
     
         $model = new User();
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find(),
+            'query' => ActivityResponsibility::find()->where(['activity_id'=>$id]),
         ]);
             return $this->render('highlight', [
             'model' => $model,
@@ -73,7 +76,7 @@ class ApproveController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => ActivityResponsibility::find()->where(['id'=>$id])->one(),
         ]);
     }
 
@@ -82,12 +85,34 @@ class ApproveController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
-        $model = new Approve();
+        $model = new ActivityResponsibility();
+        $activity = ActivityDaily::find()->where(['id'=>$id])->one();
+        if ($model->load(Yii::$app->request->post())) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $file_dok = UploadedFile::getInstanceByName('file');
+            $uploadPath = Yii::getAlias('@backend')."/web/template";
+            $acak = substr( md5(time()) , 0, 10);
+            $fileName = $uploadPath."/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
+            $file_dok->saveAs($fileName);
+
+            $file_gambar = UploadedFile::getInstanceByName('photo');
+
+            $uploadPath = Yii::getAlias('@backend')."/web/template";
+            $acak = substr( md5(time()) , 0, 10);
+            $fotoName = $uploadPath."/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
+            // var_dump($fotoName);die; 
+            $file_gambar->saveAs($fotoName);
+
+
+            $model->description = $model->description;
+            $model->responsibility_value = 0;
+            $model->file = "/dokumen".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
+            $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
+            $model->activity_id = $activity->id ;
+            $model->save(false);
+            return $this->redirect(['approve/highlight/','id'=>$id]);
         }
 
         return $this->render('create', [
@@ -104,12 +129,10 @@ class ApproveController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
+        $model = ActivityResponsibility::find()->where(['id'=>$id])->one();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -124,9 +147,9 @@ class ApproveController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = ActivityResponsibility::find()->where(['id'=>$id])->one();
+        $model->delete();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

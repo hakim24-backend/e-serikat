@@ -72,6 +72,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'description',
             ],
 
+            [
+            'header' => 'Tangal Mulai',
+            'attribute' => 'date_start',
+            ],
+
+            [
+            'header' => 'Tanggal Berakhir',
+            'attribute' => 'date_end',
+            ],
+
 
             [
 
