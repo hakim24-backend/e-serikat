@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\Serikatinti */
 
-$this->title = 'Create Chief';
+$this->title = 'Buat Akun Data Master Ketua';
 $this->params['breadcrumbs'][] = ['label' => 'Chiefs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

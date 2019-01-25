@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Serikatinti */
 
-$this->title = 'Create Serikatinti';
+$this->title = 'Buat Akun Data Master E-Serikat';
 $this->params['breadcrumbs'][] = ['label' => 'Serikatintis', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -39,6 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'file',
+                'format'=>'raw',
+                'value'=>Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']),
                 'label'=>'File'
             ],
             [

@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "activity_responsibility".
+ * This is the model class for table "activity_daily_responsibility".
  *
  * @property int $id
  * @property string $description
@@ -14,19 +14,19 @@ use Yii;
  * @property string $photo
  * @property int $activity_id
  *
- * @property Activity $activity
+ * @property ActivityDaily $activity
  */
-class ActivityResponsibility extends \yii\db\ActiveRecord
+class ActivityDailyResponsibility extends \yii\db\ActiveRecord
 {
+
     public $fileApprove;
     public $photoApprove;
-
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'activity_responsibility';
+        return 'activity_daily_responsibility';
     }
 
     /**
@@ -37,7 +37,7 @@ class ActivityResponsibility extends \yii\db\ActiveRecord
         return [
             [['fileApprove'], 'file', 'extensions' => 'pdf, doc'],
             [['photoApprove'], 'file', 'extensions' => 'jpg, png, jpeg'],
-            [['description', 'responsibility_value', 'file', 'photo', 'activity_id'], 'required'],
+            [['description', 'responsibility_value', 'file', 'photo'], 'required'],
             [['description', 'file', 'photo'], 'string'],
             [['responsibility_value'], 'number'],
             [['activity_id'], 'integer'],
@@ -65,6 +65,6 @@ class ActivityResponsibility extends \yii\db\ActiveRecord
      */
     public function getActivity()
     {
-        return $this->hasOne(Activity::className(), ['id' => 'activity_id']);
+        return $this->hasOne(ActivityDaily::className(), ['id' => 'activity_id']);
     }
 }

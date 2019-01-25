@@ -4,6 +4,9 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ActivityDaily;
+use common\models\ActivityResponsibility;
+use common\models\ActivityDailyResponsibility;
+use common\models\ActivityDailyBudgetSecretariat;
 use common\models\Approve;
 use common\models\User;
 use common\models\TransferRecord;
@@ -71,41 +74,45 @@ class KegiatanRutinController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ActivityDaily();
-
-        if ($model->load(Yii::$app->request->post())) {
-            // return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->post()) {
+            $idSekreBudget = 0;
             $post = Yii::$app->request->post();
             if ($post['jenis_sdm_source']=='4') {
                 $data = SecretariatBudget::findOne($post['source_sdm']);
+                $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
                 $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['source_value'];
-                $data->save(false);
-                $kode_asal = $data->secretariat_budget_code;
+                $data->save();
+                $valueDP = (float)$post['source_value'];
+                $idSekreBudget = $data->id;
             }
 
-            if ($post['jenis_sdm_dest']=='4') {
-                $data = SecretariatBudget::findOne($post['dest_sdm']);
-                $data->secretariat_budget_value=$data->secretariat_budget_value+(float)$post['source_value'];
-                $data->save(false);
-                $kode_tujuan = $data->secretariat_budget_code;
+            $daily = new ActivityDaily();
+            $daily->finance_status = 0;
+            $daily->department_status = 0;
+            $daily->chief_status = 0;
+            $daily->title = $post['judul'];
+            $daily->description = $post['description'];
+            $daily->role = 4;
+            $daily->date_start = $post['from_date'];
+            $daily->date_end = $post['to_date'];
+            $daily->done = 0;
+            $save = $daily->save(false);
+
+            if ($save) {
+                
+                $sekreBudget = new ActivityDailyBudgetSecretariat();
+                $sekreBudget->secretariat_budget_id = $idSekreBudget;
+                $sekreBudget->budget_value_dp = $valueDP;
+                $sekreBudget->budget_value_sum = $valueNow;
+                $sekreBudget->activity_id = $daily->id; 
+                $sekreBudget->save(false);      
             }
 
-            $model->finance_status = 0;
-            $model->title = $model->title;
-            $model->description = $model->description;
-            $model->role = 4;
-            $model->date_start = 'qweqweqw';
-            $model->date_end = '12312e';
-            $model->done = 0;
-            $model->save(false);
-            // var_dump($model);die;
+            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
             return $this->redirect(['index']);
 
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render('_form');
     }
 
     /**
@@ -117,10 +124,38 @@ class KegiatanRutinController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->post()) {
+            $post = Yii::$app->request->post();
+            if ($post['jenis_sdm_source']=='4') {
+                $data = SecretariatBudget::findOne($post['source_sdm']);
+                $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
+                $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['source_value'];
+                $data->save();
+                $valueDP = (float)$post['source_value'];
+            }
+            
+
+            $namajudul = $post['judul'];
+            var_dump($nama);die();
+            $judul = ActivityDaily::find()->where(['title'=>$namajudul])->one();;
+            $daily->title = $post['judul'];
+            $daily->description = $post['description'];
+            $daily->date_start = $post['from_date'];
+            $daily->date_end = $post['to_date'];
+            $save = $daily->save(false);
+
+            if ($save) {
+                
+                $sekreBudget->budget_value_dp = $valueDP;
+                $sekreBudget->budget_value_sum = $valueNow;
+                $sekreBudget->save(false);      
+            }
+
+            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            return $this->redirect(['index']);
+
         }
 
         return $this->render('update', [
@@ -137,7 +172,18 @@ class KegiatanRutinController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $activity = ActivityDaily::find()->where(['id'=>$id])->one();
+        $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$activity])->one();
+        $sekreBudget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$activity])->one();
+        if ($approve) {
+            $approve->delete();
+            $activity->delete();
+        }
+        if ($sekreBudget) {
+            $sekreBudget->delete();
+            $activity->delete();
+        }
+        $activity->delete();
 
         return $this->redirect(['index']);
     }
@@ -168,6 +214,7 @@ class KegiatanRutinController extends Controller
                 foreach ($data as $datas) {
                     echo "<option value='".$datas->id."'>".$datas->secretariat_budget_code."</option>";
                 }
+                $budgetSekre = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$datas])->one();
             }
         }elseif ($id=='6') {
             $data = ChiefBudget::find()->all();
@@ -219,6 +266,154 @@ class KegiatanRutinController extends Controller
                 <br>
                 ";
                 $datas['max']=$data->secretariat_budget_value;
+            }else{
+                $datas['message']= "
+                 <div class='col-sm-12'>
+                    <div class='form-group'>
+                        <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                        <div class='col-sm-8'>
+                            0
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                ";
+                $datas['max']=0;
+            }
+        }elseif ($post['tipe']=='6') {
+            $data = ChiefBudget::findOne($post['kode']);
+            if ($data) {
+                $datas['message']= "
+                 <div class='col-sm-12'>
+                    <div class='form-group'>
+                        <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                        <div class='col-sm-8'>
+                            ".$data->chief_budget_value."
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                ";
+                $datas['max']=$data->chief_budget_value;
+            }else{
+                $datas['message']= "
+                 <div class='col-sm-12'>
+                    <div class='form-group'>
+                        <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                        <div class='col-sm-8'>
+                            0
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                ";
+                $datas['max']=0;
+            }
+        }elseif ($post['tipe']=='7') {
+            $data = DepartmentBudget::findOne($post['kode']);
+            if ($data) {
+                $datas['message']= "
+                 <div class='col-sm-12'>
+                    <div class='form-group'>
+                        <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                        <div class='col-sm-8'>
+                            ".$data->department_budget_value."
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                ";
+                $datas['max']=$data->department_budget_value;
+            }else{
+                $datas['message']= "
+                 <div class='col-sm-12'>
+                    <div class='form-group'>
+                        <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                        <div class='col-sm-8'>
+                            0
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                ";
+                $datas['max']=0;
+            }
+        }elseif ($post['tipe']=='8') {
+            $data = SectionBudget::findOne($post['kode']);
+            if ($data) {
+                $datas['message']= "
+                 <div class='col-sm-12'>
+                    <div class='form-group'>
+                        <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                        <div class='col-sm-8'>
+                            ".$data->section_budget_value."
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                ";
+                $datas['max']=$data->section_budget_value;
+            }else{
+                $datas['message']= "
+                 <div class='col-sm-12'>
+                    <div class='form-group'>
+                        <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                        <div class='col-sm-8'>
+                            0
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                ";
+                $datas['max']=0;
+            }
+        }else{
+            $datas['message']= "
+             <div class='col-sm-12'>
+                <div class='form-group'>
+                    <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                    <div class='col-sm-8'>
+                        0
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            ";
+            $datas['max']=0;
+        }
+        echo json_encode($datas);
+    }
+
+    public function actionNilaiAnggaranUpdate(){
+        $post = Yii::$app->request->post();
+        if ($post['tipe']=='4') {
+            $data = SecretariatBudget::findOne($post['kode']);
+            if ($data) {
+                // $ativity = ActivityDaily::find()->where(['id'=>'id'])->one();
+                $budgetSekre = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$data])->one();
+                $hasil = ($budgetSekre->budget_value_sum + $data->secretariat_budget_value) / 2;
+                // var_dump($data->secretariat_budget_value);die();
+                $datas['message']= "
+                 <div class='col-sm-12'>
+                    <div class='form-group'>
+                        <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
+                        <div class='col-sm-8'>
+                            ".$hasil."
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                ";
+                $datas['max']=$hasil;
             }else{
                 $datas['message']= "
                  <div class='col-sm-12'>

@@ -29,45 +29,36 @@ use yii\base\view;
 
      <!-- <?= $form->field($model, 'photo')->FileInput()->label('Foto') ?> -->
 
-     <label>File</label><?= 
-		FileInput::widget([
-		    'name' => 'file',
-
-		    'options' => [
-	            'multiple' => true,
-	            'required' => 'required',
-	            'allowedFileExtensions'=>['pdf'],
-	            ],
-	        'pluginOptions' => [
-	            'showPreview' => false,
-	            'showCaption' => true,
-	            'showRemove' => true,
-	            'showUpload' => false
-	            ],
-		]);
-	?><br>
-
-	<label>Foto</label><?= 
-		FileInput::widget([
-		    'name' => 'photo',
-
-		    'options' => [
-	            'multiple' => true,
-	            'required' => 'required',
-	            'allowedFileExtensions'=>['jpg','png'],
-	            ],
-	        'pluginOptions' => [
-	            'showPreview' => false,
-	            'showCaption' => true,
-	            'showRemove' => true,
-	            'showUpload' => false
-	            ],
-		]);
-	?><br>
+    <?= $form->field($model, 'fileApprove')->widget(FileInput::classname(), [
+    'options' => [
+    	'accept' => 'application/*',
+	    'multiple' => true,
+	    'required' => 'required',
+	    'allowedFileExtensions'=>['pdf','doc'],
+    	],
+    	'pluginOptions' => [
+	    'showPreview' => false,
+	    'showCaption' => true,
+	    'showRemove' => true,
+	    'showUpload' => false
+	    ],
+	]) ?>
 
 
-
-<!--      <?= $form->field($model, 'activity_id')->textInput() ?>  -->
+	<?= $form->field($model, 'photoApprove')->widget(FileInput::classname(), [
+    'options' => [
+    	'accept' => 'image/*',
+	    'multiple' => true,
+	    'required' => 'required',
+	    'allowedFileExtensions'=>['jpg','png','jpeg'],
+    	],
+    	'pluginOptions' => [
+	    'showPreview' => false,
+	    'showCaption' => true,
+	    'showRemove' => true,
+	    'showUpload' => false
+	    ],
+	]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -9,15 +9,10 @@ use yii\base\view;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */
-
-$this->title = 'Update Data : ' . $model->id;;
-$this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+/* @var $form yii\widgets\ActiveForm */
 ?>
-<div class="approve-update">
 
-<!--     <h1><?= Html::encode($this->title) ?></h1> -->
+<div class="approve-form">
 
     <?php $form = ActiveForm::begin([
     	'options'=>[
@@ -34,43 +29,34 @@ $this->params['breadcrumbs'][] = 'Update';
 
      <!-- <?= $form->field($model, 'photo')->FileInput()->label('Foto') ?> -->
 
-     <label>File</label><?= 
-		FileInput::widget([
-		    'name' => 'file',
-
-		    'options' => [
-	            'multiple' => true,
-	            'allowedFileExtensions'=>['pdf'],
-	            ],
-	        'pluginOptions' => [
-	            'showPreview' => false,
-	            'showCaption' => true,
-	            'showRemove' => true,
-	            'showUpload' => false
-	            ],
-		]);
-	?><br>
-
-	<label>Foto</label><?= 
-		FileInput::widget([
-		    'name' => 'photo',
-
-		    'options' => [
-	            'multiple' => true,
-	            'allowedFileExtensions'=>['jpg','png'],
-	            ],
-	        'pluginOptions' => [
-	            'showPreview' => false,
-	            'showCaption' => true,
-	            'showRemove' => true,
-	            'showUpload' => false
-	            ],
-		]);
-	?><br>
+    <?= $form->field($model, 'fileApprove')->widget(FileInput::classname(), [
+    'options' => [
+    	'accept' => 'application/*',
+	    'multiple' => true,
+	    'allowedFileExtensions'=>['pdf','doc'],
+    	],
+    	'pluginOptions' => [
+	    'showPreview' => false,
+	    'showCaption' => true,
+	    'showRemove' => true,
+	    'showUpload' => false
+	    ],
+	]) ?>
 
 
-
-<!--      <?= $form->field($model, 'activity_id')->textInput() ?>  -->
+	<?= $form->field($model, 'photoApprove')->widget(FileInput::classname(), [
+    'options' => [
+    	'accept' => 'image/*',
+	    'multiple' => true,
+	    'allowedFileExtensions'=>['jpg','png','jpeg'],
+    	],
+    	'pluginOptions' => [
+	    'showPreview' => false,
+	    'showCaption' => true,
+	    'showRemove' => true,
+	    'showUpload' => false
+	    ],
+	]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

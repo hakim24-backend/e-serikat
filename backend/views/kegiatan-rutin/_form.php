@@ -19,7 +19,7 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
     <?php $form = ActiveForm::begin(); ?>
     <div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title">Sumber</h3>
+        <h3 class="box-title">Data Kegiatan Rutin Sekretariat</h3>
 
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -31,7 +31,7 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
             <div class="form-group">
                 <label class="col-sm-4">Jenis SDM</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_source', null, [4=>'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
                 </div>
             </div>
         </div>
@@ -48,7 +48,6 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
         <br>
         <br>
         <div id="nilai-anggaran-source">
-            
         </div>
         <div class="col-sm-12">
             <div class="form-group">
@@ -58,23 +57,13 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="box box-info">
-    <div class="box-header with-border">
-        <h3 class="box-title">Tujuan</h3>
-
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="box-body">
-        <div class="col-sm-12">        
+        <br>
+        <br>
+        <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Jenis SDM</label>
+                <label class="col-sm-4">Judul</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_dest', null, [4=>'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-tujuan']) ?>
+                    <?= Html::textInput('judul', '', ['autofocus' => true, 'required'=>true, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
                 </div>
             </div>
         </div>
@@ -82,39 +71,22 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
         <br>
         <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Kode Anggaran</label>
+                <label class="col-sm-4">Deskripsi</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('dest_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8', 'id'=>'kode-tujuan']) ?>
+                    <?= Html::textInput('description', '', ['autofocus' => true, 'required'=>true, 'type'=>'textarea', 'class'=>'col-sm-8', 'id'=>'description']) ?>
                 </div>
             </div>
         </div>
-        <br>
-        <br>
-        <div id="nilai-anggaran-dest">
-        
-        </div>
     </div>
 </div>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+        </div>
 <div class="box box-info">
     <div class="box-body">
-        <!-- <?= $form->field($model, 'finance_status')->textInput() ?>
-
-    <?= $form->field($model, 'department_status')->textInput() ?>
-
-    <?= $form->field($model, 'chief_status')->textInput() ?>
-
-    <?= $form->field($model, 'chief_code_id')->textInput() ?>
-
-    <?= $form->field($model, 'department_code_id')->textInput() ?> -->
-
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true,'required'=>true])->label('Judul') ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6,'required'=>true])->label('Deskripsi') ?>
-
-
-
-    
-            <div class="" style="padding: 10px;">
+        
+             <div class="" style="padding: 10px;">
               <div class="">
                <label style="font-size: 14px;">Tanggal</label>
                <?php 
@@ -148,9 +120,7 @@ HTML;
                ?>
               </div>
             </div>
-        </div>
-
-<!--     <?= $form->field($model, 'done')->textInput() ?> -->
+        </div> 
     </div>
 </div>
 
@@ -158,7 +128,6 @@ HTML;
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>
-
     <?php ActiveForm::end(); ?>
 </div>
 
