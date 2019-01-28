@@ -1,4 +1,4 @@
- <?php
+<?php
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -8,12 +8,16 @@ use kartik\daterange\DateRangePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
-/* @var $form yii\widgets\ActiveForm */
-$range = date('Y-m-d').' to '.date('Y-m-d');
-    $range_start = date('Y-m-d');
-    $range_end = date('Y-m-d');
-?>
 
+$range = date('Y-m-d').' to '.date('Y-m-d');
+$range_start = date('Y-m-d');
+$range_end = date('Y-m-d');
+
+$this->title = 'Update Data Kegiatan Rutin Sekretariat';
+$this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Update';
+?>
 <div class="activity-daily-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -29,9 +33,9 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
     <div class="box-body">
         <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Jenis SDM</label>
+                <label class="col-sm-4">Kode Anggaran Saat Ini</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?= $form->field($baru, 'secretariat_budget_value')->hiddenInput( ) ?>
                 </div>
             </div>
         </div>
@@ -39,21 +43,9 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
         <br>
         <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Kode Anggaran</label>
-                <div class="col-sm-8">
-                    <?= Html::dropDownList('source_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8','id'=>'kode-asal']) ?>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div id="nilai-anggaran-source">
-        </div>
-         <div class="col-sm-12">
-            <div class="form-group">
                 <label class="col-sm-4">Uang Muka Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
+                    <?= $form->field($budget, 'budget_value_dp')->textInput( )->label(false); ?>
                 </div>
             </div>
         </div>
@@ -63,7 +55,7 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
+                    <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?>
                 </div>
             </div>
         </div>
@@ -73,7 +65,7 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
             <div class="form-group">
                 <label class="col-sm-4">Judul</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('judul', '', ['autofocus' => true, 'required'=>true, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
+                    <?= $form->field($model, 'title')->textarea(['rows' => 6])->label(false); ?>
                 </div>
             </div>
         </div>
@@ -83,7 +75,7 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
             <div class="form-group">
                 <label class="col-sm-4">Deskripsi</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('description', '', ['autofocus' => true, 'required'=>true, 'type'=>'textarea', 'class'=>'col-sm-8', 'id'=>'description']) ?>
+                    <?= $form->field($model, 'description')->textarea(['rows' => 6])->label(false); ?>
                 </div>
             </div>
         </div>
@@ -95,11 +87,11 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
         </div>
 <div class="box box-info">
     <div class="box-body">
-
+        
              <div class="" style="padding: 10px;">
               <div class="">
                <label style="font-size: 14px;">Tanggal</label>
-               <?php
+               <?php 
                     $addon = <<< HTML
                         <span class="input-group-addon">
                             <i class="glyphicon glyphicon-calendar"></i>
@@ -130,7 +122,7 @@ HTML;
                ?>
               </div>
             </div>
-        </div>
+        </div> 
     </div>
 </div>
 
@@ -143,7 +135,7 @@ HTML;
 
 <?php
 $url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
-$url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');
+$url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran-update');
 
 $js=<<<js
 $('#jenis-tujuan').on('change',function(){
