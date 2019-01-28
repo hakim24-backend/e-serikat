@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Budget */
 
-$this->title = 'Create Budget';
-$this->params['breadcrumbs'][] = ['label' => 'Budgets', 'url' => ['index']];
+$this->title = 'Buat Data Sumber Dana';
+$this->params['breadcrumbs'][] = ['label' => 'Sumber Dana', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="budget-create">

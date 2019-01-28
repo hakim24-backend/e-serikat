@@ -8,8 +8,8 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Serikatinti */
 
 $this->title = 'Data Master E-Serikat';
-$this->params['breadcrumbs'][] = ['label' => 'Serikatintis', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = ['label' => 'Serikatinti', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php $form = ActiveForm::begin(['id' => 'form-signup', 'enableClientValidation' => true]); ?>

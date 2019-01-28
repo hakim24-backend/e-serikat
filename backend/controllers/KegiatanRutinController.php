@@ -79,10 +79,10 @@ class KegiatanRutinController extends Controller
             $post = Yii::$app->request->post();
             if ($post['jenis_sdm_source']=='4') {
                 $data = SecretariatBudget::findOne($post['source_sdm']);
-                $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
-                $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['source_value'];
+                // $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
+                $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['money_budget'];
                 $data->save();
-                $valueDP = (float)$post['source_value'];
+                // $valueDP = (float)$post['source_value'];
                 $idSekreBudget = $data->id;
             }
 
@@ -102,13 +102,13 @@ class KegiatanRutinController extends Controller
                 
                 $sekreBudget = new ActivityDailyBudgetSecretariat();
                 $sekreBudget->secretariat_budget_id = $idSekreBudget;
-                $sekreBudget->budget_value_dp = $valueDP;
-                $sekreBudget->budget_value_sum = $valueNow;
+                $sekreBudget->budget_value_dp = $post['money_budget'];
+                $sekreBudget->budget_value_sum = $post['source_value'];
                 $sekreBudget->activity_id = $daily->id; 
                 $sekreBudget->save(false);      
             }
 
-            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            Yii::$app->getSession()->setFlash('success', 'Buat Data Kegiatan Berhasil');
             return $this->redirect(['index']);
 
         }
@@ -125,41 +125,57 @@ class KegiatanRutinController extends Controller
     public function actionUpdate($id)
     {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+        $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+        $range = $model->date_start.' to '.$model->date_end;
+        $range_start = $model->date_start;
+        $range_end = $model->date_end;
 
-        if (Yii::$app->request->post()) {
+        if ($model->load(Yii::$app->request->post())) {
             $post = Yii::$app->request->post();
-            if ($post['jenis_sdm_source']=='4') {
-                $data = SecretariatBudget::findOne($post['source_sdm']);
-                $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
-                $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['source_value'];
-                $data->save();
-                $valueDP = (float)$post['source_value'];
-            }
-            
+            $model->title = $model->title;
+            $model->description = $model->description;
+            // $model->date_start = $model->date_start;
+            // $model->date_end = $model->date_end;
+            $model->date_start = $post['from_date'];
+            $model->date_end = $post['to_date'];
+            $save = $model->save(false);
 
-            $namajudul = $post['judul'];
-            var_dump($nama);die();
-            $judul = ActivityDaily::find()->where(['title'=>$namajudul])->one();;
-            $daily->title = $post['judul'];
-            $daily->description = $post['description'];
-            $daily->date_start = $post['from_date'];
-            $daily->date_end = $post['to_date'];
-            $save = $daily->save(false);
-
-            if ($save) {
+            if ($save && $budget->load(Yii::$app->request->post())) {
                 
-                $sekreBudget->budget_value_dp = $valueDP;
-                $sekreBudget->budget_value_sum = $valueNow;
-                $sekreBudget->save(false);      
+                // var_dump($budget);die();
+                $dp = $budget->budget_value_dp;
+                $total = $budget->budget_value_sum;
+                $modal = $baru->secretariat_budget_value;
+
+                if ($dp > $modal) {
+                    Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Nilai Anggaran Saat Ini');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                if ($dp > $total) {
+                        Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Total Nilai Anggaran Yang Diajukan');
+                        return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                $budget->budget_value_dp = $budget->budget_value_dp;
+                $budget->budget_value_sum = $budget->budget_value_sum;
+                $budget->save(false);      
             }
 
-            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
             return $this->redirect(['index']);
 
         }
 
         return $this->render('update', [
             'model' => $model,
+            'budget' => $budget,
+            'baru' => $baru,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
         ]);
     }
 
@@ -185,6 +201,7 @@ class KegiatanRutinController extends Controller
         }
         $activity->delete();
 
+        Yii::$app->getSession()->setFlash('success', 'Hapus Data Kegiatan Berhasil');
         return $this->redirect(['index']);
     }
 
@@ -399,8 +416,8 @@ class KegiatanRutinController extends Controller
             if ($data) {
                 // $ativity = ActivityDaily::find()->where(['id'=>'id'])->one();
                 $budgetSekre = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$data])->one();
-                $hasil = ($budgetSekre->budget_value_sum + $data->secretariat_budget_value) / 2;
-                // var_dump($data->secretariat_budget_value);die();
+                // $hasilDP = $budgetSekre->budget_value_sum - $budgetSekre->budget_value_dp;
+                // $hasil =  ($hasilDP + $data->secretariat_budget_value) / 2;
                 $datas['message']= "
                  <div class='col-sm-12'>
                     <div class='form-group'>

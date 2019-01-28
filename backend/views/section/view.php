@@ -7,14 +7,12 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Section */
 
-$this->title = $model->id;
+$this->title = 'Data Master Departemen';
 $this->params['breadcrumbs'][] = ['label' => 'Sections', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="section-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -24,12 +22,37 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'section_name',
-            'id_depart',
-            'status_budget',
-            'section_code',
-            'user_id',
+            // 'id',
+            // 'section_name',
+            // 'id_depart',
+            // 'status_budget',
+            // 'section_code',
+            // 'user_id',
+
+            [
+                'attribute'=>'id',
+                'label'=>'Id Seksi'
+            ],
+            [
+                'attribute'=>'id_depart',
+                'label'=>'Id Departemen'
+            ],
+            [
+                'attribute'=>'section_name',
+                'label'=>'Nama Seksi'
+            ],
+            [
+                'attribute'=>'section_code',
+                'label'=>'Kode Seksi'
+            ],
+            [
+                'attribute'=>'status_budget',
+                'label'=>'Status Budget'
+            ],
+            [
+                'attribute'=>'user_id',
+                'label'=>'Id User'
+            ]
         ],
     ]) ?>
 

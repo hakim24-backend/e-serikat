@@ -37,18 +37,22 @@ $this->params['breadcrumbs'][] = $this->title;
                             'header' => 'Deskripsi',
                             'attribute' => 'description',
                             ],
-
-                            // [
-                            // 'header' => 'File',
-                            // 'attribute' => 'file',
-                            // ],
-
-                            // [
-                            // 'header' => 'Foto',
-                            // 'attribute' => 'photo',
-                            // ],
-
-
+                            [
+                            'header' => 'Foto',
+                            'attribute' => 'photo',
+                            'format'=> 'raw',
+                            'value'=>function ($model) {         
+                            return Html::img(Yii::$app->request->BaseUrl.'../../web/template/'.$model->photo, ['width'=>'100']);      
+                            },              
+                            ],
+                            [
+                            'header' => 'File',
+                            'attribute' => 'file',
+                            'format'=> 'raw',
+                            'value'=>function ($model) {         
+                            return Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']);      
+                            },
+                            ],
                             [
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',

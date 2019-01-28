@@ -8,6 +8,10 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model common\models\Budget */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->title = 'Data Sumber Dana';
+// $this->params['breadcrumbs'][] = ['label' => 'Sumber Dana', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="budget-form">

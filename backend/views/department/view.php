@@ -7,14 +7,12 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Department */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Departments', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+$this->title = 'Data Master Departemen';
+// $this->params['breadcrumbs'][] = ['label' => 'Departments', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
+// \yii\web\YiiAsset::register($this);
 ?>
 <div class="department-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -24,12 +22,37 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'depart_name',
-            'id_chief',
-            'status_budget',
-            'depart_code',
-            'user_id',
+            // 'id',
+            // 'depart_name',
+            // 'id_chief',
+            // 'status_budget',
+            // 'depart_code',
+            // 'user_id',
+
+            [
+                'attribute'=>'id',
+                'label'=>'Id Departemen'
+            ],
+            [
+                'attribute'=>'id_chief',
+                'label'=>'Id Ketua'
+            ],
+            [
+                'attribute'=>'depart_name',
+                'label'=>'Nama Departemen'
+            ],
+            [
+                'attribute'=>'depart_code',
+                'label'=>'Kode Departemen'
+            ],
+            [
+                'attribute'=>'status_budget',
+                'label'=>'Status Budget'
+            ],
+            [
+                'attribute'=>'user_id',
+                'label'=>'Id User'
+            ]
         ],
     ]) ?>
 

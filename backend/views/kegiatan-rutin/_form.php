@@ -12,6 +12,8 @@ use kartik\daterange\DateRangePicker;
 $range = date('Y-m-d').' to '.date('Y-m-d');
     $range_start = date('Y-m-d');
     $range_end = date('Y-m-d');
+
+$this->title = 'Buat Data Kegiatan Rutin';
 ?>
 
 <div class="activity-daily-form">
@@ -49,6 +51,16 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
         <br>
         <div id="nilai-anggaran-source">
         </div>
+         <div class="col-sm-12">
+            <div class="form-group">
+                <label class="col-sm-4">Uang Muka Anggaran</label>
+                <div class="col-sm-8">
+                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
         <div class="col-sm-12">
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>

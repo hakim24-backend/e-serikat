@@ -57,7 +57,7 @@ class ApproveController extends Controller
     public function actionHighlight($id)
     {
     
-        $model = new User();
+        $model = ActivityDailyResponsibility::findOne($id);
         $dataProvider = new ActiveDataProvider([
             'query' => ActivityDailyResponsibility::find()->where(['activity_id'=>$id]),
         ]);
@@ -122,6 +122,7 @@ class ApproveController extends Controller
             $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
             $model->activity_id = $activity->id ;
             $model->save(false);
+            Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
             return $this->redirect(['approve/highlight/','id'=>$id]);
         }
 
@@ -174,12 +175,14 @@ class ApproveController extends Controller
                 }
 
                 $model->save(false);
+                Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
                 return $this->redirect(['highlight','id'=>$model->activity_id]);
 
 
             } else {
                 $model->description = $model->description;
                 $model->save(false);
+                Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
                 return $this->redirect(['highlight','id'=>$model->activity_id]);
             }
         }
@@ -203,6 +206,7 @@ class ApproveController extends Controller
         $oldPhoto = $model->photo;
         unlink($uploadPath.$oldfile);
         unlink($uploadPath.$oldPhoto);
+        Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
         $model->delete();
         return $this->redirect(Yii::$app->request->referrer);
     }

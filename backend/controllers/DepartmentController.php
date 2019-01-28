@@ -87,6 +87,7 @@ class DepartmentController extends Controller
     public function actionCreate($id)
     {
         
+        $depart = Department::find()->where(['id'=>$id])->one();
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -109,7 +110,7 @@ class DepartmentController extends Controller
             if ($listDepartemen == null) {
                 $counter = '001';
             } else {
-                $counter = explode('-', $listDepartemen['depart_code'])[1];
+                $counter = explode('-', $listDepartemen['depart_code'])[2];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
             $code = $kodeDepartemen.''.$counter;
@@ -121,8 +122,8 @@ class DepartmentController extends Controller
             $depart->save(false);
 
             }
-
-            return $this->redirect(['department/highlight/','id'=> $id]);
+            Yii::$app->getSession()->setFlash('success', 'Buat Akun Berhasil');
+            return $this->redirect(['department/highlight/','id'=>$depart->id_chief]);
         }
         return $this->render('create', [
             'model' => $model,
@@ -152,8 +153,8 @@ class DepartmentController extends Controller
             $depart->depart_name = $model->name;
             $depart->save(false);
             }
-
-            return $this->redirect(['department/highlight/','id'=>$id]);
+            Yii::$app->getSession()->setFlash('success', 'Update Data Berhasil');
+            return $this->redirect(['department/highlight/','id'=>$depart->id_chief]);
 
         }
         return $this->render('update', [
@@ -187,7 +188,8 @@ class DepartmentController extends Controller
             } else{
             $depart -> delete();
             $model-> delete();
-            return $this->redirect(['department/highlight/','id'=>$id]);
+            Yii::$app->getSession()->setFlash('success', 'Hapus Data Berhasil');
+            return $this->redirect(['department/highlight/','id'=>$depart->id_chief]);
             }
         }
     }
