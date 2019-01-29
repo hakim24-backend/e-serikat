@@ -126,7 +126,7 @@ class SerikatintiController extends Controller
             $sekre->save(false);
 
             }
-
+            Yii::$app->getSession()->setFlash('success', 'Akun Berhasil Dibuat');
             return $this->redirect(['index']);
         }
 
@@ -158,7 +158,7 @@ class SerikatintiController extends Controller
             $sekre->secretariat_name = $model->name;
             $sekre->save();
             }
-            
+            Yii::$app->getSession()->setFlash('success', 'Update Data Berhasil');
             return $this->redirect(['index']);
         }
 
@@ -205,24 +205,31 @@ class SerikatintiController extends Controller
     {
         $model = User::find()->where(['role'=>$id])->one();
         $sekre = Secretariat::find()->where(['user_id'=>$model->id])->one();
-        $sekreBudget = SecretariatBudget::find()->where(['secretariat_id'=>$sekre->id])->one();
+        $sekreBudget = SecretariatBudget::find()->where(['secretariat_id'=>$sekre])->one();
+        $coba = SecretariatBudget::find()->where(['secretariat_id'=>$sekre])->one();
         $permission = User::find()->where(['username'=>Yii::$app->user->identity->username])->andWhere(['id'=>$model])->one();
 
         if ($permission) {
             Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
             return $this->redirect(Yii::$app->request->referrer);
-        } else {
+        } elseif($coba){
+             Yii::$app->getSession()->setFlash('error', 'Tidak Bisa Hapus Karena Ada Data Di Tabel Sekretrariat sekreBudget');
+             return $this->redirect(Yii::$app->request->referrer);
+        }else {
             if ($sekreBudget) {
             $sekreBudget->delete();
             $sekre->delete();
             $model->delete();
+            Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
             return $this->redirect(['index']);
             }elseif($sekre){
             $sekre->delete();
             $model->delete();
+            Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
             return $this->redirect(['index']);
             }else{
             $model->delete();
+            Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
             return $this->redirect(['index']);
             }
         }

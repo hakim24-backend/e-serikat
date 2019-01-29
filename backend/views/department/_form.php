@@ -9,6 +9,10 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $model common\models\Department */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->title = 'Data Master Departemen';
+$this->params['breadcrumbs'][] = ['label' => 'Departemen', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="department-form">
@@ -19,6 +23,7 @@ use yii\widgets\Pjax;
 
         <div class="form-group">
             <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+            <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
         </div>
 
     <?php ActiveForm::end(); ?>

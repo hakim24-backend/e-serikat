@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Chief */
 
 $this->title = 'Data Master Ketua';
-$this->params['breadcrumbs'][] = ['label' => 'Chiefs', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Ketua', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

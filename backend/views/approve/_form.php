@@ -20,7 +20,7 @@ use yii\base\view;
     	]
     ]); ?>
 
-    <?= $form->field($model, 'description')->textInput()->label('Deskripsi') ?>
+    <?= $form->field($model, 'description')->textArea(['row' => 5])->label('Deskripsi') ?>
 
 <!--     <?= $form->field($model, 'responsibility_value')->textInput() ?> -->
 

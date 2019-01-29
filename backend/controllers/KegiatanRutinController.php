@@ -104,11 +104,16 @@ class KegiatanRutinController extends Controller
                 $sekreBudget->secretariat_budget_id = $idSekreBudget;
                 $sekreBudget->budget_value_dp = $post['money_budget'];
                 $sekreBudget->budget_value_sum = $post['source_value'];
+<<<<<<< HEAD
                 $sekreBudget->activity_id = $daily->id;
                 $sekreBudget->save(false);
+=======
+                $sekreBudget->activity_id = $daily->id; 
+                $sekreBudget->save(false);      
+>>>>>>> 165a841fda0e6ae3f27d9c0dc6500edb9d6d5a20
             }
 
-            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            Yii::$app->getSession()->setFlash('success', 'Buat Data Kegiatan Berhasil');
             return $this->redirect(['index']);
 
         }
@@ -134,6 +139,7 @@ class KegiatanRutinController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $post = Yii::$app->request->post();
+<<<<<<< HEAD
 
             $model->title = $model->title;
             $model->description = $model->description;
@@ -149,9 +155,39 @@ class KegiatanRutinController extends Controller
                 $budget->budget_value_dp = $budget->budget_value_dp;
                 $budget->budget_value_sum = $budget->budget_value_sum;
                 $budget->save(false);
+=======
+            $model->title = $model->title;
+            $model->description = $model->description;
+            // $model->date_start = $model->date_start;
+            // $model->date_end = $model->date_end;
+            $model->date_start = $post['from_date'];
+            $model->date_end = $post['to_date'];
+            $save = $model->save(false);
+
+            if ($save && $budget->load(Yii::$app->request->post())) {
+                
+                // var_dump($budget);die();
+                $dp = $budget->budget_value_dp;
+                $total = $budget->budget_value_sum;
+                $modal = $baru->secretariat_budget_value;
+
+                if ($dp > $modal) {
+                    Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Nilai Anggaran Saat Ini');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                if ($dp > $total) {
+                        Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Total Nilai Anggaran Yang Diajukan');
+                        return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                $budget->budget_value_dp = $budget->budget_value_dp;
+                $budget->budget_value_sum = $budget->budget_value_sum;
+                $budget->save(false);      
+>>>>>>> 165a841fda0e6ae3f27d9c0dc6500edb9d6d5a20
             }
 
-            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
             return $this->redirect(['index']);
 
         }
@@ -188,6 +224,7 @@ class KegiatanRutinController extends Controller
         }
         $activity->delete();
 
+        Yii::$app->getSession()->setFlash('success', 'Hapus Data Kegiatan Berhasil');
         return $this->redirect(['index']);
     }
 

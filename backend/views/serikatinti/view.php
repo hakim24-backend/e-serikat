@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Serikatinti */
 
 $this->title = 'Daftar User';
-$this->params['breadcrumbs'][] = ['label' => 'Serikatintis', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Serikatinti', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

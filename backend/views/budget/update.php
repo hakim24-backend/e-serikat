@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Budget */
 
-$this->title = 'Update Budget: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Budgets', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Update Data';
+$this->params['breadcrumbs'][] = ['label' => 'Sumber Dana', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Update '.$model->id;
 ?>
 <div class="budget-update">
 

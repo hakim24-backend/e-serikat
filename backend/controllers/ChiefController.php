@@ -112,7 +112,7 @@ class ChiefController extends Controller
             $chief->save(false);
 
             }
-
+            Yii::$app->getSession()->setFlash('success', 'Buat Akun Berhasil'); 
             return $this->redirect(['index']);
         }
         return $this->render('create', [
@@ -142,7 +142,7 @@ class ChiefController extends Controller
             $chief->chief_name = $model->name;
             $chief->save(false);
             }
-
+            Yii::$app->getSession()->setFlash('success', 'Update Data Berhasil');
             return $this->redirect(['index']);
 
         }
@@ -177,6 +177,7 @@ class ChiefController extends Controller
             } else {
             $chief -> delete();
             $model->delete();
+            Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
             return $this->redirect(['index']);
             }
         }

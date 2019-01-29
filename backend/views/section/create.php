@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Section */
 
-$this->title = 'Create Section';
+$this->title = 'Buat Akun Data Master Seksi';
 $this->params['breadcrumbs'][] = ['label' => 'Sections', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

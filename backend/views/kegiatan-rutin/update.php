@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
+use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
@@ -33,9 +34,9 @@ $this->params['breadcrumbs'][] = 'Update';
     <div class="box-body">
         <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Kode Anggaran Saat Ini</label>
+                <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                 <div class="col-sm-8">
-                    <?= $form->field($baru, 'secretariat_budget_value')->hiddenInput( ) ?>
+                    <?= $baru->secretariat_budget_value ?>
                 </div>
             </div>
         </div>

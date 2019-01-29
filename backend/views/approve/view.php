@@ -7,17 +7,16 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */
 
-$this->title = $model->id;
+$this->title = 'Data Pertangungjawaban';
 $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="approve-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </p>
 
     <?= DetailView::widget([
@@ -47,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'photo',
                 'value'=>'../../web/template/'.$model->photo,
-                'format' => ['image',['width'=>'100','height'=>'100']],
+                'format' => ['image',['width'=>'100']],
                 'label'=>'Foto'
             ],
         ],

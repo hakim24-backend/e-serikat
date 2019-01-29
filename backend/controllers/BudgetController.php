@@ -4,6 +4,10 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Budget;
+use common\models\ChiefBudget;
+use common\models\DepartmentBudget;
+use common\models\SecretariatBudget;
+use common\models\SectionBudget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -73,6 +77,7 @@ class BudgetController extends Controller
             $model->budget_value = $model->budget_value;
             $model->budget_rek = $model->budget_rek;
             $model->save(false);
+            Yii::$app->getSession()->setFlash('success', 'Buat Data Sumber Dana Berhasil');
             return $this->redirect(['index']);
         }
 
@@ -93,6 +98,7 @@ class BudgetController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Update Data Sumber Dana Berhasil');
             return $this->redirect(['index']);
         }
 
@@ -110,8 +116,30 @@ class BudgetController extends Controller
      */
     public function actionDelete($id)
     {
+        $danaChief = ChiefBudget::find()->where(['chief_budget_id'=>$id])->one();
+        $danaDepart = DepartmentBudget::find()->where(['department_budget_id'=>$id])->one();
+        $danaSeksi = SectionBudget::find()->where(['section_budget_id'=>$id])->one();
+        $danaSekre = SecretariatBudget::find()->where(['secretariat_budget_id'=>$id])->one();
+
+        if ($danaChief) {
+            Yii::$app->getSession()->setFlash('error', 'Tidak Bisa Hapus Karena Ada Data Di Tabel Chief Budget');
+            return $this->redirect(['index']);
+        }
+        if ($danaDepart) {
+            Yii::$app->getSession()->setFlash('error', 'Tidak Bisa Hapus Karena Ada Data Di Tabel Department Budget');
+            return $this->redirect(['index']);
+        }
+        if ($danaSeksi) {
+            Yii::$app->getSession()->setFlash('error', 'Tidak Bisa Hapus Karena Ada Data Di Tabel Section Budget');
+            return $this->redirect(['index']);
+        }
+        if ($danaSekre) {
+            Yii::$app->getSession()->setFlash('error', 'Tidak Bisa Hapus Karena Ada Data Di Tabel Secretariat Budget');
+            return $this->redirect(['index']);
+        }
         $this->findModel($id)->delete();
 
+        Yii::$app->getSession()->setFlash('success', 'Hapus Data Sumber Dana Berhasil');
         return $this->redirect(['index']);
     }
 
