@@ -13,11 +13,13 @@ $this->title = 'Sumber Dana';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="budget-index">
-
+  <?php
+      if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){ ?>
     <p>
         <?= Html::a('Input Budget', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+  <?php }
+?>
     <div class="box box-primary">
             <div class="box-body">
                 <div class="tab-content c-bordered c-padding-lg">
@@ -62,11 +64,50 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ],
 
                                     [
+                                      'class' => 'yii\grid\ActionColumn',
+                                      'contentOptions' => ['style' => 'width:160px;'],
+                                      'header'=>'Actions',
+                                      'template' => ' {update} {view} {delete} ',
+                                      'buttons' => [
+                                          'update' => function ($url, $model) {
+                                            if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
+                                              return Html::a('| <span class="fa fa-pencil"></span>', $url, [
+                                                          'title' => Yii::t('app', 'update'),
+                                              ]);
+                                            }
+                                          },
+                                          'view' => function ($url, $model) {
+                                            if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
+                                              return Html::a('| <span class="fa fa-eye"></span>', $url, [
+                                                          'title' => Yii::t('app', 'view'),
+                                              ]);
+                                            }
+                                          },
+                                          'delete' => function ($url, $model) {
+                                            if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
+                                              return Html::a('| <span class="fa fa-trash"></span>', $url, [
+                                                          'title' => Yii::t('app', 'Delete'),
+                                                          'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
+                                                          'data-method' => 'post', 'data-pjax' => '0',
 
-                                    'class' => 'yii\grid\ActionColumn',
-                                    'header' => 'Action',
-                                    'template' => '| {update} | {view} | {delete} |',
-                                    
+                                              ]);
+                                            }
+
+                                          },
+                                      ],
+
+                                      'urlCreator' => function ($action, $model, $key, $index) {
+                                          if ($action === 'update') {
+                                              $url = Url::to(['user/update','id'=>$model['id']]);
+                                              return $url;
+                                          }else if ($action === 'view') {
+                                              $url = Url::to(['user/view','id'=>$model['id']]);
+                                              return $url;
+                                          }else if ($action === 'delete') {
+                                              $url = Url::to(['user/delete','id'=>$model['id']]);
+                                              return $url;
+                                          }
+                                      }
                                     ],
                                 ],
                             ]); ?>

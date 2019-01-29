@@ -104,13 +104,8 @@ class KegiatanRutinController extends Controller
                 $sekreBudget->secretariat_budget_id = $idSekreBudget;
                 $sekreBudget->budget_value_dp = $post['money_budget'];
                 $sekreBudget->budget_value_sum = $post['source_value'];
-<<<<<<< HEAD
                 $sekreBudget->activity_id = $daily->id;
                 $sekreBudget->save(false);
-=======
-                $sekreBudget->activity_id = $daily->id; 
-                $sekreBudget->save(false);      
->>>>>>> 165a841fda0e6ae3f27d9c0dc6500edb9d6d5a20
             }
 
             Yii::$app->getSession()->setFlash('success', 'Buat Data Kegiatan Berhasil');
@@ -139,23 +134,6 @@ class KegiatanRutinController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $post = Yii::$app->request->post();
-<<<<<<< HEAD
-
-            $model->title = $model->title;
-            $model->description = $model->description;
-            $model->date_start = $post['from_date'];
-            $model->date_end = $post['to_date'];
-
-
-
-            $save = $model->save(false);
-
-            if ($save) {
-
-                $budget->budget_value_dp = $budget->budget_value_dp;
-                $budget->budget_value_sum = $budget->budget_value_sum;
-                $budget->save(false);
-=======
             $model->title = $model->title;
             $model->description = $model->description;
             // $model->date_start = $model->date_start;
@@ -165,7 +143,7 @@ class KegiatanRutinController extends Controller
             $save = $model->save(false);
 
             if ($save && $budget->load(Yii::$app->request->post())) {
-                
+
                 // var_dump($budget);die();
                 $dp = $budget->budget_value_dp;
                 $total = $budget->budget_value_sum;
@@ -183,8 +161,7 @@ class KegiatanRutinController extends Controller
 
                 $budget->budget_value_dp = $budget->budget_value_dp;
                 $budget->budget_value_sum = $budget->budget_value_sum;
-                $budget->save(false);      
->>>>>>> 165a841fda0e6ae3f27d9c0dc6500edb9d6d5a20
+                $budget->save(false);
             }
 
             Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');

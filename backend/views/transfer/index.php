@@ -12,11 +12,13 @@ $this->title = 'Transfer';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transfer-index">
-
-	<p>
-        <?= Html::a('Unggah Excel', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-	
+	<?php
+      if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){ ?>
+					<p>
+			        <?= Html::a('Unggah Excel', ['create'], ['class' => 'btn btn-success']) ?>
+			    </p>
+	<?php }
+?>
 	<div class="c-content-tab-1 c-theme c-margin-t-30">
         <div class="clearfix">
             <ul class="nav nav-tabs c-font-uppercase c-font-bold">
@@ -71,16 +73,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                         //     'template' => '{update}',
                                         //     'buttons' => [
                                         //         'update' => function ($url,$model,$key) {
-                                                    
+
                                         //             $url = Url::toRoute(['/transfer/update-sekretariat', 'id' => $model->id]);
                                         //             return Html::a(
                                         //                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                        //                 $url, 
+                                        //                 $url,
                                         //                 [
                                         //                     'title' => 'Update Anggaran',
                                         //                 ]
                                         //             );
-                                                    
+
 
                                         //         },
                                         //     ]
@@ -125,16 +127,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                         //     'template' => '{update}',
                                         //     'buttons' => [
                                         //         'update' => function ($url,$model,$key) {
-                                                    
+
                                         //             $url = Url::toRoute(['/transfer/update-ketua', 'id' => $model->id]);
                                         //             return Html::a(
                                         //                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                        //                 $url, 
+                                        //                 $url,
                                         //                 [
                                         //                     'title' => 'Update Anggaran',
                                         //                 ]
                                         //             );
-                                                    
+
 
                                         //         },
                                         //     ]
@@ -180,16 +182,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                         //     'template' => '{update}',
                                         //     'buttons' => [
                                         //         'update' => function ($url,$model,$key) {
-                                                    
+
                                         //             $url = Url::toRoute(['/transfer/update-departemen', 'id' => $model->id]);
                                         //             return Html::a(
                                         //                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                        //                 $url, 
+                                        //                 $url,
                                         //                 [
                                         //                     'title' => 'Update Anggaran',
                                         //                 ]
                                         //             );
-                                                    
+
 
                                         //         },
                                         //     ]
@@ -234,16 +236,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                         //     'template' => '{update}',
                                         //     'buttons' => [
                                         //         'update' => function ($url,$model,$key) {
-                                                    
+
                                         //             $url = Url::toRoute(['/transfer/update-seksi', 'id' => $model->id]);
                                         //             return Html::a(
                                         //                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                        //                 $url, 
+                                        //                 $url,
                                         //                 [
                                         //                     'title' => 'Update Anggaran',
                                         //                 ]
                                         //             );
-                                                    
+
 
                                         //         },
                                         //     ]

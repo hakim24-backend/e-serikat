@@ -124,6 +124,7 @@ HTML;
                                 'locale'=>[
                                     'format' => 'Y-m-d'
                                 ],
+                                'drops' => 'up',
                                 'minDate' => date('Y-m-d',strtotime("-3 days")),
                                 'maxDate' => date('Y-m-d',strtotime("+1 month")),
                             ]
