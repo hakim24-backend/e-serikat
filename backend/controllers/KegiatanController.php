@@ -80,7 +80,7 @@ class KegiatanController extends Controller
             return $this->redirect(['index']);
         }
 
-        return $this->render('create', [
+        return $this->render('_form', [
             'model' => $model,
         ]);
     }

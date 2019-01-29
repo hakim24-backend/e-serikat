@@ -53,6 +53,14 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'done',
                 'label'=>'Status'
+            ],
+            [
+                'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_dp',
+                'label'=>'Nilai Uang Muka Anggaran'
+            ],
+            [
+                'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_sum',
+                'label'=>'Nilai Uang Total Anggaran'
             ]
         ],
     ]) ?>

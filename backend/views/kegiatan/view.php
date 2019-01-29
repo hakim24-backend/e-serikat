@@ -23,22 +23,59 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'title',
-            'background:ntext',
-            'purpose:ntext',
-            'target_activity:ntext',
-            'place_activity:ntext',
-            'place_activity_x:ntext',
-            'place_activity_y:ntext',
-            'date_start',
-            'date_end',
-            'role',
-            'finance_status',
-            'department_status',
-            'chief_status',
-            'chief_code_id',
-            'department_code_id',
-            'done',
+            // 'title',
+            // 'background:ntext',
+            // 'purpose:ntext',
+            // 'target_activity:ntext',
+            // 'place_activity:ntext',
+            // 'place_activity_x:ntext',
+            // 'place_activity_y:ntext',
+            // 'date_start',
+            // 'date_end',
+            // 'role',
+            // 'finance_status',
+            // 'department_status',
+            // 'chief_status',
+            // 'chief_code_id',
+            // 'department_code_id',
+            // 'done',
+
+            [
+                'attribute'=>'title',
+                'label'=>'Judul'
+            ],
+            [
+                'attribute'=>'background',
+                'label'=>'Latar Belakang'
+            ],
+            [
+                'attribute'=>'purpose',
+                'label'=>'Tujuan'
+            ],
+            [
+                'attribute'=>'target_activity',
+                'label'=>'Sasaran Kegiatan'
+            ],
+            [
+                'attribute'=>'place_activity',
+                'label'=>'Tempat Pelaksanaan'
+            ],
+            [
+                'attribute'=>'place_activity_x',
+                'label'=>'Tempat Pelaksanaan X'
+            ],
+            [
+                'attribute'=>'place_activity_y',
+                'label'=>'Tempat Pelaksanaan Y'
+            ],
+            [
+                'attribute'=>'date_start',
+                'label'=>'Tanggal Mulai'
+            ],
+            [
+                'attribute'=>'date_end',
+                'label'=>'Tanggal Berakhir'
+            ]
         ],
     ]) ?>
 

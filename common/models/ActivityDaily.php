@@ -124,6 +124,11 @@ class ActivityDaily extends \yii\db\ActiveRecord
         return $this->hasMany(ActivityDailyBudgetSecretariat::className(), ['activity_id' => 'id']);
     }
 
+    public function getActivityDailyBudgetSecretariatsOne()
+    {
+        return $this->hasOne(ActivityDailyBudgetSecretariat::className(), ['activity_id' => 'id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
