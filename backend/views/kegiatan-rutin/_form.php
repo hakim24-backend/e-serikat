@@ -28,7 +28,7 @@ $this->title = 'Buat Data Kegiatan Rutin';
         </div>
     </div>
     <div class="box-body">
-        <div class="col-sm-12">        
+        <div class="col-sm-12">
             <div class="form-group">
                 <label class="col-sm-4">Jenis SDM</label>
                 <div class="col-sm-8">
@@ -96,11 +96,11 @@ $this->title = 'Buat Data Kegiatan Rutin';
         </div>
 <div class="box box-info">
     <div class="box-body">
-        
+
              <div class="" style="padding: 10px;">
               <div class="">
                <label style="font-size: 14px;">Tanggal</label>
-               <?php 
+               <?php
                     $addon = <<< HTML
                         <span class="input-group-addon">
                             <i class="glyphicon glyphicon-calendar"></i>
@@ -131,7 +131,7 @@ HTML;
                ?>
               </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 
@@ -209,4 +209,3 @@ $('#kode-tujuan').on('change',function(){
 js;
 $this->registerJs($js);
 ?>
-

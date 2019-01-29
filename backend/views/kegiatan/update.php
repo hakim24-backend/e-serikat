@@ -79,13 +79,80 @@ HTML;
 
     <?= $form->field($model, 'department_code_id')->textInput() ?>
 
-    <?= $form->field($model, 'done')->textInput() ?>
- -->
+    <?= $form->field($model, 'done')->textInput() ?> -->
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>
 
-    <?php ActiveForm::end(); ?>
-
+    <?php ActiveForm::end(); ?> 
 </div>
+
+<?php
+$url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
+$url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran-update');
+
+$js=<<<js
+$('#jenis-tujuan').on('change',function(){
+    var tipe = $('#jenis-tujuan').val();
+    $.ajax({
+        url : "$url" + tipe,
+        dataType : 'html',
+        type : 'post'
+    }).done(function(data){
+       $('select#kode-tujuan').html(data);
+    });
+});
+
+$('#jenis-asal').on('change',function(){
+    var tipe = $('#jenis-asal').val();
+    $.ajax({
+        url : "$url" + tipe,
+        dataType : 'html',
+        type : 'post'
+    }).done(function(data){
+       $('select#kode-asal').html(data);
+    });
+});
+
+$('#kode-asal').on('change',function(){
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+    $.ajax({
+        url : "$url2",
+        dataType : 'html',
+        type : 'post',
+        data: {
+            tipe: tipe,
+            kode: kode,
+        },
+    }).done(function(data){
+        datas = JSON.parse(data);
+       $('#nilai-anggaran-source').html(datas.message);
+       $('#value-budget').attr({
+           'max' : datas.max,
+        });
+    });
+});
+
+$('#kode-tujuan').on('change',function(){
+    var tipe = $('#jenis-tujuan').val();
+    var kode = $('#kode-tujuan').val();
+    $.ajax({
+        url : "$url2",
+        dataType : 'html',
+        type : 'post',
+        data: {
+            tipe: tipe,
+            kode: kode,
+        },
+    }).done(function(data){
+        datas = JSON.parse(data);
+       $('#nilai-anggaran-source').html(datas.message);
+    });
+});
+
+js;
+$this->registerJs($js);
+?>

@@ -9,6 +9,11 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
+
+// $range = $model->date_start.' to '.date('Y-m-d');
+// $range_start = date('Y-m-d');
+// $range_end = date('Y-m-d');
+
 $this->title = 'Update Data Kegiatan Rutin Sekretariat';
 $this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
@@ -83,11 +88,11 @@ $this->params['breadcrumbs'][] = 'Update';
         </div>
 <div class="box box-info">
     <div class="box-body">
-        
+
              <div class="" style="padding: 10px;">
               <div class="">
                <label style="font-size: 14px;">Tanggal</label>
-               <?php 
+               <?php
                     $addon = <<< HTML
                         <span class="input-group-addon">
                             <i class="glyphicon glyphicon-calendar"></i>
@@ -95,6 +100,7 @@ $this->params['breadcrumbs'][] = 'Update';
 HTML;
                         echo '<div class="input-group drp-container">';
                         echo DateRangePicker::widget([
+                            // 'model' => $model,
                             'name'=>'date_range',
                             'value'=>$range,
                             'useWithAddon'=>true,
@@ -118,7 +124,7 @@ HTML;
                ?>
               </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 
