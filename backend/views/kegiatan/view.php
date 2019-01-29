@@ -5,14 +5,14 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\ActivityDaily */
+/* @var $model common\models\Activity */
 
-$this->title = 'Data Kegiatan Rutin Sekretariat';
-$this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
+$this->title = 'Data Kegiatan';
+$this->params['breadcrumbs'][] = ['label' => 'Activities', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="activity-daily-view">
+<div class="activity-view">
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -23,37 +23,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            // 'finance_status',
-            // 'department_status',
-            // 'chief_status',
-            // 'chief_code_id',
-            // 'department_code_id',
-            // 'title',
-            // 'description:ntext',
-            // 'role',
-            // 'date_start',
-            // 'date_end',
-            // 'done',
-            [
-                'attribute'=>'title',
-                'label'=>'Judul'
-            ],
-            [
-                'attribute'=>'description',
-                'label'=>'Deskripsi'
-            ],
-            [
-                'attribute'=>'date_start',
-                'label'=>'Tanggal Mulai'
-            ],
-            [
-                'attribute'=>'date_end',
-                'label'=>'Tanggal Berakhir'
-            ],
-            [
-                'attribute'=>'done',
-                'label'=>'Status'
-            ]
+            'title',
+            'background:ntext',
+            'purpose:ntext',
+            'target_activity:ntext',
+            'place_activity:ntext',
+            'place_activity_x:ntext',
+            'place_activity_y:ntext',
+            'date_start',
+            'date_end',
+            'role',
+            'finance_status',
+            'department_status',
+            'chief_status',
+            'chief_code_id',
+            'department_code_id',
+            'done',
         ],
     ]) ?>
 

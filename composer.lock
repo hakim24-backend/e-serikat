@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "abfa9b6b3db197195b68bc0eb920b58d",
+    "content-hash": "06567b1a2f4ee73c7b25b22914e6f9cf",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1325,6 +1325,60 @@
                 "mailer"
             ],
             "time": "2018-09-11T07:12:52+00:00"
+        },
+        {
+            "name": "yii2mod/yii2-google-maps-markers",
+            "version": "1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yii2mod/yii2-google-maps-markers.git",
+                "reference": "d776b0b176302c4d6cd4ee52044d1a620af29a46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yii2mod/yii2-google-maps-markers/zipball/d776b0b176302c4d6cd4ee52044d1a620af29a46",
+                "reference": "d776b0b176302c4d6cd4ee52044d1a620af29a46",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii2mod\\google\\maps\\markers\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Semenov",
+                    "email": "disemx@gmail.com"
+                },
+                {
+                    "name": "Igor Chepurnoy",
+                    "email": "igorzfort@gmail.com"
+                },
+                {
+                    "name": "Alexander Harchenko",
+                    "email": "morontt@gmail.com",
+                    "homepage": "https://morontt.info"
+                }
+            ],
+            "description": "Google Maps Markers displays a set of user addresses as markers on the map.",
+            "keywords": [
+                "extension",
+                "google maps",
+                "google maps markers",
+                "yii2"
+            ],
+            "time": "2017-08-26T10:21:55+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -3036,16 +3090,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "febd209a219cea7b56ad799b30ebbea34b71eb8f"
+                "reference": "4a43e9af57b4afa663077b9bc85255dbc6e8a2bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/febd209a219cea7b56ad799b30ebbea34b71eb8f",
-                "reference": "febd209a219cea7b56ad799b30ebbea34b71eb8f",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/4a43e9af57b4afa663077b9bc85255dbc6e8a2bd",
+                "reference": "4a43e9af57b4afa663077b9bc85255dbc6e8a2bd",
                 "shasum": ""
             },
             "require": {
@@ -3082,7 +3136,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2018-11-25T09:31:21+00:00"
+            "time": "2019-01-28T15:26:03+00:00"
         },
         {
             "name": "sebastian/exporter",

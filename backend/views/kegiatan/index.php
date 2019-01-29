@@ -1,13 +1,12 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Uang Muka Kegiatan';
+$this->title = 'Data Kegiatan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-daily-index">
@@ -109,13 +108,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                           }
                                       }
                                     ],
-
-                                ],
-                            ]); ?>
-                            <?php Pjax::end(); ?>
-                        </div>
+                            ],
+                        ]); ?>
+                        <?php Pjax::end(); ?>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>

@@ -7,130 +7,86 @@ use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\ActivityDaily */
+/* @var $model common\models\Activity */
 
-$range = date('Y-m-d').' to '.date('Y-m-d');
-$range_start = date('Y-m-d');
-$range_end = date('Y-m-d');
-
-$this->title = 'Update Data Kegiatan Rutin Sekretariat';
-$this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Update Data';
+$this->params['breadcrumbs'][] = ['label' => 'Kegiatan', 'url' => ['index']];
+$this->params['breadcrumbs'][] = 'Update '.$model->id;
 ?>
-<div class="activity-daily-form">
+<div class="activity-update">
+
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?php $form = ActiveForm::begin(); ?>
-    <div class="box box-info">
-    <div class="box-header with-border">
-        <h3 class="box-title">Data Kegiatan Rutin Sekretariat</h3>
 
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="box-body">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label class="col-sm-4">Kode Anggaran Saat Ini</label>
-                <div class="col-sm-8">
-                    <?= $form->field($baru, 'secretariat_budget_value')->hiddenInput( ) ?>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label class="col-sm-4">Uang Muka Anggaran</label>
-                <div class="col-sm-8">
-                    <?= $form->field($budget, 'budget_value_dp')->textInput( )->label(false); ?>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label class="col-sm-4">Nilai Anggaran</label>
-                <div class="col-sm-8">
-                    <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label class="col-sm-4">Judul</label>
-                <div class="col-sm-8">
-                    <?= $form->field($model, 'title')->textarea(['rows' => 6])->label(false); ?>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label class="col-sm-4">Deskripsi</label>
-                <div class="col-sm-8">
-                    <?= $form->field($model, 'description')->textarea(['rows' => 6])->label(false); ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-        </div>
-<div class="box box-info">
-    <div class="box-body">
-        
-             <div class="" style="padding: 10px;">
-              <div class="">
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label('Judul') ?>
+
+    <?= $form->field($model, 'background')->textarea(['rows' => 6])->label('Latar Belakang') ?>
+
+    <?= $form->field($model, 'purpose')->textarea(['rows' => 6])->label('Tujuan') ?>
+
+    <?= $form->field($model, 'target_activity')->textarea(['rows' => 6])->label('Target Kegiatan') ?>
+
+    <?= $form->field($model, 'place_activity')->textarea(['rows' => 6])->label('Tempat Kegiatan') ?>
+
+    <?= $form->field($model, 'place_activity_x')->textarea(['rows' => 6])->label('Tempat Kegiatan X') ?>
+
+    <?= $form->field($model, 'place_activity_y')->textarea(['rows' => 6])->label('Tempat Kegiatan Y') ?>
+
+        <div class="">
                <label style="font-size: 14px;">Tanggal</label>
                <?php 
-                    $addon = <<< HTML
-                        <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                        </span>
+            $addon = <<< HTML
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
 HTML;
-                        echo '<div class="input-group drp-container">';
-                        echo DateRangePicker::widget([
-                            'name'=>'date_range',
-                            'value'=>$range,
-                            'useWithAddon'=>true,
-                            'convertFormat'=>true,
-                            'startAttribute' => 'from_date',
-                            'endAttribute' => 'to_date',
-                            'startInputOptions' => ['value' => $range_start],
-                            'endInputOptions' => ['value' => $range_end],
-                            'options' => [
-                                'class' => 'form-control',
-                            ],
-                            'pluginOptions'=>[
-                                'locale'=>[
-                                    'format' => 'Y-m-d'
-                                ],
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
-                                'maxDate' => date('Y-m-d',strtotime("+1 month")),
-                            ]
-                        ]) . $addon;
-                        echo '</div>';
+                echo '<div class="input-group drp-container">';
+                echo DateRangePicker::widget([
+                    'name'=>'date_range',
+                    'value'=>$range,
+                    'useWithAddon'=>true,
+                    'convertFormat'=>true,
+                    'startAttribute' => 'from_date',
+                    'endAttribute' => 'to_date',
+                    'startInputOptions' => ['value' => $range_start],
+                    'endInputOptions' => ['value' => $range_end],
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                    'pluginOptions'=>[
+                        'locale'=>[
+                            'format' => 'Y-m-d'
+                        ],
+                        'minDate' => date('Y-m-d',strtotime("+1 weeks")),
+                        'maxDate' => date('Y-m-d',strtotime("+1 month")),
+                    ]
+                ]) . $addon;
+                echo '</div>';
                ?>
-              </div>
-            </div>
-        </div> 
-    </div>
-</div>
+        </div>
+        <br>
+
+    <!-- <?= $form->field($model, 'role')->textInput() ?>
+
+    <?= $form->field($model, 'finance_status')->textInput() ?>
+
+    <?= $form->field($model, 'department_status')->textInput() ?>
+
+    <?= $form->field($model, 'chief_status')->textInput() ?>
+
+    <?= $form->field($model, 'chief_code_id')->textInput() ?>
+
+    <?= $form->field($model, 'department_code_id')->textInput() ?>
+
+    <?= $form->field($model, 'done')->textInput() ?> -->
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>
-    <?php ActiveForm::end(); ?>
+
+    <?php ActiveForm::end(); ?> 
 </div>
 
 <?php

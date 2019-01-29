@@ -106,6 +106,7 @@ class KegiatanRutinController extends Controller
                 $sekreBudget->budget_value_sum = $post['source_value'];
                 $sekreBudget->activity_id = $daily->id;
                 $sekreBudget->save(false);
+
             }
 
             Yii::$app->getSession()->setFlash('success', 'Buat Data Kegiatan Berhasil');

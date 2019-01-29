@@ -12,7 +12,6 @@ use kartik\daterange\DateRangePicker;
 $range = date('Y-m-d').' to '.date('Y-m-d');
     $range_start = date('Y-m-d');
     $range_end = date('Y-m-d');
-
 $this->title = 'Buat Data Kegiatan Rutin';
 ?>
 
