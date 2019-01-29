@@ -113,8 +113,8 @@ class KegiatanRutinController extends Controller
                 $sekreBudget->budget_value_dp = $post['money_budget'];
                 $sekreBudget->budget_value_sum = $post['source_value'];
 
-                $sekreBudget->activity_id = $daily->id; 
-                $sekreBudget->save(false);      
+                $sekreBudget->activity_id = $daily->id;
+                $sekreBudget->save(false);
 
             }
 
@@ -149,49 +149,33 @@ class KegiatanRutinController extends Controller
 
             $model->title = $model->title;
             $model->description = $model->description;
+            // $model->date_start = $model->date_start;
+            // $model->date_end = $model->date_end;
+
             $model->date_start = $post['from_date'];
             $model->date_end = $post['to_date'];
             $save = $model->save(false);
 
-            if ($save) {
+            if ($save && $budget->load(Yii::$app->request->post())) {
 
-                    if ($save && $budget->load(Yii::$app->request->post())) {
-                        
-                        $dp = $budget->budget_value_dp;
-                        $total = $budget->budget_value_sum;
-                        $modal = $baru->secretariat_budget_value;
+                // var_dump($budget);die();
+                $dp = $budget->budget_value_dp;
+                $total = $budget->budget_value_sum;
+                $modal = $baru->secretariat_budget_value;
 
-                        //nilai kurang dari budget sekarang
-                        if ($oldDP <= $oldBudget) {
-                            $dpBaru = $oldDP - $budget->budget_value_dp;
-                            $budgetBaru = $oldBudget + $dpBaru;
-                        }
+                if ($dp > $modal) {
+                    Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Nilai Anggaran Saat Ini');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
 
-                        //nilai lebih dari budget sekarang
-                        if ($oldDP >= $oldBudget) {
-                            $dpBaru = $oldDP - $budget->budget_value_dp;
-                            $budgetBaru = $oldBudget + $dpBaru;
-                        }
+                if ($dp > $total) {
+                        Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Total Nilai Anggaran Yang Diajukan');
+                        return $this->redirect(Yii::$app->request->referrer);
+                }
 
-                        if ($dp > $modal) {
-                            Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Nilai Anggaran Saat Ini');
-                            return $this->redirect(Yii::$app->request->referrer);
-                        }
-
-                        if ($dp > $total) {
-                                Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Total Nilai Anggaran Yang Diajukan');
-                                return $this->redirect(Yii::$app->request->referrer);
-
-                        }
-                                $budget->budget_value_dp = $budget->budget_value_dp;
-                                $budget->budget_value_sum = $budget->budget_value_sum;
-                                $save = $budget->save(false);
-
-                                $baru->secretariat_budget_value = $input-$hasil;
-                                $save = $baru->save(false);
-                    }
-                Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
-                return $this->redirect(['index']);
+                $budget->budget_value_dp = $budget->budget_value_dp;
+                $budget->budget_value_sum = $budget->budget_value_sum;
+                $budget->save(false);
             }
         }
 
