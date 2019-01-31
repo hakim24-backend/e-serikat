@@ -199,10 +199,18 @@ class User extends ActiveRecord implements IdentityInterface
     public function getRoles() {
         return $this->hasOne(Role::className(), ['id' => 'role']);
     }
+
+    public function getSekre() {
+        return $this->hasOne(Secretariat::className(), ['user_id' => 'id']);
+    }
     
     public function roleName()
     {
          return \Yii::$app->user->identity->roles->name_role;
     }
 
+    public function sekreCode()
+    {
+         return \Yii::$app->user->identity->sekre->secretariat_code;
+    }
 }

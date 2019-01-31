@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ActivityDaily;
+use common\models\Budget;
+use common\models\Secretariat;
 use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
@@ -167,7 +169,6 @@ class KegiatanRutinController extends Controller
             if ($save && $budget->load(Yii::$app->request->post())) {
 
                 $dp = $budget->budget_value_dp;
-                // var_dump($dp);die();
                 $total = $budget->budget_value_sum;
                 $modal = $baru->secretariat_budget_value;
 
@@ -259,12 +260,15 @@ class KegiatanRutinController extends Controller
     $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
     $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
     $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+    $sekre = Secretariat::find()->where(['id'=>$baru])->one();
     $sumber = Budget::find()->where(['id'=>$baru])->one();
 
     $content = $this->renderPartial('view_pdf',[
         'model'=>$model,
         'budget'=>$budget,
-        'baru'=>$baru
+        'baru'=>$baru,
+        'sumber'=>$sumber,
+        'sekre'=>$sekre
     ]);
     
     // setup kartik\mpdf\Pdf component

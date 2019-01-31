@@ -26,6 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php Pjax::begin(); ?>
                           <?= GridView::widget([
                             'dataProvider' => $dataProvider,
+                            'options' =>[
+                                  'style'=>'width:100%'
+                                ],
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
 
@@ -43,20 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                  [
                                 'header' => 'Status Anggaran',
+                                'headerOptions'=>[
+                                      'style'=>'width:15%'
+                                    ],
                                 'attribute' => 'finance_status',
                                 ],
-
-                                [
-                                'header' => 'Status Departemen',
-                                'attribute' => 'department_status',
-                                ],
-
-
-                                [
-                                'header' => 'Status Ketua',
-                                'attribute' => 'chief_status',
-                                ],
-
                                 // [
                                 // 'header' => 'Kode ID Ketua',
                                 // 'attribute' => 'chief_code_id',
@@ -66,9 +60,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 // 'header' => 'Kode ID Departemen',
                                 // 'attribute' => 'department_code_id',
                                 // ],
-
                                 [
                                 'header' => 'Judul',
+                                'headerOptions' =>[
+                                      'style' => 'width:20%'
+                                    ],
                                 'attribute' => 'title',
                                 ],
 

@@ -85,27 +85,15 @@ $this->params['breadcrumbs'][] = $this->title;
         </tr>
         <tr>
             <td>Nama</td>
-            <td>: <?= Yii::$app->user->identity->username ?></td>
-        </tr>
-        <tr>
-            <td>NIK</td>
-            <td>:</td>
+            <td>: <?=Yii::$app->user->identity->username?></td>
         </tr>
         <tr>
             <td>Unit Kerja</td>
-            <td>:</td>
-        </tr>
-        <tr>
-            <td>No.Telp/Ext</td>
-            <td>:</td>
+            <td>: <?=$sekre->secretariat_code?></td>
         </tr>
         <tr>
             <td>Nomor Rekening</td>
-            <td>:</td>
-        </tr>
-        <tr>
-            <td>Pemilik Akun</td>
-            <td>:</td>
+            <td>: <?=$sumber->budget_rek?></td>
         </tr>
     </tbody>
 </table>
@@ -118,6 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td>Kode Anggaran Pengelola</td>
             <td>:</td>
+            <td><?=$sumber->budget_code?></td>
         </tr>
         <tr>
             <td>Kode Anggaran Penerima</td>
@@ -232,7 +221,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <br>
         <br>
         <tr>
-            <td>Nama Pengaju</td>
+            <td><?=Yii::$app->user->identity->username?></td>
         </tr>
     </tbody>
 </table>
@@ -258,10 +247,18 @@ $this->params['breadcrumbs'][] = $this->title;
         </tr>
     </tbody>
 </table>
+<br>
+<br>
+<br>
 <table>
     <tbody>
         <tr>
-            <td></td>
+            <td width="270">DANI RUSTIAWAN, IR., MM</td>
+            <td width="270">____________________</td>
+            <td>____________________</td>
+        </tr>
+        <tr>
+            <td>Manager Pelayanan Umum</td>
         </tr>
     </tbody>
 </table>
