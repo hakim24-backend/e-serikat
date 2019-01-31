@@ -3,7 +3,11 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\Model;
 use common\models\Activity;
+use common\models\ActivityMainMember;
+use common\models\ActivitySection;
+use common\models\ActivitySectionMember;
 use common\models\ActivityResponsibility;
 use common\models\ActivityBudgetSecretariat;
 use common\models\Approve;
@@ -75,13 +79,90 @@ class KegiatanController extends Controller
     public function actionCreate()
     {
         $model = new Activity();
+        $modelsMain = new ActivityMainMember;
+        $modelsSection = [new ActivitySection];
+        $modelsMember = [[new ActivitySectionMember]];
+        if ($model->load(Yii::$app->request->post())) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+
+              $post = Yii::$app->request->post();
+              $model->role = Yii::$app->user->identity->role;
+              $model->finance_status = 0;
+              $model->department_status = 0;
+              $model->chief_status = 0;
+              $model->chief_code_id = 0;
+              $model->department_code_id = 0;
+              $model->done = 0;
+              $model->date_start = $post['from_date'];
+              $model->date_end = $post['to_date'];
+              // var_dump($model->role);die;
+
+              $modelsSection = Model::createMultiple(ActivitySection::classname());
+              Model::loadMultiple($modelsSection, Yii::$app->request->post());
+
+              // validate all models
+              $valid = $model->validate();
+              $valid = Model::validateMultiple($modelsSection) && $valid;
+
+              if ($valid) {
+                var_dump("test");die;
+                  $transaction = \Yii::$app->db->beginTransaction();
+                  try {
+                      if ($flag = $model->save(false)) {
+                          foreach ($modelsSection as $modelSection) {
+                              $modelSection->activity_id = $model->id;
+                              if (! ($flag = $modelSection->save(false))) {
+                                  $transaction->rollBack();
+                                  break;
+                              }
+                          }
+
+                          if($post){
+                            if($post['ketua']){
+                              $modelsMain->name_committee = "Ketua";
+                              $modelsMain->name_member = $post['ketua'];
+                              $modelsMain->activity_id = $model->id;
+
+                              $modelsMain->save();
+                            }
+                            if($post['wakil']){
+                              $modelsMain->name_committee = "Wakil";
+                              $modelsMain->name_member = $post['wakil'];
+                              $modelsMain->activity_id = $model->id;
+
+                              $modelsMain->save();
+                            }
+                            if($post['sekretaris']){
+                              $modelsMain->name_committee = "Sekretaris";
+                              $modelsMain->name_member = $post['sekretaris'];
+                              $modelsMain->activity_id = $model->id;
+
+                              $modelsMain->save();
+                            }
+                            if($post['bendahara']){
+                              $modelsMain->name_committee = "Bendahara";
+                              $modelsMain->name_member = $post['bendahara'];
+                              $modelsMain->activity_id = $model->id;
+
+                              $modelsMain->save();
+                            }
+                          }
+
+
+                      }
+                      if ($flag) {
+                          $transaction->commit();
+                          return $this->redirect(['index']);
+                      }
+                  } catch (Exception $e) {
+                      $transaction->rollBack();
+                  }
+
         }
 
         return $this->render('_form', [
             'model' => $model,
+            'modelsSection' => $modelsSection,
         ]);
     }
 
