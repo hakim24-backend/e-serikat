@@ -13,6 +13,18 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'dosamigos\google\maps\MapAsset' => [
+                    'options' => [
+                        'key' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
+                        'language' => 'en',
+                        'version' => '3.1.18'
+                    ]
+                ]
+            ]
+        ],
+
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
@@ -37,14 +49,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        
+
     ],
     'params' => $params,
 ];

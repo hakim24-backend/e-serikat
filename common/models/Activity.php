@@ -40,6 +40,7 @@ use Yii;
  */
 class Activity extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
