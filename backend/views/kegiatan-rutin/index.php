@@ -30,6 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php Pjax::begin(); ?>
                               <?= GridView::widget([
                                 'dataProvider' => $dataProvider,
+                                'options' =>[
+                                  'style'=>'width:100%'
+                                ],
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
 
@@ -47,6 +50,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                      [
                                     'header' => 'Status Anggaran',
+                                    'headerOptions'=>[
+                                      'style'=>'width:15%'
+                                    ],
                                     'attribute' => 'finance_status',
                                     ],
 
@@ -73,6 +79,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                     [
                                     'header' => 'Judul',
+                                    'headerOptions' =>[
+                                      'style' => 'width:20%'
+                                    ],
                                     'attribute' => 'title',
                                     ],
 
@@ -126,13 +135,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                       'urlCreator' => function ($action, $model, $key, $index) {
                                           if ($action === 'update') {
-                                              $url = Url::to(['user/update','id'=>$model['id']]);
+                                              $url = Url::to(['kegiatan-rutin/update','id'=>$model['id']]);
                                               return $url;
                                           }else if ($action === 'view') {
-                                              $url = Url::to(['user/view','id'=>$model['id']]);
+                                              $url = Url::to(['kegiatan-rutin/view','id'=>$model['id']]);
                                               return $url;
                                           }else if ($action === 'delete') {
-                                              $url = Url::to(['user/delete','id'=>$model['id']]);
+                                              $url = Url::to(['kegiatan-rutin/delete','id'=>$model['id']]);
                                               return $url;
                                           }
                                       }

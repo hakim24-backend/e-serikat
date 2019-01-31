@@ -18,6 +18,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use kartik\mpdf\Pdf;
 
 /**
  * KegiatanRutinController implements the CRUD actions for ActivityDaily model.
@@ -85,6 +86,18 @@ class KegiatanRutinController extends Controller
         if (Yii::$app->request->post()) {
             $idSekreBudget = 0;
             $post = Yii::$app->request->post();
+
+            $data = SecretariatBudget::findOne($post['source_sdm']);
+            if ($post['money_budget'] > $post['source_value']) {
+                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
+            if ($post['source_value'] > $data->secretariat_budget_value ) {
+                Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
             if ($post['jenis_sdm_source']=='4') {
                 $data = SecretariatBudget::findOne($post['source_sdm']);
                 // $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
@@ -147,35 +160,53 @@ class KegiatanRutinController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $post = Yii::$app->request->post();
 
-            $model->title = $model->title;
-            $model->description = $model->description;
-            // $model->date_start = $model->date_start;
-            // $model->date_end = $model->date_end;
-
             $model->date_start = $post['from_date'];
             $model->date_end = $post['to_date'];
             $save = $model->save(false);
 
             if ($save && $budget->load(Yii::$app->request->post())) {
 
-                // var_dump($budget);die();
                 $dp = $budget->budget_value_dp;
+                // var_dump($dp);die();
                 $total = $budget->budget_value_sum;
                 $modal = $baru->secretariat_budget_value;
 
-                if ($dp > $modal) {
-                    Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Nilai Anggaran Saat Ini');
+                if ($dp > $total) {
+                    Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
                     return $this->redirect(Yii::$app->request->referrer);
                 }
 
-                if ($dp > $total) {
-                        Yii::$app->getSession()->setFlash('danger', 'Uang Muka Tidak Boleh Lebih Dari Total Nilai Anggaran Yang Diajukan');
+                //nilai anggaran dp lebih kecil dari anggaran saat ini
+                if ($oldBudget <= $dp) {
+                    $dpBaru = $oldDP - $dp;
+                    $oldBudgetBaru = $oldBudget + $dpBaru;
+                    if ($oldBudgetBaru <= 0) {
+                        var_dump($oldBudgetBaru);die();
+                        Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
                         return $this->redirect(Yii::$app->request->referrer);
+                    }
+                }
+
+                //nilai anggaran dp lebih besar dari anggaran saat ini
+                if ($oldBudget >= $dp) {
+                    $dpBaru = $dp - $oldDP;
+                    $oldBudgetBaru = $oldDP - $dpBaru;
+                    if ($oldBudgetBaru <= 0) {
+                        var_dump($oldBudgetBaru);die();
+                        Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                        return $this->redirect(Yii::$app->request->referrer);
+                    }
                 }
 
                 $budget->budget_value_dp = $budget->budget_value_dp;
                 $budget->budget_value_sum = $budget->budget_value_sum;
                 $budget->save(false);
+
+                $baru->secretariat_budget_value = $oldBudgetBaru;
+                $baru->save(false);
+
+                Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
+                return $this->redirect(['index']);
             }
         }
 
@@ -220,6 +251,50 @@ class KegiatanRutinController extends Controller
 
         Yii::$app->getSession()->setFlash('success', 'Hapus Data Kegiatan Berhasil');
         return $this->redirect(['index']);
+    }
+
+    public function actionReport($id) {
+    // get your HTML raw content without any layouts or scripts
+    $model = ActivityDaily::find()->where(['id'=>$id])->one();
+    $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+    $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+    $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+    $sumber = Budget::find()->where(['id'=>$baru])->one();
+
+    $content = $this->renderPartial('view_pdf',[
+        'model'=>$model,
+        'budget'=>$budget,
+        'baru'=>$baru
+    ]);
+    
+    // setup kartik\mpdf\Pdf component
+    $pdf = new Pdf([
+        // set to use core fonts only
+        'mode' => Pdf::MODE_CORE, 
+        // A4 paper format
+        'format' => Pdf::FORMAT_A4, 
+        // portrait orientation
+        'orientation' => Pdf::ORIENT_PORTRAIT, 
+        // stream to browser inline
+        'destination' => Pdf::DEST_BROWSER, 
+        // your html content input
+        'content' => $content,  
+        // format content from your own css file if needed or use the
+        // enhanced bootstrap css built by Krajee for mPDF formatting 
+        // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+        // any css to be embedded if required
+        'cssInline' => '.kv-heading-1{font-size:18px}', 
+         // set mPDF properties on the fly
+        'options' => ['title' => 'Krajee Report Title'],
+         // call mPDF methods on the fly
+        'methods' => [ 
+            'SetHeader'=>['Krajee Report Header'], 
+            'SetFooter'=>['{PAGENO}'],
+        ]
+    ]);
+    
+    // return the pdf output as per the destination setting
+    return $pdf->render(); 
     }
 
     /**
@@ -292,7 +367,7 @@ class KegiatanRutinController extends Controller
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
                         <div class='col-sm-8'>
-                            ".$data->secretariat_budget_value."
+                            Rp.".$data->secretariat_budget_value."
                         </div>
                     </div>
                 </div>

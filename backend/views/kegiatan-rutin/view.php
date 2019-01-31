@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
+use kartik\mpdf\Pdf;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Download File', ['report','id' => $model->id], ['class' => 'btn btn-success']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </p>
 
@@ -34,6 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'date_start',
             // 'date_end',
             // 'done',
+            [
+                'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_dp',
+                'label'=>'Nilai Uang Muka Anggaran'
+            ],
+            [
+                'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_sum',
+                'label'=>'Nilai Uang Total Anggaran'
+            ],
             [
                 'attribute'=>'title',
                 'label'=>'Judul'
@@ -54,14 +64,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'done',
                 'label'=>'Status'
             ],
-            [
-                'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_dp',
-                'label'=>'Nilai Uang Muka Anggaran'
-            ],
-            [
-                'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_sum',
-                'label'=>'Nilai Uang Total Anggaran'
-            ]
         ],
     ]) ?>
 
