@@ -87,16 +87,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                         'create' => function($url, $model, $key)
                                         {
-                                                // if ($model->responsible) {
-                                                //     $url = Url::toRoute(['/approve/update', 'id' => $model->id]);
-                                                //     return Html::a(
-                                                //         '<span class="glyphicon glyphicon-pencil"></span>',
-                                                //         $url, 
-                                                //         [
-                                                //             'title' => 'Edit Pertanggungjawaban',
-                                                //         ]
-                                                //     );
-                                                // } else {
+                                                if ($model->responsible) {
+                                                    $url = Url::toRoute(['/approve/update', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        '<span class="glyphicon glyphicon-pencil"></span>',
+                                                        $url, 
+                                                        [
+                                                            'title' => 'Edit Pertanggungjawaban',
+                                                        ]
+                                                    );
+                                                } else {
                                                     $url = Url::toRoute(['/activity-daily-responsibility/create', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-plus"></span> ',
@@ -105,29 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'title' => 'Buat Pertanggungjawaban',
                                                         ]
                                                     );
-                                                // }
-                                        },
-                                        'update' => function($url, $model, $key)
-                                        {
-                                                // if ($model->responsible) {
-                                                //     $url = Url::toRoute(['/approve/update', 'id' => $model->id]);
-                                                //     return Html::a(
-                                                //         '<span class="glyphicon glyphicon-pencil"></span>',
-                                                //         $url, 
-                                                //         [
-                                                //             'title' => 'Edit Pertanggungjawaban',
-                                                //         ]
-                                                //     );
-                                                // } else {
-                                                    $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                        $url, 
-                                                        [
-                                                            'title' => 'Update Pertanggungjawaban',
-                                                        ]
-                                                    );
-                                                // }
+                                                }
                                         },
                                         'download' => function($url, $model, $key)
                                         {
