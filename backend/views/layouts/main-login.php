@@ -23,6 +23,7 @@ dmstr\web\AdminLteAsset::register($this);
 
     <?= $content ?>
 
+
 <?php $this->endBody() ?>
 </body>
 </html>
