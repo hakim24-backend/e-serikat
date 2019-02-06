@@ -48,13 +48,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                     // 'date',
                                     // 'done',
 
-                                     [
-                                    'header' => 'Status Anggaran',
-                                    'headerOptions'=>[
-                                      'style'=>'width:15%'
-                                    ],
-                                    'attribute' => 'finance_status',
-                                    ],
+                                    //  [
+                                    // 'header' => 'Status Anggaran',
+                                    // 'headerOptions'=>[
+                                    //   'style'=>'width:15%'
+                                    // ],
+                                    // 'attribute' => 'finance_status',
+                                    // ],
 
                                     // [
                                     // 'header' => 'Status Departemen',
@@ -87,16 +87,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                     [
                                     'header' => 'Deskripsi',
+                                    'headerOptions' =>[
+                                      'style' => 'width:40%'
+                                    ],
                                     'attribute' => 'description',
                                     ],
 
                                     [
                                     'header' => 'Tangal Mulai',
+                                    'headerOptions' =>[
+                                      'style' => 'width:15%'
+                                    ],
                                     'attribute' => 'date_start',
                                     ],
 
                                     [
                                     'header' => 'Tanggal Berakhir',
+                                    'headerOptions' =>[
+                                      'style' => 'width:15%'
+                                    ],
                                     'attribute' => 'date_end',
                                     ],
 
@@ -104,33 +113,31 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'class' => 'yii\grid\ActionColumn',
                                       'contentOptions' => ['style' => 'width:160px;'],
                                       'header'=>'Actions',
-                                      'template' => ' {update} {view} {delete} ',
+                                      'template' => ' {update} {view} {download} ',
                                       'buttons' => [
                                           'update' => function ($url, $model) {
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
-                                              return Html::a('|<span class="fa fa-pencil"></span>', $url, [
+                                              return Html::a('| <span class="fa fa-pencil"></span> ', $url, [
                                                           'title' => Yii::t('app', 'update'),
                                               ]);
                                             }
                                           },
                                           'view' => function ($url, $model) {
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
-                                              return Html::a('|<span class="fa fa-eye"></span>', $url, [
+                                              return Html::a('| <span class="fa fa-eye"></span> | ', $url, [
                                                           'title' => Yii::t('app', 'view'),
                                               ]);
                                             }
                                           },
-                                          'delete' => function ($url, $model) {
+                                          'download' => function ($url, $model) {
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
-                                              return Html::a('|<span class="fa fa-trash"></span>', $url, [
-                                                          'title' => Yii::t('app', 'Delete'),
-                                                          'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
-                                                          'data-method' => 'post', 'data-pjax' => '0',
-
+                                              return Html::a(' <span class="fa fa-download"></span> | ', $url, [
+                                                          'title' => Yii::t('app', 'view'),
+                                                          'data-pjax' => 0, 
+                                                          'target' => '_blank'
                                               ]);
                                             }
-
-                                          },
+                                          }
                                       ],
 
                                       'urlCreator' => function ($action, $model, $key, $index) {
@@ -140,11 +147,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                           }else if ($action === 'view') {
                                               $url = Url::to(['kegiatan-rutin/view','id'=>$model['id']]);
                                               return $url;
-                                          }else if ($action === 'delete') {
-                                              $url = Url::to(['kegiatan-rutin/delete','id'=>$model['id']]);
+                                          } else if ($action === 'download') {
+                                              $url = Url::to(['kegiatan-rutin/report','id'=>$model['id']]);
                                               return $url;
                                           }
-                                      }
+                                       }
                                     ],
 
 

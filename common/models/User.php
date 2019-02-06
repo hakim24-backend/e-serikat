@@ -208,9 +208,4 @@ class User extends ActiveRecord implements IdentityInterface
     {
          return \Yii::$app->user->identity->roles->name_role;
     }
-
-    public function sekreCode()
-    {
-         return \Yii::$app->user->identity->sekre->secretariat_code;
-    }
 }

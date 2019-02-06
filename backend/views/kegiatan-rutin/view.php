@@ -12,6 +12,8 @@ $this->title = 'Data Kegiatan Rutin Sekretariat';
 $this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+
+$Role = Yii::$app->user->identity->roleName();
 ?>
 <div class="activity-daily-view">
 
@@ -38,11 +40,23 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'done',
             [
                 'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_dp',
-                'label'=>'Nilai Uang Muka Anggaran'
+                'label'=>'Nilai Uang Muka Anggaran',
+                'visible' => ($Role == "Sekretariat") ? true : false
             ],
             [
                 'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_sum',
-                'label'=>'Nilai Uang Total Anggaran'
+                'label'=>'Nilai Uang Total Anggaran',
+                'visible' => ($Role == "Sekretariat") ? true : false
+            ],
+            [
+                'attribute'=>'activityDailyBudgetSectionsOne.budget_value_dp',
+                'label'=>'Nilai Uang Muka Anggaran',
+                'visible' => ($Role == "Seksi") ? true : false
+            ],
+            [
+                'attribute'=>'activityDailyBudgetSectionsOne.budget_value_sum',
+                'label'=>'Nilai Uang Total Anggaran',
+                'visible' => ($Role == "Seksi") ? true : false
             ],
             [
                 'attribute'=>'title',

@@ -18,6 +18,8 @@ $this->title = 'Update Data Kegiatan Rutin Sekretariat';
 $this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
+
+$Role = Yii::$app->user->identity->roleName();
 ?>
 <div class="activity-daily-form">
 
@@ -36,7 +38,12 @@ $this->params['breadcrumbs'][] = 'Update';
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                 <div class="col-sm-8">
+                    <?php
+                    if($Role == "Sekretariat"){ ?>
                     <?= $baru->secretariat_budget_value ?>
+                    <?php }else if($Role == "Seksi"){ ?>
+                    <?= $baru->section_budget_value ?>
+                    <?php } ?>
                 </div>
             </div>
         </div>
