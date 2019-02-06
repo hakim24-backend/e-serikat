@@ -13,6 +13,8 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
     $range_start = date('Y-m-d');
     $range_end = date('Y-m-d');
 $this->title = 'Buat Data Kegiatan Rutin';
+
+$Role = Yii::$app->user->identity->roleName();
 ?>
 
 <div class="activity-daily-form">
@@ -32,7 +34,12 @@ $this->title = 'Buat Data Kegiatan Rutin';
             <div class="form-group">
                 <label class="col-sm-4">Jenis SDM</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_source', null, [8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?php
+                    if($Role == "Sekretariat"){ ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?php }else if($Role == "Seksi"){ ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?php } ?>
                 </div>
             </div>
         </div>
