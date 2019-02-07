@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $name_committee
  * @property string $name_member
- * @property int $acitivity_id
+ * @property int $activity_id
  *
  * @property Activity $acitivity
  */
@@ -30,10 +30,10 @@ class ActivityMainMember extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_committee', 'name_member', 'acitivity_id'], 'required'],
-            [['acitivity_id'], 'integer'],
+            [['name_committee', 'name_member', 'activity_id'], 'required'],
+            [['activity_id'], 'integer'],
             [['name_committee', 'name_member'], 'string', 'max' => 255],
-            [['acitivity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['acitivity_id' => 'id']],
+            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'id']],
         ];
     }
 
@@ -46,7 +46,7 @@ class ActivityMainMember extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name_committee' => 'Name Committee',
             'name_member' => 'Name Member',
-            'acitivity_id' => 'Acitivity ID',
+            'activity_id' => 'Acitivity ID',
         ];
     }
 
@@ -55,6 +55,6 @@ class ActivityMainMember extends \yii\db\ActiveRecord
      */
     public function getAcitivity()
     {
-        return $this->hasOne(Activity::className(), ['id' => 'acitivity_id']);
+        return $this->hasOne(Activity::className(), ['id' => 'activity_id']);
     }
 }
