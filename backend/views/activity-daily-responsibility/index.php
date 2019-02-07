@@ -81,16 +81,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '{create} {update} {download}',
+                                'template' => '{update} {download}',
                                 'buttons' => [
                                         
 
-                                        'create' => function($url, $model, $key)
+                                        'update' => function($url, $model, $key)
                                         {
-                                                if ($model->responsible) {
-                                                    $url = Url::toRoute(['/approve/update', 'id' => $model->id]);
+                                                if ($model->activityDailyResponsibilities) {
+                                                    $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '<span class="glyphicon glyphicon-pencil"></span>',
+                                                        '| <span class="glyphicon glyphicon-pencil"></span> ',
                                                         $url, 
                                                         [
                                                             'title' => 'Edit Pertanggungjawaban',

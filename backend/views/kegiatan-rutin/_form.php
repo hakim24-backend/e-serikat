@@ -35,7 +35,9 @@ $Role = Yii::$app->user->identity->roleName();
                 <label class="col-sm-4">Jenis SDM</label>
                 <div class="col-sm-8">
                     <?php
-                    if($Role == "Sekretariat"){ ?>
+                    if($Role == "Super Admin"){ ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat', 8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?php } else if ($Role == "Sekretariat"){ ?>
                     <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
                     <?php }else if($Role == "Seksi"){ ?>
                     <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>

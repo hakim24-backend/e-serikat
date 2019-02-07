@@ -23,6 +23,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
+use yii\web\UploadedFile;
 
 /**
  * ApproveController implements the CRUD actions for Approve model.
@@ -52,7 +53,12 @@ class ActivityDailyResponsibilityController extends Controller
     {
         $role = Yii::$app->user->identity->roleName();
 
-        if ($role == "Sekretariat") {
+        if ($role == "Super Admin") {
+            $dataProvider = new ActiveDataProvider([
+            'query' => ActivityDaily::find(),
+            ]);
+        }
+        elseif ($role == "Sekretariat") {
             $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find()->where(['role'=>4]),
             ]);
@@ -112,7 +118,6 @@ class ActivityDailyResponsibilityController extends Controller
     public function actionCreate($id)
     {
         $model = new ActivityDailyResponsibility();
-        $activity = ActivityDaily::find()->where(['id'=>$id])->one();
         if ($model->load(Yii::$app->request->post())) {
 
             $file_dok = UploadedFile::getInstance($model, 'fileApprove');
@@ -128,12 +133,10 @@ class ActivityDailyResponsibilityController extends Controller
             // var_dump($fotoName);die; 
             $file_gambar->saveAs($fotoName);
 
-
-            $model->description = $model->description;
             $model->responsibility_value = 0;
             $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
             $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            $model->activity_id = $activity->id ;
+            $model->activity_id = $id ;
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
             return $this->redirect(['index']);
@@ -153,7 +156,7 @@ class ActivityDailyResponsibilityController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = ActivityDailyResponsibility::find()->where(['id'=>$id])->one();
+        $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
         $oldfile = $model->file;
         $oldPhoto = $model->photo;
         if ($model->load(Yii::$app->request->post())) {
@@ -227,7 +230,55 @@ class ActivityDailyResponsibilityController extends Controller
     public function actionReport($id) {
     $role = Yii::$app->user->identity->roleName();
 
-    if ($role == "Sekretariat") {
+    if ($role == "Super Admin") {
+        
+        
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+        $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+
+        $content = $this->renderPartial('view_pdf',[
+            'model'=>$model,
+            'budget'=>$budget,
+            'baru'=>$baru,
+            'sumber'=>$sumber,
+            'sekre'=>$sekre
+        ]);
+        
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER, 
+            // your html content input
+            'content' => $content,  
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+             // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+             // call mPDF methods on the fly
+            'methods' => [ 
+                'SetHeader'=>['Krajee Report Header'], 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+
+        //seksi
+
+        
+    }
+    elseif ($role == "Sekretariat") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();

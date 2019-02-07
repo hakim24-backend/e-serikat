@@ -52,6 +52,11 @@ class KegiatanRutinController extends Controller
     {
         $role = Yii::$app->user->identity->roleName();
 
+        if ($role == "Super Admin") {
+            $dataProvider = new ActiveDataProvider([
+            'query' => Approve::find(),
+            ]);
+        }
         if ($role == "Sekretariat") {
             $dataProvider = new ActiveDataProvider([
             'query' => Approve::find()->where(['role'=>4]),
@@ -77,7 +82,19 @@ class KegiatanRutinController extends Controller
     {
         $role = Yii::$app->user->identity->roleName();
 
-        if ($role == "Sekretariat") {
+        if ($role == "Super Admin") {
+            //sekretariat
+            $model = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+            $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+
+            //seksi
+            $model = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
+            $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+        } else if ($role == "Sekretariat") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
@@ -88,8 +105,6 @@ class KegiatanRutinController extends Controller
             $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
         }
-        
-
         return $this->render('view', [
             'model' => $this->findModel($id),
             'budget' => $budget,
@@ -108,7 +123,58 @@ class KegiatanRutinController extends Controller
         if (Yii::$app->request->post()) {
             $role = Yii::$app->user->identity->roleName();
 
-            if ($role == "Sekretariat") {
+            if ($role == "Super Admin") {
+                $idSekreBudget = 0;
+                $post = Yii::$app->request->post();
+                $data = SecretariatBudget::findOne($post['source_sdm']);
+
+                if ($post['money_budget'] > $post['source_value']) {
+                    Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                if ($post['source_value'] > $data->secretariat_budget_value ) {
+                    Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
+
+                if ($post['jenis_sdm_source']=='4') {
+                    $data = SecretariatBudget::findOne($post['source_sdm']);
+                    // $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
+                    $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['money_budget'];
+                    $data->save();
+                    // $valueDP = (float)$post['source_value'];
+                    $idSekreBudget = $data->id;
+                }
+
+                $daily = new ActivityDaily();
+                $daily->finance_status = 0;
+                $daily->department_status = 0;
+                $daily->chief_status = 0;
+                $daily->title = $post['judul'];
+                $daily->description = $post['description'];
+                $daily->role = 4;
+                $daily->date_start = $post['from_date'];
+                $daily->date_end = $post['to_date'];
+                $daily->done = 0;
+                $save = $daily->save(false);
+
+                if ($save) {
+
+                    $sekreBudget = new ActivityDailyBudgetSecretariat();
+                    $sekreBudget->secretariat_budget_id = $idSekreBudget;
+                    $sekreBudget->budget_value_dp = $post['money_budget'];
+                    $sekreBudget->budget_value_sum = $post['source_value'];
+
+                    $sekreBudget->activity_id = $daily->id;
+                    $sekreBudget->save(false);
+
+                    Yii::$app->getSession()->setFlash('success', 'Buat Data Kegiatan Berhasil');
+                    return $this->redirect(['index']);
+                }
+            }
+
+            else if ($role == "Sekretariat") {
                 $idSekreBudget = 0;
                 $post = Yii::$app->request->post();
                 $data = SecretariatBudget::findOne($post['source_sdm']);
@@ -222,7 +288,70 @@ class KegiatanRutinController extends Controller
     {
         $role = Yii::$app->user->identity->roleName();
 
-        if ($role == "Sekretariat") {
+        if ($role == "Super Admin") {
+            //sekretariat
+            $model = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+            $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $range = $model->date_start.' to '.$model->date_end;
+            $range_start = $model->date_start;
+            $range_end = $model->date_end;
+            $oldDP = $budget->budget_value_dp;
+            $oldBudget = $baru->secretariat_budget_value;
+
+            if ($model->load(Yii::$app->request->post())) {
+                $post = Yii::$app->request->post();
+
+                $model->date_start = $post['from_date'];
+                $model->date_end = $post['to_date'];
+                $save = $model->save(false);
+
+                if ($save && $budget->load(Yii::$app->request->post())) {
+
+                    $dp = $budget->budget_value_dp;
+                    $total = $budget->budget_value_sum;
+                    $modal = $baru->secretariat_budget_value;
+
+                    if ($dp > $total) {
+                        Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
+                        return $this->redirect(Yii::$app->request->referrer);
+                    }
+
+                    //nilai anggaran dp lebih kecil dari anggaran saat ini
+                    if ($oldBudget <= $dp) {
+                        $dpBaru = $oldDP - $dp;
+                        $oldBudgetBaru = $oldBudget + $dpBaru;
+                        if ($oldBudgetBaru <= 0) {
+                            var_dump($oldBudgetBaru);die();
+                            Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                            return $this->redirect(Yii::$app->request->referrer);
+                        }
+                    }
+
+                    //nilai anggaran dp lebih besar dari anggaran saat ini
+                    if ($oldBudget >= $dp) {
+                        $dpBaru = $dp - $oldDP;
+                        $oldBudgetBaru = $oldDP - $dpBaru;
+                        if ($oldBudgetBaru <= 0) {
+                            var_dump($oldBudgetBaru);die();
+                            Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                            return $this->redirect(Yii::$app->request->referrer);
+                        }
+                    }
+
+                    $budget->budget_value_dp = $budget->budget_value_dp;
+                    $budget->budget_value_sum = $budget->budget_value_sum;
+                    $budget->save(false);
+
+                    $baru->secretariat_budget_value = $oldBudgetBaru;
+                    $baru->save(false);
+
+                    Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
+                    return $this->redirect(['index']);
+                }
+            }
+        } else if ($role == "Sekretariat") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
@@ -420,12 +549,100 @@ class KegiatanRutinController extends Controller
     public function actionReport($id) {
     $role = Yii::$app->user->identity->roleName();
 
+    if ($role == "Super Admin") {
+        //sekretariat
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+        $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+
+        $content = $this->renderPartial('view_pdf',[
+            'model'=>$model,
+            'budget'=>$budget,
+            'baru'=>$baru,
+            'sumber'=>$sumber,
+            'sekre'=>$sekre
+        ]);
+        
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER, 
+            // your html content input
+            'content' => $content,  
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+             // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+             // call mPDF methods on the fly
+            'methods' => [ 
+                'SetHeader'=>['Krajee Report Header'], 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+
+        //seksi
+
+    }
     if ($role == "Sekretariat") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
         $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+
+        $content = $this->renderPartial('view_pdf',[
+            'model'=>$model,
+            'budget'=>$budget,
+            'baru'=>$baru,
+            'sumber'=>$sumber,
+            'sekre'=>$sekre
+        ]);
+        
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER, 
+            // your html content input
+            'content' => $content,  
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+             // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+             // call mPDF methods on the fly
+            'methods' => [ 
+                'SetHeader'=>['Krajee Report Header'], 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+
+        //seksi
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Section::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
 
         $content = $this->renderPartial('view_pdf',[
