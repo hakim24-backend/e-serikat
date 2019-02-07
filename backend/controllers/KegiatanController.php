@@ -79,7 +79,6 @@ class KegiatanController extends Controller
     public function actionCreate()
     {
         $model = new Activity();
-        $modelsMain = new ActivityMainMember;
         $modelsSection = [new ActivitySection];
         $modelsMember = [[new ActivitySectionMember]];
         if ($model->load(Yii::$app->request->post())) {
@@ -90,59 +89,81 @@ class KegiatanController extends Controller
               $model->finance_status = 0;
               $model->department_status = 0;
               $model->chief_status = 0;
-              $model->chief_code_id = 0;
-              $model->department_code_id = 0;
               $model->done = 0;
               $model->date_start = $post['from_date'];
               $model->date_end = $post['to_date'];
-              // var_dump($model->role);die;
 
               $modelsSection = Model::createMultiple(ActivitySection::classname());
               Model::loadMultiple($modelsSection, Yii::$app->request->post());
+              // var_dump($modelsSection);die;
 
-              // validate all models
-              $valid = $model->validate();
-              $valid = Model::validateMultiple($modelsSection) && $valid;
+              // // validate all models
+              // $valid = $model->validate();
+              // $valid = Model::validateMultiple($modelsSection) && $valid;
 
-              if ($valid) {
-                var_dump("test");die;
+              if ($modelsSection) {
+                // var_dump("test");die;
                   $transaction = \Yii::$app->db->beginTransaction();
                   try {
                       if ($flag = $model->save(false)) {
-                          foreach ($modelsSection as $modelSection) {
-                              $modelSection->activity_id = $model->id;
-                              if (! ($flag = $modelSection->save(false))) {
-                                  $transaction->rollBack();
+                          foreach ($modelsSection as $indexSection =>$modelSection) {
+
+                              if ($flag === false) {
                                   break;
+                              }
+                              $modelSection->activity_id = $model->id;
+
+                              if (! ($flag = $modelSection->save(false))) {
+                                  break;
+                              }
+
+                              if (isset($modelsMember[$indexSection]) && is_array($modelsMember[$indexSection])) {
+                                  foreach ($modelsMember[$indexSection] as $indexMember => $modelMember) {
+                                      // $modelMember = new ActivitySectionMember;
+                                      $modelMember->section_activity_id = $modelSection->id;
+                                      $modelMember->activity_id = $model->id;
+                                      var_dump($modelMember->section_name_member);die;
+                                      if (!($flag = $modelMember->save(false))) {
+                                          break;
+                                      }
+                                  }
                               }
                           }
 
                           if($post){
                             if($post['ketua']){
+                              $modelsMain = new ActivityMainMember;
                               $modelsMain->name_committee = "Ketua";
-                              $modelsMain->name_member = $post['ketua'];
+                                $modelsMain->name_member = $post['ketua'];
                               $modelsMain->activity_id = $model->id;
+                              // var_dump("test");die;
 
                               $modelsMain->save();
                             }
                             if($post['wakil']){
+                              $modelsMain = new ActivityMainMember;
                               $modelsMain->name_committee = "Wakil";
                               $modelsMain->name_member = $post['wakil'];
                               $modelsMain->activity_id = $model->id;
+                              // var_dump("test");die;
 
                               $modelsMain->save();
                             }
                             if($post['sekretaris']){
+                              $modelsMain = new ActivityMainMember;
                               $modelsMain->name_committee = "Sekretaris";
                               $modelsMain->name_member = $post['sekretaris'];
                               $modelsMain->activity_id = $model->id;
+                              // var_dump("test");die;
 
                               $modelsMain->save();
                             }
                             if($post['bendahara']){
+                              $modelsMain = new ActivityMainMember;
                               $modelsMain->name_committee = "Bendahara";
                               $modelsMain->name_member = $post['bendahara'];
                               $modelsMain->activity_id = $model->id;
+                              // var_dump("test");die;
 
                               $modelsMain->save();
                             }
@@ -157,12 +178,13 @@ class KegiatanController extends Controller
                   } catch (Exception $e) {
                       $transaction->rollBack();
                   }
-
+                }
         }
 
         return $this->render('_form', [
             'model' => $model,
-            'modelsSection' => $modelsSection,
+            'modelsSection' => (empty($modelsSection)) ? [new ActivitySection] : $modelsSection,
+            'modelsMember' => (empty($modelsMember)) ? [[new ActivitySectionMember]] : $modelsMember,
         ]);
     }
 
