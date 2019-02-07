@@ -232,7 +232,6 @@ class ActivityDailyResponsibilityController extends Controller
 
     if ($role == "Super Admin") {
         
-        
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
