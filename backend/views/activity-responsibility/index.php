@@ -48,34 +48,49 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '{create}',
+                                'template' => '{create} {view} {download}',
                                 'buttons' => [
-                                        
+
 
                                         'create' => function($url, $model, $key)
                                         {
+                                          if(Yii::$app->user->identity->role != 2 && Yii::$app->user->identity->role != 3){
                                             if($model->activityResponsibilities){
-                                                $url = Url::toRoute(['/activity-responsibility/update', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        '<span class="glyphicon glyphicon-pencil"></span>',
-                                                        $url, 
-                                                        [
-                                                            'title' => 'Update Laporan Pertanggung Jawaban',
-                                                        ]
-                                                    );                                              
+                                              $url = Url::toRoute(['/activity-responsibility/update', 'id' => $model->id]);
+                                              return Html::a(
+                                                '<span class="glyphicon glyphicon-pencil"></span>',
+                                                $url,
+                                                [
+                                                  'title' => 'Update Laporan Pertanggung Jawaban',
+                                                ]
+                                              );
                                             }else{
-                                                $url = Url::toRoute(['/activity-responsibility/create', 'id' => $model->id]);
+                                              $url = Url::toRoute(['/activity-responsibility/create', 'id' => $model->id]);
+                                              return Html::a(
+                                                '<span class="glyphicon glyphicon-plus"></span>',
+                                                $url,
+                                                [
+                                                  'title' => 'Create Laporan Pertanggung Jawaban',
+                                                ]
+                                              );
+                                            }
+                                          }
+                                        },
+                                        'view' => function($url, $model, $key)
+                                        {
+                                            if($model->activityResponsibilities){
+                                                $url = Url::toRoute(['/activity-responsibility/view', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '<span class="glyphicon glyphicon-plus"></span>',
-                                                        $url, 
+                                                        '<span class="glyphicon glyphicon-eye-open"></span>',
+                                                        $url,
                                                         [
-                                                            'title' => 'Create Laporan Pertanggung Jawaban',
+                                                            'title' => 'Lihat Laporan Pertanggung Jawaban',
                                                         ]
-                                                    );                                                 
+                                                    );
                                             }
                                         }
                                     ]
-                                
+
                                 ],
 
                             ],
