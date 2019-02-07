@@ -5,14 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\Approve;
 use common\models\ActivityResponsibility;
-use common\models\ActivityDailyResponsibility;
-use common\models\ActivityDaily;
+use common\models\Activity;
 use common\models\User;
-use common\models\TransferRecord;
-use common\models\SecretariatBudget;
-use common\models\ChiefBudget;
-use common\models\DepartmentBudget;
-use common\models\SectionBudget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -22,7 +16,7 @@ use yii\web\UploadedFile;
 /**
  * ApproveController implements the CRUD actions for Approve model.
  */
-class ApproveController extends Controller
+class ActivityResponsibilityController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -46,7 +40,7 @@ class ApproveController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Approve::find(),
+            'query' => Activity::find(),
         ]);
 
         return $this->render('index', [
@@ -54,23 +48,10 @@ class ApproveController extends Controller
         ]);
     }
 
-    public function actionHighlight($id)
-    {
-    
-        $model = ActivityDailyResponsibility::findOne($id);
-        $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDailyResponsibility::find()->where(['activity_id'=>$id]),
-        ]);
-            return $this->render('highlight', [
-            'model' => $model,
-            'dataProvider' => $dataProvider,
-            'id'=>$id
-        ]);
-    }
 
     public function actionDownload($id)     
     {
-        $download = ActivityDailyResponsibility::findOne($id); 
+        $download = ActivityResponsibility::findOne($id); 
         $path=Yii::getAlias('@backend').'/web/template'.$download->file;
 
         if (file_exists($path)) {
@@ -87,7 +68,7 @@ class ApproveController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => ActivityDailyResponsibility::find()->where(['id'=>$id])->one(),
+            'model' => ActivityResponsibility::find()->where(['id'=>$id])->one(),
         ]);
     }
 
@@ -98,8 +79,7 @@ class ApproveController extends Controller
      */
     public function actionCreate($id)
     {
-        $model = new ActivityDailyResponsibility();
-        $activity = ActivityDaily::find()->where(['id'=>$id])->one();
+        $model = new ActivityResponsibility();
         if ($model->load(Yii::$app->request->post())) {
 
             $file_dok = UploadedFile::getInstance($model, 'fileApprove');
@@ -116,14 +96,13 @@ class ApproveController extends Controller
             $file_gambar->saveAs($fotoName);
 
 
-            $model->description = $model->description;
             $model->responsibility_value = 0;
             $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
             $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            $model->activity_id = $activity->id ;
+            $model->activity_id = $id ;
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
-            return $this->redirect(['approve/highlight/','id'=>$id]);
+            return $this->redirect(['activity-responsibility/index/']);
         }
 
         return $this->render('create', [
@@ -140,7 +119,7 @@ class ApproveController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = ActivityDailyResponsibility::find()->where(['id'=>$id])->one();
+        $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
         $oldfile = $model->file;
         $oldPhoto = $model->photo;
         if ($model->load(Yii::$app->request->post())) {
@@ -176,14 +155,14 @@ class ApproveController extends Controller
 
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['highlight','id'=>$model->activity_id]);
+                return $this->redirect(['index','id'=>$model->activity_id]);
 
 
             } else {
                 $model->description = $model->description;
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['highlight','id'=>$model->activity_id]);
+                return $this->redirect(['index','id'=>$model->activity_id]);
             }
         }
         return $this->render('update', [
@@ -200,7 +179,7 @@ class ApproveController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = ActivityDailyResponsibility::find()->where(['id'=>$id])->one();
+        $model = ActivityResponsibility::find()->where(['id'=>$id])->one();
         $uploadPath = Yii::getAlias('@backend')."/web/template";
         $oldfile = $model->file;
         $oldPhoto = $model->photo;
