@@ -227,6 +227,7 @@ class ActivityDailyResponsibilityController extends Controller
     $role = Yii::$app->user->identity->roleName();
 
     if ($role == "Sekretariat") {
+
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
