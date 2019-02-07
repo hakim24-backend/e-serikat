@@ -31,11 +31,11 @@ class ActivitySectionMember extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['section_name_member', 'section_activity_id', 'activity_id'], 'required'],
-            [['section_activity_id', 'activity_id'], 'integer'],
+            // [['section_name_member', 'section_activity_id', 'activity_id'], 'required'],
+            // [['section_activity_id', 'activity_id'], 'integer'],
             [['section_name_member'], 'string', 'max' => 255],
-            [['section_activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => ActivitySection::className(), 'targetAttribute' => ['section_activity_id' => 'id']],
-            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'id']],
+            // [['section_activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => ActivitySection::className(), 'targetAttribute' => ['section_activity_id' => 'id']],
+            // [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'id']],
         ];
     }
 

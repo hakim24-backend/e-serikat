@@ -55,14 +55,14 @@ class Activity extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'background', 'purpose', 'target_activity', 'place_activity', 'place_activity_x', 'place_activity_y', 'date_start', 'date_end', 'role', 'finance_status', 'department_status', 'chief_status', 'chief_code_id', 'department_code_id'], 'required'],
+            // [['title', 'background', 'purpose', 'target_activity', 'place_activity', 'place_activity_x', 'place_activity_y', 'date_start', 'date_end', 'role', 'finance_status', 'department_status', 'chief_status', 'chief_code_id', 'department_code_id'], 'required'],
             [['background', 'purpose', 'target_activity', 'place_activity', 'place_activity_x', 'place_activity_y'], 'string'],
             [['date_start', 'date_end'], 'safe'],
             [['role', 'finance_status', 'department_status', 'chief_status', 'chief_code_id', 'department_code_id', 'done'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['role'], 'exist', 'skipOnError' => true, 'targetClass' => Role::className(), 'targetAttribute' => ['role' => 'id']],
-            [['department_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_code_id' => 'id']],
-            [['chief_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chief::className(), 'targetAttribute' => ['chief_code_id' => 'id']],
+            // [['role'], 'exist', 'skipOnError' => true, 'targetClass' => Role::className(), 'targetAttribute' => ['role' => 'id']],
+            // [['department_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_code_id' => 'id']],
+            // [['chief_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chief::className(), 'targetAttribute' => ['chief_code_id' => 'id']],
         ];
     }
 

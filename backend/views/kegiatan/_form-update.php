@@ -25,78 +25,80 @@ use wbraganca\dynamicform\DynamicFormWidget;
 /* @var $model common\models\Activity */
 /* @var $form yii\widgets\ActiveForm */
 $this->title = 'Data Kegiatan';
-
-$range = date('Y-m-d').' to '.date('Y-m-d');
-$range_start = date('Y-m-d');
-$range_end = date('Y-m-d');
 $Role = Yii::$app->user->identity->roleName();
 
+// $range = date('Y-m-d').' to '.date('Y-m-d');
+// $range_start = date('Y-m-d');
+// $range_end = date('Y-m-d');
 ?>
 
 <div class="activity-form">
 
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Data Kegiatan Rutin Sekretariat</h3>
 
-        <div class="box box-info">
-          <div class="box-header with-border">
-              <h3 class="box-title">Data Kegiatan Rutin Sekretariat</h3>
-
-              <div class="box-tools pull-right">
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-              </div>
-          </div>
-          <div class="box-body">
-              <div class="col-sm-12">
-                  <div class="form-group">
-                      <label class="col-sm-4">Jenis SDM</label>
-                      <div class="col-sm-8">
-                          <?php
-                          if($Role == "Super Admin"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat', 8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
-                          <?php } else if ($Role == "Sekretariat"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
-                          <?php }else if($Role == "Seksi"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
-                          <?php } ?>
-                      </div>
-                  </div>
-              </div>
-              <br>
-              <br>
-              <div class="col-sm-12">
-                  <div class="form-group">
-                      <label class="col-sm-4">Kode Anggaran</label>
-                      <div class="col-sm-8">
-                          <?= Html::dropDownList('source_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8','id'=>'kode-asal']) ?>
-                      </div>
-                  </div>
-              </div>
-              <br>
-              <br>
-              <div id="nilai-anggaran-source">
-              </div>
-               <div class="col-sm-12">
-                  <div class="form-group">
-                      <label class="col-sm-4">Uang Muka Anggaran</label>
-                      <div class="col-sm-8">
-                          <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
-                      </div>
-                  </div>
-              </div>
-              <br>
-              <br>
-              <div class="col-sm-12">
-                  <div class="form-group">
-                      <label class="col-sm-4">Nilai Anggaran</label>
-                      <div class="col-sm-8">
-                          <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
-                      </div>
-                  </div>
-              </div>
-              <br>
-              <br>
-          </div>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
+                    <div class="col-sm-8">
+                        <?php
+                        if($Role == "Sekretariat"){ ?>
+                        <?= $baru->secretariat_budget_value ?>
+                        <?php }else if($Role == "Seksi"){ ?>
+                        <?= $baru->section_budget_value ?>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4">Uang Muka Anggaran</label>
+                    <div class="col-sm-8">
+                        <?= $form->field($budget, 'budget_value_dp')->textInput( )->label(false); ?>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4">Nilai Anggaran</label>
+                    <div class="col-sm-8">
+                        <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4">Judul</label>
+                    <div class="col-sm-8">
+                        <?= $form->field($model, 'title')->textarea(['rows' => 6])->label(false); ?>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4">Deskripsi</label>
+                    <div class="col-sm-8">
+                        <?= $form->field($model, 'description')->textarea(['rows' => 6])->label(false); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="box box-primary">
@@ -174,7 +176,7 @@ $Role = Yii::$app->user->identity->roleName();
         <div class="form-group">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
-                <?= Html::textInput('ketua', '', ['autofocus' => true, 'required'=>true, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
+                <?= Html::textInput('ketua', $ketua->name_member , ['autofocus' => true, 'required'=>true, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
             </div>
         </div>
     </div>
@@ -182,7 +184,7 @@ $Role = Yii::$app->user->identity->roleName();
         <div class="form-group">
             <label class="col-sm-4">Wakil</label>
             <div class="col-sm-8">
-                <?= Html::textInput('wakil', '', ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
+                <?= Html::textInput('wakil', $wakil->name_member , ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
             </div>
         </div>
     </div>
@@ -190,7 +192,7 @@ $Role = Yii::$app->user->identity->roleName();
         <div class="form-group">
             <label class="col-sm-4">Sekretaris</label>
             <div class="col-sm-8">
-                <?= Html::textInput('sekretaris', '', ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
+                <?= Html::textInput('sekretaris', $sekretaris->name_member , ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
             </div>
         </div>
     </div>
@@ -198,7 +200,7 @@ $Role = Yii::$app->user->identity->roleName();
         <div class="form-group">
             <label class="col-sm-4">Bendahara</label>
             <div class="col-sm-8">
-                <?= Html::textInput('bendahara', '', ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
+                <?= Html::textInput('bendahara', $bendahara->name_member , ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
             </div>
         </div>
     </div>
@@ -372,71 +374,3 @@ HTML;
 
     <?php ActiveForm::end(); ?>
 </div>
-
-<?php
-$url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
-$url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');
-
-$js=<<<js
-$('#jenis-tujuan').on('change',function(){
-    var tipe = $('#jenis-tujuan').val();
-    $.ajax({
-        url : "$url" + tipe,
-        dataType : 'html',
-        type : 'post'
-    }).done(function(data){
-       $('select#kode-tujuan').html(data);
-    });
-});
-
-$('#jenis-asal').on('change',function(){
-    var tipe = $('#jenis-asal').val();
-    $.ajax({
-        url : "$url" + tipe,
-        dataType : 'html',
-        type : 'post'
-    }).done(function(data){
-       $('select#kode-asal').html(data);
-    });
-});
-
-$('#kode-asal').on('change',function(){
-    var tipe = $('#jenis-asal').val();
-    var kode = $('#kode-asal').val();
-    $.ajax({
-        url : "$url2",
-        dataType : 'html',
-        type : 'post',
-        data: {
-            tipe: tipe,
-            kode: kode,
-        },
-    }).done(function(data){
-        datas = JSON.parse(data);
-       $('#nilai-anggaran-source').html(datas.message);
-       $('#value-budget').attr({
-           'max' : datas.max,
-        });
-    });
-});
-
-$('#kode-tujuan').on('change',function(){
-    var tipe = $('#jenis-tujuan').val();
-    var kode = $('#kode-tujuan').val();
-    $.ajax({
-        url : "$url2",
-        dataType : 'html',
-        type : 'post',
-        data: {
-            tipe: tipe,
-            kode: kode,
-        },
-    }).done(function(data){
-        datas = JSON.parse(data);
-       $('#nilai-anggaran-source').html(datas.message);
-    });
-});
-
-js;
-$this->registerJs($js);
-?>
