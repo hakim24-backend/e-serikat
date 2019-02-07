@@ -38,8 +38,9 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                 <div class="col-sm-8">
-                    <?php
-                    if($Role == "Sekretariat"){ ?>
+                    <?php if ($Role == "Super Admin"){ ?>
+                    <?= $baru->secretariat_budget_value ?>
+                    <?php } elseif($Role == "Sekretariat"){ ?>
                     <?= $baru->secretariat_budget_value ?>
                     <?php }else if($Role == "Seksi"){ ?>
                     <?= $baru->section_budget_value ?>

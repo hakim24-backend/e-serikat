@@ -54,16 +54,19 @@ class KegiatanRutinController extends Controller
 
         if ($role == "Super Admin") {
             $dataProvider = new ActiveDataProvider([
-            'query' => Approve::find(),
+            'query' => ActivityDaily::find(),
             ]);
-        }
-        if ($role == "Sekretariat") {
+        } elseif ($role == "Sekretariat") {
             $dataProvider = new ActiveDataProvider([
-            'query' => Approve::find()->where(['role'=>4]),
+            'query' => ActivityDaily::find()->where(['role'=>4]),
             ]);
         } elseif ($role == "Seksi") {
             $dataProvider = new ActiveDataProvider([
-            'query' => Approve::find()->where(['role'=>8]),
+            'query' => ActivityDaily::find()->where(['role'=>8]),
+            ]);
+        } elseif ($role == "Bendahara") {
+            $dataProvider = new ActiveDataProvider([
+            'query' => ActivityDaily::find(),
             ]);
         }
 
@@ -319,22 +322,22 @@ class KegiatanRutinController extends Controller
                     }
 
                     //nilai anggaran dp lebih kecil dari anggaran saat ini
-                    if ($oldBudget <= $dp) {
+                    if ($dp <= $modal) {
                         $dpBaru = $oldDP - $dp;
-                        $oldBudgetBaru = $oldBudget + $dpBaru;
+                        $oldBudgetBaru = $modal + $dpBaru;
                         if ($oldBudgetBaru <= 0) {
-                            var_dump($oldBudgetBaru);die();
+                            // var_dump($oldBudgetBaru);die();
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
                             return $this->redirect(Yii::$app->request->referrer);
                         }
                     }
 
                     //nilai anggaran dp lebih besar dari anggaran saat ini
-                    if ($oldBudget >= $dp) {
+                    if ($dp >= $modal) {
                         $dpBaru = $dp - $oldDP;
-                        $oldBudgetBaru = $oldDP - $dpBaru;
+                        $oldBudgetBaru = $modal - $dpBaru;
                         if ($oldBudgetBaru <= 0) {
-                            var_dump($oldBudgetBaru);die();
+                            // var_dump($oldBudgetBaru);die();
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
                             return $this->redirect(Yii::$app->request->referrer);
                         }
@@ -380,23 +383,24 @@ class KegiatanRutinController extends Controller
                         return $this->redirect(Yii::$app->request->referrer);
                     }
 
+                    
                     //nilai anggaran dp lebih kecil dari anggaran saat ini
-                    if ($oldBudget <= $dp) {
+                    if ($dp <= $modal) {
                         $dpBaru = $oldDP - $dp;
-                        $oldBudgetBaru = $oldBudget + $dpBaru;
+                        $oldBudgetBaru = $modal + $dpBaru;
                         if ($oldBudgetBaru <= 0) {
-                            var_dump($oldBudgetBaru);die();
+                            // var_dump($oldBudgetBaru);die();
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
                             return $this->redirect(Yii::$app->request->referrer);
                         }
                     }
 
                     //nilai anggaran dp lebih besar dari anggaran saat ini
-                    if ($oldBudget >= $dp) {
+                    if ($dp >= $modal) {
                         $dpBaru = $dp - $oldDP;
-                        $oldBudgetBaru = $oldDP - $dpBaru;
+                        $oldBudgetBaru = $modal - $dpBaru;
                         if ($oldBudgetBaru <= 0) {
-                            var_dump($oldBudgetBaru);die();
+                            // var_dump($oldBudgetBaru);die();
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
                             return $this->redirect(Yii::$app->request->referrer);
                         }
@@ -591,9 +595,6 @@ class KegiatanRutinController extends Controller
                 'SetFooter'=>['{PAGENO}'],
             ]
         ]);
-
-        //seksi
-
     }
     if ($role == "Sekretariat") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
@@ -601,48 +602,6 @@ class KegiatanRutinController extends Controller
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
         $sekre = Secretariat::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
-
-        $content = $this->renderPartial('view_pdf',[
-            'model'=>$model,
-            'budget'=>$budget,
-            'baru'=>$baru,
-            'sumber'=>$sumber,
-            'sekre'=>$sekre
-        ]);
-        
-        // setup kartik\mpdf\Pdf component
-        $pdf = new Pdf([
-            // set to use core fonts only
-            'mode' => Pdf::MODE_CORE, 
-            // A4 paper format
-            'format' => Pdf::FORMAT_A4, 
-            // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT, 
-            // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER, 
-            // your html content input
-            'content' => $content,  
-            // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting 
-            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
-            // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}', 
-             // set mPDF properties on the fly
-            'options' => ['title' => 'Krajee Report Title'],
-             // call mPDF methods on the fly
-            'methods' => [ 
-                'SetHeader'=>['Krajee Report Header'], 
-                'SetFooter'=>['{PAGENO}'],
-            ]
-        ]);
-
-        //seksi
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
 
         $content = $this->renderPartial('view_pdf',[
@@ -720,8 +679,6 @@ class KegiatanRutinController extends Controller
             ]
         ]);
     }
-    
-    
     // return the pdf output as per the destination setting
     return $pdf->render(); 
     }
@@ -944,14 +901,14 @@ class KegiatanRutinController extends Controller
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
                         <div class='col-sm-8'>
-                            ".$hasil."
+                            ".$data->section_budget_value."
                         </div>
                     </div>
                 </div>
                 <br>
                 <br>
                 ";
-                $datas['max']=$hasil;
+                $datas['max']=$data->section_budget_value;
             }else{
                 $datas['message']= "
                  <div class='col-sm-12'>

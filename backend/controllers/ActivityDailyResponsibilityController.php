@@ -66,6 +66,10 @@ class ActivityDailyResponsibilityController extends Controller
             $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find()->where(['role'=>8]),
             ]);
+        } elseif ($role == "Bendahara") {
+            $dataProvider = new ActiveDataProvider([
+            'query' => ActivityDaily::find()->where(['done'=>1]),
+            ]);
         }
 
         return $this->render('index', [

@@ -83,8 +83,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'header' => 'Action',
                                 'template' => '{update} {download}',
                                 'buttons' => [
-                                        
-
                                         'update' => function($url, $model, $key)
                                         {
                                                 if ($model->activityDailyResponsibilities) {

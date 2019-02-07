@@ -56,8 +56,8 @@ $Role = Yii::$app->user->identity->roleName();
                       'items' => [
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
-                          ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
-                          ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
+                          ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
+                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
 
@@ -92,7 +92,7 @@ $Role = Yii::$app->user->identity->roleName();
                       'items' => [
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
-                          ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
+                          ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
 
@@ -125,7 +125,7 @@ $Role = Yii::$app->user->identity->roleName();
                       'items' => [
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
-                          ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
+                          ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
 
@@ -149,7 +149,7 @@ $Role = Yii::$app->user->identity->roleName();
                       'items' => [
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
-                          ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
+                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
 
                       ],
                   ],
@@ -158,7 +158,7 @@ $Role = Yii::$app->user->identity->roleName();
               ],
           ]
       ) ?>
-    <?php }else if($Role == "Seksi"){ ?>
+    <?php } else if($Role == "Seksi"){ ?>
       <?= dmstr\widgets\Menu::widget(
           [
               'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
@@ -174,7 +174,7 @@ $Role = Yii::$app->user->identity->roleName();
                       'items' => [
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
-                          ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
+                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
 
                       ],
                   ],
@@ -183,11 +183,39 @@ $Role = Yii::$app->user->identity->roleName();
               ],
           ]
       ) ?>
-    <?php }
-?>
+    <?php } else if($Role == "Bendahara"){ ?>
+      <?= dmstr\widgets\Menu::widget(
+          [
+              'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
+              'items' => [
+                  ['label' => 'Menu E-Serikat', 'options' => ['class' => 'header']],
+                  [
+                      'label' => 'Approval',
+                      'icon' => 'money',
+                      'url' => '#',
+                      'items' => [
+                          ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
+                          ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara'],],
+                          ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
+                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
 
+                      ],
+                  ],
+                  [
+                      'label' => 'Laporan',
+                      'icon' => 'money',
+                      'url' => '#',
+                      'items' => [
+                          ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => [''],],
+                          ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => [''],],
+                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => [''],],
 
-
+                      ],
+                  ],
+              ],
+          ]
+      ) ?>
+    <?php } ?>
 
     </section>
 
