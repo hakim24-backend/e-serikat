@@ -49,9 +49,9 @@ class ActivityResponsibilityController extends Controller
     }
 
 
-    public function actionDownload($id)     
+    public function actionDownload($id)
     {
-        $download = ActivityResponsibility::findOne($id); 
+        $download = ActivityResponsibility::findOne($id);
         $path=Yii::getAlias('@backend').'/web/template'.$download->file;
 
         if (file_exists($path)) {
@@ -92,7 +92,7 @@ class ActivityResponsibilityController extends Controller
             $uploadPath = Yii::getAlias('@backend')."/web/template";
             $acak = substr( md5(time()) , 0, 10);
             $fotoName = $uploadPath."/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            // var_dump($fotoName);die; 
+            // var_dump($fotoName);die;
             $file_gambar->saveAs($fotoName);
 
 
@@ -127,7 +127,7 @@ class ActivityResponsibilityController extends Controller
                 $file_dok = UploadedFile::getInstance($model, 'fileApprove');
                 $file_gambar = UploadedFile::getInstance($model, 'photoApprove');
                 $uploadPath = Yii::getAlias('@backend')."/web/template";
-    
+
 
             if ($file_dok || $file_gambar) {
 
@@ -140,7 +140,7 @@ class ActivityResponsibilityController extends Controller
 
                 $model->description = $model->description;
                 $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
-                } 
+                }
 
                 if ($file_gambar) {
                 unlink($uploadPath.$oldPhoto);
