@@ -30,10 +30,10 @@ class ActivityMainMember extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_committee', 'name_member', 'activity_id'], 'required'],
-            [['activity_id'], 'integer'],
+            // [['name_committee', 'name_member', 'activity_id'], 'required'],
+            // [['activity_id'], 'integer'],
             [['name_committee', 'name_member'], 'string', 'max' => 255],
-            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'id']],
+            // [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'id']],
         ];
     }
 

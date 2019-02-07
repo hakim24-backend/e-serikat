@@ -34,7 +34,7 @@ use yii\helpers\Url;
                             <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle"
                                  alt="User Image"/>
                             <p>Selamat Datang</p>
-                            <p><?= Yii::$app->user->identity->username ?></p>
+                            <p><?php echo Yii::$app->user->identity->roles->name_role ?>, <?= Yii::$app->user->identity->username ?></p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">

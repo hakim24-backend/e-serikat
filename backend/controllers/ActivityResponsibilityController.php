@@ -68,7 +68,7 @@ class ActivityResponsibilityController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => ActivityResponsibility::find()->where(['id'=>$id])->one(),
+            'model' => ActivityResponsibility::find()->where(['activity_id'=>$id])->one(),
         ]);
     }
 

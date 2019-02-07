@@ -129,6 +129,7 @@ class KegiatanRutinController extends Controller
             if ($role == "Super Admin") {
                 $idSekreBudget = 0;
                 $post = Yii::$app->request->post();
+
                 $data = SecretariatBudget::findOne($post['source_sdm']);
 
                 if ($post['money_budget'] > $post['source_value']) {
@@ -480,7 +481,7 @@ class KegiatanRutinController extends Controller
                 }
             }
         }
-        
+
 
         return $this->render('update', [
                 'model' => $model,
@@ -569,29 +570,29 @@ class KegiatanRutinController extends Controller
             'sumber'=>$sumber,
             'sekre'=>$sekre
         ]);
-        
+
         // setup kartik\mpdf\Pdf component
         $pdf = new Pdf([
             // set to use core fonts only
-            'mode' => Pdf::MODE_CORE, 
+            'mode' => Pdf::MODE_CORE,
             // A4 paper format
-            'format' => Pdf::FORMAT_A4, 
+            'format' => Pdf::FORMAT_A4,
             // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            'orientation' => Pdf::ORIENT_PORTRAIT,
             // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER, 
+            'destination' => Pdf::DEST_BROWSER,
             // your html content input
-            'content' => $content,  
+            'content' => $content,
             // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            // enhanced bootstrap css built by Krajee for mPDF formatting
             // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}', 
+            'cssInline' => '.kv-heading-1{font-size:18px}',
              // set mPDF properties on the fly
             'options' => ['title' => 'Krajee Report Title'],
              // call mPDF methods on the fly
-            'methods' => [ 
-                'SetHeader'=>['Krajee Report Header'], 
+            'methods' => [
+                'SetHeader'=>['Krajee Report Header'],
                 'SetFooter'=>['{PAGENO}'],
             ]
         ]);
@@ -611,29 +612,71 @@ class KegiatanRutinController extends Controller
             'sumber'=>$sumber,
             'sekre'=>$sekre
         ]);
-        
+
         // setup kartik\mpdf\Pdf component
         $pdf = new Pdf([
             // set to use core fonts only
-            'mode' => Pdf::MODE_CORE, 
+            'mode' => Pdf::MODE_CORE,
             // A4 paper format
-            'format' => Pdf::FORMAT_A4, 
+            'format' => Pdf::FORMAT_A4,
             // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            'orientation' => Pdf::ORIENT_PORTRAIT,
             // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER, 
+            'destination' => Pdf::DEST_BROWSER,
             // your html content input
-            'content' => $content,  
+            'content' => $content,
             // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            // enhanced bootstrap css built by Krajee for mPDF formatting
             // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}', 
+            'cssInline' => '.kv-heading-1{font-size:18px}',
              // set mPDF properties on the fly
             'options' => ['title' => 'Krajee Report Title'],
              // call mPDF methods on the fly
-            'methods' => [ 
-                'SetHeader'=>['Krajee Report Header'], 
+            'methods' => [
+                'SetHeader'=>['Krajee Report Header'],
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+
+        //seksi
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Section::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+
+        $content = $this->renderPartial('view_pdf',[
+            'model'=>$model,
+            'budget'=>$budget,
+            'baru'=>$baru,
+            'sumber'=>$sumber,
+            'sekre'=>$sekre
+        ]);
+
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE,
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER,
+            // your html content input
+            'content' => $content,
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting
+            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}',
+             // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+             // call mPDF methods on the fly
+            'methods' => [
+                'SetHeader'=>['Krajee Report Header'],
                 'SetFooter'=>['{PAGENO}'],
             ]
         ]);
@@ -652,35 +695,35 @@ class KegiatanRutinController extends Controller
             'sumber'=>$sumber,
             'sekre'=>$sekre
         ]);
-        
+
         // setup kartik\mpdf\Pdf component
         $pdf = new Pdf([
             // set to use core fonts only
-            'mode' => Pdf::MODE_CORE, 
+            'mode' => Pdf::MODE_CORE,
             // A4 paper format
-            'format' => Pdf::FORMAT_A4, 
+            'format' => Pdf::FORMAT_A4,
             // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            'orientation' => Pdf::ORIENT_PORTRAIT,
             // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER, 
+            'destination' => Pdf::DEST_BROWSER,
             // your html content input
-            'content' => $content,  
+            'content' => $content,
             // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            // enhanced bootstrap css built by Krajee for mPDF formatting
             // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}', 
+            'cssInline' => '.kv-heading-1{font-size:18px}',
              // set mPDF properties on the fly
             'options' => ['title' => 'Krajee Report Title'],
              // call mPDF methods on the fly
-            'methods' => [ 
-                'SetHeader'=>['Krajee Report Header'], 
+            'methods' => [
+                'SetHeader'=>['Krajee Report Header'],
                 'SetFooter'=>['{PAGENO}'],
             ]
         ]);
     }
     // return the pdf output as per the destination setting
-    return $pdf->render(); 
+    return $pdf->render();
     }
 
     /**

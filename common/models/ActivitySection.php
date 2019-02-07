@@ -30,10 +30,10 @@ class ActivitySection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['section_name', 'activity_id'], 'required'],
-            [['activity_id'], 'integer'],
+            // [['section_name', 'activity_id'], 'required'],
+            // [['activity_id'], 'integer'],
             [['section_name'], 'string', 'max' => 255],
-            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'id']],
+            // [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'id']],
         ];
     }
 
