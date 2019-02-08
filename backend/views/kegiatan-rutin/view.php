@@ -41,6 +41,16 @@ $Role = Yii::$app->user->identity->roleName();
             [
                 'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_dp',
                 'label'=>'Nilai Uang Muka Anggaran',
+                'visible' => ($Role == "Super Admin") ? true : false
+            ],
+            [
+                'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_sum',
+                'label'=>'Nilai Uang Total Anggaran',
+                'visible' => ($Role == "Super Admin") ? true : false
+            ],
+            [
+                'attribute'=>'activityDailyBudgetSecretariatsOne.budget_value_dp',
+                'label'=>'Nilai Uang Muka Anggaran',
                 'visible' => ($Role == "Sekretariat") ? true : false
             ],
             [

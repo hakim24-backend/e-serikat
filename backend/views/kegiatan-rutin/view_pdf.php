@@ -91,7 +91,9 @@ $Role = Yii::$app->user->identity->roleName();
         </tr>
         <tr>
             <td>Unit Kerja</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td>: <?=$sekre->secretariat_code?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td>: <?=$sekre->secretariat_code?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>: <?=$sekre->section_code?></td>
@@ -99,7 +101,9 @@ $Role = Yii::$app->user->identity->roleName();
         </tr>
         <tr>
             <td>Nomor Rekening</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td>: <?=$sumber->budget_rek?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td>: <?=$sumber->budget_rek?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>: <?=$sumber->budget_rek?></td>
@@ -116,7 +120,9 @@ $Role = Yii::$app->user->identity->roleName();
         <tr>
             <td>Kode Anggaran Pengelola</td>
             <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td><?=$sumber->budget_code?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td><?=$sumber->budget_code?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td><?=$sumber->budget_code?></td>
@@ -125,7 +131,9 @@ $Role = Yii::$app->user->identity->roleName();
         <tr>
             <td>Kode Anggaran Penerima</td>
             <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td><?=$baru->secretariat_budget_code?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td><?=$baru->secretariat_budget_code?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td><?=$baru->section_budget_code?></td>
@@ -142,7 +150,9 @@ $Role = Yii::$app->user->identity->roleName();
         <tr>
             <td>Nama Kegiatan</td>
             <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td><?=$model->title?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td><?=$model->title?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td><?=$model->title?></td>
@@ -163,7 +173,9 @@ $Role = Yii::$app->user->identity->roleName();
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td>Rp.<?=$baru->secretariat_budget_value?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$baru->secretariat_budget_value?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$baru->section_budget_value?></td>
@@ -172,7 +184,9 @@ $Role = Yii::$app->user->identity->roleName();
         <tr>
             <td>Waktu Pelaksanaan</td>
             <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td><?=$model->date_start.' s/d '.$model->date_end?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td><?=$model->date_start.' s/d '.$model->date_end?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td><?=$model->date_start.' s/d '.$model->date_end?></td>
@@ -191,7 +205,9 @@ $Role = Yii::$app->user->identity->roleName();
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Uang Muka Kegiatan Rutin</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td>Rp.<?=$budget->budget_value_dp?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$budget->budget_value_dp?></td>
@@ -215,7 +231,9 @@ $Role = Yii::$app->user->identity->roleName();
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Nilai Anggaran</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td>Rp.<?=$budget->budget_value_sum?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$budget->budget_value_sum?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$budget->budget_value_sum?></td>
@@ -224,7 +242,9 @@ $Role = Yii::$app->user->identity->roleName();
         <tr>
             <td>Uang Muka Kegiatan Rutin</td>
             <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td>Rp.<?=$budget->budget_value_dp?><td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$budget->budget_value_dp?><td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$budget->budget_value_dp?><td>
@@ -233,7 +253,9 @@ $Role = Yii::$app->user->identity->roleName();
         <tr>
             <td>Nilai Anggaran Kegiatan</td>
             <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td>Rp.<?=$budget->budget_value_sum ?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$budget->budget_value_sum ?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$budget->budget_value_sum ?></td>
@@ -252,7 +274,9 @@ $Role = Yii::$app->user->identity->roleName();
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
-            <?php if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Super Admin") { ?>
+                <td>Rp.<?=$baru->secretariat_budget_value+$budget->budget_value_dp?></td>
+            <?php } else if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$baru->secretariat_budget_value+$budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$baru->section_budget_value+$budget->budget_value_dp?></td>

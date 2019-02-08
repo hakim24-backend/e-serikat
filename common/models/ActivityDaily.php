@@ -149,4 +149,9 @@ class ActivityDaily extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ActivityDailyResponsibility::className(), ['activity_id' => 'id']);
     }
+
+    public function getActivityDailyRejects()
+    {
+        return $this->hasMany(ActivityDailyReject::className(), ['activity_id' => 'id']);
+    }
 }
