@@ -167,13 +167,13 @@ $Role = Yii::$app->user->identity->roleName();
         </div>
     </div>
 
-<div class="box box-primary">
+<div class="box box-primary" id="box-pengurusan">
   <div class="box-header with-border">
     <label>Informasi Kepengurusan Utama</label>
   </div>
   <div class="box-body">
-    <div class="col-sm-12">
-        <div class="form-group">
+    <div class="form-group">
+        <div class="col-sm-12">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
                 <?= Html::textInput('ketua', '', ['autofocus' => true, 'required'=>true, 'type'=>'text','class'=>'col-sm-8 form-control', 'id'=>'judul']) ?>
@@ -374,7 +374,11 @@ HTML;
 
     <?php ActiveForm::end(); ?>
 </div>
-
+<style>
+#box-pengurusan .form-group{
+    margin-bottom:45px !important;
+}
+</style>
 <?php
 $url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
 $url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');

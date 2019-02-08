@@ -66,7 +66,7 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                         'class' => 'yii\grid\ActionColumn',
                                         'contentOptions' => ['style' => 'width:160px;'],
                                         'header' => 'Actions',
-                                        'template' => ' {update} {view} {delete} ',
+                                        'template' => ' {update} {view}',
                                         'buttons' => [
                                             'update' => function ($url, $model) {
                                                 if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
@@ -82,17 +82,7 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                                     ]);
                                                 }
                                             },
-                                            'delete' => function ($url, $model) {
-                                                if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
-                                                    return Html::a('| <span class="fa fa-trash"></span>', $url, [
-                                                        'title' => Yii::t('app', 'Delete'),
-                                                        'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
-                                                        'data-method' => 'post', 'data-pjax' => '0',
-
-                                                    ]);
-                                                }
-
-                                            },
+                                            
                                         ],
 
                                         'urlCreator' => function ($action, $model, $key, $index) {
@@ -101,9 +91,6 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                                 return $url;
                                             } else if ($action === 'view') {
                                                 $url = Url::to(['activity-department/view', 'id' => $model['id']]);
-                                                return $url;
-                                            } else if ($action === 'delete') {
-                                                $url = Url::to(['activity-department/delete', 'id' => $model['id']]);
                                                 return $url;
                                             }
                                         },
