@@ -52,26 +52,9 @@ class BendaharaController extends Controller
      */
     public function actionIndex()
     {
-        $role = Yii::$app->user->identity->roleName();
-
-        if ($role == "Super Admin") {
-            $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find(),
-            ]);
-        }
-        elseif ($role == "Sekretariat") {
-            $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>4]),
-            ]);
-        } elseif ($role == "Seksi") {
-            $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>8]),
-            ]);
-        } elseif ($role == "Bendahara") {
-            $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['done'=>0]),
-            ]);
-        }
+        $dataProvider = new ActiveDataProvider([
+        'query' => ActivityDaily::find()->where(['done'=>0]),
+        ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -90,6 +73,7 @@ class BendaharaController extends Controller
         $model->finance_status = 1;
         $model->department_status = 1;
         $model->chief_status = 1;
+        $model->done = 1;
         $model->save(false);
         $status = $model->finance_status;
         // var_dump($model);die();
@@ -107,9 +91,9 @@ class BendaharaController extends Controller
         $model->finance_status = 0;
         $model->department_status = 0;
         $model->chief_status = 0;
+        $model->done = 0;
         $model->save(false);
         $status = $model->finance_status;
-        // var_dump($model);die();
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Diedit');
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
