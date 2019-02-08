@@ -199,7 +199,7 @@ $Role = Yii::$app->user->identity->roleName();
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara'],],
                           ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
-                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
+                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara-activity-daily-responsibility'],],
 
                       ],
                   ],

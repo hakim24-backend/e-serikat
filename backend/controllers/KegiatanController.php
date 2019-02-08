@@ -10,6 +10,7 @@ use common\models\ActivitySection;
 use common\models\ActivitySectionMember;
 use common\models\ActivityResponsibility;
 use common\models\ActivityBudgetSecretariat;
+use common\models\ActivityBudgetSection;
 use common\models\Approve;
 use common\models\User;
 use common\models\TransferRecord;
@@ -48,9 +49,16 @@ class KegiatanController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
+        $role = Yii::$app->user->identity->role;
+        if($role != 1 && $role != 5){
+          $dataProvider = new ActiveDataProvider([
+            'query' => Activity::find()->where(['role'=>$role]),
+          ]);
+        }else{
+          $dataProvider = new ActiveDataProvider([
             'query' => Activity::find(),
-        ]);
+          ]);
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -82,6 +90,7 @@ class KegiatanController extends Controller
          $model = new Activity();
          $modelsSection = [new ActivitySection()];
          $modelsMember[] = [new ActivitySectionMember];
+         $role = Yii::$app->user->identity->role;
 
          if ($model->load(Yii::$app->request->post())) {
 
@@ -94,25 +103,35 @@ class KegiatanController extends Controller
              $model->date_start = $post['from_date'];
              $model->date_end = $post['to_date'];
 
-             $data = SecretariatBudget::findOne($post['source_sdm']);
+             if ($role == 4) {
+                $data = SecretariatBudget::findOne($post['source_sdm']); 
+                if ($post['source_value'] > $data->secretariat_budget_value ) {
+                 Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
+                 return $this->redirect(Yii::$app->request->referrer);
+                }  
+             } elseif ($role == 8) {
+                $data = SectionBudget::findOne($post['source_sdm']);
+                if ($post['source_value'] > $data->section_budget_value ) {
+                 Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
+                 return $this->redirect(Yii::$app->request->referrer);
+                }
+             }
 
              if ($post['money_budget'] > $post['source_value']) {
                  Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
                  return $this->redirect(Yii::$app->request->referrer);
              }
 
-             if ($post['source_value'] > $data->secretariat_budget_value ) {
-                 Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
-                 return $this->redirect(Yii::$app->request->referrer);
-             }
-
              if ($post['jenis_sdm_source']=='4') {
                  $data = SecretariatBudget::findOne($post['source_sdm']);
-                 // $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
                  $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['money_budget'];
                  $data->save();
-                 // $valueDP = (float)$post['source_value'];
                  $idSekreBudget = $data->id;
+             } else if ($post['jenis_sdm_source']=='8') {
+                 $data = SectionBudget::findOne($post['source_sdm']);
+                 $data->section_budget_value=$data->section_budget_value-(float)$post['money_budget'];
+                 $data->save();
+                 $idSectionBudget = $data->id;
              }
 
 
@@ -177,14 +196,23 @@ class KegiatanController extends Controller
                    }
 
 
-                       $sekreBudget = new ActivityBudgetSecretariat();
-                       $sekreBudget->secretariat_budget_id = $idSekreBudget;
-                       $sekreBudget->budget_value_dp = $post['money_budget'];
-                       $sekreBudget->budget_value_sum = $post['source_value'];
+                       if ($role == 4) {
+                           $sekreBudget = new ActivityBudgetSecretariat();
+                           $sekreBudget->secretariat_budget_id = $idSekreBudget;
+                           $sekreBudget->budget_value_dp = $post['money_budget'];
+                           $sekreBudget->budget_value_sum = $post['source_value'];
 
-                       $sekreBudget->activity_id = $model->id;
-                       $sekreBudget->save(false);
+                           $sekreBudget->activity_id = $model->id;
+                           $sekreBudget->save(false);
+                       } elseif ($role == 8) {
+                           $sectionBudget = new ActivityBudgetSection();
+                           $sectionBudget->section_budget_id = $idSectionBudget;
+                           $sectionBudget->budget_value_dp = $post['money_budget'];
+                           $sectionBudget->budget_value_sum = $post['source_value'];
 
+                           $sectionBudget->activity_id = $model->id;
+                           $sectionBudget->save(false);
+                       }
                        return $this->redirect('index');
                  }
              }
@@ -231,6 +259,10 @@ class KegiatanController extends Controller
           $range = $model->date_start.' to '.$model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->secretariat_budget_value;
+
+
          // retrieve existing ActivitySection data
          $oldActivitySectionIds = ActivitySection::find()->select('id')
              ->where(['activity_id' => $id])->asArray()->all();
@@ -286,7 +318,44 @@ class KegiatanController extends Controller
 
              // save deposit data
              if ($valid) {
-                 if ($this->saveDeposit($model,$modelsSection,$modelsMember)) {
+                 if ($this->saveDeposit($model,$modelsSection,$modelsMember) && $budget->load(Yii::$app->request->post())) {
+
+                   $dp = $budget->budget_value_dp;
+                   $total = $budget->budget_value_sum;
+                   $modal = $baru->secretariat_budget_value;
+
+                   if ($dp > $total) {
+                       Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
+                       return $this->redirect(Yii::$app->request->referrer);
+                   }
+
+                   if ($oldBudget <= $dp) {
+                       $dpBaru = $oldDP - $dp;
+                       $oldBudgetBaru = $oldBudget + $dpBaru;
+                       if ($oldBudgetBaru <= 0) {
+                           var_dump($oldBudgetBaru);die();
+                           Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                           return $this->redirect(Yii::$app->request->referrer);
+                       }
+                   }
+
+                   //nilai anggaran dp lebih besar dari anggaran saat ini
+                   if ($oldBudget >= $dp) {
+                       $dpBaru = $dp - $oldDP;
+                       $oldBudgetBaru = $oldDP - $dpBaru;
+                       if ($oldBudgetBaru <= 0) {
+                           var_dump($oldBudgetBaru);die();
+                           Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                           return $this->redirect(Yii::$app->request->referrer);
+                       }
+                   }
+
+                   $budget->budget_value_dp = $budget->budget_value_dp;
+                   $budget->budget_value_sum = $budget->budget_value_sum;
+                   $budget->save(false);
+
+                   $baru->secretariat_budget_value = $oldBudgetBaru;
+                   $baru->save(false);
 
                    if($post){
                      if($post['ketua']){
@@ -319,6 +388,8 @@ class KegiatanController extends Controller
          // show VIEW
          return $this->render('_form-update', [
              'model' => $model,
+             'budget' => $budget,
+             'baru' => $baru,
              'ketua' => $ketua,
              'wakil' => $wakil,
              'bendahara' => $bendahara,
