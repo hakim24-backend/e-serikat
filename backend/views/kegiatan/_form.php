@@ -6,7 +6,8 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
 use dosamigos\google\maps\services\DirectionsClient;
-
+use common\models\User;
+use yii\helpers\ArrayHelper;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\services\DirectionsWayPoint;
 use dosamigos\google\maps\services\TravelMode;
@@ -30,6 +31,28 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
 $range_start = date('Y-m-d');
 $range_end = date('Y-m-d');
 $Role = Yii::$app->user->identity->roleName();
+
+$seksi = User::find()->where(['role'=>8])->all();
+$array_seksi = ArrayHelper::map(User::find()->all(), 'id','name');
+$list_seksi = array_values($array_seksi);
+// $list_seksi = array_values($array_seksi);
+// $list_seksi = implode(', ',array_values($array_seksi));
+
+
+   // $output = "";
+   // $arr = explode(",", $list_seksi);
+   // foreach ($arr as $list_seksi){
+   //   $output .= '"'.trim($list_seksi).'",';
+   // }
+   //  $ou=rtrim($output,", ");
+
+    // $out = '['.$ou.']';
+    // $out = array('wow','test');
+
+    // var_dump($list_seksi);die;
+// $words = "word1,word2,word3,word4";
+
+// echo sandwitch($words);
 
 ?>
 
@@ -174,7 +197,7 @@ $Role = Yii::$app->user->identity->roleName();
         <div class="form-group">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
-                <?= Html::textInput('ketua', '', ['autofocus' => true, 'required'=>true, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
+                <?= Html::dropDownList('ketua', null, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8']) ?>
             </div>
         </div>
     </div>
@@ -182,7 +205,7 @@ $Role = Yii::$app->user->identity->roleName();
         <div class="form-group">
             <label class="col-sm-4">Wakil</label>
             <div class="col-sm-8">
-                <?= Html::textInput('wakil', '', ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
+                <?= Html::dropDownList('wakil', null, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8']) ?>
             </div>
         </div>
     </div>
@@ -190,16 +213,14 @@ $Role = Yii::$app->user->identity->roleName();
         <div class="form-group">
             <label class="col-sm-4">Sekretaris</label>
             <div class="col-sm-8">
-                <?= Html::textInput('sekretaris', '', ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
-            </div>
+                <?= Html::dropDownList('sekretaris', null, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8']) ?>            </div>
         </div>
     </div>
     <div class="col-sm-12">
         <div class="form-group">
             <label class="col-sm-4">Bendahara</label>
             <div class="col-sm-8">
-                <?= Html::textInput('bendahara', '', ['autofocus' => true, 'required'=>false, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
-            </div>
+                <?= Html::dropDownList('bendahara', null, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8']) ?>            </div>
         </div>
     </div>
   </div>
@@ -227,6 +248,10 @@ $Role = Yii::$app->user->identity->roleName();
                       'limit' => 10,
 
                       'min' => 1,
+
+                      'uniqueClass'=>'form-control',
+
+                      'autocompleteDatasource'=>$list_seksi,
 
                       'insertButton' => '.add-house',
 
@@ -297,6 +322,8 @@ $Role = Yii::$app->user->identity->roleName();
                                       'indexSection' => $indexSection,
 
                                       'modelsMember' => $modelsMember[$indexSection],
+
+                                      'list_seksi' => $list_seksi,
 
                                   ]) ?>
 
