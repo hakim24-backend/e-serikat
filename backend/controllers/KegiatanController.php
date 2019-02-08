@@ -231,6 +231,10 @@ class KegiatanController extends Controller
           $range = $model->date_start.' to '.$model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->secretariat_budget_value;
+
+
          // retrieve existing ActivitySection data
          $oldActivitySectionIds = ActivitySection::find()->select('id')
              ->where(['activity_id' => $id])->asArray()->all();
@@ -286,7 +290,44 @@ class KegiatanController extends Controller
 
              // save deposit data
              if ($valid) {
-                 if ($this->saveDeposit($model,$modelsSection,$modelsMember)) {
+                 if ($this->saveDeposit($model,$modelsSection,$modelsMember) && $budget->load(Yii::$app->request->post())) {
+
+                   $dp = $budget->budget_value_dp;
+                   $total = $budget->budget_value_sum;
+                   $modal = $baru->secretariat_budget_value;
+
+                   if ($dp > $total) {
+                       Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
+                       return $this->redirect(Yii::$app->request->referrer);
+                   }
+
+                   if ($oldBudget <= $dp) {
+                       $dpBaru = $oldDP - $dp;
+                       $oldBudgetBaru = $oldBudget + $dpBaru;
+                       if ($oldBudgetBaru <= 0) {
+                           var_dump($oldBudgetBaru);die();
+                           Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                           return $this->redirect(Yii::$app->request->referrer);
+                       }
+                   }
+
+                   //nilai anggaran dp lebih besar dari anggaran saat ini
+                   if ($oldBudget >= $dp) {
+                       $dpBaru = $dp - $oldDP;
+                       $oldBudgetBaru = $oldDP - $dpBaru;
+                       if ($oldBudgetBaru <= 0) {
+                           var_dump($oldBudgetBaru);die();
+                           Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                           return $this->redirect(Yii::$app->request->referrer);
+                       }
+                   }
+
+                   $budget->budget_value_dp = $budget->budget_value_dp;
+                   $budget->budget_value_sum = $budget->budget_value_sum;
+                   $budget->save(false);
+
+                   $baru->secretariat_budget_value = $oldBudgetBaru;
+                   $baru->save(false);
 
                    if($post){
                      if($post['ketua']){
@@ -319,6 +360,8 @@ class KegiatanController extends Controller
          // show VIEW
          return $this->render('_form-update', [
              'model' => $model,
+             'budget' => $budget,
+             'baru' => $baru,
              'ketua' => $ketua,
              'wakil' => $wakil,
              'bendahara' => $bendahara,
