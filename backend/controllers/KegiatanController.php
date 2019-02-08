@@ -344,9 +344,10 @@ class KegiatanController extends Controller
                            return $this->redirect(Yii::$app->request->referrer);
                        }
 
-                       if ($oldBudget <= $dp) {
+                       //nilai anggaran dp lebih kecil dari anggaran saat ini
+                       if ($dp <= $modal) {
                            $dpBaru = $oldDP - $dp;
-                           $oldBudgetBaru = $oldBudget + $dpBaru;
+                           $oldBudgetBaru = $modal + $dpBaru;
                            if ($oldBudgetBaru <= 0) {
                                var_dump($oldBudgetBaru);die();
                                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
@@ -355,9 +356,9 @@ class KegiatanController extends Controller
                        }
 
                        //nilai anggaran dp lebih besar dari anggaran saat ini
-                       if ($oldBudget >= $dp) {
+                       if ($dp >= $modal) {
                            $dpBaru = $dp - $oldDP;
-                           $oldBudgetBaru = $oldDP - $dpBaru;
+                           $oldBudgetBaru = $modal - $dpBaru;
                            if ($oldBudgetBaru <= 0) {
                                var_dump($oldBudgetBaru);die();
                                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
@@ -383,9 +384,9 @@ class KegiatanController extends Controller
                            return $this->redirect(Yii::$app->request->referrer);
                        }
 
-                       if ($oldBudget <= $dp) {
+                       if ($dp <= $modal) {
                            $dpBaru = $oldDP - $dp;
-                           $oldBudgetBaru = $oldBudget + $dpBaru;
+                           $oldBudgetBaru = $modal + $dpBaru;
                            if ($oldBudgetBaru <= 0) {
                                var_dump($oldBudgetBaru);die();
                                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
@@ -394,9 +395,9 @@ class KegiatanController extends Controller
                        }
 
                        //nilai anggaran dp lebih besar dari anggaran saat ini
-                       if ($oldBudget >= $dp) {
+                       if ($dp >= $modal) {
                            $dpBaru = $dp - $oldDP;
-                           $oldBudgetBaru = $oldDP - $dpBaru;
+                           $oldBudgetBaru = $modal - $dpBaru;
                            if ($oldBudgetBaru <= 0) {
                                var_dump($oldBudgetBaru);die();
                                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
