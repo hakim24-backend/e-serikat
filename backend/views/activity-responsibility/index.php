@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '{create} {view} {download}',
+                                'template' => '{create} {download}',
                                 'buttons' => [
 
 
@@ -76,18 +76,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                             }
                                           }
                                         },
-                                        'view' => function($url, $model, $key)
+                                        'download' => function($url, $model, $key)
                                         {
-                                            if($model->activityResponsibilities){
-                                                $url = Url::toRoute(['/activity-responsibility/view', 'id' => $model->id]);
+                                                    $url = Url::toRoute(['/activity-responsibility/report', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '<span class="glyphicon glyphicon-eye-open"></span>',
-                                                        $url,
+                                                        '| <span class="glyphicon glyphicon-download"></span> |',
+                                                        $url, 
                                                         [
-                                                            'title' => 'Lihat Laporan Pertanggung Jawaban',
+                                                            'title' => 'Download Pertanggungjawaban',
+                                                            'data-pjax' => 0, 
+                                                            'target' => '_blank'
                                                         ]
                                                     );
-                                            }
                                         }
                                     ]
 

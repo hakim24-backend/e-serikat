@@ -54,11 +54,11 @@ class ActivityDailyResponsibilityController extends Controller
         if($role != 1){
           $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find()->where(['role'=>$role]),
-          ]);
-        }else{
-          $dataProvider = new ActiveDataProvider([
+            ]);
+        } else {
+           $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find(),
-          ]);
+           ]);
         }
 
         return $this->render('index', [
@@ -310,8 +310,6 @@ class ActivityDailyResponsibilityController extends Controller
             ]
         ]);
     }
-
-
     // return the pdf output as per the destination setting
     return $pdf->render();
     }
