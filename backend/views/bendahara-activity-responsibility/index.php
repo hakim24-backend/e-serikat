@@ -7,11 +7,17 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Data Pertanggungjawaban Kegiatan Rutin';
+$this->title = 'Data Pertanggung Jawaban Kegiatan Rutin';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-daily-index">
 
+<!--     <h1><?= Html::encode($this->title) ?></h1> -->
+
+<!--     <p>
+        <?= Html::a('Input Data Pertanggung', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+ -->
       <div class="box box-primary">
             <div class="box-body">
                 <div class="tab-content c-bordered c-padding-lg">
@@ -26,48 +32,35 @@ $this->params['breadcrumbs'][] = $this->title;
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
 
-                                // 'id',
-                                // 'finance_status',
-                                // 'department_status',
-                                // 'chief_status',
-                                // 'chief_code_id',
-                                // 'department_code_id',
-                                // 'title',
-                                // 'description:ntext',
-                                // 'role',
-                                // 'date',
-                                // 'done',
                                 [
-                                    'header' => 'Judul',
-                                    'headerOptions' =>[
-                                      'style' => 'width:20%'
-                                    ],
-                                    'attribute' => 'title',
-                                    ],
+                                'header' => 'Status Anggaran',
+                                'attribute' => 'finance_status',
+                                ],
 
-                                    [
-                                    'header' => 'Deskripsi',
-                                    'headerOptions' =>[
-                                      'style' => 'width:35%'
-                                    ],
-                                    'attribute' => 'description',
-                                    ],
+                                [
+                                'header' => 'Judul',
+                                'attribute' => 'title',
+                                ],
 
-                                    [
-                                    'header' => 'Tangal Mulai',
-                                    'headerOptions' =>[
-                                      'style' => 'width:15%'
-                                    ],
-                                    'attribute' => 'date_start',
-                                    ],
+                                [
+                                'header' => 'Latar Belakang',
+                                'attribute' => 'background',
+                                ],
 
-                                    [
-                                    'header' => 'Tanggal Berakhir',
-                                    'headerOptions' =>[
-                                      'style' => 'width:15%'
-                                    ],
-                                    'attribute' => 'date_end',
-                                    ],
+                                [
+                                'header' => 'Tujuan',
+                                'attribute' => 'purpose',
+                                ],
+
+                                [
+                                'header' => 'Tangal Mulai',
+                                'attribute' => 'date_start',
+                                ],
+
+                                [
+                                'header' => 'Tanggal Berakhir',
+                                'attribute' => 'date_end',
+                                ],
                                 [
 
                                 'class' => 'yii\grid\ActionColumn',
@@ -86,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 //         ]
                                                 //     );
                                                 // } else {
-                                                    $url = Url::toRoute(['/bendahara-activity-daily-responsibility/closing', 'id' => $model->id]);
+                                                    $url = Url::toRoute(['/bendahara-activity-responsibility/closing', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-ok"></span> ',
                                                         $url, 
@@ -98,20 +91,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         },
                                         'view' => function($url, $model, $key)
                                         {
-                                                    $url = Url::toRoute(['/bendahara-activity-daily-responsibility/view', 'id' => $model->id]);
+                                                    $url = Url::toRoute(['/bendahara-activity-responsibility/view', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '| <span class="glyphicon glyphicon-eye-open"></span> ',
-                                                        $url, 
-                                                        [
-                                                            'title' => 'View Pertanggungjawaban',
-                                                        ]
-                                                    );
-                                        },
-                                        'download' => function($url, $model, $key)
-                                        {
-                                                    $url = Url::toRoute(['/bendahara-activity-daily-responsibility/report', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        '| <span class="glyphicon glyphicon-download"></span> |',
+                                                        '| <span class="glyphicon glyphicon-eye-open"></span> |',
                                                         $url, 
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',
@@ -120,8 +102,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ]
                                                     );
                                         },
+                                        'download' => function($url, $model, $key)
+                                        {
+                                                    $url = Url::toRoute(['/bendahara-activity-responsibility/report', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        ' <span class="glyphicon glyphicon-download"></span> |',
+                                                        $url, 
+                                                        [
+                                                            'title' => 'Download Pertanggungjawaban',
+                                                        ]
+                                                    );
+                                        },
                                     ]
-                                
+
                                 ],
 
                             ],

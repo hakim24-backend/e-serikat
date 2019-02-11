@@ -34,14 +34,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 [
                                 'header' => 'Judul',
+                                'headerOptions' =>[
+                                      'style' => 'width:30%'
+                                ],
                                 'attribute' => 'title',
                                 ],
                                 [
                                 'header' => 'Latar Belakang',
+                                'headerOptions' =>[
+                                      'style' => 'width:30%'
+                                ],
                                 'attribute' => 'background',
                                 ],
                                 [
                                 'header' => 'Tujuan',
+                                'headerOptions' =>[
+                                      'style' => 'width:30%'
+                                ],
                                 'attribute' => 'purpose',
                                 ],
                                 [
@@ -67,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             }else{
                                               $url = Url::toRoute(['/activity-responsibility/create', 'id' => $model->id]);
                                               return Html::a(
-                                                '<span class="glyphicon glyphicon-plus"></span>',
+                                                '| <span class="glyphicon glyphicon-plus"></span>',
                                                 $url,
                                                 [
                                                   'title' => 'Create Laporan Pertanggung Jawaban',

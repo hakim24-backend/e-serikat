@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
 
-                                     [
+                                    [
                                     'header' => 'Status Anggaran',
                                     'attribute' => 'finance_status',
                                     ],
@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'class' => 'yii\grid\ActionColumn',
                                       'contentOptions' => ['style' => 'width:160px;'],
                                       'header'=>'Actions',
-                                      'template' => ' {update} {view} {delete} ',
+                                      'template' => ' {update} {view} {download} ',
                                       'buttons' => [
                                           'update' => function ($url, $model) {
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
@@ -83,13 +83,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                               ]);
                                             }
                                           },
-                                          'delete' => function ($url, $model) {
+                                          'download' => function ($url, $model) {
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
-                                              return Html::a('| <span class="fa fa-trash"></span>', $url, [
-                                                          'title' => Yii::t('app', 'Delete'),
-                                                          'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
-                                                          'data-method' => 'post', 'data-pjax' => '0',
-
+                                              return Html::a('| <span class="fa fa-download"></span> |', $url, [
+                                                          'title' => Yii::t('app', 'download'),
+                                                          'data-pjax' => 0, 
+                                                          'target' => '_blank'
                                               ]);
                                             }
 
@@ -103,8 +102,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                           }else if ($action === 'view') {
                                               $url = Url::to(['kegiatan/view','id'=>$model['id']]);
                                               return $url;
-                                          }else if ($action === 'delete') {
-                                              $url = Url::to(['kegiatan/delete','id'=>$model['id']]);
+                                          }else if ($action === 'download') {
+                                              $url = Url::to(['kegiatan/report','id'=>$model['id']]);
                                               return $url;
                                           }
                                       }

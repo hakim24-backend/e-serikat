@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ActivityDailyReject;
+use common\models\Activity;
 use common\models\ActivityDaily;
 use common\models\Budget;
 use common\models\Secretariat;
@@ -27,7 +28,7 @@ use kartik\mpdf\Pdf;
 use yii\web\UploadedFile;
 
 /**
- * BendaharaController implements the CRUD actions for ActivityDailyReject model.
+ * BendaharaController implements the CRUD actions for ActivityResponsibility model.
  */
 class BendaharaController extends Controller
 {
@@ -47,33 +48,38 @@ class BendaharaController extends Controller
     }
 
     /**
-     * Lists all ActivityDailyReject models.
+     * Lists all ActivityResponsibility models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-        'query' => ActivityDaily::find()->where(['done'=>0]),
+            'query' => Activity::find()->where(['done'=> 0]),
         ]);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single ActivityDailyReject model.
+     * Displays a single ActivityResponsibility model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
     public function actionApply($id)
     {
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $model = Activity::find()->where(['id'=>$id])->one();
         $model->finance_status = 1;
         $model->department_status = 1;
         $model->chief_status = 1;
-        $model->done = 1;
         $model->save(false);
         $status = $model->finance_status;
         // var_dump($model);die();
@@ -87,11 +93,10 @@ class BendaharaController extends Controller
 
     public function actionUpdateApply($id)
     {
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $model = Activity::find()->where(['id'=>$id])->one();
         $model->finance_status = 0;
         $model->department_status = 0;
         $model->chief_status = 0;
-        $model->done = 0;
         $model->save(false);
         $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Diedit');
@@ -131,27 +136,7 @@ class BendaharaController extends Controller
     }
 
     /**
-     * Updates an existing ActivityDailyReject model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing ActivityDailyReject model.
+     * Deletes an existing ActivityResponsibility model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -165,15 +150,15 @@ class BendaharaController extends Controller
     }
 
     /**
-     * Finds the ActivityDailyReject model based on its primary key value.
+     * Finds the ActivityResponsibility model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ActivityDailyReject the loaded model
+     * @return ActivityResponsibility the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ActivityDailyReject::findOne($id)) !== null) {
+        if (($model = Activity::findOne($id)) !== null) {
             return $model;
         }
 

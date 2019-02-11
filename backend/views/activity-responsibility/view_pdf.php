@@ -12,304 +12,264 @@ $this->title = 'Data Kegiatan Rutin Sekretariat';
 $this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+$date = date('Y-m-d');
 
 $Role = Yii::$app->user->identity->roleName();
 ?>
 
 <html>
-<head>
-<style type="text/css">
-<!--
-#apDiv1 {
-    position:absolute;
-    left:136px;
-    top:16px;
-    width:431px;
-    height:116px;
-    z-index:1;
-}
-#apDiv2 {
-    position:absolute;
-    left:635px;
-    top:180px;
-    width:63px;
-    height:32px;
-    z-index:2;
-}
-.style3 {
-    font-size: 20px;
-    font-weight: bold;
-}
-.style9 {font-size: 15px}
-.style10 {font-size: 15px}
-#apDiv3 {
-    position:absolute;
-    left:607px;
-    top:205px;
-    width:86px;
-    height:35px;
-    z-index:2;
-}
-#apDiv4 {
-    position:absolute;
-    left:78px;
-    top:163px;
-    width:534px;
-    height:111px;
-    z-index:3;
-}
-#apDiv5 {
-    position:absolute;
-    left:527px;
-    top:204px;
-    width:73px;
-    height:57px;
-    z-index:4;
-}
--->
-</style>
-</head>
-<body style="color:#000066;">
-<div id="apDiv1">
-<p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
-    <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
-  <span>Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
-<span>NO : 834932482342</span><br>
-<span>NO : 234248244244</span>
+  <head>
+    <style type="text/css">
+    <!--
+    @page {
+              size: 29.7cm 21cm  portrait;   /*A4*/
+              padding:0; margin:1; 
+              top:0; left:0; right:0;bottom:0; border:0;
+          }
 
-<hr style="color:#000000;"></hr>
-
-<p><strong><em>&nbsp;</em></strong></p>
-<table>
-    <tbody>
-        <tr>
-            <td width="200"><strong>Yang Mengajukan Ijin Kegiatan Rutin</strong></td>
-        </tr>
-        <tr>
-            <td>Nama</td>
-            <td>: <?=Yii::$app->user->identity->username?></td>
-        </tr>
-        <tr>
-            <td>Unit Kerja</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>: <?=$sekre->secretariat_code?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>: <?=$sekre->section_code?></td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>Nomor Rekening</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>: <?=$sumber->budget_rek?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>: <?=$sumber->budget_rek?></td>
-            <?php } ?>
-        </tr>
-    </tbody>
-</table>
-<br>
-<table>
-    <tbody>
-        <tr>
-            <td width="200"><strong>Kode Anggaran</strong></td>
-        </tr>
-        <tr>
-            <td>Kode Anggaran Pengelola</td>
-            <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td><?=$sumber->budget_code?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td><?=$sumber->budget_code?></td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>Kode Anggaran Penerima</td>
-            <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td><?=$baru->secretariat_budget_code?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td><?=$baru->section_budget_code?></td>
-            <?php } ?>
-        </tr>
-    </tbody>
-</table>
-<br>
-<table>
-    <tbody>
-        <tr>
-            <td><strong>Rencana Kegiatan</strong></td>
-        </tr>
-        <tr>
-            <td>Nama Kegiatan</td>
-            <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td><?=$model->title?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td><?=$model->title?></td>
-            <?php } ?>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>Anggaran Saat Ini</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$baru->section_budget_value?></td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>Waktu Pelaksanaan</td>
-            <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td><?=$model->date_start.' s/d '.$model->date_end?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td><?=$model->date_start.' s/d '.$model->date_end?></td>
-            <?php } ?>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>Uang Muka Kegiatan Rutin</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?></td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>Nilai Anggaran</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_sum?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_sum?></td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>Uang Muka Kegiatan Rutin</td>
-            <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?><td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?><td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>Nilai Anggaran Kegiatan</td>
-            <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_sum ?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_sum ?></td>
-            <?php } ?>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>Sisa Nilai Anggaran Saat Ini</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value+$budget->budget_value_dp?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$baru->section_budget_value+$budget->budget_value_dp?></td>
-            <?php } ?>
-        </tr>
-    </tbody>
-</table>
-<br>
-<table>
-    <tbody>
-        <tr>
-            <td><strong>Diajukan Oleh</strong></td>
-        </tr>
-        <br>
-        <br>
-        <br>
-        <tr>
-            <td><?=Yii::$app->user->identity->username?></td>
-        </tr>
-    </tbody>
-</table>
-<br>
-<table>
-    <tbody>
-        <tr>
-            <td><strong>Disetujui Oleh</td>
-        </tr>
-        <tr>
-            <td width="270">Tanggal</td>
-            <td width="270">Tanggal</td>
-            <td>Tanggal</td>
-        </tr>
-    </tbody>
-</table>
-<table>
-    <tbody>
-        <tr>
-            <td width="270">Telah disetujui sistem</td>
-            <td width="270">Tidak diperlukan</td>
-            <td>Tidak diperlukan</td>
-        </tr>
-    </tbody>
-</table>
-<br>
-<br>
-<br>
-<table>
-    <tbody>
-        <tr>
-            <td width="270">DANI RUSTIAWAN, IR., MM</td>
-            <td width="270">____________________</td>
-            <td>____________________</td>
-        </tr>
-        <tr>
-            <td>Manager Pelayanan Umum</td>
-        </tr>
-    </tbody>
-</table>
-</body>
+          @media print {
+              .table{
+                margin-bottom: 0px;
+              }
+          }
+    }
+    -->
+    </style>
+  </head>
+    <body>
+      <section id="core" style="width: 100%;">
+      <div class="center-content">
+        <table class="table table-responsive" width="100%" border="1">
+          <tbody>
+             <tr>
+              <td colspan="1" rowspan="2" width="16%" class="text-center" ><img src="<?=Yii::getAlias('@web'); ?>/image/logo.png"></td>
+              <th colspan="4" class="text-center" style="vertical-align: middle;">PERTANGGUNG JAWABAN UANG MUKA</th>
+            </tr>
+          </tbody>
+         </table>
+         <table>
+           <tbody>
+             <tr style="border-bottom-style: hidden;">
+              <td colspan="2" style="border-right-style: hidden;">Nama</td>
+              <td style="border-right-style: hidden;">:</td>
+              <?php if ($Role == "Sekretariat") { ?>
+                <td colspan="3"><?=$sekre->secretariat_name?></td>
+              <?php } elseif ($Role == "Seksi") { ?>
+                <td colspan="3"><?=$sekre->section_name?></td>
+              <?php } ?>
+            </tr>
+            <tr style="border-bottom-style: hidden;">
+              <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen</td>
+              <td style="border-right-style: hidden;">:</td>
+              <?php if ($Role == "Sekretariat") { ?>
+                <td colspan="3"><?=$sekre->secretariat_code?></td>
+              <?php } elseif ($Role == "Seksi") { ?>
+                <td colspan="3"><?=$sekre->section_code.'/'.$departName->depart_code?></td>
+              <?php } ?>
+            </tr>
+           </tbody>
+         </table>
+         <br>
+         <table class="table table-responsive" width="100%" border="1">
+           <tbody>
+             <tr>
+              <td rowspan="2" class="text-center" style="vertical-align: middle;">No.</td>
+              <td rowspan="2" colspan="2" class="text-center" style="vertical-align: middle;">Uraian</td>
+              <td colspan="2" class="text-center">Pengeluaran</td>
+            </tr>
+             <tr>
+              <td class="text-center">Rencana</td>
+              <td class="text-center">Realisasi</td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;">1</td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$model->title?></td>
+              <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_sum?></td>
+              <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_dp?></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td class="text-center"></td>
+              <td colspan="2" class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+            </tr>
+           </tbody>
+           <tbody>
+            <tr>
+              <td colspan="4">Jumlah Uang yang dipertanggung jawabkan.</td>
+              <td class="text-center"><?=$budget->budget_value_sum?></td>
+            </tr>
+            <tr>
+              <td colspan="4">Jumlah Uang yang Diterima.</td>
+              <td class="text-center"><?=$budget->budget_value_dp?></td>
+            </tr>
+            <tr>
+              <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
+              <?php if ($Role == "Sekretariat") { ?>
+                <td class="text-center"><?=$baru->secretariat_budget_value?></td>
+              <?php } elseif ($Role == "Seksi") { ?>
+                <td class="text-center"><?=$baru->section_budget_value?></td>
+              <?php } ?>
+            </tr>
+            <tr>
+              <td colspan="5">Gresik, <?=$date?></td>
+            </tr>
+          </tbody>
+         </table>
+         <table class="table table-responsive" width="100%" border="1">
+          <tbody>
+             <tr>
+              <td colspan="1" rowspan="2" width="16%" class="text-center">Yang mempertanggung jawabkan</td>
+              <td colspan="4" class="text-center">Menyetujui</td>
+            </tr>
+            <tr>
+              <?php if ($Role == "Sekretariat") { ?>
+                <td width="21%">KADEP</td>
+              <?php } elseif ($Role == "Seksi") { ?>
+                <td width="21%">KADEP <?=$departName->depart_name?></td>
+              <?php } ?>
+              <td class="text-center" width="21%">KETUA II </td>
+              <td class="text-center" width="21%">SEKRETARIS UMUM </td>
+              <td class="text-center" width="21%">BENDAHARA </td>
+            </tr>
+            <tr>
+              <td class="text-center" style="border-bottom-style: hidden;">Ketua Seksi</td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <?php if ($Role == "Sekretariat") { ?>
+                <td></td>
+              <?php } elseif ($Role == "Seksi") { ?>
+                <td><?=$departName->depart_name?></td>
+              <?php } ?>
+              <td></td>
+              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;">Walyo Sirdjo</p></div></td>
+              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;">Abdul Rohman Wachid</p></div></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="6"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>
+            </tr>
+          </tbody>
+         </table>
+      </div>
+    </section>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+    </body>
 </html>

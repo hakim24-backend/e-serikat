@@ -52,16 +52,16 @@ $Role = Yii::$app->user->identity->roleName();
              <tr style="border-bottom-style: hidden;">
               <td colspan="2" style="border-right-style: hidden;">Nama</td>
               <td style="border-right-style: hidden;">:</td>
-              <?php if ($Role == "Sekretariat") { ?>
+              <?php if ($Role == "Bendahara") { ?>
                 <td colspan="3"><?=$sekre->secretariat_name?></td>
-              <?php } elseif ($Role == "Seksi") { ?>
+              <?php } else { ?>
                 <td colspan="3"><?=$sekre->section_name?></td>
               <?php } ?>
             </tr>
             <tr style="border-bottom-style: hidden;">
               <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen</td>
               <td style="border-right-style: hidden;">:</td>
-              <?php if ($Role == "Sekretariat") { ?>
+              <?php if ($Role == "Bendahara") { ?>
                 <td colspan="3"><?=$sekre->secretariat_code?></td>
               <?php } elseif ($Role == "Seksi") { ?>
                 <td colspan="3"><?=$sekre->section_code.'/'.$departName->depart_code?></td>
@@ -165,7 +165,7 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
-              <?php if ($Role == "Sekretariat") { ?>
+              <?php if ($Role == "Bendahara") { ?>
                 <td class="text-center"><?=$baru->secretariat_budget_value?></td>
               <?php } elseif ($Role == "Seksi") { ?>
                 <td class="text-center"><?=$baru->section_budget_value?></td>
@@ -183,7 +183,7 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="4" class="text-center">Menyetujui</td>
             </tr>
             <tr>
-              <?php if ($Role == "Sekretariat") { ?>
+              <?php if ($Role == "Bendahara") { ?>
                 <td width="21%">KADEP</td>
               <?php } elseif ($Role == "Seksi") { ?>
                 <td width="21%">KADEP <?=$departName->depart_name?></td>

@@ -38,30 +38,6 @@ $Role = Yii::$app->user->identity->roleName();
 
                       ],
                   ],
-                  [
-                      'label' => 'Modul Bendahara',
-                      'icon' => 'archive',
-                      'url' => '#',
-                      'items' => [
-                          ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
-                          ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
-                          ['label' => 'Pemindahan Dana', 'icon' => 'dashboard', 'url' => ['/relokasi'],],
-
-                      ],
-                  ],
-                  [
-                      'label' => 'Uang Muka',
-                      'icon' => 'money',
-                      'url' => '#',
-                      'items' => [
-                          ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
-                          ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
-                          ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
-                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
-                      ],
-                  ],
-
-
               ],
           ]
       ) ?>
@@ -192,13 +168,24 @@ $Role = Yii::$app->user->identity->roleName();
               'items' => [
                   ['label' => 'Menu E-Serikat', 'options' => ['class' => 'header']],
                   [
+                      'label' => 'Modul Bendahara',
+                      'icon' => 'archive',
+                      'url' => '#',
+                      'items' => [
+                          ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
+                          ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
+                          ['label' => 'Pemindahan Dana', 'icon' => 'dashboard', 'url' => ['/relokasi'],],
+
+                      ],
+                  ],
+                  [
                       'label' => 'Approval',
                       'icon' => 'money',
                       'url' => '#',
                       'items' => [
-                          ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
-                          ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara'],],
-                          ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
+                          ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/bendahara'],],
+                          ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara-rutin'],],
+                          ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/bendahara-activity-responsibility'],],
                           ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara-activity-daily-responsibility'],],
 
                       ],
@@ -208,10 +195,8 @@ $Role = Yii::$app->user->identity->roleName();
                       'icon' => 'money',
                       'url' => '#',
                       'items' => [
-                          ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => [''],],
-                          ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => [''],],
-                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => [''],],
-
+                          ['label' => 'Data Kegiatan', 'icon' => 'file-code-o', 'url' => [''],],
+                          ['label' => 'Data Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => [''],],
                       ],
                   ],
               ],

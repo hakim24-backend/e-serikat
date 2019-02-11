@@ -148,7 +148,7 @@ $Role = Yii::$app->user->identity->roleName();
             <td><strong>Rencana Kegiatan</strong></td>
         </tr>
         <tr>
-            <td>Nama Kegiatan</td>
+            <td>Judul Kegiatan</td>
             <td>:</td>
             <?php if ($Role == "Super Admin") { ?>
                 <td><?=$model->title?></td>
@@ -180,6 +180,11 @@ $Role = Yii::$app->user->identity->roleName();
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$baru->section_budget_value?></td>
             <?php } ?>
+        </tr>
+        <tr>
+            <td>Tempat Pelaksanaan</td>
+            <td>:</td>
+            <td><?=$model->place_activity?></td>
         </tr>
         <tr>
             <td>Waktu Pelaksanaan</td>

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\Activity;
 use common\models\ActivityDaily;
 use common\models\Budget;
 use common\models\Secretariat;
@@ -11,6 +12,8 @@ use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
 use common\models\ActivityDailyBudgetSection;
+use common\models\ActivityBudgetSecretariat;
+use common\models\ActivityBudgetSection;
 use common\models\Approve;
 use common\models\User;
 use common\models\TransferRecord;
@@ -24,13 +27,36 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
 
-class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
+/**
+ * BendaharaActivityResponsibilityController implements the CRUD actions for ActivityResponsibility model.
+ */
+class BendaharaActivityResponsibilityController extends Controller
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Lists all ActivityResponsibility models.
+     * @return mixed
+     */
     public function actionIndex()
     {
-      	$dataProvider = new ActiveDataProvider([
-        'query' => ActivityDaily::find()->where(['finance_status'=> 1])->andWhere(['done'=> 0]),
+        $dataProvider = new ActiveDataProvider([
+            'query' => Activity::find()->where(['finance_status'=>1])->andWhere(['done'=>0]),
         ]);
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -38,7 +64,7 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
 
     public function actionClosing($id)
     {
-    	$model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $model = Activity::find()->where(['id'=>$id])->one();
         $model->done = 1;
         $model->save(false);
 
@@ -50,9 +76,43 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
 
     }
 
+    /**
+     * Updates an existing ActivityResponsibility model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Deletes an existing ActivityResponsibility model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
     public function actionView($id)
     {
-        $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
+        $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
         return $this->render('view', [
             'model' => $model,
         ]);
@@ -60,7 +120,7 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
 
     public function actionDownload($id)
     {
-        $download = ActivityDailyResponsibility::findOne($id);
+        $download = ActivityResponsibility::findOne($id);
         $path=Yii::getAlias('@backend').'/web/template'.$download->file;
 
         if (file_exists($path)) {
@@ -70,26 +130,26 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
 
     public function actionReport($id) {
 
-    $roleSekre =  ActivityDaily::find()->where(['role'=>4])->one();
-    $roleSeksi =  ActivityDaily::find()->where(['role'=>8])->one();
+    $roleSekre =  Activity::find()->where(['role'=>4])->one();
+    $roleSeksi =  Activity::find()->where(['role'=>8])->one();
 
     if ($roleSekre) {
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+        $model = Activity::find()->where(['id'=>$id])->one();
+        $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
         $sekre = Secretariat::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
     } else if ($roleSeksi) {
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+        $model = Activity::find()->where(['id'=>$id])->one();
+        $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
         $baru = SectionBudget::find()->where(['id'=>$awal])->one();
         $sekre = Section::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
     }
 
-    $content = $this->renderPartial('view_pdf',[
+        $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
@@ -126,4 +186,19 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
     return $pdf->render();
     }
 
+    /**
+     * Finds the ActivityResponsibility model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return ActivityResponsibility the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = ActivityResponsibility::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
 }
