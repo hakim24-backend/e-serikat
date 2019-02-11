@@ -21,6 +21,10 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
     'min' => 1,
 
+    'uniqueClass'=>'form-control-ui',
+
+    'autocompleteDatasource'=>$list_seksi,
+
     'insertButton' => '.add-room',
 
     'deleteButton' => '.remove-room',
@@ -74,8 +78,9 @@ use wbraganca\dynamicform\DynamicFormWidget;
                     }
 
                 ?>
-
-                <?= $form->field($modelMember, "[{$indexSection}][{$indexMember}]section_name_member")->label(false)->textInput(['maxlength' => true]) ?>
+                <?= $form->field($modelMember, "[{$indexSection}][{$indexMember}]section_name_member")->widget(\yii\jui\AutoComplete::classname(), [
+                    'options' => [ 'class' => 'form-control form-control-ui' ],
+                ])->label(false) ?>
 
             </td>
 

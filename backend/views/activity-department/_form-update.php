@@ -6,7 +6,8 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
 use dosamigos\google\maps\services\DirectionsClient;
-
+use common\models\User;
+use yii\helpers\ArrayHelper;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\services\DirectionsWayPoint;
 use dosamigos\google\maps\services\TravelMode;
@@ -20,90 +21,67 @@ use dosamigos\google\maps\services\DirectionsRequest;
 use dosamigos\google\maps\overlays\Polygon;
 use dosamigos\google\maps\layers\BicyclingLayer;
 use wbraganca\dynamicform\DynamicFormWidget;
-use common\models\User;
-use yii\helpers\ArrayHelper;
-
 /* @var $this yii\web\View */
 
 /* @var $model common\models\Activity */
 /* @var $form yii\widgets\ActiveForm */
 $this->title = 'Data Kegiatan';
-
-$range = date('Y-m-d').' to '.date('Y-m-d');
-$range_start = date('Y-m-d');
-$range_end = date('Y-m-d');
 $Role = Yii::$app->user->identity->roleName();
+
 $seksi = User::find()->where(['role'=>8])->all();
 $array_seksi = ArrayHelper::map(User::find()->all(), 'id','name');
 $list_seksi = array_values($array_seksi);
+// $range = date('Y-m-d').' to '.date('Y-m-d');
+// $range_start = date('Y-m-d');
+// $range_end = date('Y-m-d');
 ?>
 
 <div class="activity-form">
 
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Data Kegiatan Rutin Sekretariat</h3>
 
-        <div class="box box-info">
-          <div class="box-header with-border">
-              <h3 class="box-title">Data Kegiatan Rutin Sekretariat</h3>
-
-              <div class="box-tools pull-right">
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-              </div>
-          </div>
-          <div class="box-body">
-              <div class="col-sm-12">
-                  <div class="form-group">
-                      <label class="col-sm-4">Jenis SDM</label>
-                      <div class="col-sm-8">
-                          <?php
-                          if($Role == "Super Admin"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat', 8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
-                          <?php } else if ($Role == "Sekretariat"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
-                          <?php }else if($Role == "Seksi"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
-                          <?php }else if($Role == "Departemen"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null , [7 => 'Departemen'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
-                          <?php } ?>
-                      </div>
-                  </div>
-              </div>
-              <br>
-              <br>
-              <div class="col-sm-12">
-                  <div class="form-group">
-                      <label class="col-sm-4">Kode Anggaran</label>
-                      <div class="col-sm-8">
-                          <?= Html::dropDownList('source_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8 form-control','id'=>'kode-asal']) ?>
-                      </div>
-                  </div>
-              </div>
-              <br>
-              <br>
-              <div id="nilai-anggaran-source">
-              </div>
-               <div class="col-sm-12">
-                  <div class="form-group">
-                      <label class="col-sm-4">Uang Muka Anggaran</label>
-                      <div class="col-sm-8">
-                          <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
-                      </div>
-                  </div>
-              </div>
-              <br>
-              <br>
-              <div class="col-sm-12">
-                  <div class="form-group">
-                      <label class="col-sm-4">Nilai Anggaran</label>
-                      <div class="col-sm-8">
-                          <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
-                      </div>
-                  </div>
-              </div>
-              <br>
-              <br>
-          </div>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
+                    <div class="col-sm-8">
+                       
+                        <?= $baru->department_budget_value ?>
+                       
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4">Uang Muka Anggaran</label>
+                    <div class="col-sm-8">
+                        <?= $form->field($budget, 'budget_value_dp')->textInput(['class' => 'form-control'])->label(false); ?>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-4">Nilai Anggaran</label>
+                    <div class="col-sm-8">
+                        <?= $form->field($budget, 'budget_value_sum')->textInput(['class' => 'form-control'] )->label(false); ?>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
     </div>
 
     <div class="box box-primary">
@@ -117,7 +95,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Judul</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true,'required' => true])->label(false) ?>
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -127,7 +105,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background')->textarea(['rows' => 4,'required' => true])->label(false) ?>
+                <?= $form->field($model, 'background')->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -137,7 +115,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose')->textarea(['rows' => 4,'required' => true])->label(false) ?>
+                <?= $form->field($model, 'purpose')->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -147,7 +125,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Target Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4,'required' => true])->label(false) ?>
+                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -177,11 +155,11 @@ $list_seksi = array_values($array_seksi);
     <label>Informasi Kepengurusan Utama</label>
   </div>
   <div class="box-body">
-    <div class="form-group">
-        <div class="col-sm-12">
+    <div class="col-sm-12">
+        <div class="form-group">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
-                <?= Html::dropDownList('ketua', null, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
+                <?= Html::dropDownList('ketua', $ketua->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
             </div>
         </div>
     </div>
@@ -189,8 +167,7 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Wakil</label>
             <div class="col-sm-8">
-                <?= Html::dropDownList('wakil', null, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
-                
+              <?= Html::dropDownList('wakil', $wakil->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
             </div>
         </div>
     </div>
@@ -198,8 +175,7 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Sekretaris</label>
             <div class="col-sm-8">
-                <?= Html::dropDownList('sekretaris', null, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
-                
+              <?= Html::dropDownList('sekretaris', $sekretaris->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
             </div>
         </div>
     </div>
@@ -207,8 +183,7 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Bendahara</label>
             <div class="col-sm-8">
-                <?= Html::dropDownList('bendahara', null, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
-
+              <?= Html::dropDownList('bendahara', $bendahara->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
             </div>
         </div>
     </div>
@@ -240,7 +215,7 @@ $list_seksi = array_values($array_seksi);
 
                       'uniqueClass'=>'form-control-ui',
 
-                      'autocompleteDatasource' => $list_seksi,
+                      'autocompleteDatasource'=>$list_seksi,
 
                       'insertButton' => '.add-house',
 
@@ -298,7 +273,7 @@ $list_seksi = array_values($array_seksi);
 
                                   ?>
 
-                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true,'class' => 'form-control form-control-ui']) ?>
+                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true]) ?>
 
                               </td>
 
@@ -393,70 +368,3 @@ HTML;
     margin-bottom:45px !important;
 }
 </style>
-<?php
-$url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
-$url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');
-
-$js=<<<js
-$('#jenis-tujuan').on('change',function(){
-    var tipe = $('#jenis-tujuan').val();
-    $.ajax({
-        url : "$url" + tipe,
-        dataType : 'html',
-        type : 'post'
-    }).done(function(data){
-       $('select#kode-tujuan').html(data);
-    });
-});
-
-$('#jenis-asal').on('change',function(){
-    var tipe = $('#jenis-asal').val();
-    $.ajax({
-        url : "$url" + tipe,
-        dataType : 'html',
-        type : 'post'
-    }).done(function(data){
-       $('select#kode-asal').html(data);
-    });
-});
-
-$('#kode-asal').on('change',function(){
-    var tipe = $('#jenis-asal').val();
-    var kode = $('#kode-asal').val();
-    $.ajax({
-        url : "$url2",
-        dataType : 'html',
-        type : 'post',
-        data: {
-            tipe: tipe,
-            kode: kode,
-        },
-    }).done(function(data){
-        datas = JSON.parse(data);
-       $('#nilai-anggaran-source').html(datas.message);
-       $('#value-budget').attr({
-           'max' : datas.max,
-        });
-    });
-});
-
-$('#kode-tujuan').on('change',function(){
-    var tipe = $('#jenis-tujuan').val();
-    var kode = $('#kode-tujuan').val();
-    $.ajax({
-        url : "$url2",
-        dataType : 'html',
-        type : 'post',
-        data: {
-            tipe: tipe,
-            kode: kode,
-        },
-    }).done(function(data){
-        datas = JSON.parse(data);
-       $('#nilai-anggaran-source').html(datas.message);
-    });
-});
-
-js;
-$this->registerJs($js);
-?>
