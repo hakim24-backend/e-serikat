@@ -195,8 +195,8 @@ $Role = Yii::$app->user->identity->roleName();
                       'icon' => 'money',
                       'url' => '#',
                       'items' => [
-                          ['label' => 'Data Kegiatan', 'icon' => 'file-code-o', 'url' => [''],],
-                          ['label' => 'Data Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => [''],],
+                          ['label' => 'Data Kegiatan', 'icon' => 'file-code-o', 'url' => ['/activity-report'],],
+                          ['label' => 'Data Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-report'],],
                       ],
                   ],
               ],

@@ -52,8 +52,9 @@ class BendaharaRutinController extends Controller
      */
     public function actionIndex()
     {
+
         $dataProvider = new ActiveDataProvider([
-        'query' => ActivityDaily::find()->where(['done'=> 0]),
+        'query' => ActivityDaily::find()->where(['done'=> 0])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
         ]);
 
         return $this->render('index', [
@@ -71,8 +72,6 @@ class BendaharaRutinController extends Controller
     {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $model->finance_status = 1;
-        $model->department_status = 1;
-        $model->chief_status = 1;
         $model->save(false);
         $status = $model->finance_status;
         // var_dump($model);die();
@@ -88,8 +87,6 @@ class BendaharaRutinController extends Controller
     {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $model->finance_status = 0;
-        $model->department_status = 0;
-        $model->chief_status = 0;
         $model->save(false);
         $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Diedit');
@@ -115,71 +112,85 @@ class BendaharaRutinController extends Controller
      */
     public function actionReject($id)
     {
-        // $model = new ActivityDailyReject();
-        // $reject = ActivityDaily::find()->where(['id'=>$id])->one();
+        $model = new ActivityDailyReject();
+        $reject = ActivityDaily::find()->where(['id'=>$id])->one();
 
-        // if ($model->load(Yii::$app->request->post())) {
-        //     $model->message = $model->message;
-        //     $model->activity_id = $id;
-        //     $save = $model->save(false);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->message = $model->message;
+            $model->activity_id = $id;
+            $save = $model->save(false);
 
-        //     if ($save) {
-        //         $reject = ActivityDaily::find()->where(['id'=>$id])->one();
-        //         $reject->done = 1;
-        //         $reject->save(false);
-        //     }
-        //     return $this->redirect(['index']);
-        // }
-
-        // return $this->render('_form', [
-        //     'model' => $model,
-        // ]);
-
-        $roleSekre =  ActivityDaily::find()->where(['role'=>4])->one();
-        $roleSeksi =  ActivityDaily::find()->where(['role'=>8])->one();
-
-        if ($roleSekre) {
-            $model = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$model])->one();
-            $sekreBudget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-            if ($approve) {
-                $approve->delete();
-                $model->delete();
+            if ($save) {
+                $reject = ActivityDaily::find()->where(['id'=>$id])->one();
+                $reject->done = 1;
+                $reject->save(false);
             }
-            if ($sekreBudget) {
-                $sekreBudget->delete();
-                $model->delete();
-            }
-            $model->delete();
 
-            $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
-            $baru->save();
-        } else if ($roleSeksi) {
-            $model = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$model])->one();
-            $sekreBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-            if ($approve) {
-                $approve->delete();
-                $model->delete();
-            }
-            if ($sekreBudget) {
-                $sekreBudget->delete();
-                $model->delete();
-            }
-            $model->delete();
+            $roleSekre =  ActivityDaily::find()->where(['role'=>4])->one();
+            $roleSeksi =  ActivityDaily::find()->where(['role'=>8])->one();
 
-            $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
-            $baru->save();
-        }
-        
-       Yii::$app->getSession()->setFlash('success', 'Hapus Data Kegiatan Berhasil');
+            if ($roleSekre) {
+                $modelRutin = ActivityDaily::find()->where(['id'=>$id])->one();
+                $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
+                $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+                $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+                $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelRutin])->one();
+                $sekreBudget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
+
+                $modelRutin->chief_status=0;
+                $modelRutin->department_status=0;
+                $modelRutin->save(false);
+
+                if ($approve) {
+                    $uploadPath = Yii::getAlias('@backend')."/web/template";
+                    $oldfile = $approve->file;
+                    $oldPhoto = $approve->photo;
+                    unlink($uploadPath.$oldfile);
+                    unlink($uploadPath.$oldPhoto);
+                    $approve->delete();
+                    $sekreBudget->delete();
+                } else {
+                    $sekreBudget->delete();
+                }
+
+                $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
+                $baru->save();
+            } else if ($roleSeksi) {
+                $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
+                $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
+                $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+                $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+                $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelSeksi])->one();
+                $seksiBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
+
+                $modelRutin->chief_status=0;
+                $modelRutin->department_status=0;
+                $modelRutin->save(false);
+
+                if ($approve) {
+                    $uploadPath = Yii::getAlias('@backend')."/web/template";
+                    $oldfile = $approve->file;
+                    $oldPhoto = $approve->photo;
+                    unlink($uploadPath.$oldfile);
+                    unlink($uploadPath.$oldPhoto);
+                    $approve->delete();
+                    $seksiBudget->delete();
+                } else {
+                    $seksiBudget->delete();
+                }
+
+                $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
+                $baru->save();
+            }
+
+        Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');
         return $this->redirect(['index']);
+
+        }
+
+        return $this->render('_form', [
+            'model' => $model,
+        ]);
     }
 
     /**

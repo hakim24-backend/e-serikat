@@ -58,11 +58,11 @@ class KegiatanRutinController extends Controller
             ]);
         } elseif ($role == "Sekretariat") {
             $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>4]),
+            'query' => ActivityDaily::find()->where(['role'=>4])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
             ]);
         } elseif ($role == "Seksi") {
             $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>8]),
+            'query' => ActivityDaily::find()->where(['role'=>8])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
             ]);
         } elseif ($role == "Bendahara") {
             $dataProvider = new ActiveDataProvider([
@@ -164,8 +164,8 @@ class KegiatanRutinController extends Controller
 
                     $daily = new ActivityDaily();
                     $daily->finance_status = 0;
-                    $daily->department_status = 0;
-                    $daily->chief_status = 0;
+                    $daily->department_status = 1;
+                    $daily->chief_status = 1;
                     $daily->title = $post['judul'];
                     $daily->description = $post['description'];
                     if ($role == "Sekretariat") {

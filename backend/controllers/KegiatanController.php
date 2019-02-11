@@ -101,8 +101,8 @@ class KegiatanController extends Controller
              $post = Yii::$app->request->post();
              $model->role = Yii::$app->user->identity->role;
              $model->finance_status = 0;
-             $model->department_status = 0;
-             $model->chief_status = 0;
+             $model->department_status = 1;
+             $model->chief_status = 1;
              $model->done = 0;
              $model->date_start = $post['from_date'];
              $model->date_end = $post['to_date'];
@@ -198,7 +198,6 @@ class KegiatanController extends Controller
                        $modelsMain->save();
                      }
                    }
-
 
                        if ($role == 4) {
                            $sekreBudget = new ActivityBudgetSecretariat();
@@ -588,7 +587,6 @@ class KegiatanController extends Controller
         if ($id=='4') {
             $data = SecretariatBudget::find()->all();
             echo "<option value=0'> Pilih Kode Anggaran </option>";
-
             if ($data) {
                 foreach ($data as $datas) {
                     echo "<option value='".$datas->id."'>".$datas->secretariat_budget_code."</option>";

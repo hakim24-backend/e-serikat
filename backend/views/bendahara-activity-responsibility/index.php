@@ -33,11 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ['class' => 'yii\grid\SerialColumn'],
 
                                 [
-                                'header' => 'Status Anggaran',
-                                'attribute' => 'finance_status',
-                                ],
-
-                                [
                                 'header' => 'Judul',
                                 'attribute' => 'title',
                                 ],
@@ -97,8 +92,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         $url, 
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',
-                                                            'data-pjax' => 0, 
-                                                            'target' => '_blank'
                                                         ]
                                                     );
                                         },
@@ -110,6 +103,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         $url, 
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',
+                                                            'data-pjax' => 0, 
+                                                            'target' => '_blank'
                                                         ]
                                                     );
                                         },

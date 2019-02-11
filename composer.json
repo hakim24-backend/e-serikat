@@ -28,7 +28,8 @@
         "wbraganca/yii2-dynamicform": "*",
         "2amigos/yii2-google-maps-library": "*",
         "kalyabin/yii2-select-google-map-location": "*",
-        "yiisoft/yii2-jui": "^2.0"
+        "yiisoft/yii2-jui": "^2.0",
+        "kartik-v/yii2-export": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

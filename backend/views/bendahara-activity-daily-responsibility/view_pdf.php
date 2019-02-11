@@ -52,18 +52,18 @@ $Role = Yii::$app->user->identity->roleName();
              <tr style="border-bottom-style: hidden;">
               <td colspan="2" style="border-right-style: hidden;">Nama</td>
               <td style="border-right-style: hidden;">:</td>
-              <?php if ($Role == "Bendahara") { ?>
+              <?php if ($Role == "Bendahara" && $key == 1) { ?>
                 <td colspan="3"><?=$sekre->secretariat_name?></td>
-              <?php } else { ?>
+              <?php } elseif ($Role == "Bendahara" && $key == 2) { ?>
                 <td colspan="3"><?=$sekre->section_name?></td>
               <?php } ?>
             </tr>
             <tr style="border-bottom-style: hidden;">
               <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen</td>
               <td style="border-right-style: hidden;">:</td>
-              <?php if ($Role == "Bendahara") { ?>
+              <?php if ($Role == "Bendahara" && $key == 1) { ?>
                 <td colspan="3"><?=$sekre->secretariat_code?></td>
-              <?php } elseif ($Role == "Seksi") { ?>
+              <?php } elseif ($Role == "Seksi" && $key == 2) { ?>
                 <td colspan="3"><?=$sekre->section_code.'/'.$departName->depart_code?></td>
               <?php } ?>
             </tr>
@@ -83,9 +83,9 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;">1</td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$model->title?></td>
-              <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_sum?></td>
-              <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_dp?></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;">Rp.<?=$model->title?></td>
+              <td class="text-center" style="border-bottom-style: hidden;">Rp.<?=$budget->budget_value_sum?></td>
+              <td class="text-center" style="border-bottom-style: hidden;">Rp.<?=$budget->budget_value_dp?></td>
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;"></td>
@@ -157,18 +157,18 @@ $Role = Yii::$app->user->identity->roleName();
            <tbody>
             <tr>
               <td colspan="4">Jumlah Uang yang dipertanggung jawabkan.</td>
-              <td class="text-center"><?=$budget->budget_value_sum?></td>
+              <td class="text-center">Rp.<?=$budget->budget_value_sum?></td>
             </tr>
             <tr>
               <td colspan="4">Jumlah Uang yang Diterima.</td>
-              <td class="text-center"><?=$budget->budget_value_dp?></td>
+              <td class="text-center">Rp.<?=$budget->budget_value_dp?></td>
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
-              <?php if ($Role == "Bendahara") { ?>
-                <td class="text-center"><?=$baru->secretariat_budget_value?></td>
-              <?php } elseif ($Role == "Seksi") { ?>
-                <td class="text-center"><?=$baru->section_budget_value?></td>
+              <?php if ($Role == "Bendahara" && $key == 1) { ?>
+                <td class="text-center">Rp.<?=$baru->secretariat_budget_value?></td>
+              <?php } elseif ($Role == "Seksi" && $key == 2) { ?>
+                <td class="text-center">Rp.<?=$baru->section_budget_value?></td>
               <?php } ?>
             </tr>
             <tr>
@@ -183,9 +183,9 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="4" class="text-center">Menyetujui</td>
             </tr>
             <tr>
-              <?php if ($Role == "Bendahara") { ?>
+              <?php if ($Role == "Bendahara" && $key == 1) { ?>
                 <td width="21%">KADEP</td>
-              <?php } elseif ($Role == "Seksi") { ?>
+              <?php } elseif ($Role == "Seksi" && $key == 2) { ?>
                 <td width="21%">KADEP <?=$departName->depart_name?></td>
               <?php } ?>
               <td class="text-center" width="21%">KETUA II </td>
@@ -249,9 +249,9 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
-              <?php if ($Role == "Sekretariat") { ?>
+              <?php if ($Role == "Sekretariat" && $key == 1) { ?>
                 <td></td>
-              <?php } elseif ($Role == "Seksi") { ?>
+              <?php } elseif ($Role == "Seksi" && $key == 2) { ?>
                 <td><?=$departName->depart_name?></td>
               <?php } ?>
               <td></td>
