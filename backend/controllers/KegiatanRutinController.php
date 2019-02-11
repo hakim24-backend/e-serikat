@@ -858,7 +858,7 @@ class KegiatanRutinController extends Controller
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
                         <div class='col-sm-8'>
-                            ".$data->department_budget_value."
+                            Rp. ".number_format($data->department_budget_value)."
                         </div>
                     </div>
                 </div>

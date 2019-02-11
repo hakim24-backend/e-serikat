@@ -232,7 +232,7 @@ $Role = Yii::$app->user->identity->roleName();
                       'url' => '#',
                       'items' => [
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/activity-department'],],
-                          ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
+                          ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-department'],],
                           ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
                           ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
