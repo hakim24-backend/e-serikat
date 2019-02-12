@@ -218,7 +218,7 @@ $Role = Yii::$app->user->identity->roleName();
                       'items' => [
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/activity-department'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-department'],],
-                          ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
+                          ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/department-activity-responsibility'],],
                           ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
@@ -227,10 +227,10 @@ $Role = Yii::$app->user->identity->roleName();
                     'icon' => 'money',
                     'url' => '#',
                     'items' => [
-                        ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
-                        ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara'],],
-                        ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
-                        ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
+                        ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/'],],
+                        ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/'],],
+                        ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/'],],
+                        ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => [''],],
 
                     ],
                 ],
