@@ -66,7 +66,7 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                         'class' => 'yii\grid\ActionColumn',
                                         'contentOptions' => ['style' => 'width:160px;'],
                                         'header' => 'Actions',
-                                        'template' => ' {update} {view}',
+                                        'template' => ' {update} {view} {download}',
                                         'buttons' => [
                                             'update' => function ($url, $model) {
                                                 if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
@@ -82,7 +82,15 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                                     ]);
                                                 }
                                             },
-                                            
+                                            'download' => function ($url, $model) {
+                                            if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
+                                              return Html::a('| <span class="fa fa-download"></span> |', $url, [
+                                                          'title' => Yii::t('app', 'download'),
+                                                          'data-pjax' => 0, 
+                                                          'target' => '_blank'
+                                              ]);
+                                            }
+                                          },
                                         ],
 
                                         'urlCreator' => function ($action, $model, $key, $index) {
@@ -92,7 +100,10 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                             } else if ($action === 'view') {
                                                 $url = Url::to(['activity-department/view', 'id' => $model['id']]);
                                                 return $url;
-                                            }
+                                            } else if ($action === 'download') {
+                                              $url = Url::to(['activity-department/report','id'=>$model['id']]);
+                                              return $url;
+                                          }
                                         },
                                     ],
                                 ],

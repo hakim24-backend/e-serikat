@@ -35,25 +35,6 @@ $Role = Yii::$app->user->identity->roleName();
 $seksi = User::find()->where(['role'=>8])->all();
 $array_seksi = ArrayHelper::map(User::find()->all(), 'id','name');
 $list_seksi = array_values($array_seksi);
-// $list_seksi = array_values($array_seksi);
-// $list_seksi = implode(', ',array_values($array_seksi));
-
-
-   // $output = "";
-   // $arr = explode(",", $list_seksi);
-   // foreach ($arr as $list_seksi){
-   //   $output .= '"'.trim($list_seksi).'",';
-   // }
-   //  $ou=rtrim($output,", ");
-
-    // $out = '['.$ou.']';
-    // $out = array('wow','test');
-
-    // var_dump($list_seksi);die;
-// $words = "word1,word2,word3,word4";
-
-// echo sandwitch($words);
-
 ?>
 
 <div class="activity-form">
@@ -392,7 +373,6 @@ HTML;
 
 
     <div class="form-group">
-
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>

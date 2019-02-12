@@ -6,6 +6,9 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use kartik\export\ExportMenu;
 use Mpdf\Mpdf;
+use kartik\date\DatePicker;
+use kartik\daterange\DateRangePicker;
+use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -43,15 +46,85 @@ $gridColumns = [
     ],
     ['class' => 'kartik\grid\ActionColumn', 'urlCreator'=>function(){return '#';}]
 ];
+
+$range = date('Y-m-d').' to '.date('Y-m-d');
+$range_start = date('Y-m-d');
+$range_end = date('Y-m-d');
 ?>
 <div class="activity-daily-index">
-<br>
-<div>
-    <?= Html::input('text') ?>&nbsp;&nbsp;&nbsp;
-    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-</div>
-<br>
+<div class="box box-primary">
 
+        <?php $form = ActiveForm::begin(['id' => 'dynamic-form', 'method'=>'get']); ?>
+          <div class="box-header with-border">
+            <label>Filter Data Kegiatan</label>
+          </div>
+          <div class="box-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <div class="row">
+                                <div class="col-md-3 col-xs-12">
+                                    <label>Pilih SDM Data Kegiatan</label>
+                                    <?php
+                                        echo Html::dropDownList('jenis_sdm_source', 0, [4 => 'Ketua', 8 => 'Department'], [
+                                            'prompt' => '- Pilih SDM -',
+                                            'class' => 'select2_single form-control',
+                                            'id' => 'jenis-asal',
+                                            'style' => 'width: 100%;',
+                                        ]);
+                                    ?>
+                                </div>
+                                <div class="col-md-2 col-xs-12">
+                                    <label>Range Tanggal</label>
+                                    <?php
+                                    $addon = <<< HTML
+HTML;
+                                    echo '<div class="input-group drp-container">';
+                                    echo DateRangePicker::widget([
+                                        'name'=>'date_range',
+                                        'value'=>$range,
+                                        'useWithAddon'=>true,
+                                        'convertFormat'=>true,
+                                        'startAttribute' => 'from_date',
+                                        'endAttribute' => 'to_date',
+                                        'startInputOptions' => ['value' => $range_start],
+                                        'endInputOptions' => ['value' => $range_end],
+                                        'options' => [
+                                            'class' => 'form-control',
+                                        ],
+                                        'pluginOptions'=>[
+                                            'locale'=>[
+                                                'format' => 'Y-m-d',
+                                            ],
+                                            'drops' => 'down',
+                                        ]
+                                    ]) . $addon;
+                                    echo '</div>';
+                                    ?>
+                                </div>
+                                <div class="col-md-2 col-xs-12">
+                                    <label>&nbsp;</label>
+                                    <br />
+                                    <?= Html::submitButton('Tampilakan', ['class' => 'btn btn-success']) ?>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="content-index"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <br />
+
+            </div>
+          </div>
+        </div>
+        <?php ActiveForm::end(); ?>
 <?=
 ExportMenu::widget([
     'dataProvider' => $dataProvider,
@@ -82,6 +155,7 @@ ExportMenu::widget([
 <br>
 <br>
 
+      <!--Tabel Data-->
       <div class="box box-primary">
             <div class="box-body">
                 <div class="tab-content c-bordered c-padding-lg">
@@ -120,62 +194,6 @@ ExportMenu::widget([
                                 'header' => 'Tanggal Berakhir',
                                 'attribute' => 'date_end',
                                 ],
-
-                                // [
-
-                                // 'class' => 'yii\grid\ActionColumn',
-                                // 'header' => 'Action',
-                                // 'template' => '{closing} {view} {download}',
-                                // 'buttons' => [
-                                //         'closing' => function($url, $model, $key)
-                                //         {
-                                //                 // if ($model->activityDailyResponsibilities) {
-                                //                 //     $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
-                                //                 //     return Html::a(
-                                //                 //         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                //                 //         $url, 
-                                //                 //         [
-                                //                 //             'title' => 'Edit Pertanggungjawaban',
-                                //                 //         ]
-                                //                 //     );
-                                //                 // } else {
-                                //                     $url = Url::toRoute(['/bendahara-activity-responsibility/closing', 'id' => $model->id]);
-                                //                     return Html::a(
-                                //                         '| <span class="glyphicon glyphicon-ok"></span> ',
-                                //                         $url, 
-                                //                         [
-                                //                             'title' => 'Closing Pertanggungjawaban',
-                                //                         ]
-                                //                     );
-                                //                 // }
-                                //         },
-                                //         'view' => function($url, $model, $key)
-                                //         {
-                                //                     $url = Url::toRoute(['/bendahara-activity-responsibility/view', 'id' => $model->id]);
-                                //                     return Html::a(
-                                //                         '| <span class="glyphicon glyphicon-eye-open"></span> |',
-                                //                         $url, 
-                                //                         [
-                                //                             'title' => 'Download Pertanggungjawaban',
-                                //                         ]
-                                //                     );
-                                //         },
-                                //         'download' => function($url, $model, $key)
-                                //         {
-                                //                     $url = Url::toRoute(['/bendahara-activity-responsibility/report', 'id' => $model->id]);
-                                //                     return Html::a(
-                                //                         ' <span class="glyphicon glyphicon-download"></span> |',
-                                //                         $url, 
-                                //                         [
-                                //                             'title' => 'Download Pertanggungjawaban',
-                                //                             'data-pjax' => 0, 
-                                //                             'target' => '_blank'
-                                //                         ]
-                                //                     );
-                                //         },
-                                //     ]
-
-                                // ],
                             ],
                         ]); ?>
                         <?php Pjax::end(); ?>
@@ -185,3 +203,5 @@ ExportMenu::widget([
         </div>
     </div>
 </div>
+
+

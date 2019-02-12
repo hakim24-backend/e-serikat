@@ -36,8 +36,44 @@ class ActivityReportController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['done'=>1]),
+            'query' => Activity::find()->where(['done'=>1])
         ]);
+
+        if (Yii::$app->request->get()) {
+            $post = Yii::$app->request->get();
+
+            //data sdm
+            if ($post['jenis_sdm_source'] == 4) {
+                if ($post['from_date'] && $post['to_date']) {
+                $dateStart = $post['from_date'];
+                $dateEnd = $post['to_date'];
+                $dataProvider = new ActiveDataProvider([
+                    'query' => Activity::find()->where(['done'=>1])->andWhere(['role'=>4])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                ]);
+                } else{
+                    $dataProvider = new ActiveDataProvider([
+                    'query' => Activity::find()->where(['done'=>1])->andWhere(['role'=>4])
+                    ]);
+                }
+            } elseif ($post['jenis_sdm_source'] == 8) {
+                $dateStart = $post['from_date'];
+                $dateEnd = $post['to_date'];
+                if ($post['from_date'] && $post['to_date']) {
+                $dataProvider = new ActiveDataProvider([
+                    'query' => Activity::find()->where(['done'=>1])->andWhere(['role'=>8])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                ]);
+                }
+            }
+
+            // //range tanggal
+            // if ($post['from_date'] && $post['to_date']) {
+            //     $dateStart = $post['from_date'];
+            //     $dateEnd = $post['to_date'];
+            //     $dataProvider = new ActiveDataProvider([
+            //         'query' => Activity::find()->where(['done'=>1])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+            //     ]);
+            // }
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

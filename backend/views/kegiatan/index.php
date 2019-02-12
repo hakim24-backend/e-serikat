@@ -91,7 +91,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                           'target' => '_blank'
                                               ]);
                                             }
-
                                           },
                                       ],
 
