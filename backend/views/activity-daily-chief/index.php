@@ -98,13 +98,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                       'urlCreator' => function ($action, $model, $key, $index) {
                                           if ($action === 'update') {
-                                              $url = Url::to(['activity-daily-department/update','id'=>$model['id']]);
+                                              $url = Url::to(['activity-daily-chief/update','id'=>$model['id']]);
                                               return $url;
                                           }else if ($action === 'view') {
-                                              $url = Url::to(['activity-daily-department/view','id'=>$model['id']]);
+                                              $url = Url::to(['activity-daily-chief/view','id'=>$model['id']]);
                                               return $url;
                                           } else if ($action === 'download') {
-                                              $url = Url::to(['activity-daily-department/report','id'=>$model['id']]);
+                                              $url = Url::to(['activity-daily-chief/report','id'=>$model['id']]);
                                               return $url;
                                           }
                                        }

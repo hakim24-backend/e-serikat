@@ -43,25 +43,29 @@ class ActivityDailyReportController extends Controller
             $post = Yii::$app->request->get();
 
             //data sdm
-            if ($post['jenis_sdm_source'] == 4) {
+            if ($post['jenis_sdm_source'] == 6) {
                 if ($post['from_date'] && $post['to_date']) {
                 $dateStart = $post['from_date'];
                 $dateEnd = $post['to_date'];
                 $dataProvider = new ActiveDataProvider([
-                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>4])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>6])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
                 ]);
                 } else{
                     $dataProvider = new ActiveDataProvider([
-                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>4])
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>6])
                     ]);
                 }
-            } elseif ($post['jenis_sdm_source'] == 8) {
+            } elseif ($post['jenis_sdm_source'] == 7) {
                 $dateStart = $post['from_date'];
                 $dateEnd = $post['to_date'];
                 if ($post['from_date'] && $post['to_date']) {
                 $dataProvider = new ActiveDataProvider([
-                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>8])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>7])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
                 ]);
+                } else {
+                    $dataProvider = new ActiveDataProvider([
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>7])
+                    ]);
                 }
             }
 

@@ -263,10 +263,10 @@ $Role = Yii::$app->user->identity->roleName();
                   'icon' => 'money',
                   'url' => '#',
                   'items' => [
-                      ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/'],],
-                      ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/'],],
-                      ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/'],],
-                      ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => [''],],
+                      ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/approval-chief-activity'],],
+                      ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/approval-chief-activity-daily'],],
+                      ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/chief-approval-activity-responsibility'],],
+                      ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/chief-approval-activity-daily-responsibility'],],
 
                   ],
               ],

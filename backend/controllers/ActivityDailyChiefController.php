@@ -3,10 +3,10 @@
 namespace backend\controllers;
 
 use common\models\ActivityDaily;
-use common\models\ActivityDailyBudgetDepart;
-use common\models\ActivityBudgetDepartment;
-use common\models\DepartmentBudget;
-use common\models\Department;
+use common\models\ActivityDailyBudgetChief;
+use common\models\ActivityBudgeDChief;
+use common\models\ChiefBudget;
+use common\models\Chief;
 use common\models\Budget;
 use common\models\User;
 use kartik\mpdf\Pdf;
@@ -14,8 +14,16 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 
-class ActivityDailyDepartmentController extends \yii\web\Controller
+/**
+ * ActivityDailyChiefController implements the CRUD actions for ActivityDaily model.
+ */
+class ActivityDailyChiefController extends Controller
 {
+
+    /**
+     * Lists all ActivityDaily models.
+     * @return mixed
+     */
     public function actionIndex()
     {
         $role = Yii::$app->user->identity->role;
@@ -29,38 +37,66 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * Displays a single ActivityDaily model.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionView($id)
+    {
+        $role = Yii::$app->user->identity->roleName();
+
+        $model = ActivityDaily::find()->where(['id' => $id])->one();
+        $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
+        $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
+        $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+
+        return $this->render('view', [
+            'model' => $model,
+            'budget' => $budget,
+            'awal' => $awal,
+            'baru' => $baru,
+        ]);
+    }
+
+    /**
+     * Creates a new ActivityDaily model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
     public function actionCreate()
     {
         if (Yii::$app->request->post()) {
 
             $role = Yii::$app->user->identity->roleName();
 
-            if ($role == "Departemen") {
+            if ($role == "Ketua") {
                 $idDep = 0;
                 $post = Yii::$app->request->post();
-                $data = DepartmentBudget::findOne($post['source_sdm']);
+                $data = ChiefBudget::findOne($post['source_sdm']);
 
                 if ($post['money_budget'] > $post['source_value']) {
                     Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
                     return $this->redirect(Yii::$app->request->referrer);
                 }
 
-                if ($post['source_value'] > $data->department_budget_value) {
+                if ($post['source_value'] > $data->chief_budget_value) {
                     Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                     return $this->redirect(Yii::$app->request->referrer);
                 }
 
-                if ($post['jenis_sdm_source'] == '7') {
-                    $data = DepartmentBudget::findOne($post['source_sdm']);
+                if ($post['jenis_sdm_source'] == '6') {
+                    $data = ChiefBudget::findOne($post['source_sdm']);
 
-                    $data->department_budget_value = $data->department_budget_value - (float) $post['money_budget'];
+                    $data->chief_budget_value = $data->chief_budget_value - (float) $post['money_budget'];
                     $data->save();
 
                     $idDep = $data->id;
                 }
                 $id_user = Yii::$app->user->identity->id;
-                $depId = \common\models\Department::find()->where(['user_id' => $id_user])->one();
-                $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
+                $chiefId = \common\models\Chief::find()->where(['user_id' => $id_user])->one();
+                $depId = \common\models\Department::find()->where(['id_chief' => $chiefId->id])->one();
 
                 $daily = new ActivityDaily();
                 $daily->finance_status = 0;
@@ -68,7 +104,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                 $daily->chief_status = 0;
                 $daily->title = $post['judul'];
                 $daily->description = $post['description'];
-                $daily->role = 7;
+                $daily->role = 6;
                 $daily->date_start = $post['from_date'];
                 $daily->date_end = $post['to_date'];
                 $daily->done = 0;
@@ -79,8 +115,8 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
                 if ($save) {
 
-                    $dailyBudget = new ActivityDailyBudgetDepart();
-                    $dailyBudget->department_budget_id = $idDep;
+                    $dailyBudget = new ActivityDailyBudgetChief();
+                    $dailyBudget->chief_budget_id = $idDep;
                     $dailyBudget->budget_value_dp = $post['money_budget'];
                     $dailyBudget->budget_value_sum = $post['source_value'];
 
@@ -106,16 +142,16 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
     {
         $role = Yii::$app->user->identity->roleName();
 
-        if ($role == "Departemen") {
+        if ($role == "Ketua") {
             $model = ActivityDaily::find()->where(['id' => $id])->one();
-            $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
-            $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
-            $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+            $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
+            $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
+            $baru = ChiefBudget::find()->where(['id' => $awal])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
             $oldDP = $budget->budget_value_dp;
-            $oldBudget = $baru->department_budget_value;
+            $oldBudget = $baru->chief_budget_value;
 
             if ($model->load(Yii::$app->request->post())) {
                 $post = Yii::$app->request->post();
@@ -128,7 +164,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
                     $dp = $budget->budget_value_dp;
                     $total = $budget->budget_value_sum;
-                    $modal = $baru->department_budget_value;
+                    $modal = $baru->chief_budget_value;
 
                     if ($dp > $total) {
                         Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
@@ -161,7 +197,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                     $budget->budget_value_sum = $budget->budget_value_sum;
                     $budget->save(false);
 
-                    $baru->department_budget_value = $oldBudgetBaru;
+                    $baru->chief_budget_value = $oldBudgetBaru;
                     $baru->save(false);
 
                     Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
@@ -181,26 +217,17 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
     }
 
     /**
-     * Displays a single ActivityDaily model.
+     * Deletes an existing ActivityDaily model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionDelete($id)
     {
-        $role = Yii::$app->user->identity->roleName();
+        $this->findModel($id)->delete();
 
-        $model = ActivityDaily::find()->where(['id' => $id])->one();
-        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
-        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
-        $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
-
-        return $this->render('view', [
-            'model' => $model,
-            'budget' => $budget,
-            'awal' => $awal,
-            'baru' => $baru,
-        ]);
+        return $this->redirect(['index']);
     }
 
     public function actionReport($id) {
@@ -208,10 +235,10 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
         $role = Yii::$app->user->identity->role;
 
           $model = ActivityDaily::find()->where(['id'=>$id])->one();
-          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model])->one();
-          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-          $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
-          $sekre = Department::find()->where(['id'=>$baru])->one();
+          $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model])->one();
+          $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+          $sekre = Chief::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
 
         $content = $this->renderPartial('view_pdf',[

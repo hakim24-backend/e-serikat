@@ -3,20 +3,12 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\ActivityDailyResponsibility;
-use common\models\Approve;
-use common\models\ActivityDaily;
-use common\models\User;
-use common\models\ActivityDailyBudgetSection;
-use common\models\ActivityDailyBudgetSecretariat;
-use common\models\ActivityDailyBudgetDepart;
-use common\models\SectionBudget;
-use common\models\SecretariatBudget;
-use common\models\DepartmentBudget;
-use common\models\Department;
-use common\models\Section;
-use common\models\Secretariat;
+use common\models\Activity;
+use common\models\ActivityResponsibility;
+use common\models\ActivityBudgetChief;
+use common\models\ChiefBudget;
 use common\models\Budget;
+use common\models\Chief;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -25,9 +17,9 @@ use yii\web\UploadedFile;
 use kartik\mpdf\Pdf;
 
 /**
- * DepartmentActivityDailyResponsibilityController implements the CRUD actions for ActivityDaily model.
+ * ChiefActivityResponsibilityController implements the CRUD actions for Activity model.
  */
-class DepartmentActivityDailyResponsibilityController extends Controller
+class ChiefActivityResponsibilityController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -45,13 +37,13 @@ class DepartmentActivityDailyResponsibilityController extends Controller
     }
 
     /**
-     * Lists all ActivityDaily models.
+     * Lists all Activity models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>7]),
+            'query' => Activity::find()->where(['role'=>6]),
         ]);
 
         return $this->render('index', [
@@ -60,7 +52,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
     }
 
     /**
-     * Displays a single ActivityDaily model.
+     * Displays a single Activity model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -73,14 +65,13 @@ class DepartmentActivityDailyResponsibilityController extends Controller
     }
 
     /**
-     * Creates a new ActivityDaily model.
+     * Creates a new Activity model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate($id)
     {
-        $model = new ActivityDailyResponsibility();
-        $activity = ActivityDaily::find()->where(['id'=>$id])->one();
+        $model = new ActivityResponsibility();
         if ($model->load(Yii::$app->request->post())) {
 
             $file_dok = UploadedFile::getInstance($model, 'fileApprove');
@@ -93,18 +84,15 @@ class DepartmentActivityDailyResponsibilityController extends Controller
             $uploadPath = Yii::getAlias('@backend')."/web/template";
             $acak = substr( md5(time()) , 0, 10);
             $fotoName = $uploadPath."/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            // var_dump($fotoName);die;
             $file_gambar->saveAs($fotoName);
 
-
-            $model->description = $model->description;
             $model->responsibility_value = 0;
             $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
             $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            $model->activity_id = $activity->id ;
+            $model->activity_id = $id ;
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
-            return $this->redirect(['index']);
+            return $this->redirect(['department-activity-responsibility/index/']);
         }
 
         return $this->render('create', [
@@ -113,7 +101,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
     }
 
     /**
-     * Updates an existing ActivityDaily model.
+     * Updates an existing Activity model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -121,7 +109,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
+        $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
         $oldfile = $model->file;
         $oldPhoto = $model->photo;
         if ($model->load(Yii::$app->request->post())) {
@@ -157,52 +145,31 @@ class DepartmentActivityDailyResponsibilityController extends Controller
 
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['highlight','id'=>$model->activity_id]);
+                return $this->redirect(['index','id'=>$model->activity_id]);
 
 
             } else {
                 $model->description = $model->description;
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['highlight','id'=>$model->activity_id]);
+                return $this->redirect(['index','id'=>$model->activity_id]);
             }
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
     }
 
-    /**
-     * Deletes an existing ActivityDaily model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
-        $uploadPath = Yii::getAlias('@backend')."/web/template";
-        $oldfile = $model->file;
-        $oldPhoto = $model->photo;
-        unlink($uploadPath.$oldfile);
-        unlink($uploadPath.$oldPhoto);
-        Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
-        $model->delete();
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
     public function actionReport($id) {
 
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-        $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Department::find()->where(['id'=>$baru])->one();
-        $departID = Section::find()->where(['id_depart'=>$sekre])->one();
-        $departName = Department::find()->where(['id'=>$departID])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $model = Activity::find()->where(['id'=>$id])->one();
+          $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
+          $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+          $sekre = Chief::find()->where(['id'=>$baru])->one();
+          $sumber = Budget::find()->where(['id'=>$baru])->one();
+          // $departID = Chief::find()->where(['id_chief'=>$sekre])->one();
+          // $departName = Chief::find()->where(['id'=>$departID])->one();
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
@@ -210,7 +177,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
             'baru'=>$baru,
             'sumber'=>$sumber,
             'sekre'=>$sekre,
-            'departName'=>$departName
+            // 'departName'=>$departName
         ]);
 
         // setup kartik\mpdf\Pdf component
@@ -227,31 +194,51 @@ class DepartmentActivityDailyResponsibilityController extends Controller
             'content' => $content,
             // format content from your own css file if needed or use the
             // enhanced bootstrap css built by Krajee for mPDF formatting
-            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
              // set mPDF properties on the fly
             'options' => ['title' => 'Krajee Report Title'],
              // call mPDF methods on the fly
             'methods' => [
-                // 'SetHeader'=>['Krajee Report Header'],
                 'SetFooter'=>['{PAGENO}'],
             ]
         ]);
+
     // return the pdf output as per the destination setting
     return $pdf->render();
     }
 
     /**
-     * Finds the ActivityDaily model based on its primary key value.
+     * Deletes an existing Activity model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDelete($id)
+    {
+        $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
+        $uploadPath = Yii::getAlias('@backend')."/web/template";
+        $oldfile = $model->file;
+        $oldPhoto = $model->photo;
+        unlink($uploadPath.$oldfile);
+        unlink($uploadPath.$oldPhoto);
+        Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
+        $model->delete();
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Finds the Activity model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ActivityDaily the loaded model
+     * @return Activity the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ActivityDaily::findOne($id)) !== null) {
+        if (($model = ActivityResponsibility::findOne($id)) !== null) {
             return $model;
         }
 

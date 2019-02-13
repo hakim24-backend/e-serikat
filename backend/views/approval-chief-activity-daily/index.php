@@ -108,8 +108,8 @@ $Role = Yii::$app->user->identity->roleName();
                                       'buttons' => [
                                         'apply' => function($url, $model, $key)
                                         {
-                                                if ($model->department_status) {
-                                                    $url = Url::toRoute(['approval-department-activity-daily/update-apply', 'id' => $model->id]);
+                                                if ($model->chief_status) {
+                                                    $url = Url::toRoute(['approval-chief-activity-daily/update-apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> ',
                                                         $url, 
@@ -118,7 +118,7 @@ $Role = Yii::$app->user->identity->roleName();
                                                         ]
                                                     );
                                                 } else {
-                                                    $url = Url::toRoute(['approval-department-activity-daily/apply', 'id' => $model->id]);
+                                                    $url = Url::toRoute(['approval-chief-activity-daily/apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-ok"></span> ',
                                                         $url, 
@@ -130,7 +130,7 @@ $Role = Yii::$app->user->identity->roleName();
                                         },
                                         'view' => function($url, $model, $key)
                                         {
-                                                    $url = Url::toRoute(['approval-department-activity-daily/view', 'id' => $model->id]);
+                                                    $url = Url::toRoute(['approval-chief-activity-daily/view', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-eye-open"></span>',
                                                         $url, 
@@ -141,7 +141,7 @@ $Role = Yii::$app->user->identity->roleName();
                                         },
                                         'reject' => function($url, $model, $key)
                                         {
-                                                    $url = Url::toRoute(['approval-department-activity-daily/reject', 'id' => $model->id]);
+                                                    $url = Url::toRoute(['approval-chief-activity-daily/reject', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-remove"></span> |',
                                                         $url, 

@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'buttons' => [
                                         'apply' => function($url, $model, $key)
                                         {
-                                                if ($model->finance_status) {
+                                                if ($model->department_status) {
                                                     $url = Url::toRoute(['approval-department-activity/update-apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> ',

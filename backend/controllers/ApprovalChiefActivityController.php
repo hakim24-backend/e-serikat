@@ -9,17 +9,17 @@ use common\models\ActivitySection;
 use common\models\ActivitySectionMember;
 use common\models\ActivityResponsibility;
 use common\models\ActivityMainMember;
-use common\models\ActivityBudgetDepartment;
-use common\models\DepartmentBudget;
+use common\models\ActivityBudgetChief;
+use common\models\ChiefBudget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ApprovalDepartmentActivityResponsibilityController implements the CRUD actions for Activity model.
+ * ApprovalChiefActivityController implements the CRUD actions for Activity model.
  */
-class ApprovalDepartmentActivityController extends Controller
+class ApprovalChiefActivityController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -43,7 +43,7 @@ class ApprovalDepartmentActivityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['done'=> 0])->andWhere(['role'=>7])->andWhere(['department_status'=>0]),
+            'query' => Activity::find()->where(['done'=> 0])->andWhere(['role'=>6])->andWhere(['chief_status'=>0]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -71,7 +71,7 @@ class ApprovalDepartmentActivityController extends Controller
     public function actionApply($id)
     {
         $model = Activity::find()->where(['id'=>$id])->one();
-        $model->department_status = 1;
+        $model->chief_status = 1;
         $model->save(false);
         $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
@@ -92,7 +92,7 @@ class ApprovalDepartmentActivityController extends Controller
     public function actionUpdateApply($id)
     {
         $model = Activity::find()->where(['id'=>$id])->one();
-        $model->department_status = 0;
+        $model->chief_status = 0;
         $model->save(false);
         $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Diedit');
@@ -129,11 +129,11 @@ class ApprovalDepartmentActivityController extends Controller
             $roleDepartment =  Activity::find()->where(['role'=>7])->one();
 
             $model = Activity::find()->where(['id'=>$id])->one();
-            $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
-            $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+            $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
+            $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+            $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
             $approve = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
-            $departBudget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model])->one();
+            $departBudget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
             $actitvitySection = ActivitySection::find()->where(['activity_id'=>$model])->one();
             $idActivitySection = ActivitySectionMember::find()->where(['section_activity_id'=>$actitvitySection])->one();
             $actitvitySectionMember = ActivitySectionMember::find()->where(['activity_id'=>$idActivitySection])->one();
@@ -160,7 +160,7 @@ class ApprovalDepartmentActivityController extends Controller
                 $actitvitySection->delete();
             }
 
-            $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;
+            $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
             $baru->save();
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');

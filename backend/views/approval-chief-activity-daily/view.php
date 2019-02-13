@@ -8,8 +8,8 @@ use kartik\mpdf\Pdf;
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
 
-$this->title = 'Data Kegiatan Rutin';
-$this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
+$this->title = 'Data Kegiatan Rutin Sekretariat';
+$this->params['breadcrumbs'][] = ['label' => 'Approval Data Kegiatan Rutin', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 
@@ -19,23 +19,34 @@ $Role = Yii::$app->user->identity->roleName();
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Download File', ['report','id' => $model->id], ['class' => 'btn btn-success']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
+        'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => 'Tidak Ditampilkan'],
         'attributes' => [
             'id',
+            // 'finance_status',
+            // 'department_status',
+            // 'chief_status',
+            // 'chief_code_id',
+            // 'department_code_id',
+            // 'title',
+            // 'description:ntext',
+            // 'role',
+            // 'date_start',
+            // 'date_end',
+            // 'done',
             [
                 'attribute'=>'activityDailyBudgetChiefsOne.budget_value_dp',
-                'label'=>'Nilai Uang Muka Anggaran'
-                
+                'label'=>'Nilai Uang Muka Anggaran',
+                'visible' => ($Role == "Ketua") ? true : false
             ],
             [
                 'attribute'=>'activityDailyBudgetChiefsOne.budget_value_sum',
-                'label'=>'Nilai Uang Total Anggaran'
-                
+                'label'=>'Nilai Uang Total Anggaran',
+                'visible' => ($Role == "Ketua") ? true : false
             ],
             [
                 'attribute'=>'title',

@@ -56,8 +56,8 @@ class ActivityChiefController extends \yii\web\Controller
 
             $post = Yii::$app->request->post();
             $id_user = Yii::$app->user->identity->id;
-            $depId = \common\models\Chief::find()->where(['user_id' => $id_user])->one();
-            $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
+            $chiefId = \common\models\Chief::find()->where(['user_id' => $id_user])->one();
+            $depId = \common\models\Department::find()->where(['id_chief' => $chiefId->id])->one();
             $model->role = Yii::$app->user->identity->role;
             $model->finance_status = 0;
             $model->department_status = 0;
@@ -74,13 +74,13 @@ class ActivityChiefController extends \yii\web\Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
 
-            if ($post['source_value'] > $data->department_budget_value) {
+            if ($post['source_value'] > $data->chief_budget_value) {
                 Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                 return $this->redirect(Yii::$app->request->referrer);
             }
-            if ($post['jenis_sdm_source'] == '7') {
+            if ($post['jenis_sdm_source'] == '6') {
                 $data = ChiefBudget::findOne($post['source_sdm']);
-                $data->department_budget_value = $data->department_budget_value - (float) $post['money_budget'];
+                $data->chief_budget_value = $data->chief_budget_value - (float) $post['money_budget'];
                 $data->save();
                 $idDepBudget = $data->id;
             }
@@ -144,7 +144,7 @@ class ActivityChiefController extends \yii\web\Controller
                     }
 
                     $depBudget = new ActivityBudgetChief();
-                    $depBudget->department_budget_id = $idDepBudget;
+                    $depBudget->chief_budget_id = $idDepBudget;
                     $depBudget->budget_value_dp = $post['money_budget'];
                     $depBudget->budget_value_sum = $post['source_value'];
                     $depBudget->activity_id = $model->id;
@@ -185,15 +185,15 @@ class ActivityChiefController extends \yii\web\Controller
             ->andWhere(['name_committee' => "Bendahara"])
             ->one();
 
-        if ($role == 7) {
+        if ($role == 6) {
             $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
-            $awal = ActivityBudgetChief::find()->where(['department_budget_id' => $budget])->one();
+            $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
             $baru = ChiefBudget::find()->where(['id' => $awal])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
             $oldDP = $budget->budget_value_dp;
-            $oldBudget = $baru->department_budget_value;
+            $oldBudget = $baru->chief_budget_value;
         }
 
         // retrieve existing ActivitySection data
@@ -257,11 +257,11 @@ class ActivityChiefController extends \yii\web\Controller
             if ($valid) {
                 if ($this->saveDeposit($model, $modelsSection, $modelsMember) && $budget->load(Yii::$app->request->post())) {
 
-                    if ($role == 7) {
+                    if ($role == 6) {
 
                         $dp = $budget->budget_value_dp;
                         $total = $budget->budget_value_sum;
-                        $modal = $baru->department_budget_value;
+                        $modal = $baru->chief_budget_value;
 
                         if ($dp > $total) {
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
@@ -294,7 +294,7 @@ class ActivityChiefController extends \yii\web\Controller
                         $budget->budget_value_sum = $budget->budget_value_sum;
                         $budget->save(false);
 
-                        $baru->department_budget_value = $oldBudgetBaru;
+                        $baru->chief_budget_value = $oldBudgetBaru;
                         $baru->save(false);
 
                     }

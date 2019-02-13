@@ -3,20 +3,12 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\ActivityDailyResponsibility;
-use common\models\Approve;
 use common\models\ActivityDaily;
-use common\models\User;
-use common\models\ActivityDailyBudgetSection;
-use common\models\ActivityDailyBudgetSecretariat;
-use common\models\ActivityDailyBudgetDepart;
-use common\models\SectionBudget;
-use common\models\SecretariatBudget;
-use common\models\DepartmentBudget;
-use common\models\Department;
-use common\models\Section;
-use common\models\Secretariat;
+use common\models\ActivityDailyResponsibility;
+use common\models\ActivityDailyBudgetChief;
+use common\models\ChiefBudget;
 use common\models\Budget;
+use common\models\Chief;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -25,9 +17,9 @@ use yii\web\UploadedFile;
 use kartik\mpdf\Pdf;
 
 /**
- * DepartmentActivityDailyResponsibilityController implements the CRUD actions for ActivityDaily model.
+ * ChiefActivityDailyResponsibilityController implements the CRUD actions for ActivityDaily model.
  */
-class DepartmentActivityDailyResponsibilityController extends Controller
+class ChiefActivityDailyResponsibilityController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -51,7 +43,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>7]),
+            'query' => ActivityDaily::find()->where(['role'=>6]),
         ]);
 
         return $this->render('index', [
@@ -182,7 +174,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
+     $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
         $uploadPath = Yii::getAlias('@backend')."/web/template";
         $oldfile = $model->file;
         $oldPhoto = $model->photo;
@@ -196,12 +188,12 @@ class DepartmentActivityDailyResponsibilityController extends Controller
     public function actionReport($id) {
 
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-        $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Department::find()->where(['id'=>$baru])->one();
-        $departID = Section::find()->where(['id_depart'=>$sekre])->one();
-        $departName = Department::find()->where(['id'=>$departID])->one();
+        $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+        $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Chief::find()->where(['id'=>$baru])->one();
+        // $departID = Section::find()->where(['id_depart'=>$sekre])->one();
+        // $departName = Department::find()->where(['id'=>$departID])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
 
         $content = $this->renderPartial('view_pdf',[
@@ -210,7 +202,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
             'baru'=>$baru,
             'sumber'=>$sumber,
             'sekre'=>$sekre,
-            'departName'=>$departName
+            // 'departName'=>$departName
         ]);
 
         // setup kartik\mpdf\Pdf component
@@ -251,7 +243,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = ActivityDaily::findOne($id)) !== null) {
+        if (($model = ActivityDailyResponsibility::findOne($id)) !== null) {
             return $model;
         }
 
