@@ -3,13 +3,12 @@
 namespace backend\controllers;
 
 use common\models\Activity;
-use common\models\ActivityBudgetDepartment;
+use common\models\ActivityBudgetChief;
 use common\models\ActivityMainMember;
 use common\models\ActivitySection;
 use common\models\ActivitySectionMember;
 use common\models\ChiefBudget;
-use common\models\DepartmentBudget;
-use common\models\Department;
+use common\models\Chief;
 use common\models\Budget;
 use common\models\Model;
 use common\models\SecretariatBudget;
@@ -21,7 +20,7 @@ use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
-class ActivityDepartmentController extends \yii\web\Controller
+class ActivityChiefController extends \yii\web\Controller
 {
     public function behaviors()
     {
@@ -57,7 +56,7 @@ class ActivityDepartmentController extends \yii\web\Controller
 
             $post = Yii::$app->request->post();
             $id_user = Yii::$app->user->identity->id;
-            $depId = \common\models\Department::find()->where(['user_id' => $id_user])->one();
+            $depId = \common\models\Chief::find()->where(['user_id' => $id_user])->one();
             $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
             $model->role = Yii::$app->user->identity->role;
             $model->finance_status = 0;
@@ -68,7 +67,7 @@ class ActivityDepartmentController extends \yii\web\Controller
             $model->date_end = $post['to_date'];
             $model->department_code_id = $depId->id;
             $model->chief_code_id = $chiefId->id;
-            $data = DepartmentBudget::findOne($post['source_sdm']);
+            $data = ChiefBudget::findOne($post['source_sdm']);
 
             if ($post['money_budget'] > $post['source_value']) {
                 Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
@@ -80,7 +79,7 @@ class ActivityDepartmentController extends \yii\web\Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             if ($post['jenis_sdm_source'] == '7') {
-                $data = DepartmentBudget::findOne($post['source_sdm']);
+                $data = ChiefBudget::findOne($post['source_sdm']);
                 $data->department_budget_value = $data->department_budget_value - (float) $post['money_budget'];
                 $data->save();
                 $idDepBudget = $data->id;
@@ -144,7 +143,7 @@ class ActivityDepartmentController extends \yii\web\Controller
                         }
                     }
 
-                    $depBudget = new ActivityBudgetDepartment();
+                    $depBudget = new ActivityBudgetChief();
                     $depBudget->department_budget_id = $idDepBudget;
                     $depBudget->budget_value_dp = $post['money_budget'];
                     $depBudget->budget_value_sum = $post['source_value'];
@@ -187,9 +186,9 @@ class ActivityDepartmentController extends \yii\web\Controller
             ->one();
 
         if ($role == 7) {
-            $budget = ActivityBudgetDepartment::find()->where(['activity_id' => $model->id])->one();
-            $awal = ActivityBudgetDepartment::find()->where(['department_budget_id' => $budget])->one();
-            $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+            $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
+            $awal = ActivityBudgetChief::find()->where(['department_budget_id' => $budget])->one();
+            $baru = ChiefBudget::find()->where(['id' => $awal])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -369,10 +368,10 @@ class ActivityDepartmentController extends \yii\web\Controller
         $role = Yii::$app->user->identity->role;
 
           $model = Activity::find()->where(['id'=>$id])->one();
-          $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model])->one();
-          $awal = ActivityBudgetDepartment::find()->where(['Department_budget_id'=>$budget])->one();
-          $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
-          $sekre = Department::find()->where(['id'=>$baru])->one();
+          $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
+          $awal = ActivityBudgetChief::find()->where(['Chief_budget_id'=>$budget])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+          $sekre = Chief::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
 
         $content = $this->renderPartial('view_pdf',[
@@ -437,7 +436,7 @@ class ActivityDepartmentController extends \yii\web\Controller
                 }
             }
         } elseif ($id == '7') {
-            $data = DepartmentBudget::find()->all();
+            $data = ChiefBudget::find()->all();
             echo "<option value=0'> Pilih Kode Anggaran </option>";
 
             if ($data) {
@@ -525,7 +524,7 @@ class ActivityDepartmentController extends \yii\web\Controller
                 $datas['max'] = 0;
             }
         } elseif ($post['tipe'] == '7') {
-            $data = DepartmentBudget::findOne($post['kode']);
+            $data = ChiefBudget::findOne($post['kode']);
             if ($data) {
                 $datas['message'] = "
                  <div class='col-sm-12'>
