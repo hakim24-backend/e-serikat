@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Data Pertanggung Jawaban Kegiatan Rutin';
+$this->title = 'Data Pertanggung Jawaban Kegiatan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-daily-index">
@@ -64,8 +64,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'buttons' => [
                                         'closing' => function($url, $model, $key)
                                         {
-                                                // if ($model->activityDailyResponsibilities) {
-                                                //     $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
+                                                // if ($responsibility->responsibility_value) {
+                                                //     $url = Url::toRoute(['/approval-department-activity-responsibility/update', 'id' => $model->id]);
                                                 //     return Html::a(
                                                 //         '| <span class="glyphicon glyphicon-pencil"></span> ',
                                                 //         $url, 
@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 //         ]
                                                 //     );
                                                 // } else {
-                                                    $url = Url::toRoute(['/bendahara-activity-responsibility/closing', 'id' => $model->id]);
+                                                    $url = Url::toRoute(['/department-approval-activity-responsibility/closing', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-ok"></span> ',
                                                         $url, 
@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         },
                                         'view' => function($url, $model, $key)
                                         {
-                                                    $url = Url::toRoute(['/bendahara-activity-responsibility/view', 'id' => $model->id]);
+                                                    $url = Url::toRoute(['/department-approval-activity-responsibility/view', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-eye-open"></span> |',
                                                         $url, 

@@ -68,6 +68,10 @@ class BendaharaActivityResponsibilityController extends Controller
         $model->done = 1;
         $model->save(false);
 
+        $responsibility = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
+        $responsibility->responsibility_value = 1;
+        $responsibility->save(false);
+
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Di Tutup');
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
@@ -128,63 +132,63 @@ class BendaharaActivityResponsibilityController extends Controller
         }
     }
 
-    public function actionReport($id) {
+    // public function actionReport($id) {
 
-    $roleSekre =  Activity::find()->where(['role'=>4])->one();
-    $roleSeksi =  Activity::find()->where(['role'=>8])->one();
+    // $roleSekre =  Activity::find()->where(['role'=>4])->one();
+    // $roleSeksi =  Activity::find()->where(['role'=>8])->one();
 
-    if ($roleSekre) {
-        $model = Activity::find()->where(['id'=>$id])->one();
-        $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-        $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Secretariat::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
-    } else if ($roleSeksi) {
-        $model = Activity::find()->where(['id'=>$id])->one();
-        $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
-    }
+    // if ($roleSekre) {
+    //     $model = Activity::find()->where(['id'=>$id])->one();
+    //     $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+    //     $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+    //     $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+    //     $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+    //     $sumber = Budget::find()->where(['id'=>$baru])->one();
+    // } else if ($roleSeksi) {
+    //     $model = Activity::find()->where(['id'=>$id])->one();
+    //     $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
+    //     $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+    //     $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+    //     $sekre = Section::find()->where(['id'=>$baru])->one();
+    //     $sumber = Budget::find()->where(['id'=>$baru])->one();
+    // }
 
-        $content = $this->renderPartial('view_pdf',[
-            'model'=>$model,
-            'budget'=>$budget,
-            'baru'=>$baru,
-            'sumber'=>$sumber,
-            'sekre'=>$sekre
-        ]);
+    //     $content = $this->renderPartial('view_pdf',[
+    //         'model'=>$model,
+    //         'budget'=>$budget,
+    //         'baru'=>$baru,
+    //         'sumber'=>$sumber,
+    //         'sekre'=>$sekre
+    //     ]);
 
-        // setup kartik\mpdf\Pdf component
-        $pdf = new Pdf([
-            // set to use core fonts only
-            'mode' => Pdf::MODE_CORE,
-            // A4 paper format
-            'format' => Pdf::FORMAT_A4,
-            // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT,
-            // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER,
-            // your html content input
-            'content' => $content,
-            // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
-            // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}',
-             // set mPDF properties on the fly
-            'options' => ['title' => 'Krajee Report Title'],
-             // call mPDF methods on the fly
-            'methods' => [
-                // 'SetHeader'=>['Krajee Report Header'],
-                'SetFooter'=>['{PAGENO}'],
-            ]
-        ]);
-    // return the pdf output as per the destination setting
-    return $pdf->render();
-    }
+    //     // setup kartik\mpdf\Pdf component
+    //     $pdf = new Pdf([
+    //         // set to use core fonts only
+    //         'mode' => Pdf::MODE_CORE,
+    //         // A4 paper format
+    //         'format' => Pdf::FORMAT_A4,
+    //         // portrait orientation
+    //         'orientation' => Pdf::ORIENT_PORTRAIT,
+    //         // stream to browser inline
+    //         'destination' => Pdf::DEST_BROWSER,
+    //         // your html content input
+    //         'content' => $content,
+    //         // format content from your own css file if needed or use the
+    //         // enhanced bootstrap css built by Krajee for mPDF formatting
+    //         'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+    //         // any css to be embedded if required
+    //         'cssInline' => '.kv-heading-1{font-size:18px}',
+    //          // set mPDF properties on the fly
+    //         'options' => ['title' => 'Krajee Report Title'],
+    //          // call mPDF methods on the fly
+    //         'methods' => [
+    //             // 'SetHeader'=>['Krajee Report Header'],
+    //             'SetFooter'=>['{PAGENO}'],
+    //         ]
+    //     ]);
+    // // return the pdf output as per the destination setting
+    // return $pdf->render();
+    // }
 
     /**
      * Finds the ActivityResponsibility model based on its primary key value.

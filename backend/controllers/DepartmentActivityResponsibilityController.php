@@ -9,8 +9,10 @@ use common\models\Activity;
 use common\models\User;
 use common\models\ActivityBudgetSection;
 use common\models\ActivityBudgetSecretariat;
+use common\models\ActivityBudgetDepartment;
 use common\models\SectionBudget;
 use common\models\SecretariatBudget;
+use common\models\DepartmentBudget;
 use common\models\Department;
 use common\models\Section;
 use common\models\Secretariat;
@@ -19,6 +21,8 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use kartik\mpdf\Pdf;
 
 /**
  * DepartmentActivityResponsibilityController implements the CRUD actions for ActivityResponsibility model.
@@ -73,7 +77,7 @@ class DepartmentActivityResponsibilityController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new ActivityResponsibility();
         if ($model->load(Yii::$app->request->post())) {
@@ -88,9 +92,7 @@ class DepartmentActivityResponsibilityController extends Controller
             $uploadPath = Yii::getAlias('@backend')."/web/template";
             $acak = substr( md5(time()) , 0, 10);
             $fotoName = $uploadPath."/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            // var_dump($fotoName);die;
             $file_gambar->saveAs($fotoName);
-
 
             $model->responsibility_value = 0;
             $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
@@ -166,6 +168,55 @@ class DepartmentActivityResponsibilityController extends Controller
         ]);
     }
 
+    public function actionReport($id) {
+
+          $model = Activity::find()->where(['id'=>$id])->one();
+          $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model])->one();
+          $awal = ActivityBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
+          $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+          $sekre = Department::find()->where(['id'=>$baru])->one();
+          $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $departID = Section::find()->where(['id_depart'=>$sekre])->one();
+          $departName = Department::find()->where(['id'=>$departID])->one();
+
+        $content = $this->renderPartial('view_pdf',[
+            'model'=>$model,
+            'budget'=>$budget,
+            'baru'=>$baru,
+            'sumber'=>$sumber,
+            'sekre'=>$sekre,
+            'departName'=>$departName
+        ]);
+
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE,
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER,
+            // your html content input
+            'content' => $content,
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}',
+             // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+             // call mPDF methods on the fly
+            'methods' => [
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+
+    // return the pdf output as per the destination setting
+    return $pdf->render();
+    }
+
     /**
      * Deletes an existing ActivityResponsibility model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -175,9 +226,15 @@ class DepartmentActivityResponsibilityController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
+        $uploadPath = Yii::getAlias('@backend')."/web/template";
+        $oldfile = $model->file;
+        $oldPhoto = $model->photo;
+        unlink($uploadPath.$oldfile);
+        unlink($uploadPath.$oldPhoto);
+        Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
+        $model->delete();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

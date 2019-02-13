@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             if($model->activityResponsibilities){
                                               $url = Url::toRoute(['/department-activity-responsibility/update', 'id' => $model->id]);
                                               return Html::a(
-                                                '<span class="glyphicon glyphicon-pencil"></span>',
+                                                '| <span class="glyphicon glyphicon-pencil"></span>',
                                                 $url,
                                                 [
                                                   'title' => 'Update Laporan Pertanggung Jawaban',

@@ -3,33 +3,31 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\ActivityDaily;
-use common\models\Budget;
-use common\models\Department;
-use common\models\Secretariat;
-use common\models\Section;
-use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
-use common\models\ActivityDailyBudgetSecretariat;
-use common\models\ActivityDailyBudgetSection;
 use common\models\Approve;
+use common\models\ActivityDaily;
 use common\models\User;
-use common\models\TransferRecord;
-use common\models\SecretariatBudget;
-use common\models\ChiefBudget;
-use common\models\DepartmentBudget;
+use common\models\ActivityDailyBudgetSection;
+use common\models\ActivityDailyBudgetSecretariat;
+use common\models\ActivityDailyBudgetDepart;
 use common\models\SectionBudget;
+use common\models\SecretariatBudget;
+use common\models\DepartmentBudget;
+use common\models\Department;
+use common\models\Section;
+use common\models\Secretariat;
+use common\models\Budget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use kartik\mpdf\Pdf;
 use yii\web\UploadedFile;
+use kartik\mpdf\Pdf;
 
 /**
- * ApproveController implements the CRUD actions for Approve model.
+ * DepartmentActivityDailyResponsibilityController implements the CRUD actions for ActivityDaily model.
  */
-class ActivityDailyResponsibilityController extends Controller
+class DepartmentActivityDailyResponsibilityController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -47,39 +45,22 @@ class ActivityDailyResponsibilityController extends Controller
     }
 
     /**
-     * Lists all Approve models.
+     * Lists all ActivityDaily models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $role = Yii::$app->user->identity->role;
-        if($role != 1){
-          $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>$role]),
-            ]);
-        } else {
-           $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find(),
-           ]);
-        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => ActivityDaily::find()->where(['role'=>7]),
+        ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionDownload($id)
-    {
-        $download = ActivityDailyResponsibility::findOne($id);
-        $path=Yii::getAlias('@backend').'/web/template'.$download->file;
-
-        if (file_exists($path)) {
-            return Yii::$app->response->sendFile($path);
-        }
-    }
-
     /**
-     * Displays a single Approve model.
+     * Displays a single ActivityDaily model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -87,12 +68,12 @@ class ActivityDailyResponsibilityController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => ActivityDailyResponsibility::find()->where(['id'=>$id])->one(),
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Approve model.
+     * Creates a new ActivityDaily model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
@@ -132,7 +113,7 @@ class ActivityDailyResponsibilityController extends Controller
     }
 
     /**
-     * Updates an existing Approve model.
+     * Updates an existing ActivityDaily model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -186,13 +167,14 @@ class ActivityDailyResponsibilityController extends Controller
                 return $this->redirect(['highlight','id'=>$model->activity_id]);
             }
         }
+
         return $this->render('update', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Deletes an existing Approve model.
+     * Deletes an existing ActivityDaily model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -200,7 +182,7 @@ class ActivityDailyResponsibilityController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = ActivityDailyResponsibility::find()->where(['id'=>$id])->one();
+        $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
         $uploadPath = Yii::getAlias('@backend')."/web/template";
         $oldfile = $model->file;
         $oldPhoto = $model->photo;
@@ -209,30 +191,20 @@ class ActivityDailyResponsibilityController extends Controller
         Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
         $model->delete();
         return $this->redirect(Yii::$app->request->referrer);
+
+        return $this->redirect(['index']);
     }
 
     public function actionReport($id) {
-    $role = Yii::$app->user->identity->roleName();
 
-    if ($role == "Sekretariat") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-        $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
+        $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Department::find()->where(['id'=>$baru])->one();
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         $departName = Department::find()->where(['id'=>$departID])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
-    } else if ($role == "Seksi") {
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
-        $departID = Section::find()->where(['id_depart'=>$sekre])->one();
-        $departName = Department::find()->where(['id'=>$departID])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
-    }
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
@@ -273,15 +245,15 @@ class ActivityDailyResponsibilityController extends Controller
     }
 
     /**
-     * Finds the Approve model based on its primary key value.
+     * Finds the ActivityDaily model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Approve the loaded model
+     * @return ActivityDaily the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Approve::findOne($id)) !== null) {
+        if (($model = ActivityDaily::findOne($id)) !== null) {
             return $model;
         }
 

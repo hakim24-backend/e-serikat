@@ -54,7 +54,7 @@ class BendaharaRutinController extends Controller
     {
 
         $dataProvider = new ActiveDataProvider([
-        'query' => ActivityDaily::find()->where(['done'=> 0])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
+        'query' => ActivityDaily::find()->where(['done'=> 0])->andWhere(['chief_status'=>1])->orWhere(['department_status'=>1]),
         ]);
 
         return $this->render('index', [
@@ -74,7 +74,6 @@ class BendaharaRutinController extends Controller
         $model->finance_status = 1;
         $model->save(false);
         $status = $model->finance_status;
-        // var_dump($model);die();
         Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
