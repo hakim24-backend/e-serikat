@@ -238,6 +238,42 @@ $Role = Yii::$app->user->identity->roleName();
               ],
           ]
       ) ?>
+    <?php }else if($Role == "Ketua") { ?>
+      <?= dmstr\widgets\Menu::widget(
+        [
+            'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
+            'items' => [
+                ['label' => 'Menu E-Serikat', 'options' => ['class' => 'header']],
+                // ['label' => 'Giis', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                // ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+
+                [
+                    'label' => 'Uang Muka',
+                    'icon' => 'money',
+                    'url' => '#',
+                    'items' => [
+                        ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/activity-chief'],],
+                        ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-chief'],],
+                        ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/chief-activity-responsibility'],],
+                        ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/chief-activity-daily-responsibility'],],
+                    ],
+                ],
+                [
+                  'label' => 'Approval',
+                  'icon' => 'money',
+                  'url' => '#',
+                  'items' => [
+                      ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/'],],
+                      ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/'],],
+                      ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/'],],
+                      ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => [''],],
+
+                  ],
+              ],
+
+            ],
+        ]
+    ) ?>
     <?php } ?>
 
     </section>
