@@ -91,7 +91,7 @@ $Role = Yii::$app->user->identity->roleName();
         </tr>
         <tr>
             <td>Unit Kerja</td>
-            <td>: <?=$sekre->depart_code?></td>
+            <td>: <?=$sekre->chief_code?></td>
         </tr>
         <tr>
             <td>Nomor Rekening</td>
@@ -114,7 +114,7 @@ $Role = Yii::$app->user->identity->roleName();
         <tr>
             <td>Kode Anggaran Penerima</td>
             <td>:</td>
-            <td><?=$baru->department_budget_code?></td>
+            <td><?=$baru->chief_budget_code?></td>
         </tr>
     </tbody>
 </table>
@@ -144,7 +144,7 @@ $Role = Yii::$app->user->identity->roleName();
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
-            <td>Rp.<?=$baru->department_budget_value?></td>
+            <td>Rp.<?=$baru->chief_budget_value?></td>
         </tr>
         <tr>
             <td>Tempat Pelaksanaan</td>
@@ -214,7 +214,7 @@ $Role = Yii::$app->user->identity->roleName();
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
-            <td>Rp.<?=$baru->department_budget_value?></td>
+            <td>Rp.<?=$baru->chief_budget_value?></td>
         </tr>
     </tbody>
 </table>

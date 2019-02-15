@@ -95,13 +95,13 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
 
                                         'urlCreator' => function ($action, $model, $key, $index) {
                                             if ($action === 'update') {
-                                                $url = Url::to(['activity-department/update', 'id' => $model['id']]);
+                                                $url = Url::to(['activity-chief/update', 'id' => $model['id']]);
                                                 return $url;
                                             } else if ($action === 'view') {
-                                                $url = Url::to(['activity-department/view', 'id' => $model['id']]);
+                                                $url = Url::to(['activity-chief/view', 'id' => $model['id']]);
                                                 return $url;
                                             } else if ($action === 'download') {
-                                              $url = Url::to(['activity-department/report','id'=>$model['id']]);
+                                              $url = Url::to(['activity-chief/report','id'=>$model['id']]);
                                               return $url;
                                           }
                                         },

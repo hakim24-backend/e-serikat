@@ -34,7 +34,7 @@ $Role = Yii::$app->user->identity->roleName();
                     <label class="col-sm-4">Jenis SDM</label>
                     <div class="col-sm-8">
                         
-                        <?=Html::dropDownList('jenis_sdm_source', null, [7 => 'Department'], ['prompt' => 'Pilih Jenis SDM', 'class' => 'col-sm-8 form-control', 'id' => 'jenis-asal'])?>
+                        <?=Html::dropDownList('jenis_sdm_source', null, [6 => 'Ketua'], ['prompt' => 'Pilih Jenis SDM', 'class' => 'col-sm-8 form-control', 'id' => 'jenis-asal'])?>
                         
                     </div>
                 </div>

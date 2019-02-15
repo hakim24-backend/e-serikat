@@ -209,7 +209,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
           $model = ActivityDaily::find()->where(['id'=>$id])->one();
           $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model])->one();
-          $awal = ActivityDailyBudgetDepart::find()->where(['Department_budget_id'=>$budget])->one();
+          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
           $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
           $sekre = Department::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();

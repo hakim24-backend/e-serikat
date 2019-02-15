@@ -39,7 +39,7 @@ $Role = Yii::$app->user->identity->roleName();
                 <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                 <div class="col-sm-8">
                    
-                    <?= $baru->department_budget_value ?>
+                    <?= $baru->chief_budget_value ?>
                   
                 </div>
             </div>

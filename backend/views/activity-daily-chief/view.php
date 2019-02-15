@@ -28,12 +28,12 @@ $Role = Yii::$app->user->identity->roleName();
         'attributes' => [
             'id',
             [
-                'attribute'=>'activityDailyBudgetDepart.budget_value_dp',
+                'attribute'=>'activityDailyBudgetChiefsOne.budget_value_dp',
                 'label'=>'Nilai Uang Muka Anggaran'
                 
             ],
             [
-                'attribute'=>'activityDailyBudgetDepart.budget_value_sum',
+                'attribute'=>'activityDailyBudgetChiefsOne.budget_value_sum',
                 'label'=>'Nilai Uang Total Anggaran'
                 
             ],
