@@ -58,7 +58,7 @@ class ApprovalChiefActivityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['done'=> 0])->andWhere(['role'=>6])->andWhere(['chief_status'=>0]),
+            'query' => Activity::find()->where(['finance_status'=> 1])->andWhere(['department_status'=>1])->andWhere(['chief_status'=>0]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

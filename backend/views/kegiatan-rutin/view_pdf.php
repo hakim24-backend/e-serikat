@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 
 $Role = Yii::$app->user->identity->roleName();
-$date = date('Y-m-d');
+$date = date('Y-m-d'); 
 ?>
 
 <html>

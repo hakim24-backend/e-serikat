@@ -58,7 +58,7 @@ class ApprovalDepartmentActivityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['done'=> 0])->andWhere(['role'=>7])->andWhere(['department_status'=>0]),
+            'query' => Activity::find()->where(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -88,12 +88,10 @@ class ApprovalDepartmentActivityController extends Controller
         $model = Activity::find()->where(['id'=>$id])->one();
         $model->department_status = 1;
         $model->save(false);
-        $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
             'model' => $model,
-            'status' => $status
         ]);
     }
 
