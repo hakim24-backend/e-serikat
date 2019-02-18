@@ -10,6 +10,9 @@ use yii\base\view;
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */
 /* @var $form yii\widgets\ActiveForm */
+$this->title = 'Form Pertanggung Jawaban';
+$this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="approve-form">
@@ -20,7 +23,7 @@ use yii\base\view;
     	]
     ]); ?>
 
-    <?= $form->field($model, 'description')->textInput()->label('Deskripsi') ?>
+    <?= $form->field($model, 'description')->textInput()->label('Uraian') ?>
 
 <!--     <?= $form->field($model, 'responsibility_value')->textInput() ?> -->
 

@@ -78,7 +78,7 @@ $list_seksi = array_values($array_seksi);
                   <div class="form-group">
                       <label class="col-sm-4">Uang Muka Anggaran</label>
                       <div class="col-sm-8">
-                          <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
+                          <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control uang-muka', 'id'=>'value-budget']) ?>
                       </div>
                   </div>
               </div>
@@ -88,7 +88,7 @@ $list_seksi = array_values($array_seksi);
                   <div class="form-group">
                       <label class="col-sm-4">Nilai Anggaran</label>
                       <div class="col-sm-8">
-                          <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
+                          <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control nilai-anggaran', 'id'=>'value-budget']) ?>
                       </div>
                   </div>
               </div>
@@ -417,6 +417,40 @@ $('#jenis-asal').on('change',function(){
     }).done(function(data){
        $('select#kode-asal').html(data);
     });
+});
+
+$('.nilai-anggaran').on('change',function(){
+    var uangmuka = $('.uang-muka').val();
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(nilaianggaran) > res){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+    }
+    if(parseInt(nilaianggaran) < parseInt(uangmuka)){
+      alert('Nilai Anggaran Lebih Kecil dari Uang Muka yang Diajukan. Mohon ubah nilai yang diinputkan !');
+    }
+
+});
+
+$('.uang-muka ').on('change',function(){
+    var uangmuka = $('.uang-muka').val();
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(uangmuka) > res){
+      alert('Uang Muka Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+    }
+    if(parseInt(uangmuka) > parseInt(nilaianggaran)){
+      alert('Uang Muka Lebih Besar dari Anggaran Yang Diajukan. Mohon ubah nilai yang diinputkan !');
+    }
+
 });
 
 $('#kode-asal').on('change',function(){

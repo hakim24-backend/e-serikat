@@ -114,7 +114,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Nama Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'name_activity',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
               </div>
             </div>
             <div class="col-md-12">
