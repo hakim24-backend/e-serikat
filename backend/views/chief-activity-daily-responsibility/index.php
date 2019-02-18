@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['/chief-activity-daily-responsibility/update', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Edit Pertanggungjawaban',
                                                         ]
@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['/chief-activity-daily-responsibility/create', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-plus"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Buat Pertanggungjawaban',
                                                         ]
@@ -94,19 +94,22 @@ $this->params['breadcrumbs'][] = $this->title;
                                         },
                                         'download' => function($url, $model, $key)
                                         {
+                                          if ($model->activityDailyResponsibilities) {
+
                                                     $url = Url::toRoute(['/chief-activity-daily-responsibility/report', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-download"></span> |',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',
-                                                            'data-pjax' => 0, 
+                                                            'data-pjax' => 0,
                                                             'target' => '_blank'
                                                         ]
                                                     );
                                         }
+                                      }
                                     ]
-                                
+
                                 ],
 
                             ],

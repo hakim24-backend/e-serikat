@@ -131,15 +131,16 @@ class KegiatanController extends Controller
                     if ($post['source_value'] > $data->secretariat_budget_value ) {
                     Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                     return $this->redirect(Yii::$app->request->referrer);
-                   } 
+                   }
                  }
 
                 if ($post['money_budget'] > $post['source_value']) {
                  Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
                  return $this->redirect(Yii::$app->request->referrer);
-                } 
+                }
              } elseif ($role == 8) {
                 $data = SectionBudget::findOne($post['source_sdm']);
+                // var_dump($data);die;
                 if ($data == null) {
                   Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
                   return $this->redirect(Yii::$app->request->referrer);
@@ -292,7 +293,7 @@ class KegiatanController extends Controller
             $range_start = $model->date_start;
             $range_end = $model->date_end;
             $oldDP = $budget->budget_value_dp;
-            $oldBudget = $baru->secretariat_budget_value; 
+            $oldBudget = $baru->secretariat_budget_value;
           } elseif ($role == 8) {
             $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();

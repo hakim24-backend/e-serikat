@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'options' => [
     	'accept' => 'application/*',
 	    'multiple' => true,
-	    'allowedFileExtensions'=>['pdf','doc'],
+	    'allowedFileExtensions'=>['pdf','doc','docx'],
     	],
     	'pluginOptions' => [
 	    'showPreview' => false,
