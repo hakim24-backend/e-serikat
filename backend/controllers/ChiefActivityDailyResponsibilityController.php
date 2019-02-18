@@ -58,7 +58,7 @@ class ChiefActivityDailyResponsibilityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>6]),
+            'query' => ActivityDaily::find()->where(['role'=>6])->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
         ]);
 
         return $this->render('index', [

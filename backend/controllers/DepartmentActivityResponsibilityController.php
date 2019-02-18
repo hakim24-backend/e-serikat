@@ -66,9 +66,8 @@ class DepartmentActivityResponsibilityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>7]),
+            'query' => Activity::find()->where(['role'=>7])->andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
         ]);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

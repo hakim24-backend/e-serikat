@@ -115,11 +115,12 @@ class KegiatanController extends Controller
 
              $post = Yii::$app->request->post();
              $model->role = Yii::$app->user->identity->role;
-             $model->finance_status = 0;
-             if ($role = 4) {
+             if ($role == 4) {
+               $model->finance_status = 1;
                $model->department_status = 1;
                $model->chief_status = 1;
-             } elseif ($role = 8) {
+             } elseif ($role == 8) {
+               $model->finance_status = 0;
                $model->department_status = 0;
                $model->chief_status = 0;
              }
