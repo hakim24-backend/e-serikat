@@ -22,7 +22,6 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use kartik\mpdf\Pdf;
 
 /**
@@ -36,20 +35,6 @@ class KegiatanRutinController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout','index','view','create','update','delete','report','kode-tujuan','nilai-anggaran','nilai-anggaran-update'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -67,15 +52,22 @@ class KegiatanRutinController extends Controller
     {
         $role = Yii::$app->user->identity->roleName();
 
-        $role = Yii::$app->user->identity->role;
-        if($role != 1 && $role != 5){
-          $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>$role]),
-          ]);
-        }else{
-          $dataProvider = new ActiveDataProvider([
+        if ($role == "Super Admin") {
+            $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find(),
-          ]);
+            ]);
+        } elseif ($role == "Sekretariat") {
+            $dataProvider = new ActiveDataProvider([
+            'query' => ActivityDaily::find()->where(['role'=>4])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
+            ]);
+        } elseif ($role == "Seksi") {
+            $dataProvider = new ActiveDataProvider([
+            'query' => ActivityDaily::find()->where(['role'=>8])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
+            ]);
+        } elseif ($role == "Bendahara") {
+            $dataProvider = new ActiveDataProvider([
+            'query' => ActivityDaily::find(),
+            ]);
         }
 
         return $this->render('index', [
@@ -119,9 +111,7 @@ class KegiatanRutinController extends Controller
      */
     public function actionCreate()
     {
-        $daily = new ActivityDaily();
-
-        if ($daily->load(Yii::$app->request->post())) {
+        if (Yii::$app->request->post()) {
             $role = Yii::$app->user->identity->roleName();
 
                 if ($role == "Sekretariat") {
@@ -134,20 +124,17 @@ class KegiatanRutinController extends Controller
                         return $this->redirect(Yii::$app->request->referrer);
                     }
 
-                    if ($data == null) {
-                        Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
-                        return $this->redirect(Yii::$app->request->referrer);
-                    } else {
-                        if ($post['source_value'] > $data->secretariat_budget_value ) {
+                    if ($post['source_value'] > $data->secretariat_budget_value ) {
                         Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                         return $this->redirect(Yii::$app->request->referrer);
-                        }
                     }
 
                     if ($post['jenis_sdm_source']=='4') {
                         $data = SecretariatBudget::findOne($post['source_sdm']);
+                        // $valueNow = $data->secretariat_budget_value+(float)$post['source_value'];
                         $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['money_budget'];
                         $data->save();
+                        // $valueDP = (float)$post['source_value'];
                         $idSekreBudget = $data->id;
                     }
                 } elseif ($role == "Seksi") {
@@ -160,14 +147,9 @@ class KegiatanRutinController extends Controller
                         return $this->redirect(Yii::$app->request->referrer);
                     }
 
-                    if ($data == null) {
-                        Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
-                        return $this->redirect(Yii::$app->request->referrer);
-                    } else {
-                        if ($post['source_value'] > $data->secretariat_budget_value ) {
+                    if ($post['source_value'] > $data->section_budget_value ) {
                         Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                         return $this->redirect(Yii::$app->request->referrer);
-                        }
                     }
 
                     if ($post['jenis_sdm_source']=='8') {
@@ -180,9 +162,12 @@ class KegiatanRutinController extends Controller
                     }
                 }
 
+                    $daily = new ActivityDaily();
                     $daily->finance_status = 0;
                     $daily->department_status = 1;
                     $daily->chief_status = 1;
+                    $daily->title = $post['judul'];
+                    $daily->description = $post['description'];
                     if ($role == "Sekretariat") {
                         $daily->role = 4;
                     } elseif ($role == "Seksi") {
@@ -219,9 +204,7 @@ class KegiatanRutinController extends Controller
                         }
                     }
         }
-        return $this->render('_form', [
-             'daily' => $daily,
-        ]);
+        return $this->render('_form');
     }
 
     /**
