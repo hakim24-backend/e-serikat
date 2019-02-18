@@ -35,7 +35,7 @@ class SerikatintiController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['index','view','create','update','update-password','delete',
                         'allow' => true,
                         'roles' => ['@'],
                     ],
