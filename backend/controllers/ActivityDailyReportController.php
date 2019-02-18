@@ -82,6 +82,18 @@ class ActivityDailyReportController extends Controller
                     'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>7])
                     ]);
                 }
+            } elseif ($post['jenis_sdm_source'] == 8) {
+                $dateStart = $post['from_date'];
+                $dateEnd = $post['to_date'];
+                if ($post['from_date'] && $post['to_date']) {
+                $dataProvider = new ActiveDataProvider([
+                    'query' => Activity::find()->where(['done'=>1])->andWhere(['role'=>8])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                ]);
+                } else {
+                    $dataProvider = new ActiveDataProvider([
+                    'query' => Activity::find()->where(['done'=>1])->andWhere(['role'=>8])
+                    ]);
+                }
             }
 
             // //range tanggal

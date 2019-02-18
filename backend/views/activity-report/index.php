@@ -82,7 +82,7 @@ $range_end = date('Y-m-d');
                                 <div class="col-md-3 col-xs-12">
                                     <label>Pilih SDM Data Kegiatan</label>
                                     <?php
-                                        echo Html::dropDownList('jenis_sdm_source', 0, [6 => 'Ketua', 7 => 'Department'], [
+                                        echo Html::dropDownList('jenis_sdm_source', 0, [6 => 'Ketua', 7 => 'Department', 8 => 'Seksi'], [
                                             'prompt' => '- Pilih SDM -',
                                             'class' => 'select2_single form-control',
                                             'id' => 'jenis-asal',
@@ -233,5 +233,3 @@ ExportMenu::widget([
         </div>
     </div>
 </div>
-
-
