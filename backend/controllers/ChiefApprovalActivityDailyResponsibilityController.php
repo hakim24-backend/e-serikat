@@ -92,10 +92,7 @@ class ChiefApprovalActivityDailyResponsibilityController extends Controller
             Yii::$app->getSession()->setFlash('warning', 'Tidak Dapat Approve Pertangungjawaban Karena Data Pertangungjawaban Tidak Ada');
             return $this->redirect(Yii::$app->request->referrer);
         } else {
-            $model->done = 1;
-            $model->save(false);
-
-            $responsibility->responsibility_value = 1;
+            $responsibility->responsibility_value = 2;
             $responsibility->save(false);
         }
 

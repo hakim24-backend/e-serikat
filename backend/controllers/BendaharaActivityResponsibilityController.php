@@ -89,7 +89,7 @@ class BendaharaActivityResponsibilityController extends Controller
             $model->done = 1;
             $model->save(false);
 
-            $responsibility->responsibility_value = 1;
+            $responsibility->responsibility_value = 3;
             $responsibility->save(false);
         }
 
