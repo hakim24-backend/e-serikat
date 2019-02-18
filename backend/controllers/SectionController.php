@@ -31,7 +31,7 @@ class SectionController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index','view','create','highlight','update','delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

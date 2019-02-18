@@ -83,7 +83,7 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;">1</td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$model->title?></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$lpj->description?></td>
               <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_sum?></td>
               <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_dp?></td>
             </tr>
@@ -166,7 +166,7 @@ $Role = Yii::$app->user->identity->roleName();
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
               <?php if ($Role == "Sekretariat") { ?>
-                <td class="text-center"><?=$baru->secretariat_budget_value?></td>
+                <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
               <?php } elseif ($Role == "Seksi") { ?>
                 <td class="text-center"><?=$baru->section_budget_value?></td>
               <?php } ?>
@@ -255,8 +255,8 @@ $Role = Yii::$app->user->identity->roleName();
                 <td><?=$departName->depart_name?></td>
               <?php } ?>
               <td></td>
-              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;">Walyo Sirdjo</p></div></td>
-              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;">Abdul Rohman Wachid</p></div></td>
+              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
+              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
               <td></td>
             </tr>
             <tr>

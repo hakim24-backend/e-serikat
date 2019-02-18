@@ -190,9 +190,9 @@ NO : 834932482342<br>
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?></td>
+                <td>Rp.<?=$baru->secretariat_budget_value?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?></td>
+                <td>Rp.<?=$baru->section_budget_value?></td>
             <?php } ?>
         </tr>
         <tr>
