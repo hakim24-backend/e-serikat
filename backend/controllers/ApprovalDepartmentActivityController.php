@@ -15,6 +15,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ApprovalDepartmentActivityResponsibilityController implements the CRUD actions for Activity model.
@@ -27,6 +28,20 @@ class ApprovalDepartmentActivityController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['index','view','apply','update-apply','reject'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -149,12 +164,10 @@ class ApprovalDepartmentActivityController extends Controller
                 unlink($uploadPath.$oldfile);
                 unlink($uploadPath.$oldPhoto);
                 $approve->delete();
-                $departBudget->delete();
                 ActivityMainMember::deleteAll(['activity_id'=>$model]);
                 $actitvitySectionMember->delete();
                 $actitvitySection->delete();
             } else {
-                $departBudget->delete();
                 ActivityMainMember::deleteAll(['activity_id'=>$model]);
                 $actitvitySectionMember->delete();
                 $actitvitySection->delete();

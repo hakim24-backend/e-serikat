@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\Activity;
 use common\models\Chief;
 use common\models\Department;
 use common\models\Section;
@@ -119,11 +120,13 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
+            $dataKegiatan = Activity::find()->where(['role'=>$role])->one();
             // $kegiatan = 
             return $this->render('index-ketua',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
+                'dataKegiatan'=> $dataKegiatan,
             ]);
         }elseif ($role==7) {
             $jumlahKetua = Chief::find()->count('id');

@@ -113,7 +113,7 @@ HTML;
                                 <div class="col-md-2 col-xs-12">
                                     <label>&nbsp;</label>
                                     <br />
-                                    <?= Html::submitButton('Tampilakan', ['class' => 'btn btn-success']) ?>
+                                    <?= Html::submitButton('Tampilkan', ['class' => 'btn btn-success']) ?>
                                 </div>
                             </div>
                             <div class="clearfix"></div>

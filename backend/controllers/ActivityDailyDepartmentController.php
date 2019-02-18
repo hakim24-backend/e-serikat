@@ -13,15 +13,43 @@ use kartik\mpdf\Pdf;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 class ActivityDailyDepartmentController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index','create','update','view','report'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $role = Yii::$app->user->identity->role;
 
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role' => $role]),
+            'query' => ActivityDaily::find()->where(['role' => $role])->andWhere(['done'=>0]),
         ]);
 
         return $this->render('index', [
@@ -45,9 +73,14 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                     return $this->redirect(Yii::$app->request->referrer);
                 }
 
-                if ($post['source_value'] > $data->department_budget_value) {
+                if ($data == null) {
+                    Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
+                    return $this->redirect(Yii::$app->request->referrer);
+                } else {
+                    if ($post['source_value'] > $data->department_budget_value ) {
                     Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                     return $this->redirect(Yii::$app->request->referrer);
+                    }
                 }
 
                 if ($post['jenis_sdm_source'] == '7') {

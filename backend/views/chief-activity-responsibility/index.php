@@ -31,33 +31,50 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
+                                    [
+                                        'header' => 'Judul',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'title',
+                                    ],
 
-                                [
-                                'header' => 'Judul',
-                                'headerOptions' =>[
-                                      'style' => 'width:30%'
-                                ],
-                                'attribute' => 'title',
-                                ],
-                                [
-                                'header' => 'Latar Belakang',
-                                'headerOptions' =>[
-                                      'style' => 'width:30%'
-                                ],
-                                'attribute' => 'background',
-                                ],
-                                [
-                                'header' => 'Tujuan',
-                                'headerOptions' =>[
-                                      'style' => 'width:30%'
-                                ],
-                                'attribute' => 'purpose',
-                                ],
+                                    [
+                                        'header' => 'Tujuan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:25%'
+                                        ],
+                                        'attribute' => 'purpose',
+                                    ],
+
+                                    [
+                                        'header' => 'Tempat Pelaksanaan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'attribute' => 'place_activity',
+                                    ],
+
+                                    [
+                                        'header' => 'Tangal Mulai',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'date_start',
+                                    ],
+
+                                    [
+                                        'header' => 'Tanggal Berakhir',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'date_end',
+                                    ],
                                 [
 
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '{create} {download} {delete}',
+                                'template' => '{create} {download}',
                                 'buttons' => [
 
 

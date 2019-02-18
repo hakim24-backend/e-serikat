@@ -19,6 +19,7 @@ use kartik\mpdf\Pdf;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 class ActivityDepartmentController extends \yii\web\Controller
@@ -26,6 +27,20 @@ class ActivityDepartmentController extends \yii\web\Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout','index','create','update','view','delete','report','kode-tujuan','nilai-anggaran','save-deposit'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -68,17 +83,23 @@ class ActivityDepartmentController extends \yii\web\Controller
             $model->date_end = $post['to_date'];
             $model->department_code_id = $depId->id;
             $model->chief_code_id = $chiefId->id;
+
             $data = DepartmentBudget::findOne($post['source_sdm']);
+            if ($data->department_budget_value == null) {
+              Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
+              return $this->redirect(Yii::$app->request->referrer);
+             } else {
+                if ($post['source_value'] > $data->department_budget_value) {
+                Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
+                return $this->redirect(Yii::$app->request->referrer);
+                } 
+             }
 
             if ($post['money_budget'] > $post['source_value']) {
                 Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
                 return $this->redirect(Yii::$app->request->referrer);
             }
 
-            if ($post['source_value'] > $data->department_budget_value) {
-                Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
-                return $this->redirect(Yii::$app->request->referrer);
-            }
             if ($post['jenis_sdm_source'] == '7') {
                 $data = DepartmentBudget::findOne($post['source_sdm']);
                 $data->department_budget_value = $data->department_budget_value - (float) $post['money_budget'];

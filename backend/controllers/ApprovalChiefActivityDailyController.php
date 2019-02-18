@@ -12,6 +12,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ApprovalChiefActivityDailyController implements the CRUD actions for Activity model.
@@ -24,6 +25,20 @@ class ApprovalChiefActivityDailyController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout','index','view','apply','update-apply','reject'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -171,7 +186,7 @@ class ApprovalChiefActivityDailyController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Activity::findOne($id)) !== null) {
+        if (($model = ActivityDaily::findOne($id)) !== null) {
             return $model;
         }
 

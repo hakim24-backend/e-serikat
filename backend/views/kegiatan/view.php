@@ -39,7 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'chief_code_id',
             // 'department_code_id',
             // 'done',
-
+            [
+                'attribute'=>'name_activity',
+                'label'=>'Nama Kegiatan'
+            ],
             [
                 'attribute'=>'title',
                 'label'=>'Judul'
@@ -75,7 +78,31 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'date_end',
                 'label'=>'Tanggal Berakhir'
-            ]
+            ],
+            [
+                'label'=>'Bagian Seksi',
+                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySections, 'id', 'section_name')),
+            ],
+            [
+                'label'=>'Nama Anggota Seksi',
+                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            ],
+            [
+                'label'=>'Panitia Inti Ketua',
+                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            ],
+            [
+                'label'=>'Panitia Inti Wakil',
+                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            ],
+            [
+                'label'=>'Panitia Inti Sekretaris',
+                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            ],
+            [
+                'label'=>'Panitia Inti Bendahara',
+                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            ],
         ],
     ]) ?>
 

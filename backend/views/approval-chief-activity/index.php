@@ -28,44 +28,45 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
 
-                                    //  [
-                                    // 'header' => 'Status Anggaran',
-                                    // 'attribute' => 'finance_status',
-                                    // ],
                                     [
-                                    'header' => 'Judul',
-                                    'headerOptions' =>[
-                                      'style' => 'width:20%'
-                                    ],
-                                    'attribute' => 'title',
+                                        'header' => 'Judul',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'title',
                                     ],
 
                                     [
-                                    'header' => 'Latar Belakang',
-                                    'headerOptions' =>[
-                                      'style' => 'width:20%'
-                                    ],
-                                    'attribute' => 'background',
-                                    ],
-
-                                    [
-                                    'header' => 'Tujuan',
-                                    'headerOptions' =>[
-                                      'style' => 'width:20%'
-                                    ],
-                                    'attribute' => 'purpose',
+                                        'header' => 'Tujuan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:25%'
+                                        ],
+                                        'attribute' => 'purpose',
                                     ],
 
                                     [
-                                    'header' => 'Tangal Mulai',
-                                    'attribute' => 'date_start',
+                                        'header' => 'Tempat Pelaksanaan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'attribute' => 'place_activity',
                                     ],
 
                                     [
-                                    'header' => 'Tanggal Berakhir',
-                                    'attribute' => 'date_end',
+                                        'header' => 'Tangal Mulai',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'date_start',
                                     ],
 
+                                    [
+                                        'header' => 'Tanggal Berakhir',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'date_end',
+                                    ],
 
                                     [
                                       'class' => 'yii\grid\ActionColumn',

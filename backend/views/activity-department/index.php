@@ -32,34 +32,51 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
 
-                                    [
-                                        'header' => 'Status Anggaran',
-                                        'attribute' => 'finance_status',
-                                    ],
-
-                                    [
+                                     [
                                         'header' => 'Judul',
+                                        'headerOptions' =>[
+                                        'style' => 'width:10%'
+                                        ],
                                         'attribute' => 'title',
                                     ],
 
                                     [
-                                        'header' => 'Latar Belakang',
-                                        'attribute' => 'background',
-                                    ],
-
-                                    [
                                         'header' => 'Tujuan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:10%'
+                                        ],
                                         'attribute' => 'purpose',
                                     ],
 
                                     [
+                                        'header' => 'Tempat Pelaksanaan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'attribute' => 'place_activity',
+                                    ],
+
+                                    [
                                         'header' => 'Tangal Mulai',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
                                         'attribute' => 'date_start',
                                     ],
 
                                     [
                                         'header' => 'Tanggal Berakhir',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
                                         'attribute' => 'date_end',
+                                    ],
+                                    [
+                                        'header' => 'Status Anggaran',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'finance_status',
                                     ],
 
                                     [

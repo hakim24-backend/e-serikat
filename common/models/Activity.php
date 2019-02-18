@@ -60,6 +60,7 @@ class Activity extends \yii\db\ActiveRecord
             [['date_start', 'date_end'], 'safe'],
             [['role', 'finance_status', 'department_status', 'chief_status', 'chief_code_id', 'department_code_id', 'done'], 'integer'],
             [['title'], 'string', 'max' => 255],
+            [['name_activity'], 'string', 'max' => 255],
             // [['role'], 'exist', 'skipOnError' => true, 'targetClass' => Role::className(), 'targetAttribute' => ['role' => 'id']],
             // [['department_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_code_id' => 'id']],
             // [['chief_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chief::className(), 'targetAttribute' => ['chief_code_id' => 'id']],
@@ -73,6 +74,7 @@ class Activity extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'name_activity' => 'Name Activity',
             'title' => 'Title',
             'background' => 'Background',
             'purpose' => 'Purpose',
@@ -178,6 +180,11 @@ class Activity extends \yii\db\ActiveRecord
     public function getActivitySections()
     {
         return $this->hasMany(ActivitySection::className(), ['activity_id' => 'id']);
+    }
+
+    public function getActivitySectionsOne()
+    {
+        return $this->hasOne(ActivitySection::className(), ['activity_id' => 'id']);
     }
 
     /**

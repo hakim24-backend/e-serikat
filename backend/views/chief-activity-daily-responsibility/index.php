@@ -32,50 +32,37 @@ $this->params['breadcrumbs'][] = $this->title;
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
 
-                                // 'id',
-                                // 'finance_status',
-                                // 'department_status',
-                                // 'chief_status',
-                                // 'chief_code_id',
-                                // 'department_code_id',
-                                // 'title',
-                                // 'description:ntext',
-                                // 'role',
-                                // 'date',
-                                // 'done',
-
-                                //  [
-                                // 'header' => 'Status Anggaran',
-                                // 'headerOptions'=>[
-                                //       'style'=>'width:15%'
-                                //     ],
-                                // 'attribute' => 'finance_status',
-                                // ],
-                                // [
-                                // 'header' => 'Kode ID Ketua',
-                                // 'attribute' => 'chief_code_id',
-                                // ],
-
-                                // [
-                                // 'header' => 'Kode ID Departemen',
-                                // 'attribute' => 'department_code_id',
-                                // ],
-                                [
-                                'header' => 'Judul',
-                                'headerOptions' =>[
+                                    [
+                                    'header' => 'Judul',
+                                    'headerOptions' =>[
                                       'style' => 'width:20%'
                                     ],
-                                'attribute' => 'title',
-                                ],
-
-                                [
-                                'header' => 'Deskripsi',
-                                'headerOptions' =>[
-                                      'style' => 'width:70%'
+                                    'attribute' => 'title',
                                     ],
-                                'attribute' => 'description',
-                                ],
 
+                                    [
+                                    'header' => 'Deskripsi',
+                                    'headerOptions' =>[
+                                      'style' => 'width:40%'
+                                    ],
+                                    'attribute' => 'description',
+                                    ],
+
+                                    [
+                                    'header' => 'Tangal Mulai',
+                                    'headerOptions' =>[
+                                      'style' => 'width:15%'
+                                    ],
+                                    'attribute' => 'date_start',
+                                    ],
+
+                                    [
+                                    'header' => 'Tanggal Berakhir',
+                                    'headerOptions' =>[
+                                      'style' => 'width:15%'
+                                    ],
+                                    'attribute' => 'date_end',
+                                    ],
 
                                 [
 

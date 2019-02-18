@@ -95,7 +95,15 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Judul</label>
+                <label>Nama Kegiatan</label>
+              </div>
+              <div class="col-md-10">
+                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-2">
+                <label>Judul/Tema</label>
               </div>
               <div class="col-md-10">
                 <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true])->label(false) ?>
@@ -125,7 +133,7 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Target Kegiatan</label>
+                <label>Sasaran Kegiatan</label>
               </div>
               <div class="col-md-10">
                 <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
@@ -136,7 +144,7 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Lokasi</label>
+                <label>Tempat Pelaksanaan</label>
               </div>
               <div class="col-md-10">
                 <?=
@@ -366,3 +374,71 @@ HTML;
 
     <?php ActiveForm::end(); ?>
 </div>
+
+<?php
+$url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
+$url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran-update');
+
+$js=<<<js
+$('#jenis-tujuan').on('change',function(){
+    var tipe = $('#jenis-tujuan').val();
+    $.ajax({
+        url : "$url" + tipe,
+        dataType : 'html',
+        type : 'post'
+    }).done(function(data){
+       $('select#kode-tujuan').html(data);
+    });
+});
+
+$('#jenis-asal').on('change',function(){
+    var tipe = $('#jenis-asal').val();
+    $.ajax({
+        url : "$url" + tipe,
+        dataType : 'html',
+        type : 'post'
+    }).done(function(data){
+       $('select#kode-asal').html(data);
+    });
+});
+
+$('#kode-asal').on('change',function(){
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+    $.ajax({
+        url : "$url2",
+        dataType : 'html',
+        type : 'post',
+        data: {
+            tipe: tipe,
+            kode: kode,
+        },
+    }).done(function(data){
+        datas = JSON.parse(data);
+       $('#nilai-anggaran-source').html(datas.message);
+       $('#value-budget').attr({
+           'max' : datas.max,
+        });
+    });
+});
+
+$('#kode-tujuan').on('change',function(){
+    var tipe = $('#jenis-tujuan').val();
+    var kode = $('#kode-tujuan').val();
+    $.ajax({
+        url : "$url2",
+        dataType : 'html',
+        type : 'post',
+        data: {
+            tipe: tipe,
+            kode: kode,
+        },
+    }).done(function(data){
+        datas = JSON.parse(data);
+       $('#nilai-anggaran-source').html(datas.message);
+    });
+});
+
+js;
+$this->registerJs($js);
+?>

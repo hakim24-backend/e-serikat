@@ -157,9 +157,7 @@ $Role = Yii::$app->user->identity->roleName();
             <?php } else if ($Role == "Seksi") { ?>
                 <td><?=$model->title?></td>
             <?php } ?>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>

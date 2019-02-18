@@ -21,28 +21,43 @@ $gridColumns = [
       'style'=>'width:100%'],
     ],
     [
-    'header' => 'Judul',
-    'attribute' => 'title',
+        'header' => 'Judul',
+        'headerOptions' =>[
+        'style' => 'width:15%'
+        ],
+        'attribute' => 'title',
     ],
 
     [
-    'header' => 'Latar Belakang',
-    'attribute' => 'background',
+        'header' => 'Tujuan',
+        'headerOptions' =>[
+        'style' => 'width:25%'
+        ],
+        'attribute' => 'purpose',
     ],
 
     [
-    'header' => 'Tujuan',
-    'attribute' => 'purpose',
+        'header' => 'Tempat Pelaksanaan',
+        'headerOptions' =>[
+        'style' => 'width:20%'
+        ],
+        'attribute' => 'place_activity',
     ],
 
     [
-    'header' => 'Tangal Mulai',
-    'attribute' => 'date_start',
+        'header' => 'Tangal Mulai',
+        'headerOptions' =>[
+        'style' => 'width:15%'
+        ],
+        'attribute' => 'date_start',
     ],
 
     [
-    'header' => 'Tanggal Berakhir',
-    'attribute' => 'date_end',
+        'header' => 'Tanggal Berakhir',
+        'headerOptions' =>[
+        'style' => 'width:15%'
+        ],
+        'attribute' => 'date_end',
     ],
     ['class' => 'kartik\grid\ActionColumn', 'urlCreator'=>function(){return '#';}]
 ];
@@ -170,30 +185,45 @@ ExportMenu::widget([
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
 
-                                [
-                                'header' => 'Judul',
-                                'attribute' => 'title',
-                                ],
+                                    [
+                                        'header' => 'Judul',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'title',
+                                    ],
 
-                                [
-                                'header' => 'Latar Belakang',
-                                'attribute' => 'background',
-                                ],
+                                    [
+                                        'header' => 'Tujuan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:25%'
+                                        ],
+                                        'attribute' => 'purpose',
+                                    ],
 
-                                [
-                                'header' => 'Tujuan',
-                                'attribute' => 'purpose',
-                                ],
+                                    [
+                                        'header' => 'Tempat Pelaksanaan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'attribute' => 'place_activity',
+                                    ],
 
-                                [
-                                'header' => 'Tangal Mulai',
-                                'attribute' => 'date_start',
-                                ],
+                                    [
+                                        'header' => 'Tangal Mulai',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'date_start',
+                                    ],
 
-                                [
-                                'header' => 'Tanggal Berakhir',
-                                'attribute' => 'date_end',
-                                ],
+                                    [
+                                        'header' => 'Tanggal Berakhir',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'date_end',
+                                    ],
                             ],
                         ]); ?>
                         <?php Pjax::end(); ?>

@@ -13,6 +13,8 @@ use kartik\mpdf\Pdf;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ActivityDailyChiefController implements the CRUD actions for ActivityDaily model.
@@ -20,6 +22,32 @@ use yii\web\Controller;
 class ActivityDailyChiefController extends Controller
 {
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout','index','view','create','update','delete','report'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+    
     /**
      * Lists all ActivityDaily models.
      * @return mixed
@@ -29,7 +57,7 @@ class ActivityDailyChiefController extends Controller
         $role = Yii::$app->user->identity->role;
 
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role' => $role]),
+            'query' => ActivityDaily::find()->where(['role' => $role])->andWhere(['done'=>0]),
         ]);
 
         return $this->render('index', [

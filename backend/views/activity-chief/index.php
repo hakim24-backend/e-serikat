@@ -29,39 +29,50 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                             <?php Pjax::begin();?>
                               <?=GridView::widget([
                                 'dataProvider' => $dataProvider,
+                                'options' =>[
+                                  'style'=>'width:100%'
+                                ],
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
-
-                                    [
-                                        'header' => 'Status Anggaran',
-                                        'attribute' => 'finance_status',
-                                    ],
-
                                     [
                                         'header' => 'Judul',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
                                         'attribute' => 'title',
                                     ],
 
                                     [
-                                        'header' => 'Latar Belakang',
-                                        'attribute' => 'background',
-                                    ],
-
-                                    [
                                         'header' => 'Tujuan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:25%'
+                                        ],
                                         'attribute' => 'purpose',
                                     ],
 
                                     [
+                                        'header' => 'Tempat Pelaksanaan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'attribute' => 'place_activity',
+                                    ],
+
+                                    [
                                         'header' => 'Tangal Mulai',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
                                         'attribute' => 'date_start',
                                     ],
 
                                     [
                                         'header' => 'Tanggal Berakhir',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
                                         'attribute' => 'date_end',
                                     ],
-
                                     [
                                         'class' => 'yii\grid\ActionColumn',
                                         'contentOptions' => ['style' => 'width:160px;'],
