@@ -391,13 +391,25 @@ class ActivityChiefController extends \yii\web\Controller
           $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
           $sekre = Chief::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
+                    $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
+          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
+          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
+          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
+          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
+          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
             'sumber'=>$sumber,
-            'sekre'=>$sekre
+            'sekre'=>$sekre,
+            'section'=>$section,
+            'mainMember'=>$mainMember,
+            'ketua'=>$ketua,
+            'wakil'=>$wakil,
+            'sekretaris'=>$sekretaris,
+            'bendahara'=>$bendahara
         ]);
 
         // setup kartik\mpdf\Pdf component

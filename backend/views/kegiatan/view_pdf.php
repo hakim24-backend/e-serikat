@@ -39,9 +39,10 @@ $date = date('Y-m-d');
 </head>
 <body>
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
-    <strong>PETRO KIMIA GRESIK</strong>
-    Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
-NO : 834932482342<br>
+    <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
+  <span>Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
+<span>NO : 834932482342</span><br>
+<span>NO : 234248244244</span>
 
 <hr style="color:#000000;"></hr>
 
@@ -58,10 +59,11 @@ NO : 834932482342<br>
         <tr>
             <td>Unit Kerja</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>: <?=$sekre->secretariat_code?></td>
+            <td>: <?=$sekre->secretariat_code?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>: <?=$sekre->section_code?></td>
+            <td>: <?=$sekre->section_code?></td>
             <?php } ?>
+
         </tr>
     </tbody>
 </table>
@@ -281,7 +283,7 @@ NO : 834932482342<br>
             <?php if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$baru->secretariat_budget_value-$budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$baru->section_budget_value-$budget->budget_value_dp?></td>
             <?php } ?>
         </tr>
     </tbody>

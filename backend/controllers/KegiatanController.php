@@ -525,8 +525,7 @@ class KegiatanController extends Controller
           $baru = SectionBudget::find()->where(['id'=>$awal])->one();
           $sekre = Section::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
-          $section = ActivitySection::find()->where(['activity_id'=>$model])->one();
-          $sectionMember = ActivitySectionMember::find()->where(['section_activity_id'=>$section])->all();
+          $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
@@ -541,7 +540,6 @@ class KegiatanController extends Controller
             'sumber'=>$sumber,
             'sekre'=>$sekre,
             'section'=>$section,
-            // 'sectionMember' =>$sectionMember,
             'mainMember'=>$mainMember,
             'ketua'=>$ketua,
             'wakil'=>$wakil,

@@ -395,13 +395,25 @@ class ActivityDepartmentController extends \yii\web\Controller
           $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
           $sekre = Department::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
+          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
+          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
+          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
+          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
+          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
             'sumber'=>$sumber,
-            'sekre'=>$sekre
+            'sekre'=>$sekre,
+            'section'=>$section,
+            'mainMember'=>$mainMember,
+            'ketua'=>$ketua,
+            'wakil'=>$wakil,
+            'sekretaris'=>$sekretaris,
+            'bendahara'=>$bendahara
         ]);
 
         // setup kartik\mpdf\Pdf component
@@ -421,11 +433,8 @@ class ActivityDepartmentController extends \yii\web\Controller
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
-             // set mPDF properties on the fly
-            'options' => ['title' => 'Krajee Report Title'],
              // call mPDF methods on the fly
             'methods' => [
-                'SetHeader'=>['Krajee Report Header'],
                 'SetFooter'=>['{PAGENO}'],
             ]
         ]);

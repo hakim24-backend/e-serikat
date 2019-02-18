@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 
 $Role = Yii::$app->user->identity->roleName();
+$date = date('Y-m-d');
 ?>
 
 <html>
@@ -303,9 +304,9 @@ $Role = Yii::$app->user->identity->roleName();
             <td><strong>Disetujui Oleh</td>
         </tr>
         <tr>
-            <td width="270">Tanggal</td>
-            <td width="270">Tanggal</td>
-            <td>Tanggal</td>
+            <td width="270">Tanggal, <?=$date?></td>
+            <td width="270">Tanggal, <?=$date?></td>
+            <td>Tanggal, <?=$date?></td>
         </tr>
     </tbody>
 </table>
@@ -324,12 +325,12 @@ $Role = Yii::$app->user->identity->roleName();
 <table>
     <tbody>
         <tr>
-            <td width="270">DANI RUSTIAWAN, IR., MM</td>
+            <td width="270">____________________</td>
             <td width="270">____________________</td>
             <td>____________________</td>
         </tr>
         <tr>
-            <td>Manager Pelayanan Umum</td>
+            <td></td>
         </tr>
     </tbody>
 </table>
