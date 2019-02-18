@@ -111,10 +111,18 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Judul</label>
+                <label>Nama Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label(false) ?>
+                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-2">
+                <label>Judul/Tema</label>
+              </div>
+              <div class="col-md-10">
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -124,7 +132,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background')->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'background')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -134,17 +142,17 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose')->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'purpose')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
               </div>
             </div>
           </div>
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Target Kegiatan</label>
+                <label>Sasaran Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -152,7 +160,7 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Lokasi</label>
+                <label>Tempat Pelaksanaan</label>
               </div>
               <div class="col-md-10">
                 <?=
@@ -290,7 +298,7 @@ $list_seksi = array_values($array_seksi);
 
                                   ?>
 
-                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true]) ?>
+                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true, 'required'=>true]) ?>
 
                               </td>
 
@@ -359,7 +367,7 @@ HTML;
                                     'format' => 'Y-m-d',
                                 ],
                                 'drops' => 'up',
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
+                                'minDate' => date('Y-m-d',strtotime("-1 weeks")),
                                 'maxDate' => date('Y-m-d',strtotime("+1 month")),
                             ]
                         ]) . $addon;

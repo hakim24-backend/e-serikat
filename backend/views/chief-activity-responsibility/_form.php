@@ -45,7 +45,7 @@ use yii\base\view;
     ]) ?>
 
 
-    <?= $form->field($model, 'photoApprove')->widget(FileInput::classname(), [
+    <?= $form->field($model, 'photoApprove[]')->widget(FileInput::classname(), [
     'options' => [
         'accept' => 'image/*',
         'multiple' => true,

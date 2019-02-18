@@ -25,6 +25,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use kartik\mpdf\Pdf;
 
 /**
@@ -38,6 +39,20 @@ class BendaharaActivityResponsibilityController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout','index','closing','update','delete','view','download'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -65,12 +80,18 @@ class BendaharaActivityResponsibilityController extends Controller
     public function actionClosing($id)
     {
         $model = Activity::find()->where(['id'=>$id])->one();
-        $model->done = 1;
-        $model->save(false);
-
         $responsibility = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
-        $responsibility->responsibility_value = 1;
-        $responsibility->save(false);
+
+        if ($responsibility == null) {
+            Yii::$app->getSession()->setFlash('warning', 'Tidak Dapat Approve Pertangungjawaban Karena Data Pertangungjawaban Tidak Ada');
+            return $this->redirect(Yii::$app->request->referrer);
+        } else {
+            $model->done = 1;
+            $model->save(false);
+
+            $responsibility->responsibility_value = 1;
+            $responsibility->save(false);
+        }
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Di Tutup');
         return $this->redirect(Yii::$app->request->referrer);
@@ -117,9 +138,14 @@ class BendaharaActivityResponsibilityController extends Controller
     public function actionView($id)
     {
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
-        return $this->render('view', [
+        if ($model != null) {
+            return $this->render('view', [
             'model' => $model,
         ]);
+        } else {
+            Yii::$app->getSession()->setFlash('warning', 'Data Pertangungjawaban Tidak Ada');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     }
 
     public function actionDownload($id)

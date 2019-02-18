@@ -70,7 +70,6 @@ $Role = Yii::$app->user->identity->roleName();
 </style>
 </head>
 <body style="color:#000066;">
-<div id="apDiv1">
 <p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
@@ -128,8 +127,6 @@ $Role = Yii::$app->user->identity->roleName();
             <td>Judul Kegiatan</td>
             <td>:</td>
             <td><?=$model->title?></td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>

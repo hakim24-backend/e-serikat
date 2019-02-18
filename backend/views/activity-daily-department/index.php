@@ -33,10 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
+                                    
                                     [
                                     'header' => 'Judul',
                                     'headerOptions' =>[
-                                      'style' => 'width:20%'
+                                      'style' => 'width:15%'
                                     ],
                                     'attribute' => 'title',
                                     ],
@@ -44,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     [
                                     'header' => 'Deskripsi',
                                     'headerOptions' =>[
-                                      'style' => 'width:40%'
+                                      'style' => 'width:20%'
                                     ],
                                     'attribute' => 'description',
                                     ],
@@ -63,6 +64,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'style' => 'width:15%'
                                     ],
                                     'attribute' => 'date_end',
+                                    ],
+
+                                    [
+                                    'header' => 'Status Anggaran',
+                                    'headerOptions'=>[
+                                      'style'=>'width:15%'
+                                    ],
+                                    'attribute' => 'finance_status',
                                     ],
 
                                     [

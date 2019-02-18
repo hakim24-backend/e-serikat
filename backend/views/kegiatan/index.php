@@ -29,40 +29,57 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php Pjax::begin(); ?>
                               <?= GridView::widget([
                                 'dataProvider' => $dataProvider,
+                                  'options' =>[
+                                  'style'=>'width:100%'
+                                  ],
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
-
                                     [
-                                    'header' => 'Status Anggaran',
-                                    'attribute' => 'finance_status',
+                                        'header' => 'Judul',
+                                        'headerOptions' =>[
+                                        'style' => 'width:10%'
+                                        ],
+                                        'attribute' => 'title',
                                     ],
 
                                     [
-                                    'header' => 'Judul',
-                                    'attribute' => 'title',
+                                        'header' => 'Tujuan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:10%'
+                                        ],
+                                        'attribute' => 'purpose',
                                     ],
 
                                     [
-                                    'header' => 'Latar Belakang',
-                                    'attribute' => 'background',
+                                        'header' => 'Tempat Pelaksanaan',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'attribute' => 'place_activity',
                                     ],
 
                                     [
-                                    'header' => 'Tujuan',
-                                    'attribute' => 'purpose',
+                                        'header' => 'Tangal Mulai',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'date_start',
                                     ],
 
                                     [
-                                    'header' => 'Tangal Mulai',
-                                    'attribute' => 'date_start',
+                                        'header' => 'Tanggal Berakhir',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'date_end',
                                     ],
-
                                     [
-                                    'header' => 'Tanggal Berakhir',
-                                    'attribute' => 'date_end',
+                                        'header' => 'Status Anggaran',
+                                        'headerOptions' =>[
+                                        'style' => 'width:15%'
+                                        ],
+                                        'attribute' => 'finance_status',
                                     ],
-
-
                                     [
                                       'class' => 'yii\grid\ActionColumn',
                                       'contentOptions' => ['style' => 'width:160px;'],

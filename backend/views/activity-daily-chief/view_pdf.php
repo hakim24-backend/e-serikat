@@ -140,8 +140,6 @@ $Role = Yii::$app->user->identity->roleName();
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
             <td>Rp.<?=$baru->chief_budget_value?></td>
         </tr>

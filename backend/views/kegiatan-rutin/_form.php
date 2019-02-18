@@ -34,13 +34,10 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Jenis SDM</label>
                 <div class="col-sm-8">
-                    <?php
-                    if($Role == "Super Admin"){ ?>
-                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat', 8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
-                    <?php } else if ($Role == "Sekretariat"){ ?>
-                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?php if ($Role == "Sekretariat"){ ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
                     <?php }else if($Role == "Seksi"){ ?>
-                    <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
                     <?php } ?>
                 </div>
             </div>
@@ -51,7 +48,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Kode Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('source_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8','id'=>'kode-asal']) ?>
+                    <?= Html::dropDownList('source_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8 form-control','id'=>'kode-asal']) ?>
                 </div>
             </div>
         </div>
@@ -63,7 +60,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Uang Muka Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
+                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
                 </div>
             </div>
         </div>
@@ -73,7 +70,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
+                    <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
                 </div>
             </div>
         </div>
@@ -83,7 +80,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Judul</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('judul', '', ['autofocus' => true, 'required'=>true, 'type'=>'text','class'=>'col-sm-8', 'id'=>'judul']) ?>
+                    <?= $form->field($daily, 'title')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
                 </div>
             </div>
         </div>
@@ -93,7 +90,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Deskripsi</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('description', '', ['autofocus' => true, 'required'=>true, 'type'=>'textarea', 'class'=>'col-sm-8', 'id'=>'description']) ?>
+                    <?= $form->field($daily, 'description')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
                 </div>
             </div>
         </div>

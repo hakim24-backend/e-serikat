@@ -12,6 +12,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ApprovalDepartmentActivityDailyController implements the CRUD actions for ActivityDaily model.
@@ -24,6 +25,20 @@ class ApprovalDepartmentActivityDailyController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['index','view','apply','update-apply','reject'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -144,9 +159,7 @@ class ApprovalDepartmentActivityDailyController extends Controller
                 unlink($uploadPath.$oldfile);
                 unlink($uploadPath.$oldPhoto);
                 $approve->delete();
-                $departBudget->delete();
             } else {
-                $departBudget->delete();
             }
 
             $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;

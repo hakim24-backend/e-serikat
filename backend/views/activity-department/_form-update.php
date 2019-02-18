@@ -92,7 +92,15 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Judul</label>
+                <label>Nama Kegiatan</label>
+              </div>
+              <div class="col-md-10">
+                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-2">
+                <label>Judul/Tema</label>
               </div>
               <div class="col-md-10">
                 <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label(false) ?>
@@ -122,7 +130,7 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Target Kegiatan</label>
+                <label>Sasaran Kegiatan</label>
               </div>
               <div class="col-md-10">
                 <?= $form->field($model, 'target_activity')->textarea(['rows' => 4])->label(false) ?>
@@ -133,7 +141,7 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Lokasi</label>
+                <label>Tempat Pelaksanaan</label>
               </div>
               <div class="col-md-10">
                 <?=

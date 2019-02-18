@@ -43,14 +43,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'place_activity',
                 'label'=>'Tempat Pelaksanaan'
             ],
-            [
-                'attribute'=>'place_activity_x',
-                'label'=>'Tempat Pelaksanaan X'
-            ],
-            [
-                'attribute'=>'place_activity_y',
-                'label'=>'Tempat Pelaksanaan Y'
-            ],
+            // [
+            //     'attribute'=>'place_activity_x',
+            //     'label'=>'Tempat Pelaksanaan X'
+            // ],
+            // [
+            //     'attribute'=>'place_activity_y',
+            //     'label'=>'Tempat Pelaksanaan Y'
+            // ],
             [
                 'attribute'=>'date_start',
                 'label'=>'Tanggal Mulai'

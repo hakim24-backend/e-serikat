@@ -25,6 +25,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use kartik\mpdf\Pdf;
 /**
@@ -38,6 +39,20 @@ class KegiatanController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout','index','view','create','update','delete','report','save-deposit','kode-tujuan','nilai-anggaran','nilai-anggaran-update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -56,7 +71,7 @@ class KegiatanController extends Controller
         $role = Yii::$app->user->identity->role;
         if($role != 1 && $role != 5){
           $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>$role]),
+            'query' => Activity::find()->where(['role'=>$role])->andWhere(['done'=>0]),
           ]);
         }else{
           $dataProvider = new ActiveDataProvider([
@@ -108,22 +123,32 @@ class KegiatanController extends Controller
              $model->date_end = $post['to_date'];
 
              if ($role == 4) {
-                $data = SecretariatBudget::findOne($post['source_sdm']); 
-                if ($post['source_value'] > $data->secretariat_budget_value ) {
-                 Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
-                 return $this->redirect(Yii::$app->request->referrer);
-                }  
-             } elseif ($role == 8) {
-                $data = SectionBudget::findOne($post['source_sdm']);
-                if ($post['source_value'] > $data->section_budget_value ) {
-                 Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
-                 return $this->redirect(Yii::$app->request->referrer);
-                }
-             }
+                $data = SecretariatBudget::findOne($post['source_sdm']);
+                if ($data == null) {
+                  Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
+                  return $this->redirect(Yii::$app->request->referrer);
+                 } else {
+                    if ($post['source_value'] > $data->secretariat_budget_value ) {
+                    Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
+                    return $this->redirect(Yii::$app->request->referrer);
+                   } 
+                 }
 
-             if ($post['money_budget'] > $post['source_value']) {
+                if ($post['money_budget'] > $post['source_value']) {
                  Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
                  return $this->redirect(Yii::$app->request->referrer);
+                } 
+             } elseif ($role == 8) {
+                $data = SectionBudget::findOne($post['source_sdm']);
+                if ($data == null) {
+                  Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
+                  return $this->redirect(Yii::$app->request->referrer);
+                } else {
+                  if ($post['source_value'] > $data->section_budget_value ) {
+                  Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
+                  return $this->redirect(Yii::$app->request->referrer);
+                  }
+                }
              }
 
              if ($post['jenis_sdm_source']=='4') {
@@ -216,6 +241,7 @@ class KegiatanController extends Controller
                            $sectionBudget->activity_id = $model->id;
                            $sectionBudget->save(false);
                        }
+                       Yii::$app->getSession()->setFlash('success', 'Buat Data Kegiatan Berhasil');
                        return $this->redirect('index');
                  }
              }
@@ -438,7 +464,7 @@ class KegiatanController extends Controller
                        $modelsMain->save();
                      }
                    }
-
+                     Yii::$app->getSession()->setFlash('success', 'Edit Data Kegiatan Berhasil');
                      return $this->redirect('index');
                  }
              }
@@ -486,6 +512,15 @@ class KegiatanController extends Controller
           $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
           $sekre = Secretariat::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
+          $idSection = ActivitySection::find()->where(['id'=>$model])->all();
+          // $sectionMember = ActivitySectionMember::find()->where(['activity_id'=>$idSection])->all();
+          // var_dump($sectionMember);die();
+          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
+          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
+          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
+          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
+          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
         } else if ($role == 8) {
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
@@ -493,6 +528,13 @@ class KegiatanController extends Controller
           $baru = SectionBudget::find()->where(['id'=>$awal])->one();
           $sekre = Section::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $section = ActivitySection::find()->where(['activity_id'=>$model])->one();
+          $sectionMember = ActivitySectionMember::find()->where(['section_activity_id'=>$section])->all();
+          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
+          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
+          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
+          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
+          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
         }
 
         $content = $this->renderPartial('view_pdf',[
@@ -500,7 +542,14 @@ class KegiatanController extends Controller
             'budget'=>$budget,
             'baru'=>$baru,
             'sumber'=>$sumber,
-            'sekre'=>$sekre
+            'sekre'=>$sekre,
+            'section'=>$section,
+            // 'sectionMember' =>$sectionMember,
+            'mainMember'=>$mainMember,
+            'ketua'=>$ketua,
+            'wakil'=>$wakil,
+            'sekretaris'=>$sekretaris,
+            'bendahara'=>$bendahara
         ]);
 
         // setup kartik\mpdf\Pdf component
@@ -520,11 +569,8 @@ class KegiatanController extends Controller
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
-             // set mPDF properties on the fly
-            'options' => ['title' => 'Krajee Report Title'],
              // call mPDF methods on the fly
             'methods' => [
-                'SetHeader'=>['Krajee Report Header'],
                 'SetFooter'=>['{PAGENO}'],
             ]
         ]);
@@ -916,5 +962,4 @@ class KegiatanController extends Controller
         }
         echo json_encode($datas);
     }
-
 }

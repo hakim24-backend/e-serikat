@@ -92,6 +92,14 @@ $list_seksi = array_values($array_seksi);
           <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
+                <label>Nama Kegiatan</label>
+              </div>
+              <div class="col-md-10">
+                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-2">
                 <label>Judul</label>
               </div>
               <div class="col-md-10">

@@ -18,13 +18,29 @@ use kartik\mpdf\Pdf;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
+
 class ActivityChiefController extends \yii\web\Controller
 {
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['index', 'create','update','view','delete','report','kode-tujuan','nilai-anggaran','save-deposit'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -38,7 +54,7 @@ class ActivityChiefController extends \yii\web\Controller
     {
         $role = Yii::$app->user->identity->role;
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role' => $role]),
+            'query' => Activity::find()->where(['role' => $role])->andWhere(['done'=>0]),
         ]);
 
         return $this->render('index', [
@@ -150,7 +166,8 @@ class ActivityChiefController extends \yii\web\Controller
                     $depBudget->activity_id = $model->id;
                     $depBudget->save(false);
 
-                    return $this->redirect('index');
+                    Yii::$app->getSession()->setFlash('success', 'Buat Data Kegiatan Berhasil');
+                    return $this->redirect(['index']);
                 }
             }
         }
@@ -321,6 +338,7 @@ class ActivityChiefController extends \yii\web\Controller
                         }
                     }
 
+                    Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
                     return $this->redirect('index');
                 }
             }
