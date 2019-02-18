@@ -116,8 +116,13 @@ class KegiatanController extends Controller
              $post = Yii::$app->request->post();
              $model->role = Yii::$app->user->identity->role;
              $model->finance_status = 0;
-             $model->department_status = 1;
-             $model->chief_status = 1;
+             if ($role = 4) {
+               $model->department_status = 1;
+               $model->chief_status = 1;
+             } elseif ($role = 8) {
+               $model->department_status = 0;
+               $model->chief_status = 0;
+             }
              $model->done = 0;
              $model->date_start = $post['from_date'];
              $model->date_end = $post['to_date'];
@@ -163,8 +168,6 @@ class KegiatanController extends Controller
                  $data->save();
                  $idSectionBudget = $data->id;
              }
-
-
 
              // get ActivitySection data from POST
              $modelsSection = Model::createMultiple(ActivitySection::classname());
