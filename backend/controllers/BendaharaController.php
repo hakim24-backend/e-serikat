@@ -117,7 +117,6 @@ class BendaharaController extends Controller
         $reject = Activity::find()->where(['id'=>$id])->one();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->message = $model->message;
             $model->activity_id = $id;
             $save = $model->save(false);
 
@@ -131,6 +130,7 @@ class BendaharaController extends Controller
                 $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
                 $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
 
+                $modelRutin->finance_status=2;
                 $modelRutin->chief_status=0;
                 $modelRutin->department_status=0;
                 $modelRutin->save(false);
@@ -143,6 +143,8 @@ class BendaharaController extends Controller
                 $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
                 $baru = SectionBudget::find()->where(['id'=>$awal])->one();
 
+
+                $modelSeksi->finance_status = 2;
                 $modelSeksi->chief_status=0;
                 $modelSeksi->department_status=0;
                 $modelSeksi->save(false);
