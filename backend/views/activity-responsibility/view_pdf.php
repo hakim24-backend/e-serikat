@@ -55,7 +55,7 @@ $Role = Yii::$app->user->identity->roleName();
               <?php if ($Role == "Sekretariat") { ?>
                 <td colspan="3"><?=$sekre->secretariat_name?></td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td colspan="3"><?=$sekre->section_name?></td>
+                <td colspan="3"><?=Yii::$app->user->identity->username?></td>
               <?php } ?>
             </tr>
             <tr style="border-bottom-style: hidden;">
@@ -64,7 +64,7 @@ $Role = Yii::$app->user->identity->roleName();
               <?php if ($Role == "Sekretariat") { ?>
                 <td colspan="3"><?=$sekre->secretariat_code?></td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td colspan="3"><?=$sekre->section_code.'/'.$departName->depart_code?></td>
+                <td colspan="3"><?=$sekre->section_code?></td>
               <?php } ?>
             </tr>
            </tbody>

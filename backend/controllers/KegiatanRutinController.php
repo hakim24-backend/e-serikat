@@ -111,7 +111,9 @@ class KegiatanRutinController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::$app->request->post()) {
+        $daily = new ActivityDaily();
+
+        if ($daily->load(Yii::$app->request->post())) {
             $role = Yii::$app->user->identity->roleName();
 
                 if ($role == "Sekretariat") {
@@ -162,12 +164,9 @@ class KegiatanRutinController extends Controller
                     }
                 }
 
-                    $daily = new ActivityDaily();
                     $daily->finance_status = 0;
                     $daily->department_status = 1;
                     $daily->chief_status = 1;
-                    $daily->title = $post['judul'];
-                    $daily->description = $post['description'];
                     if ($role == "Sekretariat") {
                         $daily->role = 4;
                     } elseif ($role == "Seksi") {
@@ -204,7 +203,9 @@ class KegiatanRutinController extends Controller
                         }
                     }
         }
-        return $this->render('_form');
+        return $this->render('_form', [
+                'daily' => $daily,
+            ]);
     }
 
     /**

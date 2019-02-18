@@ -275,27 +275,23 @@ class ActivityResponsibilityController extends Controller
     }
 
     public function actionReport($id) {
-    $role = Yii::$app->user->identity->role;
+    $role = Yii::$app->user->identity->roleName();
 
-        if ($role == 4) {
+        if ($role == "Sekretariat") {
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
           $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
           $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
           $sekre = Secretariat::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
-          $departID = Section::find()->where(['id_depart'=>$sekre])->one();
-          $departName = Department::find()->where(['id'=>$departID])->one();
-        $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
-        } else if ($role == 8) {
-          $model = Activity::find()->where(['id'=>$id])->one();
-          $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
-          $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-          $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-          $sekre = Section::find()->where(['id'=>$baru])->one();
-          $departID = Section::find()->where(['id_depart'=>$sekre])->one();
-          $departName = Department::find()->where(['id'=>$departID])->one();
-          $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
+        } else if ($role == "Seksi") {
+        $model = Activity::find()->where(['id'=>$id])->one();
+        $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Section::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
           $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
         }
 
@@ -304,8 +300,7 @@ class ActivityResponsibilityController extends Controller
             'budget'=>$budget,
             'baru'=>$baru,
             'sumber'=>$sumber,
-            'sekre'=>$sekre,
-            'departName'=>$departName,
+            'sekre'=>$sekre,  
             'lpj'=>$lpj
         ]);
 
