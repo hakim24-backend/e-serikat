@@ -35,7 +35,7 @@ class DepartmentController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','index','view','create','update','delete'],
+                        'actions' => ['logout','index','highlight','view','create','update','delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
