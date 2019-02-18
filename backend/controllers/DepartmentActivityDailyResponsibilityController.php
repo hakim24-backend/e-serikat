@@ -268,6 +268,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         $departName = Department::find()->where(['id'=>$departID])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model])->one();
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
@@ -275,7 +276,8 @@ class DepartmentActivityDailyResponsibilityController extends Controller
             'baru'=>$baru,
             'sumber'=>$sumber,
             'sekre'=>$sekre,
-            'departName'=>$departName
+            'departName'=>$departName,
+            'lpj'=>$lpj
         ]);
 
         // setup kartik\mpdf\Pdf component
