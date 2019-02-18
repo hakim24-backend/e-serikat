@@ -69,7 +69,7 @@ class BendaharaRutinController extends Controller
     {
 
         $dataProvider = new ActiveDataProvider([
-        'query' => ActivityDaily::find()->where(['done'=> 0])->andWhere(['chief_status'=>1])->orWhere(['department_status'=>1]),
+        'query' => ActivityDaily::find()->where(['finance_status'=> 0]),
         ]);
 
         return $this->render('index', [
@@ -130,15 +130,9 @@ class BendaharaRutinController extends Controller
         $reject = ActivityDaily::find()->where(['id'=>$id])->one();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->message = $model->message;
             $model->activity_id = $id;
             $save = $model->save(false);
 
-            if ($save) {
-                $reject = ActivityDaily::find()->where(['id'=>$id])->one();
-                $reject->done = 1;
-                $reject->save(false);
-            }
 
             $roleSekre =  ActivityDaily::find()->where(['role'=>4])->one();
             $roleSeksi =  ActivityDaily::find()->where(['role'=>8])->one();
@@ -148,24 +142,11 @@ class BendaharaRutinController extends Controller
                 $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
                 $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
                 $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-                $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelRutin])->one();
-                $sekreBudget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
 
+                $modelRutin->finance_status=2;
                 $modelRutin->chief_status=0;
                 $modelRutin->department_status=0;
                 $modelRutin->save(false);
-
-                if ($approve) {
-                    $uploadPath = Yii::getAlias('@backend')."/web/template";
-                    $oldfile = $approve->file;
-                    $oldPhoto = $approve->photo;
-                    unlink($uploadPath.$oldfile);
-                    unlink($uploadPath.$oldPhoto);
-                    $approve->delete();
-                    $sekreBudget->delete();
-                } else {
-                    $sekreBudget->delete();
-                }
 
                 $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
                 $baru->save();
@@ -174,24 +155,11 @@ class BendaharaRutinController extends Controller
                 $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
                 $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
                 $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-                $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelSeksi])->one();
-                $seksiBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
 
+                $modelSeksi->finance_status = 2;
                 $modelRutin->chief_status=0;
                 $modelRutin->department_status=0;
                 $modelRutin->save(false);
-
-                if ($approve) {
-                    $uploadPath = Yii::getAlias('@backend')."/web/template";
-                    $oldfile = $approve->file;
-                    $oldPhoto = $approve->photo;
-                    unlink($uploadPath.$oldfile);
-                    unlink($uploadPath.$oldPhoto);
-                    $approve->delete();
-                    $seksiBudget->delete();
-                } else {
-                    $seksiBudget->delete();
-                }
 
                 $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
                 $baru->save();
