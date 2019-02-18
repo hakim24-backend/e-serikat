@@ -8,6 +8,8 @@ use common\models\ActivityReject;
 use common\models\ActivitySection;
 use common\models\ActivitySectionMember;
 use common\models\ActivityResponsibility;
+use common\models\ActivityBudgetDepartment;
+use common\models\DepartmentBudget;
 use common\models\ActivityMainMember;
 use common\models\ActivityBudgetChief;
 use common\models\ChiefBudget;
@@ -58,7 +60,7 @@ class ApprovalChiefActivityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['finance_status'=> 1])->andWhere(['department_status'=>1])->andWhere(['chief_status'=>0]),
+            'query' => Activity::find()->where(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 0]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -83,31 +85,49 @@ class ApprovalChiefActivityController extends Controller
         $model = Activity::find()->where(['id'=>$id])->one();
         $model->chief_status = 1;
         $model->save(false);
-        // $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
             'model' => $model,
-            // 'status' => $status
         ]);
     }
 
     public function actionReject($id)
     {
-        $modelReject = new ActivityReject();
-        $model = Activity::find()->where(['id'=>$id])->one();
-        $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-        $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+        $model = new ActivityReject();
+        $reject = Activity::find()->where(['id'=>$id])->one();
 
         if ($model->load(Yii::$app->request->post())) {
-            $modelReject->activity_id = $id;
+            $model->activity_id = $id;
+            $save = $model->save(false);
 
-            $model->chief_status=0;
-            $model->save(false);
 
-            $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
-            $baru->save(false);
+            $roleDepart =  Activity::find()->where(['role'=>7])->one();
+            $roleSeksi =  Activity::find()->where(['role'=>8])->one();
+
+            if ($roleDepart) {
+                $modelRutin = Activity::find()->where(['id'=>$id])->one();
+                $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$modelRutin])->one();
+                $awal = ActivityBudgetDepartment::find()->where(['Department_budget_id'=>$budget])->one();
+                $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+
+                $modelRutin->chief_status=2;
+                $modelRutin->save(false);
+
+                $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;
+                $baru->save();
+            } else if ($roleSeksi) {
+                $modelSeksi = Activity::find()->where(['id'=>$id])->one();
+                $budget = ActivityBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
+                $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+                $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+
+                $modelSeksi->chief_status=2;
+                $modelSeksi->save(false);
+
+                $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
+                $baru->save();
+            }
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');
         return $this->redirect(['index']);

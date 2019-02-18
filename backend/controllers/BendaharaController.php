@@ -102,7 +102,6 @@ class BendaharaController extends Controller
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
             'model' => $model,
-            'status' => $status
         ]);
     }
 
@@ -119,7 +118,6 @@ class BendaharaController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->activity_id = $id;
             $save = $model->save(false);
-
 
             $roleSekre =  Activity::find()->where(['role'=>4])->one();
             $roleSeksi =  Activity::find()->where(['role'=>8])->one();
@@ -145,8 +143,6 @@ class BendaharaController extends Controller
 
 
                 $modelSeksi->finance_status = 2;
-                $modelSeksi->chief_status=0;
-                $modelSeksi->department_status=0;
                 $modelSeksi->save(false);
 
                 $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;

@@ -64,13 +64,13 @@ class ActivityResponsibilityController extends Controller
     public function actionIndex()
     {
         $role = Yii::$app->user->identity->role;
-        if($role != 1){
+        if($role == 4){
           $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>$role]),
+            'query' => Activity::find()->where(['role'=>4])->Andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
           ]);
-        }else{
+        }elseif ($role == 8) {
           $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find(),
+            'query' => Activity::find()->where(['role'=>8])->Andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
           ]);
         }
 

@@ -97,20 +97,6 @@ class BendaharaRutinController extends Controller
         ]);
     }
 
-    public function actionUpdateApply($id)
-    {
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $model->finance_status = 0;
-        $model->save(false);
-        $status = $model->finance_status;
-        Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Diedit');
-        return $this->redirect(Yii::$app->request->referrer);
-        return $this->render([
-            'model' => $model,
-            'status' => $status
-        ]);
-    }
-
     public function actionView($id)
     {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
@@ -144,8 +130,6 @@ class BendaharaRutinController extends Controller
                 $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
 
                 $modelRutin->finance_status=2;
-                $modelRutin->chief_status=0;
-                $modelRutin->department_status=0;
                 $modelRutin->save(false);
 
                 $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
@@ -157,9 +141,7 @@ class BendaharaRutinController extends Controller
                 $baru = SectionBudget::find()->where(['id'=>$awal])->one();
 
                 $modelSeksi->finance_status = 2;
-                $modelRutin->chief_status=0;
-                $modelRutin->department_status=0;
-                $modelRutin->save(false);
+                $modelSeksi->save(false);
 
                 $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
                 $baru->save();

@@ -55,7 +55,7 @@ class ApprovalChiefActivityDailyController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['done'=> 0])->andWhere(['role'=>6])->andWhere(['chief_status'=>0]),
+            'query' => ActivityDaily::find()->where(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 0]),
         ]);
 
         return $this->render('index', [
@@ -86,35 +86,13 @@ class ApprovalChiefActivityDailyController extends Controller
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $model->chief_status = 1;
         $model->save(false);
-        $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
             'model' => $model,
-            'status' => $status
         ]);
     }
 
-    /**
-     * Updates an existing Activity model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdateApply($id)
-    {
-        $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $model->chief_status = 0;
-        $model->save(false);
-        $status = $model->finance_status;
-        Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Diedit');
-        return $this->redirect(Yii::$app->request->referrer);
-        return $this->render([
-            'model' => $model,
-            'status' => $status
-        ]);
-    }
 
     /**
      * Deletes an existing Activity model.
@@ -129,43 +107,39 @@ class ApprovalChiefActivityDailyController extends Controller
         $reject = ActivityDaily::find()->where(['id'=>$id])->one();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->message = $model->message;
             $model->activity_id = $id;
-            $save = $model->save(false);
-
-            if ($save) {
-                $reject = ActivityDaily::find()->where(['id'=>$id])->one();
-                $reject->done = 1;
-                $reject->save(false);
-            }
-
-            $roleDepartment =  ActivityDaily::find()->where(['role'=>7])->one();
-
-            $model = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-            $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
-            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$model])->one();
-            $departBudget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model])->one();
-
-            $model->chief_status=0;
-            $model->department_status=0;
             $model->save(false);
 
-            if ($approve) {
-                $uploadPath = Yii::getAlias('@backend')."/web/template";
-                $oldfile = $approve->file;
-                $oldPhoto = $approve->photo;
-                unlink($uploadPath.$oldfile);
-                unlink($uploadPath.$oldPhoto);
-                $approve->delete();
-                $departBudget->delete();
-            } else {
-                $departBudget->delete();
-            }
+            $roleDepart =  ActivityDaily::find()->where(['role'=>7])->one();
+            $roleSeksi =  ActivityDaily::find()->where(['role'=>8])->one();
 
-            $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
-            $baru->save();
+            if ($roleDepart) {
+                $modelChief = ActivityDaily::find()->where(['id'=>$id])->one();
+                $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$modelChief])->one();
+                $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+                $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+                $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelChief])->one();
+                $departBudget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$modelChief])->one();
+
+                $modelChief->chief_status=2;
+                $modelChief->save(false);
+
+                $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
+                $baru->save();
+            } elseif ($roleSeksi) {
+                $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
+                $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
+                $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+                $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+                $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelSeksi])->one();
+                $departBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
+
+                $modelSeksi->chief_status=2;
+                $modelSeksi->save(false);
+
+                $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
+                $baru->save();
+            }
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');
         return $this->redirect(['index']);

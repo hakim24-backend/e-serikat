@@ -7,6 +7,8 @@ use common\models\Activity;
 use common\models\ActivityReject;
 use common\models\ActivitySection;
 use common\models\ActivitySectionMember;
+use common\models\SectionBudget;
+use common\models\ActivityBudgetSection;
 use common\models\ActivityResponsibility;
 use common\models\ActivityMainMember;
 use common\models\ActivityBudgetDepartment;
@@ -96,27 +98,6 @@ class ApprovalDepartmentActivityController extends Controller
     }
 
     /**
-     * Updates an existing Activity model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdateApply($id)
-    {
-        $model = Activity::find()->where(['id'=>$id])->one();
-        $model->department_status = 0;
-        $model->save(false);
-        $status = $model->finance_status;
-        Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Diedit');
-        return $this->redirect(Yii::$app->request->referrer);
-        return $this->render([
-            'model' => $model,
-            'status' => $status
-        ]);
-    }
-
-    /**
      * Deletes an existing Activity model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -129,49 +110,20 @@ class ApprovalDepartmentActivityController extends Controller
         $reject = Activity::find()->where(['id'=>$id])->one();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->message = $model->message;
             $model->activity_id = $id;
-            $save = $model->save(false);
-
-            if ($save) {
-                $reject = Activity::find()->where(['id'=>$id])->one();
-                $reject->done = 1;
-                $reject->save(false);
-            }
-
-            $roleDepartment =  Activity::find()->where(['role'=>7])->one();
-
-            $model = Activity::find()->where(['id'=>$id])->one();
-            $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
-            $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
-            $approve = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
-            $departBudget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model])->one();
-            $actitvitySection = ActivitySection::find()->where(['activity_id'=>$model])->one();
-            $idActivitySection = ActivitySectionMember::find()->where(['section_activity_id'=>$actitvitySection])->one();
-            $actitvitySectionMember = ActivitySectionMember::find()->where(['activity_id'=>$idActivitySection])->one();
-
-            $model->chief_status=0;
-            $model->department_status=0;
             $model->save(false);
 
-            if ($approve) {
-                $uploadPath = Yii::getAlias('@backend')."/web/template";
-                $oldfile = $approve->file;
-                $oldPhoto = $approve->photo;
-                unlink($uploadPath.$oldfile);
-                unlink($uploadPath.$oldPhoto);
-                $approve->delete();
-                ActivityMainMember::deleteAll(['activity_id'=>$model]);
-                $actitvitySectionMember->delete();
-                $actitvitySection->delete();
-            } else {
-                ActivityMainMember::deleteAll(['activity_id'=>$model]);
-                $actitvitySectionMember->delete();
-                $actitvitySection->delete();
-            }
+            $model = Activity::find()->where(['id'=>$id])->one();
+            $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
+            $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            
+            $model->finance_status=0;
+            $model->department_status=2;
+            $model->chief_status=0;
+            $model->save(false);
 
-            $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;
+            $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
             $baru->save();
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');
