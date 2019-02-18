@@ -54,7 +54,7 @@ class ActivityDepartmentController extends \yii\web\Controller
     {
         $role = Yii::$app->user->identity->role;
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>$role])->andWhere(['finance_status'=> 0])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>1]),
+            'query' => Activity::find()->where(['role'=>$role])->andWhere(['finance_status'=> 0]),
         ]);
 
         return $this->render('index', [

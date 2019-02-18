@@ -143,9 +143,9 @@ class BendaharaController extends Controller
                 $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
                 $baru = SectionBudget::find()->where(['id'=>$awal])->one();
 
-                $modelRutin->chief_status=0;
-                $modelRutin->department_status=0;
-                $modelRutin->save(false);
+                $modelSeksi->chief_status=0;
+                $modelSeksi->department_status=0;
+                $modelSeksi->save(false);
 
                 $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
                 $baru->save();
