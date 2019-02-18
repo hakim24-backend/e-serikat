@@ -106,7 +106,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Judul/Tema</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'background',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'purpose',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Sasaran Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -284,7 +284,7 @@ $list_seksi = array_values($array_seksi);
 
                                   ?>
 
-                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true]) ?>
+                                  <?= $form->field($modelSection, "[{$indexSection}]section_name",['inputOptions'=>['autocomplete'=>'off']])->label(false)->textInput(['maxlength' => true]) ?>
 
                               </td>
 
@@ -442,4 +442,3 @@ $('#kode-tujuan').on('change',function(){
 js;
 $this->registerJs($js);
 ?>
-

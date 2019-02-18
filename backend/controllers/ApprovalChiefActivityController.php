@@ -78,105 +78,36 @@ class ApprovalChiefActivityController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Activity model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionApply($id)
     {
         $model = Activity::find()->where(['id'=>$id])->one();
         $model->chief_status = 1;
         $model->save(false);
-        $status = $model->finance_status;
+        // $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
             'model' => $model,
-            'status' => $status
+            // 'status' => $status
         ]);
     }
 
-    /**
-     * Updates an existing Activity model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdateApply($id)
-    {
-        $model = Activity::find()->where(['id'=>$id])->one();
-        $model->chief_status = 0;
-        $model->save(false);
-        $status = $model->finance_status;
-        Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Diedit');
-        return $this->redirect(Yii::$app->request->referrer);
-        return $this->render([
-            'model' => $model,
-            'status' => $status
-        ]);
-    }
-
-    /**
-     * Deletes an existing Activity model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionReject($id)
     {
-        $model = new ActivityReject();
-        $reject = Activity::find()->where(['id'=>$id])->one();
+        $modelReject = new ActivityReject();
+        $model = Activity::find()->where(['id'=>$id])->one();
+        $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+        $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->message = $model->message;
-            $model->activity_id = $id;
-            $save = $model->save(false);
-
-            if ($save) {
-                $reject = Activity::find()->where(['id'=>$id])->one();
-                $reject->done = 1;
-                $reject->save(false);
-            }
-
-            $roleDepartment =  Activity::find()->where(['role'=>7])->one();
-
-            $model = Activity::find()->where(['id'=>$id])->one();
-            $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-            $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
-            $approve = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
-            $departBudget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
-            $actitvitySection = ActivitySection::find()->where(['activity_id'=>$model])->one();
-            $idActivitySection = ActivitySectionMember::find()->where(['section_activity_id'=>$actitvitySection])->one();
-            $actitvitySectionMember = ActivitySectionMember::find()->where(['activity_id'=>$idActivitySection])->one();
+            $modelReject->activity_id = $id;
 
             $model->chief_status=0;
-            $model->department_status=0;
             $model->save(false);
 
-            if ($approve) {
-                $uploadPath = Yii::getAlias('@backend')."/web/template";
-                $oldfile = $approve->file;
-                $oldPhoto = $approve->photo;
-                unlink($uploadPath.$oldfile);
-                unlink($uploadPath.$oldPhoto);
-                $approve->delete();
-                $departBudget->delete();
-                ActivityMainMember::deleteAll(['activity_id'=>$model]);
-                $actitvitySectionMember->delete();
-                $actitvitySection->delete();
-            } else {
-                $departBudget->delete();
-                ActivityMainMember::deleteAll(['activity_id'=>$model]);
-                $actitvitySectionMember->delete();
-                $actitvitySection->delete();
-            }
-
             $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
-            $baru->save();
+            $baru->save(false);
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');
         return $this->redirect(['index']);

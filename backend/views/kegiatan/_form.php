@@ -84,7 +84,7 @@ $list_seksi = array_values($array_seksi);
                   <div class="form-group">
                       <label class="col-sm-4">Uang Muka Anggaran</label>
                       <div class="col-sm-8">
-                          <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
+                          <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 uang-muka', 'id'=>'value-budget']) ?>
                       </div>
                   </div>
               </div>
@@ -94,7 +94,7 @@ $list_seksi = array_values($array_seksi);
                   <div class="form-group">
                       <label class="col-sm-4">Nilai Anggaran</label>
                       <div class="col-sm-8">
-                          <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
+                          <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 nilai-anggaran', 'id'=>'value-budget']) ?>
                       </div>
                   </div>
               </div>
@@ -122,7 +122,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Judul/Tema</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'background',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -142,7 +142,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'purpose',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -152,7 +152,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Sasaran Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -298,7 +298,7 @@ $list_seksi = array_values($array_seksi);
 
                                   ?>
 
-                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true, 'required'=>true]) ?>
+                                  <?= $form->field($modelSection, "[{$indexSection}]section_name",['inputOptions'=>['autocomplete'=>'off']])->label(false)->textInput(['maxlength' => true]) ?>
 
                               </td>
 
@@ -391,6 +391,7 @@ HTML;
 <?php
 $url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
 $url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');
+$url3 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/check-anggaran?value=');
 
 $js=<<<js
 $('#jenis-tujuan').on('change',function(){
@@ -404,12 +405,47 @@ $('#jenis-tujuan').on('change',function(){
     });
 });
 
+$('.nilai-anggaran').on('change',function(){
+    var uangmuka = $('.uang-muka').val();
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(nilaianggaran) > res){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+    }
+    if(parseInt(nilaianggaran) < parseInt(uangmuka)){
+      alert('Nilai Anggaran Lebih Kecil dari Uang Muka yang Diajukan. Mohon ubah nilai yang diinputkan !');
+    }
+
+});
+
+$('.uang-muka ').on('change',function(){
+    var uangmuka = $('.uang-muka').val();
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(uangmuka) > res){
+      alert('Uang Muka Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+    }
+    if(parseInt(uangmuka) > parseInt(nilaianggaran)){
+      alert('Uang Muka Lebih Besar dari Anggaran Yang Diajukan. Mohon ubah nilai yang diinputkan !');
+    }
+
+});
+
+
 $('#jenis-asal').on('change',function(){
     var tipe = $('#jenis-asal').val();
     $.ajax({
         url : "$url" + tipe,
         dataType : 'html',
-        type : 'post'
+        type : 'post',
     }).done(function(data){
        $('select#kode-asal').html(data);
     });
