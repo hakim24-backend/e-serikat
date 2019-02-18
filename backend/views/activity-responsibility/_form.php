@@ -34,7 +34,7 @@ use yii\base\view;
     	'accept' => 'application/*',
 	    'multiple' => true,
 	    'required' => 'required',
-	    'allowedFileExtensions'=>['pdf','doc'],
+	    'allowedFileExtensions'=>['pdf','doc','docx'],
     	],
     	'pluginOptions' => [
 	    'showPreview' => false,

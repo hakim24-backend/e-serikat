@@ -35,7 +35,7 @@ class ActivityResponsibility extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fileApproves'], 'file', 'extensions' => 'pdf, doc', 'maxFiles' => 4],
+            [['fileApproves'], 'file', 'extensions' => 'pdf, doc, docx', 'maxFiles' => 4],
             [['photoApproves'], 'file', 'extensions' => 'jpg, png, jpeg', 'maxFiles' => 4],
             [['description', 'responsibility_value', 'file', 'photo', 'activity_id'], 'required'],
             [['description', 'file', 'photo'], 'string'],
