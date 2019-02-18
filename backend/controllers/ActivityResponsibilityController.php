@@ -259,10 +259,16 @@ class ActivityResponsibilityController extends Controller
     {
         $model = ActivityResponsibility::find()->where(['id'=>$id])->one();
         $uploadPath = Yii::getAlias('@backend')."/web/template";
-        $oldfile = $model->file;
-        $oldPhoto = $model->photo;
-        unlink($uploadPath.$oldfile);
-        unlink($uploadPath.$oldPhoto);
+        $oldfiles = explode("**", $model->file);
+        $oldPhotos = explode("**", $model->photo);
+
+        foreach ($oldfiles as $key => $oldfile) {
+          unlink($uploadPath.$oldfile);
+        }
+
+        foreach ($oldPhotos as $key => $oldPhoto) {
+          unlink($uploadPath.$oldPhoto);
+        }  
         Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
         $model->delete();
         return $this->redirect(Yii::$app->request->referrer);

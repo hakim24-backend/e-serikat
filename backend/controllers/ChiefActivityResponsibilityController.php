@@ -197,7 +197,7 @@ class ChiefActivityResponsibilityController extends Controller
 
                   $uploadPath = Yii::getAlias('@backend')."/web/template";
                   $acak = substr( md5(time()) , 0, 10);
-                  
+
                   $i = 0;
                   $tmp = '';
                   foreach ($file_gambar as $gambar) {
@@ -290,10 +290,16 @@ class ChiefActivityResponsibilityController extends Controller
     {
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
         $uploadPath = Yii::getAlias('@backend')."/web/template";
-        $oldfile = $model->file;
-        $oldPhoto = $model->photo;
-        unlink($uploadPath.$oldfile);
-        unlink($uploadPath.$oldPhoto);
+        $oldfiles = explode("**", $model->file);
+        $oldPhotos = explode("**", $model->photo);
+
+        foreach ($oldfiles as $key => $oldfile) {
+          unlink($uploadPath.$oldfile);
+        }
+
+        foreach ($oldPhotos as $key => $oldPhoto) {
+          unlink($uploadPath.$oldPhoto);
+        }  
         Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
         $model->delete();
         return $this->redirect(Yii::$app->request->referrer);

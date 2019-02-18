@@ -29,7 +29,7 @@ use yii\base\view;
 
      <!-- <?= $form->field($model, 'photo')->FileInput()->label('Foto') ?> -->
 
-    <?= $form->field($model, 'fileApprove')->widget(FileInput::classname(), [
+    <?= $form->field($model, 'fileApproves[]')->widget(FileInput::classname(), [
     'options' => [
         'accept' => 'application/*',
         'multiple' => true,
@@ -45,7 +45,7 @@ use yii\base\view;
     ]) ?>
 
 
-    <?= $form->field($model, 'photoApprove[]')->widget(FileInput::classname(), [
+    <?= $form->field($model, 'photoApproves[]')->widget(FileInput::classname(), [
     'options' => [
         'accept' => 'image/*',
         'multiple' => true,
