@@ -168,7 +168,7 @@ $Role = Yii::$app->user->identity->roleName();
               <?php if ($Role == "Sekretariat") { ?>
                 <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td class="text-center"><?=$baru->section_budget_value?></td>
+                <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
               <?php } ?>
             </tr>
             <tr>
@@ -186,7 +186,7 @@ $Role = Yii::$app->user->identity->roleName();
               <?php if ($Role == "Sekretariat") { ?>
                 <td width="21%">KADEP</td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td width="21%">KADEP <?=$departName->depart_name?></td>
+                <td width="21%">KADEP</td>
               <?php } ?>
               <td class="text-center" width="21%">KETUA II </td>
               <td class="text-center" width="21%">SEKRETARIS UMUM </td>
@@ -252,7 +252,7 @@ $Role = Yii::$app->user->identity->roleName();
               <?php if ($Role == "Sekretariat") { ?>
                 <td></td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td><?=$departName->depart_name?></td>
+                <td></td>
               <?php } ?>
               <td></td>
               <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
