@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Data Pertanggung Jawaban';
+$this->title = 'Data Pertanggungjawaban Kegiatan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-daily-index">
@@ -33,25 +33,50 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ['class' => 'yii\grid\SerialColumn'],
 
                                 [
-                                'header' => 'Judul',
-                                'headerOptions' =>[
-                                      'style' => 'width:30%'
+                                    'header' => 'Judul',
+                                    'headerOptions' =>[
+                                    'style' => 'width:10%'
+                                    ],
+                                    'attribute' => 'title',
                                 ],
-                                'attribute' => 'title',
+
+                                [
+                                    'header' => 'Tujuan',
+                                    'headerOptions' =>[
+                                    'style' => 'width:10%'
+                                    ],
+                                    'attribute' => 'purpose',
+                                ],
+
+                                [
+                                    'header' => 'Tempat Pelaksanaan',
+                                    'headerOptions' =>[
+                                    'style' => 'width:20%'
+                                    ],
+                                    'attribute' => 'place_activity',
+                                ],
+
+                                [
+                                    'header' => 'Tangal Mulai',
+                                    'headerOptions' =>[
+                                    'style' => 'width:15%'
+                                    ],
+                                    'attribute' => 'date_start',
+                                ],
+
+                                [
+                                    'header' => 'Tanggal Berakhir',
+                                    'headerOptions' =>[
+                                    'style' => 'width:15%'
+                                    ],
+                                    'attribute' => 'date_end',
                                 ],
                                 [
-                                'header' => 'Latar Belakang',
-                                'headerOptions' =>[
-                                      'style' => 'width:30%'
-                                ],
-                                'attribute' => 'background',
-                                ],
-                                [
-                                'header' => 'Tujuan',
-                                'headerOptions' =>[
-                                      'style' => 'width:30%'
-                                ],
-                                'attribute' => 'purpose',
+                                    'header' => 'Status Anggaran',
+                                    'headerOptions' =>[
+                                    'style' => 'width:15%'
+                                    ],
+                                    'attribute' => 'finance_status',
                                 ],
                                 [
 

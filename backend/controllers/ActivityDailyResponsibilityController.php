@@ -288,6 +288,7 @@ class ActivityDailyResponsibilityController extends Controller
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         $departName = Department::find()->where(['id'=>$departID])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
     } else if ($role == "Seksi") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
@@ -297,6 +298,7 @@ class ActivityDailyResponsibilityController extends Controller
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         $departName = Department::find()->where(['id'=>$departID])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
     }
 
         $content = $this->renderPartial('view_pdf',[
@@ -305,7 +307,8 @@ class ActivityDailyResponsibilityController extends Controller
             'baru'=>$baru,
             'sumber'=>$sumber,
             'sekre'=>$sekre,
-            'departName'=>$departName
+            'departName'=>$departName,
+            'lpj'=>$lpj
         ]);
 
         // setup kartik\mpdf\Pdf component
