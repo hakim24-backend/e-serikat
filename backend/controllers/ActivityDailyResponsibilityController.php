@@ -295,9 +295,9 @@ class ActivityDailyResponsibilityController extends Controller
         $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
         $baru = SectionBudget::find()->where(['id'=>$awal])->one();
         $sekre = Section::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         $departName = Department::find()->where(['id'=>$departID])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
         $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
     }
 
