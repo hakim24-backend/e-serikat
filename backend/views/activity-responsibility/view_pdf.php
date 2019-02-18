@@ -23,7 +23,7 @@ $Role = Yii::$app->user->identity->roleName();
     <!--
     @page {
               size: 29.7cm 21cm  portrait;   /*A4*/
-              padding:0; margin:1; 
+              padding:0; margin:1;
               top:0; left:0; right:0;bottom:0; border:0;
           }
 
