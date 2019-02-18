@@ -117,25 +117,20 @@ class BendaharaController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->activity_id = $id;
-            $save = $model->save(false);
+            $model->save(false);
 
-            $roleSekre =  Activity::find()->where(['role'=>4])->one();
-            $roleSeksi =  Activity::find()->where(['role'=>8])->one();
-
-            if ($roleSekre) {
+            if ($reject->role == 4) {
                 $modelRutin = Activity::find()->where(['id'=>$id])->one();
                 $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
                 $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
                 $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
 
                 $modelRutin->finance_status=2;
-                $modelRutin->chief_status=0;
-                $modelRutin->department_status=0;
                 $modelRutin->save(false);
 
                 $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
                 $baru->save();
-            } else if ($roleSeksi) {
+            } else if ($reject == 8) {
                 $modelSeksi = Activity::find()->where(['id'=>$id])->one();
                 $budget = ActivityBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
                 $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();

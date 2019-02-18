@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 } else {
                                                     $url = Url::toRoute(['/activity-daily-responsibility/create', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '| <span class="glyphicon glyphicon-plus"></span> ',
+                                                        '| <span class="glyphicon glyphicon-plus"></span> |',
                                                         $url,
                                                         [
                                                             'title' => 'Buat Pertanggungjawaban',

@@ -56,7 +56,11 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
     public function actionIndex()
     {
       	$dataProvider = new ActiveDataProvider([
-        'query' => ActivityDaily::find()->where(['finance_status'=> 1])->andWhere(['done'=> 0]),
+            'query' => ActivityDaily::find()
+                      ->joinWith('activityDailyResponsibilities')
+                      ->where(['activity_daily.finance_status'=>1])
+                      ->andWhere(['activity_daily_responsibility.responsibility_value'=>2])
+                      ->andWhere(['activity_daily.done'=>0]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

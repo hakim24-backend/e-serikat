@@ -52,7 +52,11 @@ class ChiefApprovalActivityDailyResponsibilityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-        'query' => ActivityDaily::find()->where(['chief_status'=> 1])->andWhere(['done'=> 0]),
+            'query' => ActivityDaily::find()
+                      ->joinWith('activityDailyResponsibilities')
+                      ->where(['activity_daily.chief_status'=>1])
+                      ->andWhere(['activity_daily_responsibility.responsibility_value'=>1])
+                      ->andWhere(['activity_daily.done'=>0]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

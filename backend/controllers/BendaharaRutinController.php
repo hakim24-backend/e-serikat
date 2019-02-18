@@ -117,13 +117,9 @@ class BendaharaRutinController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->activity_id = $id;
-            $save = $model->save(false);
+            $model->save(false);
 
-
-            $roleSekre =  ActivityDaily::find()->where(['role'=>4])->one();
-            $roleSeksi =  ActivityDaily::find()->where(['role'=>8])->one();
-
-            if ($roleSekre) {
+            if ($reject->role == 4) {
                 $modelRutin = ActivityDaily::find()->where(['id'=>$id])->one();
                 $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
                 $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
@@ -134,7 +130,7 @@ class BendaharaRutinController extends Controller
 
                 $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
                 $baru->save();
-            } else if ($roleSeksi) {
+            } else if ($reject->role == 8) {
                 $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
                 $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
                 $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
