@@ -53,9 +53,9 @@ $list_seksi = array_values($array_seksi);
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                     <div class="col-sm-8">
-                       
+
                         <?= $baru->department_budget_value ?>
-                       
+
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Nama Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'name_activity',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
               </div>
             </div>
             <div class="col-md-12">
@@ -103,7 +103,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Judul/Tema</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label(false) ?>
+                <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background')->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'background',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose')->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'purpose',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Sasaran Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
               </div>
             </div>
           </div>
@@ -281,7 +281,7 @@ $list_seksi = array_values($array_seksi);
 
                                   ?>
 
-                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true]) ?>
+                                  <?= $form->field($modelSection, "[{$indexSection}]section_name",['inputOptions'=>['autocomplete'=>'off']])->label(false)->textInput(['maxlength' => true]) ?>
 
                               </td>
 
