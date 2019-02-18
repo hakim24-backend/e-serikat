@@ -52,7 +52,11 @@ class ChiefApprovalActivityResponsibilityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['chief_status'=>1])->andWhere(['done'=>0]),
+            'query' => Activity::find()
+                      ->joinWith('activityResponsibilities')
+                      ->where(['activity.chief_status'=>1])
+                      ->andWhere(['activity_responsibility.responsibility_value'=>1])
+                      ->andWhere(['activity.done'=>0]),
         ]);
 
         return $this->render('index', [
@@ -69,7 +73,7 @@ class ChiefApprovalActivityResponsibilityController extends Controller
     public function actionView($id)
     {
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
-        
+
         if ($model != null) {
             return $this->render('view', [
             'model' => $model,
@@ -89,7 +93,7 @@ class ChiefApprovalActivityResponsibilityController extends Controller
     {
         $model = Activity::find()->where(['id'=>$id])->one();
         $responsibility = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
-        
+
         if ($responsibility == null) {
             Yii::$app->getSession()->setFlash('warning', 'Tidak Dapat Approve Pertangungjawaban Karena Data Pertangungjawaban Tidak Ada');
             return $this->redirect(Yii::$app->request->referrer);

@@ -130,7 +130,8 @@ class BendaharaController extends Controller
 
                 $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
                 $baru->save();
-            } else if ($reject == 8) {
+
+            } else if ($reject->role == 8) {
                 $modelSeksi = Activity::find()->where(['id'=>$id])->one();
                 $budget = ActivityBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
                 $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();

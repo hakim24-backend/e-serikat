@@ -69,7 +69,12 @@ class BendaharaActivityResponsibilityController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['finance_status'=>1])->andWhere(['done'=>0]),
+            'query' => Activity::find()
+                      ->joinWith('activityResponsibilities')
+                      ->where(['activity.finance_status'=>1])
+                      ->andWhere(['activity_responsibility.responsibility_value'=>2])
+                      ->andWhere(['activity.done'=>0]),
+
         ]);
 
         return $this->render('index', [
@@ -86,6 +91,27 @@ class BendaharaActivityResponsibilityController extends Controller
             Yii::$app->getSession()->setFlash('warning', 'Tidak Dapat Approve Pertangungjawaban Karena Data Pertangungjawaban Tidak Ada');
             return $this->redirect(Yii::$app->request->referrer);
         } else {
+
+
+                      if ($model->role == 4) {
+                          $modelRutin = Activity::find()->where(['id'=>$id])->one();
+                          $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
+                          $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+                          $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+
+                          $baru->secretariat_budget_value=$baru->secretariat_budget_value-$budget->budget_value_sum;
+                          $baru->save();
+                      } else if ($model->role == 8) {
+                          $modelSeksi = Activity::find()->where(['id'=>$id])->one();
+                          $budget = ActivityBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
+                          $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+                          $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+
+                          $baru->section_budget_value=$baru->section_budget_value-$budget->budget_value_sum;
+                          $baru->save();
+                      }
+
+
             $model->done = 1;
             $model->save(false);
 
