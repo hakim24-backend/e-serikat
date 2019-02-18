@@ -117,24 +117,46 @@ class ActivityDailyResponsibilityController extends Controller
         $activity = ActivityDaily::find()->where(['id'=>$id])->one();
         if ($model->load(Yii::$app->request->post())) {
 
-            $file_dok = UploadedFile::getInstance($model, 'fileApprove');
+            $file_dok = UploadedFile::getInstances($model, 'fileApproves');
             $uploadPath = Yii::getAlias('@backend')."/web/template";
             $acak = substr( md5(time()) , 0, 10);
-            $fileName = $uploadPath."/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
-            $file_dok->saveAs($fileName);
+            $i = 0;
+            $tmp = '';
+            foreach ($file_dok as $dok) {
 
-            $file_gambar = UploadedFile::getInstance($model, 'photoApprove');
+              $fileName = $uploadPath."/dokumen_".$dok->baseName ."_". $acak ."_" .$i. "." .$dok->extension;
+
+              $dok->saveAs($fileName);
+
+              $tmp .= "/dokumen_".$dok->baseName ."_". $acak ."_" .$i. "." .$dok->extension."**";
+
+              $i++;
+            }
+
+            $tmp = rtrim($tmp,'**');
+            $model->file = $tmp;
+
+            $file_gambar = UploadedFile::getInstances($model, 'photoApproves');
             $uploadPath = Yii::getAlias('@backend')."/web/template";
             $acak = substr( md5(time()) , 0, 10);
-            $fotoName = $uploadPath."/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            // var_dump($fotoName);die;
-            $file_gambar->saveAs($fotoName);
+            $i = 0;
+            $tmp = '';
+            foreach ($file_gambar as $gambar) {
+
+              $fileName = $uploadPath."/foto_".$gambar->baseName ."_". $acak ."_" .$i. "." .$gambar->extension;
+
+              $gambar->saveAs($fileName);
+
+              $tmp .= "/foto_".$gambar->baseName ."_". $acak ."_" .$i. "." .$gambar->extension."**";
+
+              $i++;
+            }
+
+            $tmp = rtrim($tmp,'**');
+            $model->photo = $tmp;
 
 
-            $model->description = $model->description;
             $model->responsibility_value = 0;
-            $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
-            $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
             $model->activity_id = $activity->id ;
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
@@ -156,37 +178,59 @@ class ActivityDailyResponsibilityController extends Controller
     public function actionUpdate($id)
     {
         $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
-        $oldfile = $model->file;
-        $oldPhoto = $model->photo;
+        $oldfiles = explode("**", $model->file);
+        $oldPhotos = explode("**", $model->photo);
         if ($model->load(Yii::$app->request->post())) {
 
-                $file_dok = UploadedFile::getInstance($model, 'fileApprove');
-                $file_gambar = UploadedFile::getInstance($model, 'photoApprove');
+                $file_dok = UploadedFile::getInstances($model, 'fileApproves');
+                $file_gambar = UploadedFile::getInstances($model, 'photoApproves');
                 $uploadPath = Yii::getAlias('@backend')."/web/template";
 
 
             if ($file_dok || $file_gambar) {
 
                 if ($file_dok) {
-                unlink($uploadPath.$oldfile);
-                $uploadPath = Yii::getAlias('@backend')."/web/template";
+                  foreach ($oldfiles as $key => $oldfile) {
+                    unlink($uploadPath.$oldfile);
+                  }                $uploadPath = Yii::getAlias('@backend')."/web/template";
                 $acak = substr( md5(time()) , 0, 10);
-                $fileName = $uploadPath."/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
-                $file_dok->saveAs($fileName);
+                $i = 0;
+                $tmp = '';
+                foreach ($file_dok as $dok) {
 
-                $model->description = $model->description;
-                $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
+                  $fileName = $uploadPath."/dokumen_".$dok->baseName ."_". $acak ."_" .$i. "." .$dok->extension;
+
+                  $dok->saveAs($fileName);
+
+                  $tmp .= "/dokumen_".$dok->baseName ."_". $acak ."_" .$i. "." .$dok->extension."**";
+
+                  $i++;
+                }
+
+                $tmp = rtrim($tmp,'**');
+                $model->file = $tmp;
                 }
 
                 if ($file_gambar) {
-                unlink($uploadPath.$oldPhoto);
-                $uploadPath = Yii::getAlias('@backend')."/web/template";
+                  foreach ($oldPhotos as $key => $oldPhoto) {
+                    unlink($uploadPath.$oldPhoto);
+                  }                $uploadPath = Yii::getAlias('@backend')."/web/template";
                 $acak = substr( md5(time()) , 0, 10);
-                $fotoName = $uploadPath."/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-                $file_gambar->saveAs($fotoName);
+                $i = 0;
+                $tmp = '';
+                foreach ($file_gambar as $gambar) {
 
-                $model->description = $model->description;
-                $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
+                  $fileName = $uploadPath."/foto_".$gambar->baseName ."_". $acak ."_" .$i. "." .$gambar->extension;
+
+                  $gambar->saveAs($fileName);
+
+                  $tmp .= "/foto_".$gambar->baseName ."_". $acak ."_" .$i. "." .$gambar->extension."**";
+
+                  $i++;
+                }
+
+                $tmp = rtrim($tmp,'**');
+                $model->photo = $tmp;
                 }
 
                 $model->save(false);
@@ -217,10 +261,16 @@ class ActivityDailyResponsibilityController extends Controller
     {
         $model = ActivityDailyResponsibility::find()->where(['id'=>$id])->one();
         $uploadPath = Yii::getAlias('@backend')."/web/template";
-        $oldfile = $model->file;
-        $oldPhoto = $model->photo;
-        unlink($uploadPath.$oldfile);
-        unlink($uploadPath.$oldPhoto);
+        $oldfiles = explode("**", $model->file);
+        $oldPhotos = explode("**", $model->photo);
+
+        foreach ($oldfiles as $key => $oldfile) {
+          unlink($uploadPath.$oldfile);
+        }
+
+        foreach ($oldPhotos as $key => $oldPhoto) {
+          unlink($uploadPath.$oldPhoto);
+        }  
         Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
         $model->delete();
         return $this->redirect(Yii::$app->request->referrer);
