@@ -18,8 +18,8 @@ use Yii;
  */
 class ActivityResponsibility extends \yii\db\ActiveRecord
 {
-    public $fileApprove;
-    public $photoApprove;
+    public $fileApproves;
+    public $photoApproves;
 
     /**
      * {@inheritdoc}
@@ -35,8 +35,8 @@ class ActivityResponsibility extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fileApprove'], 'file', 'extensions' => 'pdf, doc'],
-            [['photoApprove'], 'file', 'extensions' => 'jpg, png, jpeg'],
+            [['fileApproves'], 'file', 'extensions' => 'pdf, doc', 'maxFiles' => 4],
+            [['photoApproves'], 'file', 'extensions' => 'jpg, png, jpeg', 'maxFiles' => 4],
             [['description', 'responsibility_value', 'file', 'photo', 'activity_id'], 'required'],
             [['description', 'file', 'photo'], 'string'],
             [['responsibility_value'], 'number'],

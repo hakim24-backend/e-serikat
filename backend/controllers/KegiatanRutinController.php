@@ -202,7 +202,7 @@ class KegiatanRutinController extends Controller
                             Yii::$app->getSession()->setFlash('success', 'Buat Data Kegiatan Berhasil');
                             return $this->redirect(['index']);
                         }
-                    }    
+                    }
         }
         return $this->render('_form');
     }
@@ -247,7 +247,7 @@ class KegiatanRutinController extends Controller
                         return $this->redirect(Yii::$app->request->referrer);
                     }
 
-                    
+
                     //nilai anggaran dp lebih kecil dari anggaran saat ini
                     if ($dp <= $modal) {
                         $dpBaru = $oldDP - $dp;
@@ -344,7 +344,7 @@ class KegiatanRutinController extends Controller
                 }
             }
         }
-        
+
         return $this->render('update', [
                 'model' => $model,
                 'budget' => $budget,
@@ -539,7 +539,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8' id='nilai-sekarang'>
                             Rp.".$data->secretariat_budget_value."
                         </div>
                     </div>
@@ -553,7 +553,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8' id='nilai-sekarang'>
                             0
                         </div>
                     </div>
@@ -570,7 +570,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8' id='nilai-sekarang'>
                             ".$data->chief_budget_value."
                         </div>
                     </div>
@@ -584,7 +584,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8' id='nilai-sekarang'>
                             0
                         </div>
                     </div>
@@ -601,7 +601,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8' id='nilai-sekarang'>
                             Rp. ".number_format($data->department_budget_value)."
                         </div>
                     </div>
@@ -615,7 +615,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8' id='nilai-sekarang'>
                             0
                         </div>
                     </div>
@@ -632,7 +632,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8' id='nilai-sekarang'>
                             Rp.".$data->section_budget_value."
                         </div>
                     </div>
@@ -646,7 +646,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8' id='nilai-sekarang'>
                             0
                         </div>
                     </div>
@@ -661,7 +661,7 @@ class KegiatanRutinController extends Controller
              <div class='col-sm-12'>
                 <div class='form-group'>
                     <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                    <div class='col-sm-8'>
+                    <div class='col-sm-8' id='nilai-sekarang'>
                         0
                     </div>
                 </div>
@@ -673,6 +673,47 @@ class KegiatanRutinController extends Controller
         }
         echo json_encode($datas);
     }
+
+    public function actionCheckAnggaran($value, $thisvalue){
+        $post = Yii::$app->request->post();
+
+        $total = $value + $thisvalue;
+
+
+        if ($post['tipe']=='4') {
+            $data = SecretariatBudget::findOne($post['kode']);
+            if ($data) {
+                if($total > $data->secretariat_budget_value){
+                  // var_dump('LEBIH');die;
+                }
+                $datas['max']=$data->secretariat_budget_value;
+            }
+        }
+
+
+
+        elseif ($post['tipe']=='6') {
+            $data = ChiefBudget::findOne($post['kode']);
+            if ($data) {
+                $data->chief_budget_value;
+                $datas['max']=$data->chief_budget_value;
+            }
+        }elseif ($post['tipe']=='7') {
+            $data = DepartmentBudget::findOne($post['kode']);
+            if ($data) {
+                $data->department_budget_value;
+                $datas['max']=$data->department_budget_value;
+            }
+        }elseif ($post['tipe']=='8') {
+            $data = SectionBudget::findOne($post['kode']);
+            if ($data) {
+                $data->section_budget_value;
+                $datas['max']=$data->section_budget_value;
+            }
+        }
+        echo json_encode($datas);
+    }
+
 
     public function actionNilaiAnggaranUpdate(){
         $post = Yii::$app->request->post();
@@ -687,7 +728,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8 nilai-sekarang'>
                             ".$data->section_budget_value."
                         </div>
                     </div>
@@ -701,7 +742,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8 nilai-sekarang'>
                             0
                         </div>
                     </div>
@@ -718,7 +759,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8 nilai-sekarang'>
                             ".$data->chief_budget_value."
                         </div>
                     </div>
@@ -732,7 +773,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8 nilai-sekarang'>
                             0
                         </div>
                     </div>
@@ -749,7 +790,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8 nilai-sekarang'>
                             ".$data->department_budget_value."
                         </div>
                     </div>
@@ -763,7 +804,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8 nilai-sekarang'>
                             0
                         </div>
                     </div>
@@ -780,7 +821,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8 nilai-sekarang'>
                             ".$data->section_budget_value."
                         </div>
                     </div>
@@ -794,7 +835,7 @@ class KegiatanRutinController extends Controller
                  <div class='col-sm-12'>
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-8 nilai-sekarang'>
                             0
                         </div>
                     </div>
@@ -809,7 +850,7 @@ class KegiatanRutinController extends Controller
              <div class='col-sm-12'>
                 <div class='form-group'>
                     <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-                    <div class='col-sm-8'>
+                    <div class='col-sm-8 nilai-sekarang'>
                         0
                     </div>
                 </div>
