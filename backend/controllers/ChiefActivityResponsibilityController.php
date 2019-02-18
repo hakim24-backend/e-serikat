@@ -239,8 +239,7 @@ class ChiefActivityResponsibilityController extends Controller
           $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
           $sekre = Chief::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
-          // $departID = Chief::find()->where(['id_chief'=>$sekre])->one();
-          // $departName = Chief::find()->where(['id'=>$departID])->one();
+          $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
@@ -248,7 +247,7 @@ class ChiefActivityResponsibilityController extends Controller
             'baru'=>$baru,
             'sumber'=>$sumber,
             'sekre'=>$sekre,
-            // 'departName'=>$departName
+            'lpj'=>$lpj
         ]);
 
         // setup kartik\mpdf\Pdf component
