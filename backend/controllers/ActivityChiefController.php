@@ -369,8 +369,185 @@ class ActivityChiefController extends \yii\web\Controller
      */
     public function actionView($id)
     {
+
+      $role = Yii::$app->user->identity->role;
+
+      // retrieve existing Deposit data
+      $model = Activity::find()->where(['id' => $id])->one();
+
+      $ketua = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Ketua"])->one();
+      $wakil = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Wakil"])
+          ->one();
+      $sekretaris = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Sekretaris"])
+          ->one();
+      $bendahara = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Bendahara"])
+          ->one();
+
+      if ($role == 6) {
+          $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
+          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->chief_budget_value;
+      }
+
+      // retrieve existing ActivitySection data
+      $oldActivitySectionIds = ActivitySection::find()->select('id')
+          ->where(['activity_id' => $id])->asArray()->all();
+      $oldActivitySectionIds = ArrayHelper::getColumn($oldActivitySectionIds, 'id');
+      $modelsSection = ActivitySection::findAll(['id' => $oldActivitySectionIds]);
+      $modelsSection = (empty($modelsSection)) ? [new ActivitySection] : $modelsSection;
+
+      // retrieve existing Loads data
+      $oldLoadIds = [];
+      foreach ($modelsSection as $i => $modelSection) {
+          $oldLoads = ActivitySectionMember::findAll(['section_activity_id' => $modelSection->id]);
+          $modelsMember[$i] = $oldLoads;
+          $oldLoadIds = array_merge($oldLoadIds, ArrayHelper::getColumn($oldLoads, 'id'));
+          $modelsMember[$i] = (empty($modelsMember[$i])) ? [new ActivitySectionMember] : $modelsMember[$i];
+      }
+
+      // handle POST
+      if ($model->load(Yii::$app->request->post())) {
+
+          $post = Yii::$app->request->post();
+          $model->role = Yii::$app->user->identity->role;
+          $model->finance_status = 0;
+          $model->department_status = 0;
+          $model->chief_status = 0;
+          $model->done = 0;
+          $model->date_start = $post['from_date'];
+          $model->date_end = $post['to_date'];
+
+          // get ActivitySection data from POST
+          $modelsSection = Model::createMultiple(ActivitySection::classname(), $modelsSection);
+          Model::loadMultiple($modelsSection, Yii::$app->request->post());
+          $newActivitySectionIds = ArrayHelper::getColumn($modelsSection, 'id');
+
+          // get ActivitySectionMember data from POST
+          $newLoadIds = [];
+          $loadsData = Yii::$app->request->post();
+          for ($i = 0; $i < count($modelsSection); $i++) {
+              $loadsData['ActivitySectionMember'] = Yii::$app->request->post()['ActivitySectionMember'][$i];
+              $modelsMember[$i] = Model::createMultiple(ActivitySectionMember::classname(), $modelsMember[$i], $loadsData);
+              Model::loadMultiple($modelsMember[$i], $loadsData);
+              $newLoadIds = array_merge($newLoadIds, ArrayHelper::getColumn($loadsData['ActivitySectionMember'], 'id'));
+          }
+
+          // delete removed data
+          $delLoadIds = array_diff($oldLoadIds, $newLoadIds);
+          if (!empty($delLoadIds)) {
+              ActivitySectionMember::deleteAll(['id' => $delLoadIds]);
+          }
+
+          $delActivitySectionIds = array_diff($oldActivitySectionIds, $newActivitySectionIds);
+          if (!empty($delActivitySectionIds)) {
+              ActivitySection::deleteAll(['id' => $delActivitySectionIds]);
+          }
+
+          // validate all models
+          $valid = $model->validate();
+
+          // save deposit data
+          if ($valid) {
+              if ($this->saveDeposit($model, $modelsSection, $modelsMember) && $budget->load(Yii::$app->request->post())) {
+
+                  if ($role == 6) {
+
+                      $dp = $budget->budget_value_dp;
+                      $total = $budget->budget_value_sum;
+                      $modal = $baru->chief_budget_value;
+
+                      if ($dp > $total) {
+                          Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
+                          return $this->redirect(Yii::$app->request->referrer);
+                      }
+
+                      //nilai anggaran dp lebih kecil dari anggaran saat ini
+                      if ($dp <= $modal) {
+                          $dpBaru = $oldDP - $dp;
+                          $oldBudgetBaru = $modal + $dpBaru;
+                          if ($oldBudgetBaru <= 0) {
+                              var_dump($oldBudgetBaru);die();
+                              Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                              return $this->redirect(Yii::$app->request->referrer);
+                          }
+                      }
+
+                      //nilai anggaran dp lebih besar dari anggaran saat ini
+                      if ($dp >= $modal) {
+                          $dpBaru = $dp - $oldDP;
+                          $oldBudgetBaru = $modal - $dpBaru;
+                          if ($oldBudgetBaru <= 0) {
+                              var_dump($oldBudgetBaru);die();
+                              Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                              return $this->redirect(Yii::$app->request->referrer);
+                          }
+                      }
+
+                      $budget->budget_value_dp = $budget->budget_value_dp;
+                      $budget->budget_value_sum = $budget->budget_value_sum;
+                      $budget->save(false);
+
+                      $baru->chief_budget_value = $oldBudgetBaru;
+                      $baru->save(false);
+
+                  }
+                  if ($post) {
+                      if ($post['ketua']) {
+                          $modelsMain = ActivityMainMember::find()->where(['activity_id' => $id])->andWhere(['name_committee' => 'Ketua'])->one();
+                          $modelsMain->name_member = $post['ketua'];
+                          $modelsMain->save();
+                      }
+                      if ($post['wakil']) {
+                          $modelsMain = ActivityMainMember::find()->where(['activity_id' => $id])->andWhere(['name_committee' => 'Wakil'])->one();
+                          $modelsMain->name_member = $post['wakil'];
+                          $modelsMain->save();
+                      }
+                      if ($post['sekretaris']) {
+                          $modelsMain = ActivityMainMember::find()->where(['activity_id' => $id])->andWhere(['name_committee' => 'Sekretaris'])->one();
+                          $modelsMain->name_member = $post['sekretaris'];
+                          $modelsMain->save();
+                      }
+                      if ($post['bendahara']) {
+                          $modelsMain = ActivityMainMember::find()->where(['activity_id' => $id])->andWhere(['name_committee' => 'Bendahara'])->one();
+                          $modelsMain->name_member = $post['bendahara'];
+                          $modelsMain->save();
+                      }
+                  }
+
+                  Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
+                  return $this->redirect('index');
+              }
+          }
+      }
+
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'budget' => $budget,
+            'baru' => $baru,
+            'ketua' => $ketua,
+            'wakil' => $wakil,
+            'sekretaris' => $sekretaris,
+            'bendahara' => $bendahara,
+            'modelsSection' => $modelsSection,
+            'modelsMember' => $modelsMember,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
         ]);
     }
 
@@ -397,7 +574,7 @@ class ActivityChiefController extends \yii\web\Controller
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
-          $anggaran = $baru->department_budget_value + $budget->budget_value_dp;
+          $anggaran = $baru->chief_budget_value + $budget->budget_value_dp;
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
