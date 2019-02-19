@@ -32,6 +32,17 @@ $range_start = date('Y-m-d');
 $range_end = date('Y-m-d');
 $Role = Yii::$app->user->identity->roleName();
 
+
+if($Role != "Sekretariat"){
+  $minDate = date('Y-m-d',strtotime("-1 weeks"));
+  $maxDate = date('Y-m-d',strtotime("+1 month"));
+}else{
+  $minDate = 0;
+  $maxDate = 0;
+}
+
+
+
 $seksi = User::find()->where(['role'=>8])->all();
 $array_seksi = ArrayHelper::map(User::find()->all(), 'id','name');
 $list_seksi = array_values($array_seksi);
@@ -423,11 +434,7 @@ HTML;
       </div>
           <br>
 
-
-
 <?php } ?>
-
-
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
