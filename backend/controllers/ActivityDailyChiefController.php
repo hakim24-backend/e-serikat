@@ -237,10 +237,11 @@ class ActivityDailyChiefController extends Controller
 
             if ($model->load(Yii::$app->request->post())) {
                 $post = Yii::$app->request->post();
-
+                $model->finance_status = 0;
+                $model->department_status = 1;
+                $model->chief_status = 1;
                 $model->date_start = $post['from_date'];
                 $model->date_end = $post['to_date'];
-                $model->finance_status = 0;
                 $save = $model->save(false);
 
                 if ($save && $budget->load(Yii::$app->request->post())) {

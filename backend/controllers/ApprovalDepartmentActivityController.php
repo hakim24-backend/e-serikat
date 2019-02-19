@@ -118,9 +118,7 @@ class ApprovalDepartmentActivityController extends Controller
             $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
             
-            $model->finance_status=0;
             $model->department_status=2;
-            $model->chief_status=0;
             $model->save(false);
 
             $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
