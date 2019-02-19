@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Input Data Uang Muka Kegiatan Rutin', ['create'], ['class' => 'btn btn-success']) ?>
       </p>
     <?php } ?>
-    
+
       <div class="box box-primary">
             <div class="box-body">
                 <div class="tab-content c-bordered c-padding-lg">
@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
-                                    
+
                                     [
                                     'header' => 'Judul',
                                     'headerOptions' =>[
@@ -67,6 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ],
 
                                     [
+
                                         'attribute'=>'status',
                                         'header'=>'Status',
                                         'headerOptions' =>[
@@ -124,7 +125,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
                                               return Html::a(' <span class="fa fa-download"></span> | ', $url, [
                                                           'title' => Yii::t('app', 'view'),
-                                                          'data-pjax' => 0, 
+                                                          'data-pjax' => 0,
                                                           'target' => '_blank'
                                               ]);
                                             }

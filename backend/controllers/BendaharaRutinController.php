@@ -94,12 +94,10 @@ class BendaharaRutinController extends Controller
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $model->finance_status = 1;
         $model->save(false);
-        $status = $model->finance_status;
         Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
         return $this->redirect(Yii::$app->request->referrer);
         return $this->render([
             'model' => $model,
-            'status' => $status
         ]);
     }
 
