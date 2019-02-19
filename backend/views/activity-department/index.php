@@ -100,7 +100,6 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                             {
                                                 return '<span class="label label-warning">Draft Bendahara</span>';
                                             }
-
                                         },
                                     ],
                                     [
