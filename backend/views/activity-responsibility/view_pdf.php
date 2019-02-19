@@ -264,6 +264,13 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
           </tbody>
          </table>
+
+
+         <h1>LAMPIRAN</h1>
+
+
+         <?php $lpj->description ?>
+
       </div>
     </section>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

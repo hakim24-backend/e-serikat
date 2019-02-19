@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Input Data Uang Muka Kegiatan Rutin', ['create'], ['class' => 'btn btn-success']) ?>
       </p>
     <?php } ?>
-    
+
       <div class="box box-primary">
             <div class="box-body">
                 <div class="tab-content c-bordered c-padding-lg">
@@ -66,11 +66,27 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ],
 
                                     [
-                                    'header' => 'Status Anggaran',
-                                    'headerOptions'=>[
-                                      'style'=>'width:15%'
-                                    ],
-                                    'attribute' => 'finance_status',
+                                        'attribute'=>'status',
+                                        'header'=>'Status',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'format'=>'raw',
+                                        'value' => function($model, $key, $index)
+                                        {
+                                            if($model->finance_status == '0')
+                                            {
+                                                return '<span class="label label-info">Belum Dikonfirmasi</span>';
+                                            }
+                                            else if($model->finance_status == '1')
+                                            {
+                                                return '<span class="label label-success">Diterima</span>';
+                                            }
+                                            else if($model->finance_status == '2')
+                                            {
+                                                return '<span class="label label-warning">Draft</span>';
+                                            }
+                                        },
                                     ],
 
                                     [
@@ -80,11 +96,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'template' => ' {update} {view} {download} ',
                                       'buttons' => [
                                           'update' => function ($url, $model) {
-                                            if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
-                                              return Html::a('| <span class="fa fa-pencil"></span> ', $url, [
-                                                          'title' => Yii::t('app', 'update'),
-                                              ]);
-                                            }
+                                            if($model->finance_status == 0 || $model->finance_status == 2){
+                                              if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
+                                                return Html::a('| <span class="fa fa-pencil"></span> ', $url, [
+                                                            'title' => Yii::t('app', 'update'),
+                                                ]);
+                                              }
+                                          }
                                           },
                                           'view' => function ($url, $model) {
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
@@ -97,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
                                               return Html::a(' <span class="fa fa-download"></span> | ', $url, [
                                                           'title' => Yii::t('app', 'view'),
-                                                          'data-pjax' => 0, 
+                                                          'data-pjax' => 0,
                                                           'target' => '_blank'
                                               ]);
                                             }

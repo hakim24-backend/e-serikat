@@ -1,7 +1,9 @@
 <?php
 
 namespace backend\controllers;
-
+use common\models\ActivityMainMember;
+use common\models\ActivitySection;
+use common\models\ActivitySectionMember;
 use common\models\ActivityDaily;
 use common\models\ActivityDailyBudgetChief;
 use common\models\ActivityBudgeDChief;
@@ -15,6 +17,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 /**
  * ActivityDailyChiefController implements the CRUD actions for ActivityDaily model.
@@ -47,19 +50,18 @@ class ActivityDailyChiefController extends Controller
             ],
         ];
     }
-    
+
     /**
      * Lists all ActivityDaily models.
      * @return mixed
      */
     public function actionIndex()
     {
+
         $role = Yii::$app->user->identity->role;
-
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role' => $role])->andWhere(['done'=>0]),
+          'query' => ActivityDaily::find()->where(['role' => $role]),
         ]);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -71,20 +73,72 @@ class ActivityDailyChiefController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     public function actionView($id)
     {
-        $role = Yii::$app->user->identity->roleName();
 
-        $model = ActivityDaily::find()->where(['id' => $id])->one();
-        $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
-        $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-        $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+      $role = Yii::$app->user->identity->role;
+
+      // retrieve existing Deposit data
+      $model = ActivityDaily::find()->where(['id' => $id])->one();
+
+      $ketua = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Ketua"])->one();
+      $wakil = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Wakil"])
+          ->one();
+      $sekretaris = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Sekretaris"])
+          ->one();
+      $bendahara = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Bendahara"])
+          ->one();
+
+      if ($model->role == 6) {
+          $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
+          $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
+          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->chief_budget_value;
+      }
+
+      // retrieve existing ActivitySection data
+      $oldActivitySectionIds = ActivitySection::find()->select('id')
+          ->where(['activity_id' => $id])->asArray()->all();
+      $oldActivitySectionIds = ArrayHelper::getColumn($oldActivitySectionIds, 'id');
+      $modelsSection = ActivitySection::findAll(['id' => $oldActivitySectionIds]);
+      $modelsSection = (empty($modelsSection)) ? [new ActivitySection] : $modelsSection;
+
+      // retrieve existing Loads data
+      $oldLoadIds = [];
+      foreach ($modelsSection as $i => $modelSection) {
+          $oldLoads = ActivitySectionMember::findAll(['section_activity_id' => $modelSection->id]);
+          $modelsMember[$i] = $oldLoads;
+          $oldLoadIds = array_merge($oldLoadIds, ArrayHelper::getColumn($oldLoads, 'id'));
+          $modelsMember[$i] = (empty($modelsMember[$i])) ? [new ActivitySectionMember] : $modelsMember[$i];
+      }
+
 
         return $this->render('view', [
             'model' => $model,
             'budget' => $budget,
-            'awal' => $awal,
             'baru' => $baru,
+            'ketua' => $ketua,
+            'wakil' => $wakil,
+            'sekretaris' => $sekretaris,
+            'bendahara' => $bendahara,
+            'modelsSection' => $modelsSection,
+            'modelsMember' => $modelsMember,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
         ]);
     }
 
@@ -186,6 +240,7 @@ class ActivityDailyChiefController extends Controller
 
                 $model->date_start = $post['from_date'];
                 $model->date_end = $post['to_date'];
+                $model->finance_status = 0;
                 $save = $model->save(false);
 
                 if ($save && $budget->load(Yii::$app->request->post())) {
@@ -268,7 +323,7 @@ class ActivityDailyChiefController extends Controller
           $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
           $sekre = Chief::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
-          $anggaran = $baru->department_budget_value + $budget->budget_value_dp;
+          $anggaran = $baru->chief_budget_value + $budget->budget_value_dp;
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
