@@ -31,6 +31,8 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
 use yii\web\UploadedFile;
+use common\models\ActivityBudgetChief;
+use yii\helpers\ArrayHelper;
 
 /**
  * BendaharaController implements the CRUD actions for ActivityResponsibility model.
@@ -88,8 +90,68 @@ class BendaharaController extends Controller
      */
     public function actionView($id)
     {
+      $role = Yii::$app->user->identity->role;
+
+      // retrieve existing Deposit data
+      $model = Activity::find()->where(['id' => $id])->one();
+
+      $ketua = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Ketua"])->one();
+      $wakil = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Wakil"])
+          ->one();
+      $sekretaris = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Sekretaris"])
+          ->one();
+      $bendahara = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Bendahara"])
+          ->one();
+
+      if ($model->role == 6) {
+          $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
+          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->chief_budget_value;
+      }
+
+      // retrieve existing ActivitySection data
+      $oldActivitySectionIds = ActivitySection::find()->select('id')
+          ->where(['activity_id' => $id])->asArray()->all();
+      $oldActivitySectionIds = ArrayHelper::getColumn($oldActivitySectionIds, 'id');
+      $modelsSection = ActivitySection::findAll(['id' => $oldActivitySectionIds]);
+      $modelsSection = (empty($modelsSection)) ? [new ActivitySection] : $modelsSection;
+
+      // retrieve existing Loads data
+      $oldLoadIds = [];
+      foreach ($modelsSection as $i => $modelSection) {
+          $oldLoads = ActivitySectionMember::findAll(['section_activity_id' => $modelSection->id]);
+          $modelsMember[$i] = $oldLoads;
+          $oldLoadIds = array_merge($oldLoadIds, ArrayHelper::getColumn($oldLoads, 'id'));
+          $modelsMember[$i] = (empty($modelsMember[$i])) ? [new ActivitySectionMember] : $modelsMember[$i];
+      }
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'budget' => $budget,
+            'baru' => $baru,
+            'ketua' => $ketua,
+            'wakil' => $wakil,
+            'sekretaris' => $sekretaris,
+            'bendahara' => $bendahara,
+            'modelsSection' => $modelsSection,
+            'modelsMember' => $modelsMember,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
         ]);
     }
 
@@ -129,7 +191,7 @@ class BendaharaController extends Controller
                 $modelRutin->save(false);
 
                 $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
-                $baru->save();
+                $baru->save(false);
 
             } else if ($reject->role == 8) {
                 $modelSeksi = Activity::find()->where(['id'=>$id])->one();
@@ -141,7 +203,30 @@ class BendaharaController extends Controller
                 $modelSeksi->save(false);
 
                 $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
-                $baru->save();
+                $baru->save(false);
+
+            }else if ($reject->role == 6) {
+                $modelChief = Activity::find()->where(['id'=>$id])->one();
+                $budget = ActivityBudgetChief::find()->where(['activity_id'=>$modelChief])->one();
+                $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+                $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+
+                $modelChief->finance_status = 2;
+                $modelChief->save(false);
+
+                $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
+                $baru->save(false);
+            }else if ($reject->role == 7) {
+                $modelDep = Activity::find()->where(['id'=>$id])->one();
+                $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$modelDep])->one();
+                $awal = ActivityBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
+                $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+
+                $modelDep->finance_status = 2;
+                $modelDep->save(false);
+
+                $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;
+                $baru->save(false);
             }
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');

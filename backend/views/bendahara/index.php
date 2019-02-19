@@ -77,22 +77,22 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'buttons' => [
                                         'apply' => function($url, $model, $key)
                                         {
-                                                if ($model->finance_status) {
+                                                if ($model->finance_status ) {
                                                     $url = Url::toRoute(['bendahara/update-apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
-                                                            'title' => 'Edit Pertanggungjawaban',
+                                                            'title' => 'Ubah',
                                                         ]
                                                     );
                                                 } else {
                                                     $url = Url::toRoute(['bendahara/apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-ok"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
-                                                            'title' => 'Apply Pertanggungjawaban',
+                                                            'title' => 'Setuju',
                                                         ]
                                                     );
                                                 }
@@ -102,9 +102,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['bendahara/view', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-eye-open"></span>',
-                                                        $url, 
+                                                        $url,
                                                         [
-                                                            'title' => 'View Data Kegiatan Rutin',
+                                                            'title' => 'Lihat',
                                                         ]
                                                     );
                                         },
@@ -113,9 +113,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['bendahara/reject', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-remove"></span> |',
-                                                        $url, 
+                                                        $url,
                                                         [
-                                                            'title' => 'Download Pertanggungjawaban',
+                                                            'title' => 'Tolak',
                                                         ]
                                                     );
                                         }

@@ -58,8 +58,9 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                         'attribute' => 'place_activity',
                                     ],
 
+
                                     [
-                                        'header' => 'Tangal Mulai',
+                                        'header' => 'Tanggal Mulai',
                                         'headerOptions' =>[
                                         'style' => 'width:15%'
                                         ],
@@ -74,17 +75,44 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                         'attribute' => 'date_end',
                                     ],
                                     [
+                                        'attribute'=>'status',
+                                        'header'=>'Status',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'format'=>'raw',
+                                        'value' => function($model, $key, $index)
+                                        {
+                                            if($model->finance_status == '0')
+                                            {
+                                                return '<span class="label label-info">Belum Dikonfirmasi</span>';
+                                            }
+                                            else if($model->finance_status == '1')
+                                            {
+                                                return '<span class="label label-success">Diterima</span>';
+                                            }
+                                            else if($model->finance_status == '2')
+                                            {
+                                                return '<span class="label label-warning">Draft</span>';
+                                            }
+                                        },
+                                    ],
+
+
+                                    [
                                         'class' => 'yii\grid\ActionColumn',
                                         'contentOptions' => ['style' => 'width:160px;'],
                                         'header' => 'Actions',
                                         'template' => ' {update} {view} {download}',
                                         'buttons' => [
                                             'update' => function ($url, $model) {
+                                              if($model->finance_status == 0 || $model->finance_status == 2){
                                                 if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
-                                                    return Html::a('| <span class="fa fa-pencil"></span>', $url, [
-                                                        'title' => Yii::t('app', 'update'),
-                                                    ]);
+                                                  return Html::a('| <span class="fa fa-pencil"></span>', $url, [
+                                                    'title' => Yii::t('app', 'update'),
+                                                  ]);
                                                 }
+                                              }
                                             },
                                             'view' => function ($url, $model) {
                                                 if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
@@ -97,7 +125,7 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
                                               return Html::a('| <span class="fa fa-download"></span> |', $url, [
                                                           'title' => Yii::t('app', 'download'),
-                                                          'data-pjax' => 0, 
+                                                          'data-pjax' => 0,
                                                           'target' => '_blank'
                                               ]);
                                             }
