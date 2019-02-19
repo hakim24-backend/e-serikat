@@ -9,6 +9,7 @@ use common\models\Budget;
 use common\models\Secretariat;
 use common\models\Section;
 use common\models\ActivityResponsibility;
+use common\models\ActivityDailyBudgetDepart;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
 use common\models\ActivityDailyBudgetSection;
@@ -108,7 +109,7 @@ class BendaharaRutinController extends Controller
 
       // retrieve existing Deposit data
       $model = ActivityDaily::find()->where(['id' => $id])->one();
-
+      // var_dump($model->role);die;
       $ketua = ActivityMainMember::find()
           ->where(['activity_id' => $id])
           ->andWhere(['name_committee' => "Ketua"])->one();
@@ -128,12 +129,23 @@ class BendaharaRutinController extends Controller
       if ($model->role == 6) {
           $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
           $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
           $oldDP = $budget->budget_value_dp;
           $oldBudget = $baru->chief_budget_value;
+      }
+
+      if ($model->role == 7) {
+          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
+          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->department_budget_value;
       }
 
       // retrieve existing ActivitySection data
@@ -218,8 +230,8 @@ class BendaharaRutinController extends Controller
                 $baru->save(false);
             }else if ($reject->role == 7) {
                 $modelDep = ActivityDaily::find()->where(['id'=>$id])->one();
-                $budget = ActivityDailyBudgetDepartment::find()->where(['activity_id'=>$modelDep])->one();
-                $awal = ActivityDailyBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
+                $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDep])->one();
+                $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
                 $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
 
                 $modelDep->finance_status = 2;

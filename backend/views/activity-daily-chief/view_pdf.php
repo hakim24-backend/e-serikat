@@ -209,7 +209,7 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
-            <td>Rp.<?=$baru->chief_budget_value - $budget->budget_value_dp?></td>
+            <td>Rp.<?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
         </tr>
     </tbody>
 </table>
@@ -237,15 +237,6 @@ echo $romawi .'/SKPG'; ?>
             <td width="270">Tanggal, <?=$date?></td>
             <td width="270">Tanggal, <?=$date?></td>
             <td>Tanggal, <?=$date?></td>
-        </tr>
-    </tbody>
-</table>
-<table>
-    <tbody>
-        <tr>
-            <td width="270">Telah disetujui sistem</td>
-            <td width="270">Tidak diperlukan</td>
-            <td>Tidak diperlukan</td>
         </tr>
     </tbody>
 </table>
