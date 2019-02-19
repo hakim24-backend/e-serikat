@@ -289,7 +289,6 @@ $Role = Yii::$app->user->identity->roleName();
 
             $photos = explode("**", $lpj->photo);
             foreach ($photos as $key => $photo) { ?>
-
               <img src="<?=$uploadPath.$photo?> ?>" style="width:300px;height:300px;"/>
             <?php }
          ?>
