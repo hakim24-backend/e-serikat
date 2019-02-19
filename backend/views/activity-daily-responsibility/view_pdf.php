@@ -23,7 +23,7 @@ $Role = Yii::$app->user->identity->roleName();
     <!--
     @page {
               size: 29.7cm 21cm  portrait;   /*A4*/
-              padding:0; margin:1; 
+              padding:0; margin:1;
               top:0; left:0; right:0;bottom:0; border:0;
           }
 
@@ -264,6 +264,35 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
           </tbody>
          </table>
+
+         <br>
+         <h2>LAMPIRAN</h2>
+         <hr>
+
+         <h5>Dokumen</h5>
+         <?php
+            $uploadPath = Yii::getAlias('@backend')."/web/template";
+
+            $files = explode("**", $lpj->file);
+            foreach ($files as $key => $file) {
+              echo $key+1 .'. '.$uploadPath.$file; ?>
+              <br>
+            <?php }
+         ?>
+
+         <br>
+         <br>
+
+         <h5>Gambar</h5>
+         <?php
+            $uploadPath = \Yii::$app->urlManagerBackend->baseUrl;
+
+            $photos = explode("**", $lpj->photo);
+            foreach ($photos as $key => $photo) { ?>
+
+              <img src="<?=$uploadPath.$photo?> ?>" style="width:300px;height:300px;"/>
+            <?php }
+         ?>
       </div>
     </section>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
