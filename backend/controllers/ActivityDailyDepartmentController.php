@@ -97,7 +97,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
                 $daily = new ActivityDaily();
                 $daily->finance_status = 0;
-                $daily->department_status = 0;
+                $daily->department_status = 1;
                 $daily->chief_status = 0;
                 $daily->title = $post['judul'];
                 $daily->description = $post['description'];
@@ -153,6 +153,10 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
             if ($model->load(Yii::$app->request->post())) {
                 $post = Yii::$app->request->post();
 
+
+                $model->finance_status = 0;
+                $model->department_status = 1;
+                $model->chief_status = 0;
                 $model->date_start = $post['from_date'];
                 $model->date_end = $post['to_date'];
                 $save = $model->save(false);
