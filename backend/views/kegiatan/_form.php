@@ -32,6 +32,17 @@ $range_start = date('Y-m-d');
 $range_end = date('Y-m-d');
 $Role = Yii::$app->user->identity->roleName();
 
+
+if($Role != "Sekretariat"){
+  $minDate = date('Y-m-d',strtotime("-1 weeks"));
+  $maxDate = date('Y-m-d',strtotime("+1 month"));
+}else{
+  $minDate = 0;
+  $maxDate = 0;
+}
+
+
+
 $seksi = User::find()->where(['role'=>8])->all();
 $array_seksi = ArrayHelper::map(User::find()->all(), 'id','name');
 $list_seksi = array_values($array_seksi);
@@ -335,97 +346,47 @@ $list_seksi = array_values($array_seksi);
   </div>
 </div>
 
-<?php if($Role == "Sekretariat"){ ?>
+<div class="box box-info">
+    <div class="box-body">
 
-  <div class="box box-info">
-      <div class="box-body">
-
-               <div class="" style="padding: 10px;">
-                <div class="">
-                 <label style="font-size: 14px;">Tanggal</label>
-                 <?php
-                      $addon = <<< HTML
-                          <span class="input-group-addon">
-                              <i class="glyphicon glyphicon-calendar"></i>
-                          </span>
-  HTML;
-                          echo '<div class="input-group drp-container">';
-                          echo DateRangePicker::widget([
-                              'name'=>'date_range',
-                              'value'=>$range,
-                              'useWithAddon'=>true,
-                              'convertFormat'=>true,
-                              'startAttribute' => 'from_date',
-                              'endAttribute' => 'to_date',
-                              'startInputOptions' => ['value' => $range_start],
-                              'endInputOptions' => ['value' => $range_end],
-                              'options' => [
-                                  'class' => 'form-control',
-                              ],
-                              'pluginOptions'=>[
-                                  'locale'=>[
-                                      'format' => 'Y-m-d',
-                                  ],
-                                  'drops' => 'up',
-                              ]
-                          ]) . $addon;
-                          echo '</div>';
-                 ?>
-                </div>
+             <div class="" style="padding: 10px;">
+              <div class="">
+               <label style="font-size: 14px;">Tanggal</label>
+               <?php
+                    $addon = <<< HTML
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+HTML;
+                        echo '<div class="input-group drp-container">';
+                        echo DateRangePicker::widget([
+                            'name'=>'date_range',
+                            'value'=>$range,
+                            'useWithAddon'=>true,
+                            'convertFormat'=>true,
+                            'startAttribute' => 'from_date',
+                            'endAttribute' => 'to_date',
+                            'startInputOptions' => ['value' => $range_start],
+                            'endInputOptions' => ['value' => $range_end],
+                            'options' => [
+                                'class' => 'form-control',
+                            ],
+                            'pluginOptions'=>[
+                                'locale'=>[
+                                    'format' => 'Y-m-d',
+                                ],
+                                'drops' => 'up',
+                                'minDate' => $minDate,
+                                'maxDate' => $maxDate,
+                            ]
+                        ]) . $addon;
+                        echo '</div>';
+               ?>
               </div>
-          </div>
-      </div>
-          <br>
-
-
-
-<?php }else{ ?>
-
-  <div class="box box-info">
-      <div class="box-body">
-
-               <div class="" style="padding: 10px;">
-                <div class="">
-                 <label style="font-size: 14px;">Tanggal</label>
-                 <?php
-                      $addon = <<< HTML
-                          <span class="input-group-addon">
-                              <i class="glyphicon glyphicon-calendar"></i>
-                          </span>
-  HTML;
-                          echo '<div class="input-group drp-container">';
-                          echo DateRangePicker::widget([
-                              'name'=>'date_range',
-                              'value'=>$range,
-                              'useWithAddon'=>true,
-                              'convertFormat'=>true,
-                              'startAttribute' => 'from_date',
-                              'endAttribute' => 'to_date',
-                              'startInputOptions' => ['value' => $range_start],
-                              'endInputOptions' => ['value' => $range_end],
-                              'options' => [
-                                  'class' => 'form-control',
-                              ],
-                              'pluginOptions'=>[
-                                  'locale'=>[
-                                      'format' => 'Y-m-d',
-                                  ],
-                                  'drops' => 'up',
-                                  'minDate' => date('Y-m-d',strtotime("-1 weeks")),
-                                  'maxDate' => date('Y-m-d',strtotime("+1 month")),
-                              ]
-                          ]) . $addon;
-                          echo '</div>';
-                 ?>
-                </div>
-              </div>
-          </div>
-      </div>
-          <br>
-
-
-
-<?php } ?>
+            </div>
+        </div>
+    </div>
+        <br>
 
 
 
