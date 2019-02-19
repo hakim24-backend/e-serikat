@@ -176,7 +176,7 @@ $list_seksi = array_values($array_seksi);
                 	    'attributeLatitude' => 'place_activity_x',
                 	    'attributeLongitude' => 'place_activity_y',
                 	    'googleMapApiKey' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
-                	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;']
+                	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;', 'required' => true]
                 	])->label(false);
                 ?>
               </div>

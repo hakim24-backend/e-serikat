@@ -230,8 +230,6 @@ $list_seksi = array_values($array_seksi);
     </div>
   </div>
 </div>
-
-
 <div class="box box-primary">
   <div class="box-header with-border">
     <label>Informasi Seksi</label>

@@ -351,11 +351,8 @@ class ActivityDailyChiefController extends Controller
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
-             // set mPDF properties on the fly
-            'options' => ['title' => 'Krajee Report Title'],
              // call mPDF methods on the fly
             'methods' => [
-                'SetHeader'=>['Krajee Report Header'],
                 'SetFooter'=>['{PAGENO}'],
             ]
         ]);
