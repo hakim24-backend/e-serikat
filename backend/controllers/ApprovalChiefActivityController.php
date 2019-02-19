@@ -101,11 +101,7 @@ class ApprovalChiefActivityController extends Controller
             $model->activity_id = $id;
             $save = $model->save(false);
 
-
-            $roleDepart =  Activity::find()->where(['role'=>7])->one();
-            $roleSeksi =  Activity::find()->where(['role'=>8])->one();
-
-            if ($roleDepart) {
+            if ($reject->role == 7) {
                 $modelRutin = Activity::find()->where(['id'=>$id])->one();
                 $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$modelRutin])->one();
                 $awal = ActivityBudgetDepartment::find()->where(['Department_budget_id'=>$budget])->one();
@@ -116,7 +112,7 @@ class ApprovalChiefActivityController extends Controller
 
                 $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;
                 $baru->save();
-            } else if ($roleSeksi) {
+            } else if ($reject->role == 8) {
                 $modelSeksi = Activity::find()->where(['id'=>$id])->one();
                 $budget = ActivityBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
                 $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();

@@ -32,34 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
 
-                                // 'id',
-                                // 'finance_status',
-                                // 'department_status',
-                                // 'chief_status',
-                                // 'chief_code_id',
-                                // 'department_code_id',
-                                // 'title',
-                                // 'description:ntext',
-                                // 'role',
-                                // 'date',
-                                // 'done',
-
-                                //  [
-                                // 'header' => 'Status Anggaran',
-                                // 'headerOptions'=>[
-                                //       'style'=>'width:15%'
-                                //     ],
-                                // 'attribute' => 'finance_status',
-                                // ],
-                                // [
-                                // 'header' => 'Kode ID Ketua',
-                                // 'attribute' => 'chief_code_id',
-                                // ],
-
-                                // [
-                                // 'header' => 'Kode ID Departemen',
-                                // 'attribute' => 'department_code_id',
-                                // ],
                                 [
                                 'header' => 'Judul',
                                 'headerOptions' =>[

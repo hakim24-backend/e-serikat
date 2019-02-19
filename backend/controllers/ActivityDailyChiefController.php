@@ -275,7 +275,8 @@ class ActivityDailyChiefController extends Controller
             'budget'=>$budget,
             'baru'=>$baru,
             'sumber'=>$sumber,
-            'sekre'=>$sekre
+            'sekre'=>$sekre,
+            'anggaran'=>$anggaran
         ]);
 
         // setup kartik\mpdf\Pdf component

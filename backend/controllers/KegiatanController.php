@@ -71,7 +71,7 @@ class KegiatanController extends Controller
         $role = Yii::$app->user->identity->role;
         if($role != 1 && $role != 5){
           $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>$role])->andWhere(['done'=>0]),
+            'query' => Activity::find()->where(['role'=>$role]),
           ]);
         }else{
           $dataProvider = new ActiveDataProvider([

@@ -75,7 +75,7 @@ $date = date('Y-m-d');
 <p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-<span>NO : 834932482342</span><br>
+    <span>NO : 834932482342</span><br>
 
 <hr style="color:#000000;"></hr>
 

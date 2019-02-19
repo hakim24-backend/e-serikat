@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         },
                                         'download' => function($url, $model, $key)
                                         {
-                                          if ($model->activityDailyResponsibilities) {
+                                          if ($model->activityResponsibilities) {
 
                                                     $url = Url::toRoute(['/department-activity-responsibility/report', 'id' => $model->id]);
                                                     return Html::a(

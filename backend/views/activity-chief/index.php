@@ -37,7 +37,7 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                     [
                                         'header' => 'Judul',
                                         'headerOptions' =>[
-                                        'style' => 'width:15%'
+                                        'style' => 'width:10%'
                                         ],
                                         'attribute' => 'title',
                                     ],
@@ -45,7 +45,7 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                     [
                                         'header' => 'Tujuan',
                                         'headerOptions' =>[
-                                        'style' => 'width:25%'
+                                        'style' => 'width:10%'
                                         ],
                                         'attribute' => 'purpose',
                                     ],
@@ -97,7 +97,6 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                             }
                                         },
                                     ],
-
 
                                     [
                                         'class' => 'yii\grid\ActionColumn',
