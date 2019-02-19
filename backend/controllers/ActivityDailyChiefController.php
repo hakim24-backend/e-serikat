@@ -268,6 +268,7 @@ class ActivityDailyChiefController extends Controller
           $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
           $sekre = Chief::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $anggaran = $baru->department_budget_value + $budget->budget_value_dp;
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,

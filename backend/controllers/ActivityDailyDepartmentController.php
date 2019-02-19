@@ -246,13 +246,15 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
           $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
           $sekre = Department::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $anggaran = $baru->department_budget_value + $budget->budget_value_dp;
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
             'sumber'=>$sumber,
-            'sekre'=>$sekre
+            'sekre'=>$sekre,
+            'anggaran'=>$anggaran
         ]);
 
         // setup kartik\mpdf\Pdf component

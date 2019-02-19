@@ -523,6 +523,7 @@ class KegiatanController extends Controller
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
+          $anggaran = $baru->secretariat_budget_value + $budget->budget_value_dp;
         } else if ($role == 8) {
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
@@ -536,6 +537,7 @@ class KegiatanController extends Controller
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
+          $anggaran = $baru->section_budget_value + $budget->budget_value_dp;
         }
 
         $content = $this->renderPartial('view_pdf',[
@@ -549,7 +551,8 @@ class KegiatanController extends Controller
             'ketua'=>$ketua,
             'wakil'=>$wakil,
             'sekretaris'=>$sekretaris,
-            'bendahara'=>$bendahara
+            'bendahara'=>$bendahara,
+            'anggaran'=>$anggaran
         ]);
 
         // setup kartik\mpdf\Pdf component

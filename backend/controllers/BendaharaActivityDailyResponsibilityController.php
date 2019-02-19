@@ -76,6 +76,24 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
             Yii::$app->getSession()->setFlash('warning', 'Tidak Dapat Approve Pertangungjawaban Karena Data Pertangungjawaban Tidak Ada');
             return $this->redirect(Yii::$app->request->referrer);
         } else {
+            if ($model->role == 4) {
+            $modelRutin = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
+            $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+
+            $baru->secretariat_budget_value=$baru->secretariat_budget_value-$budget->budget_value_sum;
+            $baru->save();
+        } else if ($model->role == 8) {
+            $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
+            $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+
+            $baru->section_budget_value=$baru->section_budget_value-$budget->budget_value_sum;
+            $baru->save();
+        }
+            
             $model->done = 1;
             $model->save(false);
 
@@ -116,29 +134,24 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
 
     public function actionReport($id) {
 
-    $roleSekre = ActivityDaily::find()->where(['role'=>4])->one();
-    $roleSeksi =  ActivityDaily::find()->where(['role'=>8])->one();
+    $report = ActivityDaily::find()->where(['id'=>$id])->one();
      
-    if ($roleSekre) {
-            $key=1;
-            if ($key == 1) {
-                $model = ActivityDaily::find()->where(['id'=>$id])->one();
-                $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-                $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-                $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-                $sekre = Secretariat::find()->where(['id'=>$baru])->one();
-                $sumber = Budget::find()->where(['id'=>$baru])->one();
-            }
-    } elseif ($roleSeksi) {
-            $key=2;
-            if ($key == 2) {
-                $model = ActivityDaily::find()->where(['id'=>$id])->one();
-                $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-                $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-                $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-                $sekre = Section::find()->where(['id'=>$baru])->one();
-                $sumber = Budget::find()->where(['id'=>$baru])->one();
-            }
+    if ($report->role == 4) {
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
+        $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+    } elseif ($report->role == 8) {
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
+        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+        $sekre = Section::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
     }
 
     $content = $this->renderPartial('view_pdf',[
@@ -147,9 +160,8 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
             'baru'=>$baru,
             'sumber'=>$sumber,
             'sekre'=>$sekre,
-            'key' => $key,
-            'roleSekre'=>$roleSekre,
-            'roleSeksi'=>$roleSeksi
+            'report'=>$report,
+            'lpj'=> $lpj
         ]);
 
         // setup kartik\mpdf\Pdf component

@@ -95,15 +95,6 @@ class ActivityReportController extends Controller
                     ]);
                 }
             }
-
-            // //range tanggal
-            // if ($post['from_date'] && $post['to_date']) {
-            //     $dateStart = $post['from_date'];
-            //     $dateEnd = $post['to_date'];
-            //     $dataProvider = new ActiveDataProvider([
-            //         'query' => Activity::find()->where(['done'=>1])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
-            //     ]);
-            // }
         }
 
         return $this->render('index', [

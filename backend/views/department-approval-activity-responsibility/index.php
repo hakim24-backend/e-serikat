@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '{closing} {view}',
+                                'template' => '{closing} {view} {download}',
                                 'buttons' => [
                                         'closing' => function($url, $model, $key)
                                         {
@@ -95,19 +95,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ]
                                                     );
                                         },
-                                        // 'download' => function($url, $model, $key)
-                                        // {
-                                        //             $url = Url::toRoute(['/bendahara-activity-responsibility/report', 'id' => $model->id]);
-                                        //             return Html::a(
-                                        //                 ' <span class="glyphicon glyphicon-download"></span> |',
-                                        //                 $url, 
-                                        //                 [
-                                        //                     'title' => 'Download Pertanggungjawaban',
-                                        //                     'data-pjax' => 0, 
-                                        //                     'target' => '_blank'
-                                        //                 ]
-                                        //             );
-                                        // },
+                                        'download' => function($url, $model, $key)
+                                        {
+                                                    $url = Url::toRoute(['/department-approval-activity-responsibility/report', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        ' <span class="glyphicon glyphicon-download"></span> |',
+                                                        $url, 
+                                                        [
+                                                            'title' => 'Download Pertanggungjawaban',
+                                                            'data-pjax' => 0, 
+                                                            'target' => '_blank'
+                                                        ]
+                                                    );
+                                        },
                                     ]
 
                                 ],

@@ -40,9 +40,8 @@ $date = date('Y-m-d');
 <body>
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
-  <span>Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
+  <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
 <span>NO : 834932482342</span><br>
-<span>NO : 234248244244</span>
 
 <hr style="color:#000000;"></hr>
 
@@ -162,7 +161,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
-                <td>Rp.<?=$baru->department_budget_value?></td>
+                <td>Rp.<?=$anggaran?></td>
         </tr>
         <tr>
             <td>Waktu Pelaksanaan</td>
@@ -181,7 +180,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Uang Muka Kegiatan Rutin</td>
+            <td>Uang Muka Kegiatan</td>
                 <td>Rp.<?=$budget->budget_value_dp?></td>
         </tr>
         <tr>
@@ -205,7 +204,7 @@ $date = date('Y-m-d');
                 <td>Rp.<?=$budget->budget_value_sum?></td>
         </tr>
         <tr>
-            <td>Uang Muka Kegiatan Rutin</td>
+            <td>Uang Muka Kegiatan</td>
             <td>:</td>
                 <td>Rp.<?=$budget->budget_value_dp?><td>
         </tr>
@@ -227,7 +226,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
-                <td>Rp.<?=$baru->department_budget_value-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$anggaran-$budget->budget_value_dp?></td>
         </tr>
     </tbody>
 </table>

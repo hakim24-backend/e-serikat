@@ -40,9 +40,8 @@ $date = date('Y-m-d');
 <body>
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
-  <span>Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
+  <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
 <span>NO : 834932482342</span><br>
-<span>NO : 234248244244</span>
 
 <hr style="color:#000000;"></hr>
 
@@ -192,7 +191,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value?></td>
+                <td>Rp.<?=$anggaran?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$baru->section_budget_value?></td>
             <?php } ?>
@@ -218,7 +217,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Uang Muka Kegiatan Rutin</td>
+            <td>Uang Muka Kegiatan</td>
             <?php if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
@@ -281,7 +280,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$anggaran-$budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$baru->section_budget_value-$budget->budget_value_dp?></td>
             <?php } ?>

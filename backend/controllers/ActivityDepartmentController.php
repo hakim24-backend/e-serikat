@@ -401,7 +401,7 @@ class ActivityDepartmentController extends \yii\web\Controller
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
-
+          $anggaran = $baru->department_budget_value + $budget->budget_value_dp;
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
@@ -413,7 +413,8 @@ class ActivityDepartmentController extends \yii\web\Controller
             'ketua'=>$ketua,
             'wakil'=>$wakil,
             'sekretaris'=>$sekretaris,
-            'bendahara'=>$bendahara
+            'bendahara'=>$bendahara,
+            'anggaran'=>$anggaran
         ]);
 
         // setup kartik\mpdf\Pdf component

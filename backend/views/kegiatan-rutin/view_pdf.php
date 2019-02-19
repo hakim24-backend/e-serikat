@@ -74,9 +74,8 @@ $date = date('Y-m-d');
 <div id="apDiv1">
 <p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
-  <span>Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
+  <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
 <span>NO : 834932482342</span><br>
-<span>NO : 234248244244</span>
 
 <hr style="color:#000000;"></hr>
 
@@ -116,36 +115,6 @@ $date = date('Y-m-d');
 <table>
     <tbody>
         <tr>
-            <td width="200"><strong>Kode Anggaran</strong></td>
-        </tr>
-        <tr>
-            <td>Kode Anggaran Pengelola</td>
-            <td>:</td>
-            <?php if ($Role == "Super Admin") { ?>
-                <td><?=$sumber->budget_code?></td>
-            <?php } else if ($Role == "Sekretariat") { ?>
-                <td><?=$sumber->budget_code?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td><?=$sumber->budget_code?></td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>Kode Anggaran Penerima</td>
-            <td>:</td>
-            <?php if ($Role == "Super Admin") { ?>
-                <td><?=$baru->secretariat_budget_code?></td>
-            <?php } else if ($Role == "Sekretariat") { ?>
-                <td><?=$baru->secretariat_budget_code?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td><?=$baru->section_budget_code?></td>
-            <?php } ?>
-        </tr>
-    </tbody>
-</table>
-<br>
-<table>
-    <tbody>
-        <tr>
             <td><strong>Rencana Kegiatan</strong></td>
         </tr>
         <tr>
@@ -172,12 +141,10 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
-            <?php if ($Role == "Super Admin") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value?></td>
-            <?php } else if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value?></td>
+            <?php if ($Role == "Sekretariat") { ?>
+                <td>Rp.<?=$anggaran?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$baru->section_budget_value?></td>
+                <td>Rp.<?=$anggaran?></td>
             <?php } ?>
         </tr>
         <tr>
@@ -273,12 +240,10 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
-            <?php if ($Role == "Super Admin") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value+$budget->budget_value_dp?></td>
-            <?php } else if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?></td>
+            <?php if ($Role == "Sekretariat") { ?>
+                <td>Rp.<?=$anggaran-$budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?></td>
+                <td>Rp.<?=$$anggaran-$budget->budget_value_dp?></td>
             <?php } ?>
         </tr>
     </tbody>

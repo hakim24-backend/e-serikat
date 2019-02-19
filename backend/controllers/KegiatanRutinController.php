@@ -439,6 +439,7 @@ class KegiatanRutinController extends Controller
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
         $sekre = Secretariat::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $anggaran = $baru->secretariat_budget_value + $budget->budget_value_dp;
 
     } else if ($role == "Seksi") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
@@ -447,6 +448,7 @@ class KegiatanRutinController extends Controller
         $baru = SectionBudget::find()->where(['id'=>$awal])->one();
         $sekre = Section::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $anggaran = $baru->secretariat_budget_value + $budget->budget_value_dp;
     }
 
     $content = $this->renderPartial('view_pdf',[
@@ -454,7 +456,8 @@ class KegiatanRutinController extends Controller
             'budget'=>$budget,
             'baru'=>$baru,
             'sumber'=>$sumber,
-            'sekre'=>$sekre
+            'sekre'=>$sekre,
+            'anggaran'=>$anggaran
         ]);
 
         // setup kartik\mpdf\Pdf component

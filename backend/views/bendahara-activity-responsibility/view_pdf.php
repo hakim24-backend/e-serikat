@@ -52,19 +52,19 @@ $Role = Yii::$app->user->identity->roleName();
              <tr style="border-bottom-style: hidden;">
               <td colspan="2" style="border-right-style: hidden;">Nama</td>
               <td style="border-right-style: hidden;">:</td>
-              <?php if ($Role == "Bendahara") { ?>
+              <?php if ($report->role == 4) { ?>
                 <td colspan="3"><?=$sekre->secretariat_name?></td>
-              <?php } else { ?>
+              <?php } elseif ($report->role == 8) { ?>
                 <td colspan="3"><?=$sekre->section_name?></td>
               <?php } ?>
             </tr>
             <tr style="border-bottom-style: hidden;">
               <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen</td>
               <td style="border-right-style: hidden;">:</td>
-              <?php if ($Role == "Bendahara") { ?>
+              <?php if ($report->role == 4) { ?>
                 <td colspan="3"><?=$sekre->secretariat_code?></td>
-              <?php } elseif ($Role == "Seksi") { ?>
-                <td colspan="3"><?=$sekre->section_code.'/'.$departName->depart_code?></td>
+              <?php } elseif ($report->role == 8) { ?>
+                <td colspan="3"><?=$sekre->section_code?></td>
               <?php } ?>
             </tr>
            </tbody>
@@ -83,7 +83,7 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;">1</td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$model->title?></td>
+              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$lpj->description?></td>
               <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_sum?></td>
               <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_dp?></td>
             </tr>
@@ -165,10 +165,10 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
-              <?php if ($Role == "Bendahara") { ?>
-                <td class="text-center"><?=$baru->secretariat_budget_value?></td>
-              <?php } elseif ($Role == "Seksi") { ?>
-                <td class="text-center"><?=$baru->section_budget_value?></td>
+              <?php if ($report->role == 4) { ?>
+                <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
+              <?php } elseif ($report->role == 8) { ?>
+                <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
               <?php } ?>
             </tr>
             <tr>
@@ -183,11 +183,7 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="4" class="text-center">Menyetujui</td>
             </tr>
             <tr>
-              <?php if ($Role == "Bendahara") { ?>
-                <td width="21%">KADEP</td>
-              <?php } elseif ($Role == "Seksi") { ?>
-                <td width="21%">KADEP <?=$departName->depart_name?></td>
-              <?php } ?>
+              <td width="21%">KADEP</td>
               <td class="text-center" width="21%">KETUA II </td>
               <td class="text-center" width="21%">SEKRETARIS UMUM </td>
               <td class="text-center" width="21%">BENDAHARA </td>
@@ -249,14 +245,10 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
-              <?php if ($Role == "Sekretariat") { ?>
-                <td></td>
-              <?php } elseif ($Role == "Seksi") { ?>
-                <td><?=$departName->depart_name?></td>
-              <?php } ?>
               <td></td>
-              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;">Walyo Sirdjo</p></div></td>
-              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;">Abdul Rohman Wachid</p></div></td>
+              <td></td>
+              <td class="text-center"><div style="margin-top: 100px;"></div></td>
+              <td class="text-center"><div style="margin-top: 100px;"></div></td>
               <td></td>
             </tr>
             <tr>

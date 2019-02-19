@@ -87,11 +87,11 @@ class ActivityDailyReportController extends Controller
                 $dateEnd = $post['to_date'];
                 if ($post['from_date'] && $post['to_date']) {
                 $dataProvider = new ActiveDataProvider([
-                    'query' => Activity::find()->where(['done'=>1])->andWhere(['role'=>8])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>8])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
                 ]);
                 } else {
                     $dataProvider = new ActiveDataProvider([
-                    'query' => Activity::find()->where(['done'=>1])->andWhere(['role'=>8])
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>8])
                     ]);
                 }
             }

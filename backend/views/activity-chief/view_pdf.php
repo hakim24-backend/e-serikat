@@ -40,9 +40,8 @@ $date = date('Y-m-d');
 <body>
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
-  <span>Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
+  <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
 <span>NO : 834932482342</span><br>
-<span>NO : 234248244244</span>
 
 <hr style="color:#000000;"></hr>
 

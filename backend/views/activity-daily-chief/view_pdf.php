@@ -74,9 +74,8 @@ $date = date('Y-m-d');
 <div id="apDiv1">
 <p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
-  <span>Jl. Raya Gili Timur, Bandung Barat, Keleyan, Socah, Kabupaten Bangkalan, Jawa Timur 69161<br><br>
+  <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
 <span>NO : 834932482342</span><br>
-<span>NO : 234248244244</span>
 
 <hr style="color:#000000;"></hr>
 
@@ -93,10 +92,6 @@ $date = date('Y-m-d');
         <tr>
             <td>Unit Kerja</td>
             <td>: <?=$sekre->chief_code?></td>
-        </tr>
-        <tr>
-            <td>Nomor Rekening</td>
-            <td>: <?=$sumber->budget_rek?></td>
         </tr>
     </tbody>
 </table>

@@ -286,12 +286,12 @@ class ActivityResponsibilityController extends Controller
           $sumber = Budget::find()->where(['id'=>$baru])->one();
           $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
         } else if ($role == "Seksi") {
-        $model = Activity::find()->where(['id'=>$id])->one();
-        $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $model = Activity::find()->where(['id'=>$id])->one();
+          $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
+          $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+          $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+          $sekre = Section::find()->where(['id'=>$baru])->one();
+          $sumber = Budget::find()->where(['id'=>$baru])->one();
           $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
         }
 
