@@ -67,11 +67,35 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ],
 
                                     [
-                                    'header' => 'Status Anggaran',
-                                    'headerOptions'=>[
-                                      'style'=>'width:15%'
-                                    ],
-                                    'attribute' => 'finance_status',
+                                        'attribute'=>'status',
+                                        'header'=>'Status',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'format'=>'raw',
+                                        'value' => function($model, $key, $index)
+                                        {
+                                            if($model->finance_status == '0')
+                                            {
+                                                return '<span class="label label-info">Belum Dikonfirmasi</span>';
+                                            }
+                                            else if($model->finance_status == '1' && $model->chief_status == '1')
+                                            {
+                                                return '<span class="label label-success">Diterima</span>';
+                                            }
+                                            else if($model->finance_status == '1' && $model->chief_status == '0')
+                                            {
+                                                return '<span class="label label-success">Diterima Bendahara</span>';
+                                            }
+                                            else if($model->finance_status == '1' && $model->chief_status == '2')
+                                            {
+                                                return '<span class="label label-warning">Draft Ketua</span>';
+                                            }
+                                            else if($model->finance_status == '2')
+                                            {
+                                                return '<span class="label label-warning">Draft Bendahara</span>';
+                                            }
+                                        },
                                     ],
 
                                     [
@@ -81,11 +105,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'template' => ' {update} {view} {download} ',
                                       'buttons' => [
                                           'update' => function ($url, $model) {
+                                            if($model->finance_status == 0 || $model->finance_status == 2 && $model->chief_status == 0 || $model->chief_status ==2){
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
                                               return Html::a('| <span class="fa fa-pencil"></span> ', $url, [
                                                           'title' => Yii::t('app', 'update'),
                                               ]);
                                             }
+                                           }
                                           },
                                           'view' => function ($url, $model) {
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
