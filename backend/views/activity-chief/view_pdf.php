@@ -41,7 +41,7 @@ $date = date('Y-m-d');
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-  NO : <?= $model->id.'/' ?>
+  <span>NO : <?= $model->id.'/' ?>
   <?php
   $bulan = date('n');
   $romawi = getRomawi($bulan);

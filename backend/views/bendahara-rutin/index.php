@@ -112,18 +112,18 @@ $Role = Yii::$app->user->identity->roleName();
                                                     $url = Url::toRoute(['bendahara-rutin/update-apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
-                                                            'title' => 'Edit Data Kegiatan Rutin',
+                                                            'title' => 'Ubah',
                                                         ]
                                                     );
                                                 } else {
                                                     $url = Url::toRoute(['bendahara-rutin/apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-ok"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
-                                                            'title' => 'Apply Data Kegiatan Rutin',
+                                                            'title' => 'Approve',
                                                         ]
                                                     );
                                                 }
@@ -133,9 +133,9 @@ $Role = Yii::$app->user->identity->roleName();
                                                     $url = Url::toRoute(['bendahara-rutin/view', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-eye-open"></span>',
-                                                        $url, 
+                                                        $url,
                                                         [
-                                                            'title' => 'View Data Kegiatan Rutin',
+                                                            'title' => 'Lihat',
                                                         ]
                                                     );
                                         },
@@ -144,9 +144,9 @@ $Role = Yii::$app->user->identity->roleName();
                                                     $url = Url::toRoute(['bendahara-rutin/reject', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-remove"></span> |',
-                                                        $url, 
+                                                        $url,
                                                         [
-                                                            'title' => 'Reject Data Kegiatan Rutin',
+                                                            'title' => 'Tolak',
                                                         ]
                                                     );
                                         }
