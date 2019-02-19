@@ -265,11 +265,34 @@ $Role = Yii::$app->user->identity->roleName();
           </tbody>
          </table>
 
+         <br>
+         <h2>LAMPIRAN</h2>
+         <hr>
 
-         <h1>LAMPIRAN</h1>
+         <h5>Dokumen</h5>
+         <?php
+            $uploadPath = Yii::getAlias('@backend')."/web/template";
 
+            $files = explode("**", $lpj->file);
+            foreach ($files as $key => $file) {
+              echo $key+1 .'. '.$uploadPath.$file; ?>
+              <br>
+            <?php }
+         ?>
 
-         <?php $lpj->description ?>
+         <br>
+         <br>
+
+         <h5>Gambar</h5>
+         <?php
+            $uploadPath = \Yii::$app->urlManagerBackend->baseUrl;
+
+            $photos = explode("**", $lpj->photo);
+            foreach ($photos as $key => $photo) { ?>
+
+              <img src="<?=$uploadPath.$photo?> ?>" style="width:300px;height:300px;"/>
+            <?php }
+         ?>
 
       </div>
     </section>

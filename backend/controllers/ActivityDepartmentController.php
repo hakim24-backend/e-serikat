@@ -92,7 +92,7 @@ class ActivityDepartmentController extends \yii\web\Controller
                 if ($post['source_value'] > $data->department_budget_value) {
                 Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                 return $this->redirect(Yii::$app->request->referrer);
-                } 
+                }
              }
 
             if ($post['money_budget'] > $post['source_value']) {

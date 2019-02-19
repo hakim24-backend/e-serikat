@@ -56,7 +56,12 @@ return [
             'rules' => [
             ],
         ],
-
+        'urlManagerBackend' => [
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => 'http://localhost/e-serikat/backend/web/template',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ],
     ],
     'params' => $params,
 ];
