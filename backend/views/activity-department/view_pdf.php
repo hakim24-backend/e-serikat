@@ -41,7 +41,12 @@ $date = date('Y-m-d');
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-<span>NO : 834932482342</span><br>
+<span>NO : <?= $model->id.'/' ?>
+<?php
+$bulan = date('n');
+$romawi = getRomawi($bulan);
+echo $romawi .'/SKPG'; ?>
+<?php echo '/'.date("Y"); ?></span><br>
 
 <hr style="color:#000000;"></hr>
 
@@ -282,4 +287,46 @@ $date = date('Y-m-d');
     </tbody>
 </table>
 </body>
+<?php
+function getRomawi($bln){
+                switch ($bln){
+                    case 1:
+                        return "I";
+                        break;
+                    case 2:
+                        return "II";
+                        break;
+                    case 3:
+                        return "III";
+                        break;
+                    case 4:
+                        return "IV";
+                        break;
+                    case 5:
+                        return "V";
+                        break;
+                    case 6:
+                        return "VI";
+                        break;
+                    case 7:
+                        return "VII";
+                        break;
+                    case 8:
+                        return "VIII";
+                        break;
+                    case 9:
+                        return "IX";
+                        break;
+                    case 10:
+                        return "X";
+                        break;
+                    case 11:
+                        return "XI";
+                        break;
+                    case 12:
+                        return "XII";
+                        break;
+                }
+}
+?>
 </html>

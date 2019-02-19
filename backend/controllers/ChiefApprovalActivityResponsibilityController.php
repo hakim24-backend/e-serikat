@@ -110,44 +110,6 @@ class ChiefApprovalActivityResponsibilityController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing Activity model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdateClosing($id)
-    {
-        $model = Activity::find()->where(['id'=>$id])->one();
-        $model->done = 1;
-        $model->save(false);
-
-        $responsibility = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
-        $responsibility->responsibility_value = 1;
-        $responsibility->save(false);
-
-        Yii::$app->getSession()->setFlash('info', 'Kegiatan Selesai');
-        return $this->redirect(Yii::$app->request->referrer);
-        return $this->render([
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Activity model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
-    }
-
     public function actionDownload($id)
     {
         $download = ActivityResponsibility::findOne($id);

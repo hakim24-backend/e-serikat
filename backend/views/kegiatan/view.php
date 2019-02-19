@@ -23,22 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            // 'title',
-            // 'background:ntext',
-            // 'purpose:ntext',
-            // 'target_activity:ntext',
-            // 'place_activity:ntext',
-            // 'place_activity_x:ntext',
-            // 'place_activity_y:ntext',
-            // 'date_start',
-            // 'date_end',
-            // 'role',
-            // 'finance_status',
-            // 'department_status',
-            // 'chief_status',
-            // 'chief_code_id',
-            // 'department_code_id',
-            // 'done',
             [
                 'attribute'=>'name_activity',
                 'label'=>'Nama Kegiatan'
@@ -79,30 +63,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'date_end',
                 'label'=>'Tanggal Berakhir'
             ],
-            [
-                'label'=>'Bagian Seksi',
-                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySections, 'id', 'section_name')),
-            ],
-            [
-                'label'=>'Nama Anggota Seksi',
-                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
-            ],
-            [
-                'label'=>'Panitia Inti Ketua',
-                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
-            ],
-            [
-                'label'=>'Panitia Inti Wakil',
-                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
-            ],
-            [
-                'label'=>'Panitia Inti Sekretaris',
-                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
-            ],
-            [
-                'label'=>'Panitia Inti Bendahara',
-                'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
-            ],
+            // [
+            //     'label'=>'Bagian Seksi',
+            //     'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySections, 'id', 'section_name')),
+            // ],
+            // [
+            //     'label'=>'Nama Anggota Seksi',
+            //     'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            // ],
+            // [
+            //     'label'=>'Panitia Inti Ketua',
+            //     'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            // ],
+            // [
+            //     'label'=>'Panitia Inti Wakil',
+            //     'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            // ],
+            // [
+            //     'label'=>'Panitia Inti Sekretaris',
+            //     'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            // ],
+            // [
+            //     'label'=>'Panitia Inti Bendahara',
+            //     'value' => implode(',',\yii\helpers\ArrayHelper::map($model->activitySectionMembers, 'id', 'section_name_member')),
+            // ],
         ],
     ]) ?>
 

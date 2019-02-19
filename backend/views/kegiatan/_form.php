@@ -348,7 +348,7 @@ $list_seksi = array_values($array_seksi);
                           <span class="input-group-addon">
                               <i class="glyphicon glyphicon-calendar"></i>
                           </span>
-  HTML;
+HTML;
                           echo '<div class="input-group drp-container">';
                           echo DateRangePicker::widget([
                               'name'=>'date_range',
@@ -392,7 +392,7 @@ $list_seksi = array_values($array_seksi);
                           <span class="input-group-addon">
                               <i class="glyphicon glyphicon-calendar"></i>
                           </span>
-  HTML;
+HTML;
                           echo '<div class="input-group drp-container">';
                           echo DateRangePicker::widget([
                               'name'=>'date_range',
@@ -411,7 +411,7 @@ $list_seksi = array_values($array_seksi);
                                       'format' => 'Y-m-d',
                                   ],
                                   'drops' => 'up',
-                                  'minDate' => date('Y-m-d',strtotime("-1 weeks")),
+                                  'minDate' => date('Y-m-d',strtotime("-4 days")),
                                   'maxDate' => date('Y-m-d',strtotime("+1 month")),
                               ]
                           ]) . $addon;

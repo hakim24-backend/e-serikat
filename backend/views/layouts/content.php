@@ -39,7 +39,7 @@ use dmstr\widgets\Alert;
     <div class="pull-right hidden-xs">
         <b>Version</b> 2.0
     </div>
-    <strong>Copyright &copy; <a href="http://mamorasoft.com">Sementara Masih Hakim</a> </strong>
+    <strong>Copyright &copy; <a href="http://mamorasoft.com">Mamorasoft</a> </strong>
 </footer>
 
 <!-- Control Sidebar -->
