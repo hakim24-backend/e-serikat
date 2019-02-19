@@ -72,11 +72,27 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                         'attribute' => 'date_end',
                                     ],
                                     [
-                                        'header' => 'Status Anggaran',
+                                        'attribute'=>'status',
+                                        'header'=>'Status',
                                         'headerOptions' =>[
-                                        'style' => 'width:15%'
+                                        'style' => 'width:20%'
                                         ],
-                                        'attribute' => 'finance_status',
+                                        'format'=>'raw',
+                                        'value' => function($model, $key, $index)
+                                        {
+                                            if($model->finance_status == '0')
+                                            {
+                                                return '<span class="label label-info">Belum Dikonfirmasi</span>';
+                                            }
+                                            else if($model->finance_status == '1')
+                                            {
+                                                return '<span class="label label-success">Diterima</span>';
+                                            }
+                                            else if($model->finance_status == '2')
+                                            {
+                                                return '<span class="label label-warning">Draft</span>';
+                                            }
+                                        },
                                     ],
 
                                     [
@@ -86,11 +102,13 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                         'template' => ' {update} {view} {download}',
                                         'buttons' => [
                                             'update' => function ($url, $model) {
+                                                if($model->finance_status == 2){
                                                 if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
                                                     return Html::a('| <span class="fa fa-pencil"></span>', $url, [
                                                         'title' => Yii::t('app', 'update'),
                                                     ]);
-                                                }
+                                                  }
+                                               }
                                             },
                                             'view' => function ($url, $model) {
                                                 if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {

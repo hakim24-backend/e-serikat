@@ -163,11 +163,16 @@ $list_seksi = array_values($array_seksi);
     <label>Informasi Kepengurusan Utama</label>
   </div>
   <div class="box-body">
-    <div class="col-sm-12">
-        <div class="form-group">
+    <div class="form-group">
+        <div class="col-sm-12">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
-                <?= Html::dropDownList('ketua', $ketua->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
+                <?= \yii\jui\AutoComplete::widget([
+                    'name' => 'ketua',
+                    'clientOptions' => [
+                        'source' => $list_seksi,
+                    ],
+                ]) ?>
             </div>
         </div>
     </div>
@@ -175,7 +180,12 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Wakil</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('wakil', $wakil->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
+              <?= \yii\jui\AutoComplete::widget([
+                  'name' => 'wakil',
+                  'clientOptions' => [
+                      'source' => $list_seksi,
+                  ],
+              ]) ?>
             </div>
         </div>
     </div>
@@ -183,7 +193,12 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Sekretaris</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('sekretaris', $sekretaris->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
+              <?= \yii\jui\AutoComplete::widget([
+                  'name' => 'sekretaris',
+                  'clientOptions' => [
+                      'source' => $list_seksi,
+                  ],
+              ]) ?>
             </div>
         </div>
     </div>
@@ -191,7 +206,12 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Bendahara</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('bendahara', $bendahara->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control']) ?>
+              <?= \yii\jui\AutoComplete::widget([
+                  'name' => 'bendahara',
+                  'clientOptions' => [
+                      'source' => $list_seksi,
+                  ],
+              ]) ?>
             </div>
         </div>
     </div>
