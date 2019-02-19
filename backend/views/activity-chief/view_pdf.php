@@ -48,8 +48,7 @@ $date = date('Y-m-d');
   echo $romawi .'/SKPG'; ?>
   <?php echo '/'.date("Y"); ?>
   </span><br>
-  <hr style="color:#000000;"></hr>
-
+  
 <hr style="color:#000000;"></hr>
 
 <p><strong><em>&nbsp;</em></strong></p>
