@@ -48,7 +48,7 @@ $date = date('Y-m-d');
   echo $romawi .'/SKPG'; ?>
   <?php echo '/'.date("Y"); ?>
   </span><br>
-  
+
 <hr style="color:#000000;"></hr>
 
 <p><strong><em>&nbsp;</em></strong></p>
@@ -232,7 +232,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
-                <td>Rp.<?=$baru->chief_budget_value-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
         </tr>
     </tbody>
 </table>
@@ -260,15 +260,6 @@ $date = date('Y-m-d');
             <td width="270">Tanggal, <?=$date?></td>
             <td width="270">Tanggal, <?=$date?></td>
             <td>Tanggal, <?=$date?></td>
-        </tr>
-    </tbody>
-</table>
-<table>
-    <tbody>
-        <tr>
-            <td width="270">Telah disetujui sistem</td>
-            <td width="270">Tidak diperlukan</td>
-            <td>Tidak diperlukan</td>
         </tr>
     </tbody>
 </table>

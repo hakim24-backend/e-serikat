@@ -167,12 +167,14 @@ $list_seksi = array_values($array_seksi);
         <div class="col-sm-12">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
-                <?= \yii\jui\AutoComplete::widget([
-                    'name' => 'ketua',
-                    'clientOptions' => [
-                        'source' => $list_seksi,
-                    ],
-                ]) ?>
+              <?= \yii\jui\AutoComplete::widget([
+                  'name' => 'ketua',
+                  'options' => ['required' => true],
+                  'clientOptions' => [
+                      'source' => $list_seksi,
+                  ],
+              ]) ?>
+
             </div>
         </div>
     </div>
@@ -182,6 +184,8 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'wakil',
+                  'options' => ['required' => true],
+
                   'clientOptions' => [
                       'source' => $list_seksi,
                   ],
@@ -195,6 +199,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'sekretaris',
+                  'options' => ['required' => true],
                   'clientOptions' => [
                       'source' => $list_seksi,
                   ],
@@ -208,6 +213,8 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'bendahara',
+                  'options' => ['required' => true],
+
                   'clientOptions' => [
                       'source' => $list_seksi,
                   ],
