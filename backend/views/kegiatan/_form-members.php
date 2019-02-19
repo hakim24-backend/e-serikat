@@ -79,7 +79,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
                 ?>
                 <?= $form->field($modelMember, "[{$indexSection}][{$indexMember}]section_name_member")->widget(\yii\jui\AutoComplete::classname(), [
-                    'options' => [ 'class' => 'form-control' ],
+                    'options' => [ 'class' => 'form-control', 'required' => true ],
                 ])->label(false) ?>
 
             </td>
