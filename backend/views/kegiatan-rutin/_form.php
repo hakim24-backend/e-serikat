@@ -15,6 +15,15 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
 $this->title = 'Buat Data Kegiatan Rutin';
 
 $Role = Yii::$app->user->identity->roleName();
+
+if($Role != "Sekretariat"){
+  $minDate = date('Y-m-d',strtotime("-1 weeks"));
+  $maxDate = date('Y-m-d',strtotime("+1 month"));
+}else{
+  $minDate = 0;
+  $maxDate = 0;
+}
+
 ?>
 
 <div class="activity-daily-form">
@@ -60,7 +69,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Uang Muka Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
+                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 uang-muka', 'id'=>'value-budget']) ?>
                 </div>
             </div>
         </div>
@@ -70,7 +79,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
+                    <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 nilai-anggaran', 'id'=>'value-budget']) ?>
                 </div>
             </div>
         </div>
@@ -124,14 +133,15 @@ HTML;
                             'endInputOptions' => ['value' => $range_end],
                             'options' => [
                                 'class' => 'form-control',
+                                'required'=>true,
                             ],
                             'pluginOptions'=>[
                                 'locale'=>[
                                     'format' => 'Y-m-d',
                                 ],
                                 'drops' => 'up',
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
-                                'maxDate' => date('Y-m-d',strtotime("+1 month")),
+                                'minDate' => $minDate,
+                                'maxDate' => $maxDate,
                             ]
                         ]) . $addon;
                         echo '</div>';
@@ -163,6 +173,41 @@ $('#jenis-tujuan').on('change',function(){
     }).done(function(data){
        $('select#kode-tujuan').html(data);
     });
+});
+
+
+$('.nilai-anggaran').on('change',function(){
+    var uangmuka = $('.uang-muka').val();
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(nilaianggaran) > res){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+    }
+    if(parseInt(nilaianggaran) < parseInt(uangmuka)){
+      alert('Nilai Anggaran Lebih Kecil dari Uang Muka yang Diajukan. Mohon ubah nilai yang diinputkan !');
+    }
+
+});
+
+$('.uang-muka ').on('change',function(){
+    var uangmuka = $('.uang-muka').val();
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(uangmuka) > res){
+      alert('Uang Muka Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+    }
+    if(parseInt(uangmuka) > parseInt(nilaianggaran)){
+      alert('Uang Muka Lebih Besar dari Anggaran Yang Diajukan. Mohon ubah nilai yang diinputkan !');
+    }
+
 });
 
 $('#jenis-asal').on('change',function(){

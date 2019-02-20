@@ -82,22 +82,6 @@ class ActivityDailyChiefController extends Controller
       // retrieve existing Deposit data
       $model = ActivityDaily::find()->where(['id' => $id])->one();
 
-      $ketua = ActivityMainMember::find()
-          ->where(['activity_id' => $id])
-          ->andWhere(['name_committee' => "Ketua"])->one();
-      $wakil = ActivityMainMember::find()
-          ->where(['activity_id' => $id])
-          ->andWhere(['name_committee' => "Wakil"])
-          ->one();
-      $sekretaris = ActivityMainMember::find()
-          ->where(['activity_id' => $id])
-          ->andWhere(['name_committee' => "Sekretaris"])
-          ->one();
-      $bendahara = ActivityMainMember::find()
-          ->where(['activity_id' => $id])
-          ->andWhere(['name_committee' => "Bendahara"])
-          ->one();
-
       if ($model->role == 6) {
           $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
           $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
@@ -109,33 +93,10 @@ class ActivityDailyChiefController extends Controller
           $oldBudget = $baru->chief_budget_value;
       }
 
-      // retrieve existing ActivitySection data
-      $oldActivitySectionIds = ActivitySection::find()->select('id')
-          ->where(['activity_id' => $id])->asArray()->all();
-      $oldActivitySectionIds = ArrayHelper::getColumn($oldActivitySectionIds, 'id');
-      $modelsSection = ActivitySection::findAll(['id' => $oldActivitySectionIds]);
-      $modelsSection = (empty($modelsSection)) ? [new ActivitySection] : $modelsSection;
-
-      // retrieve existing Loads data
-      $oldLoadIds = [];
-      foreach ($modelsSection as $i => $modelSection) {
-          $oldLoads = ActivitySectionMember::findAll(['section_activity_id' => $modelSection->id]);
-          $modelsMember[$i] = $oldLoads;
-          $oldLoadIds = array_merge($oldLoadIds, ArrayHelper::getColumn($oldLoads, 'id'));
-          $modelsMember[$i] = (empty($modelsMember[$i])) ? [new ActivitySectionMember] : $modelsMember[$i];
-      }
-
-
         return $this->render('view', [
             'model' => $model,
             'budget' => $budget,
             'baru' => $baru,
-            'ketua' => $ketua,
-            'wakil' => $wakil,
-            'sekretaris' => $sekretaris,
-            'bendahara' => $bendahara,
-            'modelsSection' => $modelsSection,
-            'modelsMember' => $modelsMember,
             'range' => $range,
             'range_start' => $range_start,
             'range_end' => $range_end,

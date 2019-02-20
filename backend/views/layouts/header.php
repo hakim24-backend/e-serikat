@@ -25,13 +25,13 @@ use yii\helpers\Url;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?= \Yii::$app->urlManagerBackend->baseUrl; ?>/img/petro.png" class="user-image" alt="User Image"/>
+                        <img src="<?= Yii::$app->urlManager->createUrl(['/template/img/petro.png']) ?>" class="user-image" alt="User Image"/>
                         <?= Yii::$app->user->identity->username ?>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= \Yii::$app->urlManagerBackend->baseUrl; ?>/img/petro.png" class="img-circle"
+                            <img src="<?= Yii::$app->urlManager->createUrl(['/template/img/petro.png']) ?>" class="img-circle"
                                  alt="User Image"/>
                             <p>Selamat Datang</p>
                             <p><?php echo Yii::$app->user->identity->roles->name_role ?>, <?= Yii::$app->user->identity->username ?></p>

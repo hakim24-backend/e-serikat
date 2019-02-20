@@ -61,17 +61,6 @@ $Role = Yii::$app->user->identity->roleName();
                           ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
-                  [
-                      'label' => 'Serikat SDM',
-                      'icon' => 'building-o',
-                      'url' => '#',
-                      'items' => [
-                          ['label' => 'Ketua', 'icon' => 'file-code-o', 'url' => ['/chief'],],
-                          ['label' => 'Departemen', 'icon' => 'file-code-o', 'url' => ['/department'],],
-                          ['label' => 'Seksi', 'icon' => 'file-code-o', 'url' => ['/section'],],
-
-                      ],
-                  ],
 
               ],
           ]
@@ -118,7 +107,17 @@ $Role = Yii::$app->user->identity->roleName();
                   ['label' => 'Menu E-Serikat', 'options' => ['class' => 'header']],
                   // ['label' => 'Giis', 'icon' => 'file-code-o', 'url' => ['/gii']],
                   // ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                  [
+                      'label' => 'Serikat SDM',
+                      'icon' => 'building-o',
+                      'url' => '#',
+                      'items' => [
+                          ['label' => 'Ketua', 'icon' => 'file-code-o', 'url' => ['/chief'],],
+                          ['label' => 'Departemen', 'icon' => 'file-code-o', 'url' => ['/department'],],
+                          ['label' => 'Seksi', 'icon' => 'file-code-o', 'url' => ['/section'],],
 
+                      ],
+                  ],
                   [
                       'label' => 'Uang Muka',
                       'icon' => 'money',

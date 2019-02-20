@@ -105,12 +105,37 @@ class KegiatanRutinController extends Controller
             $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
             $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $range = $model->date_start . ' to ' . $model->date_end;
+            $range_start = $model->date_start;
+            $range_end = $model->date_end;
+            $oldDP = $budget->budget_value_dp;
+            $oldBudget = $baru->secretariat_budget_value;
+
         } else if ($role == "Seksi") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            $range = $model->date_start . ' to ' . $model->date_end;
+            $range_start = $model->date_start;
+            $range_end = $model->date_end;
+            $oldDP = $budget->budget_value_dp;
+            $oldBudget = $baru->section_budget_value;
+
         }
+
+
+          return $this->render('view', [
+              'model' => $model,
+              'budget' => $budget,
+              'baru' => $baru,
+              'range' => $range,
+              'range_start' => $range_start,
+              'range_end' => $range_end,
+          ]);
+
+
+
         return $this->render('view', [
             'model' => $this->findModel($id),
             'budget' => $budget,
@@ -179,14 +204,19 @@ class KegiatanRutinController extends Controller
                     }
                 }
 
-                    $daily->finance_status = 0;
-                    $daily->department_status = 1;
-                    $daily->chief_status = 1;
+
                     if ($role == "Sekretariat") {
                         $daily->role = 4;
+                        $daily->finance_status = 1;
+                        $daily->department_status = 1;
+                        $daily->chief_status = 1;
                     } elseif ($role == "Seksi") {
                         $daily->role = 8;
+                        $daily->finance_status = 0;
+                        $daily->department_status = 0;
+                        $daily->chief_status = 0;
                     }
+
                     $daily->date_start = $post['from_date'];
                     $daily->date_end = $post['to_date'];
                     $daily->done = 0;
