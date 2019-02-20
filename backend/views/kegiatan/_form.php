@@ -198,6 +198,7 @@ $list_seksi = array_values($array_seksi);
                     'name' => 'ketua',
                     'clientOptions' => [
                         'source' => $list_seksi,
+                        'required' => true
                     ],
                 ]) ?>
             </div>
@@ -211,6 +212,7 @@ $list_seksi = array_values($array_seksi);
                   'name' => 'wakil',
                   'clientOptions' => [
                       'source' => $list_seksi,
+                      'required' => true
                   ],
               ]) ?>
             </div>
@@ -224,6 +226,7 @@ $list_seksi = array_values($array_seksi);
                   'name' => 'sekretaris',
                   'clientOptions' => [
                       'source' => $list_seksi,
+                      'required' => true
                   ],
               ]) ?>
             </div>
@@ -237,6 +240,7 @@ $list_seksi = array_values($array_seksi);
                   'name' => 'bendahara',
                   'clientOptions' => [
                       'source' => $list_seksi,
+                      'required' => true
                   ],
               ]) ?>
             </div>

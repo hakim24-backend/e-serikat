@@ -115,14 +115,14 @@ $role = Yii::$app->user->identity->role;
           ->one();
 
       if ($role == 4) {
-          $budget = ActivityBudgetSekretariat::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetSekretariat::find()->where(['sekretariat_budget_id' => $budget])->one();
-          $baru = SekretariatBudget::find()->where(['id' => $awal])->one();
+          $budget = ActivityBudgetSecretariat::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id' => $budget])->one();
+          $baru = SecretariatBudget::find()->where(['id' => $awal])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
           $oldDP = $budget->budget_value_dp;
-          $oldBudget = $baru->sekretariat_budget_value;
+          $oldBudget = $baru->secretariat_budget_value;
       } elseif ($role == 8) {
           $budget = ActivityBudgetSection::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityBudgetSection::find()->where(['section_budget_id' => $budget])->one();

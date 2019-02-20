@@ -91,9 +91,7 @@ $date = date('Y-m-d');
         </tr>
         <tr>
             <td>Unit Kerja</td>
-            <?php if ($Role == "Super Admin") { ?>
-                <td>: <?=$sekre->secretariat_code?></td>
-            <?php } else if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Sekretariat") { ?>
                 <td>: <?=$sekre->secretariat_code?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>: <?=$sekre->section_code?></td>

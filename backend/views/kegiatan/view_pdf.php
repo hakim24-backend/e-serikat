@@ -285,9 +285,9 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$anggaran-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$baru->section_budget_value-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
             <?php } ?>
         </tr>
     </tbody>
