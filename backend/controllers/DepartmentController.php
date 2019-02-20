@@ -56,7 +56,7 @@ class DepartmentController extends Controller
      */
     public function actionIndex()
     {
-        
+
         $dataProvider = new ActiveDataProvider([
             'query' => Chief::find(),
         ]);
@@ -68,7 +68,7 @@ class DepartmentController extends Controller
 
     public function actionHighlight($id)
     {
-    
+
         $model = new User();
         $dataProvider = new ActiveDataProvider([
             'query' => Department::find()->where(['id_chief'=>$id]),
@@ -100,14 +100,14 @@ class DepartmentController extends Controller
      */
     public function actionCreate($id)
     {
-        
+
         $depart = Department::find()->where(['id'=>$id])->one();
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
 
             $password = 123456;
-            $model->role = 7;   
+            $model->role = 7;
             $model->username = str_replace(" ","_",$model->name);
             $model->created_at = time();
             $model->updated_at = time();
@@ -186,7 +186,7 @@ class DepartmentController extends Controller
     public function actionDelete($id)
     {
         $depart = Department::find()->where(['id'=>$id])->one();
-        $section = Section::find()->where(['id_depart'=>$depart])->one();        
+        $section = Section::find()->where(['id_depart'=>$depart])->one();
         $model = User::find()->where(['id'=>$depart])->one();
         $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
         $id_user = User::find()->where(['id'=>$user])->one();
