@@ -63,7 +63,7 @@ class SectionController extends Controller
 
     public function actionHighlight($id)
     {
-    
+
         $model = new User();
         $dataProvider = new ActiveDataProvider([
             'query' => Section::find()->where(['id_depart'=>$id]),
@@ -102,7 +102,7 @@ class SectionController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 
             $password = 123456;
-            $model->role = 8;   
+            $model->role = 8;
             $model->username = str_replace(" ","_",$model->name);
             $model->created_at = time();
             $model->updated_at = time();
@@ -119,7 +119,7 @@ class SectionController extends Controller
             if ($listSeksi == null) {
                 $counter = '001';
             } else {
-                $counter = explode('-', $listSeksi['section_code'])[2];
+                $counter = explode('-', $listSeksi['section_code'])[1];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
             $code = $kodeSeksi.''.$counter;
@@ -149,7 +149,8 @@ class SectionController extends Controller
     public function actionUpdate($id)
     {
         $section = Section::find()->where(['id'=>$id])->one();
-        $model = User::find()->where(['id'=>$section])->one();
+        $model = User::find()->where(['id'=>$section->user_id])->one();
+        // var_dump($section);die;
 
         if ($model->load(Yii::$app->request->post())) {
             $model->name = $model->name;
@@ -178,7 +179,7 @@ class SectionController extends Controller
      */
     public function actionDelete($id)
     {
-        $section = Section::find()->where(['id'=>$id])->one();        
+        $section = Section::find()->where(['id'=>$id])->one();
         $model = User::find()->where(['id'=>$section])->one();
         $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
         $id_user = User::find()->where(['id'=>$user])->one();

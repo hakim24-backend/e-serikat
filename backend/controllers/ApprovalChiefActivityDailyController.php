@@ -7,7 +7,9 @@ use common\models\ActivityDaily;
 use common\models\ActivityDailyReject;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetChief;
+use common\models\ActivityDailyBudgetDepart;
 use common\models\ChiefBudget;
+use common\models\DepartmentBudget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -71,8 +73,39 @@ class ApprovalChiefActivityDailyController extends Controller
      */
     public function actionView($id)
     {
+      $role = Yii::$app->user->identity->role;
+
+      $model = ActivityDaily::find()->where(['id' => $id])->one();
+
+      if ($model->role == 6) {
+          $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
+          $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->chief_budget_value;
+      }
+
+      if ($model->role == 7) {
+          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
+          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->department_budget_value;
+      }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'budget' => $budget,
+            'baru' => $baru,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
         ]);
     }
 
@@ -85,9 +118,10 @@ class ApprovalChiefActivityDailyController extends Controller
     {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $model->chief_status = 1;
-        $model->save(false);
-        Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
-        return $this->redirect(Yii::$app->request->referrer);
+        if($model->save(false)){
+          Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
+          return $this->redirect(Yii::$app->request->referrer);
+        }
         return $this->render([
             'model' => $model,
         ]);
@@ -110,14 +144,13 @@ class ApprovalChiefActivityDailyController extends Controller
             $model->activity_id = $id;
             $model->save(false);
 
-            $roleDepart =  ActivityDaily::find()->where(['role'=>7])->one();
-            $roleSeksi =  ActivityDaily::find()->where(['role'=>8])->one();
-
-            if ($roleDepart) {
+            if ($reject->role == 6) {
                 $modelChief = ActivityDaily::find()->where(['id'=>$id])->one();
-                $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$modelChief])->one();
+                $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$modelChief->id])->one();
                 $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
                 $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+
+                // var_dump($id);die;
                 $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelChief])->one();
                 $departBudget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$modelChief])->one();
 
@@ -126,7 +159,22 @@ class ApprovalChiefActivityDailyController extends Controller
 
                 $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
                 $baru->save();
-            } elseif ($roleSeksi) {
+            } else if ($reject->role == 7) {
+                $modelDep = ActivityDaily::find()->where(['id'=>$id])->one();
+                $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDep->id])->one();
+                $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
+                $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+
+                // var_dump($id);die;
+                $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelDep])->one();
+                $departBudget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDep])->one();
+
+                $modelDep->chief_status=2;
+                $modelDep->save(false);
+
+                $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;
+                $baru->save();
+            } else if ($reject->role == 8) {
                 $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
                 $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
                 $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
@@ -137,7 +185,7 @@ class ApprovalChiefActivityDailyController extends Controller
                 $modelSeksi->chief_status=2;
                 $modelSeksi->save(false);
 
-                $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
+                $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
                 $baru->save();
             }
 

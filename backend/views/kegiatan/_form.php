@@ -176,7 +176,8 @@ $list_seksi = array_values($array_seksi);
                 	    'attributeLatitude' => 'place_activity_x',
                 	    'attributeLongitude' => 'place_activity_y',
                 	    'googleMapApiKey' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
-                	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;', 'required' => true]
+                      'textOptions' => ['required'=>true,'style'=>'width:100%; height:40px;'],
+                	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;']
                 	])->label(false);
                 ?>
               </div>
@@ -196,6 +197,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
                 <?= \yii\jui\AutoComplete::widget([
                     'name' => 'ketua',
+                    'options' => ['required'=>true],
                     'clientOptions' => [
                         'source' => $list_seksi,
                     ],
@@ -209,6 +211,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'wakil',
+                  'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
                   ],
@@ -222,6 +225,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'sekretaris',
+                  'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
                   ],
@@ -235,6 +239,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'bendahara',
+                  'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
                   ],

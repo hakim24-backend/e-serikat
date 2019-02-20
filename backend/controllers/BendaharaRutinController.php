@@ -93,9 +93,12 @@ class BendaharaRutinController extends Controller
     {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $model->finance_status = 1;
-        $model->save(false);
-        Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
-        return $this->redirect(Yii::$app->request->referrer);
+
+        if($model->save(false)){
+          Yii::$app->getSession()->setFlash('success', 'Kegiatan Rutin Berhasil Disetujui');
+          return $this->redirect(Yii::$app->request->referrer);
+        }
+
         return $this->render([
             'model' => $model,
         ]);
@@ -108,21 +111,6 @@ class BendaharaRutinController extends Controller
       // retrieve existing Deposit data
       $model = ActivityDaily::find()->where(['id' => $id])->one();
       // var_dump($model->role);die;
-      $ketua = ActivityMainMember::find()
-          ->where(['activity_id' => $id])
-          ->andWhere(['name_committee' => "Ketua"])->one();
-      $wakil = ActivityMainMember::find()
-          ->where(['activity_id' => $id])
-          ->andWhere(['name_committee' => "Wakil"])
-          ->one();
-      $sekretaris = ActivityMainMember::find()
-          ->where(['activity_id' => $id])
-          ->andWhere(['name_committee' => "Sekretaris"])
-          ->one();
-      $bendahara = ActivityMainMember::find()
-          ->where(['activity_id' => $id])
-          ->andWhere(['name_committee' => "Bendahara"])
-          ->one();
 
       if ($model->role == 6) {
           $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
@@ -146,33 +134,10 @@ class BendaharaRutinController extends Controller
           $oldBudget = $baru->department_budget_value;
       }
 
-      // retrieve existing ActivitySection data
-      $oldActivitySectionIds = ActivitySection::find()->select('id')
-          ->where(['activity_id' => $id])->asArray()->all();
-      $oldActivitySectionIds = ArrayHelper::getColumn($oldActivitySectionIds, 'id');
-      $modelsSection = ActivitySection::findAll(['id' => $oldActivitySectionIds]);
-      $modelsSection = (empty($modelsSection)) ? [new ActivitySection] : $modelsSection;
-
-      // retrieve existing Loads data
-      $oldLoadIds = [];
-      foreach ($modelsSection as $i => $modelSection) {
-          $oldLoads = ActivitySectionMember::findAll(['section_activity_id' => $modelSection->id]);
-          $modelsMember[$i] = $oldLoads;
-          $oldLoadIds = array_merge($oldLoadIds, ArrayHelper::getColumn($oldLoads, 'id'));
-          $modelsMember[$i] = (empty($modelsMember[$i])) ? [new ActivitySectionMember] : $modelsMember[$i];
-      }
-
-
         return $this->render('view', [
             'model' => $model,
             'budget' => $budget,
             'baru' => $baru,
-            'ketua' => $ketua,
-            'wakil' => $wakil,
-            'sekretaris' => $sekretaris,
-            'bendahara' => $bendahara,
-            'modelsSection' => $modelsSection,
-            'modelsMember' => $modelsMember,
             'range' => $range,
             'range_start' => $range_start,
             'range_end' => $range_end,
