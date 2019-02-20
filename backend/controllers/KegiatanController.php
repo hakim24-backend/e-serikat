@@ -21,6 +21,7 @@ use common\models\SecretariatBudget;
 use common\models\ChiefBudget;
 use common\models\DepartmentBudget;
 use common\models\SectionBudget;
+
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -193,6 +194,7 @@ $role = Yii::$app->user->identity->role;
                $model->department_status = 0;
                $model->chief_status = 0;
              }
+
              $model->done = 0;
              $model->date_start = $post['from_date'];
              $model->date_end = $post['to_date'];

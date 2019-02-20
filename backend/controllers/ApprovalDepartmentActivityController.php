@@ -18,6 +18,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 /**
  * ApprovalDepartmentActivityResponsibilityController implements the CRUD actions for Activity model.
@@ -75,8 +76,77 @@ class ApprovalDepartmentActivityController extends Controller
      */
     public function actionView($id)
     {
+      $role = Yii::$app->user->identity->role;
+
+      // retrieve existing Deposit data
+      $model = Activity::find()->where(['id' => $id])->one();
+
+      $ketua = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Ketua"])->one();
+      $wakil = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Wakil"])
+          ->one();
+      $sekretaris = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Sekretaris"])
+          ->one();
+      $bendahara = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Bendahara"])
+          ->one();
+
+      if ($model->role == 6) {
+          $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
+          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->chief_budget_value;
+      } else if ($model->role == 8) {
+          $budget = ActivityBudgetSection::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetSection::find()->where(['section_budget_id' => $budget])->one();
+          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->section_budget_value;
+      }
+
+      // retrieve existing ActivitySection data
+      $oldActivitySectionIds = ActivitySection::find()->select('id')
+          ->where(['activity_id' => $id])->asArray()->all();
+      $oldActivitySectionIds = ArrayHelper::getColumn($oldActivitySectionIds, 'id');
+      $modelsSection = ActivitySection::findAll(['id' => $oldActivitySectionIds]);
+      $modelsSection = (empty($modelsSection)) ? [new ActivitySection] : $modelsSection;
+
+      // retrieve existing Loads data
+      $oldLoadIds = [];
+      foreach ($modelsSection as $i => $modelSection) {
+          $oldLoads = ActivitySectionMember::findAll(['section_activity_id' => $modelSection->id]);
+          $modelsMember[$i] = $oldLoads;
+          $oldLoadIds = array_merge($oldLoadIds, ArrayHelper::getColumn($oldLoads, 'id'));
+          $modelsMember[$i] = (empty($modelsMember[$i])) ? [new ActivitySectionMember] : $modelsMember[$i];
+      }
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'budget' => $budget,
+            'baru' => $baru,
+            'ketua' => $ketua,
+            'wakil' => $wakil,
+            'sekretaris' => $sekretaris,
+            'bendahara' => $bendahara,
+            'modelsSection' => $modelsSection,
+            'modelsMember' => $modelsMember,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
         ]);
     }
 
@@ -117,7 +187,7 @@ class ApprovalDepartmentActivityController extends Controller
             $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-            
+
             $model->department_status=2;
             $model->save(false);
 

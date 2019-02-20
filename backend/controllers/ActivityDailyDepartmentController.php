@@ -225,18 +225,29 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
      */
     public function actionView($id)
     {
-        $role = Yii::$app->user->identity->roleName();
+      $role = Yii::$app->user->identity->role;
 
-        $model = ActivityDaily::find()->where(['id' => $id])->one();
-        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
-        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
-        $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+      // retrieve existing Deposit data
+      $model = ActivityDaily::find()->where(['id' => $id])->one();
+
+      if ($model->role == 7) {
+          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
+          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget->id])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->department_budget_value;
+      }
 
         return $this->render('view', [
             'model' => $model,
             'budget' => $budget,
-            'awal' => $awal,
             'baru' => $baru,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
         ]);
     }
 

@@ -28,8 +28,8 @@ use wbraganca\dynamicform\DynamicFormWidget;
 $this->title = 'Data Kegiatan';
 $Role = Yii::$app->user->identity->roleName();
 
-$seksi = User::find()->all();
-$array_seksi = ArrayHelper::map(User::find()->where(['role'=>8])->all(), 'id','name');
+$seksi = User::find()->where(['role'=>8])->all();
+$array_seksi = ArrayHelper::map(User::find()->all(), 'id','name');
 $list_seksi = array_values($array_seksi);
 // $range = date('Y-m-d').' to '.date('Y-m-d');
 // $range_start = date('Y-m-d');
@@ -106,7 +106,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Judul/Tema</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true])->label(false) ?>
+                <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'background',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'purpose',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Sasaran Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4])->label(false) ?>
+                <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
               </div>
             </div>
           </div>
@@ -152,6 +152,7 @@ $list_seksi = array_values($array_seksi);
                 	    'attributeLatitude' => 'place_activity_x',
                 	    'attributeLongitude' => 'place_activity_y',
                 	    'googleMapApiKey' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
+                      'textOptions' => ['required'=>true],
                 	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;']
                 	])->label(false);
                 ?>
@@ -170,7 +171,14 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
-                <?= Html::dropDownList('ketua', $ketua->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8']) ?>
+              <?= \yii\jui\AutoComplete::widget([
+                  'name' => 'ketua',
+                  'value' => $ketua->name_member,
+                  'options' => ['required'=>true],
+                  'clientOptions' => [
+                      'source' => $list_seksi,
+                  ],
+              ]) ?>
             </div>
         </div>
     </div>
@@ -178,7 +186,14 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Wakil</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('wakil', $wakil->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8']) ?>
+              <?= \yii\jui\AutoComplete::widget([
+                  'name' => 'wakil',
+                  'value' => $wakil->name_member,
+                  'options' => ['required'=>true],
+                  'clientOptions' => [
+                      'source' => $list_seksi,
+                  ],
+              ]) ?>
             </div>
         </div>
     </div>
@@ -186,7 +201,14 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Sekretaris</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('sekretaris', $sekretaris->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8']) ?>
+              <?= \yii\jui\AutoComplete::widget([
+                  'name' => 'sekretaris',
+                  'value' => $sekretaris->name_member,
+                  'options' => ['required'=>true],
+                  'clientOptions' => [
+                      'source' => $list_seksi,
+                  ],
+              ]) ?>
             </div>
         </div>
     </div>
@@ -194,7 +216,14 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Bendahara</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('bendahara', $bendahara->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8']) ?>
+              <?= \yii\jui\AutoComplete::widget([
+                  'name' => 'bendahara',
+                  'value' => $bendahara->name_member,
+                  'options' => ['required'=>true],
+                  'clientOptions' => [
+                      'source' => $list_seksi,
+                  ],
+              ]) ?>
             </div>
         </div>
     </div>
@@ -284,7 +313,7 @@ $list_seksi = array_values($array_seksi);
 
                                   ?>
 
-                                  <?= $form->field($modelSection, "[{$indexSection}]section_name",['inputOptions'=>['autocomplete'=>'off']])->label(false)->textInput(['maxlength' => true]) ?>
+                                  <?= $form->field($modelSection, "[{$indexSection}]section_name",['inputOptions'=>['autocomplete'=>'off']])->label(false)->textInput(['maxlength' => true,'required'=>true]) ?>
 
                               </td>
 

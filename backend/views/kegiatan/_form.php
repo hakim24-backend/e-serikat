@@ -122,7 +122,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Nama Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'name_activity',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
             <div class="col-md-12">
@@ -130,7 +130,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Judul/Tema</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -140,7 +140,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'background')->textarea(['rows' => 4, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'purpose')->textarea(['rows' => 4, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -160,7 +160,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Sasaran Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -176,7 +176,8 @@ $list_seksi = array_values($array_seksi);
                 	    'attributeLatitude' => 'place_activity_x',
                 	    'attributeLongitude' => 'place_activity_y',
                 	    'googleMapApiKey' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
-                	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;', 'required' => true]
+                      'textOptions' => ['required'=>true,'style'=>'width:100%; height:40px;'],
+                	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;']
                 	])->label(false);
                 ?>
               </div>
@@ -196,6 +197,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
                 <?= \yii\jui\AutoComplete::widget([
                     'name' => 'ketua',
+                    'options' => ['required'=>true],
                     'clientOptions' => [
                         'source' => $list_seksi,
                         'required' => true
@@ -210,6 +212,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'wakil',
+                  'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
                       'required' => true
@@ -224,6 +227,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'sekretaris',
+                  'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
                       'required' => true
@@ -238,6 +242,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'bendahara',
+                  'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
                       'required' => true
@@ -332,7 +337,7 @@ $list_seksi = array_values($array_seksi);
 
                                   ?>
 
-                                  <?= $form->field($modelSection, "[{$indexSection}]section_name",['inputOptions'=>['autocomplete'=>'off']])->label(false)->textInput(['maxlength' => true, 'required' => true]) ?>
+                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']]) ?>
 
                               </td>
 
@@ -372,7 +377,6 @@ $list_seksi = array_values($array_seksi);
   </div>
 </div>
 
-<?php if($Role == "Sekretariat"){ ?>
 
   <div class="box box-info">
       <div class="box-body">
@@ -404,6 +408,8 @@ HTML;
                                       'format' => 'Y-m-d',
                                   ],
                                   'drops' => 'up',
+                                  'minDate' => $minDate,
+                                  'maxDate' => $maxDate,
                               ]
                           ]) . $addon;
                           echo '</div>';
@@ -414,53 +420,6 @@ HTML;
       </div>
           <br>
 
-
-
-<?php }else{ ?>
-
-  <div class="box box-info">
-      <div class="box-body">
-
-               <div class="" style="padding: 10px;">
-                <div class="">
-                 <label style="font-size: 14px;">Tanggal</label>
-                 <?php
-                      $addon = <<< HTML
-                          <span class="input-group-addon">
-                              <i class="glyphicon glyphicon-calendar"></i>
-                          </span>
-HTML;
-                          echo '<div class="input-group drp-container">';
-                          echo DateRangePicker::widget([
-                              'name'=>'date_range',
-                              'value'=>$range,
-                              'useWithAddon'=>true,
-                              'convertFormat'=>true,
-                              'startAttribute' => 'from_date',
-                              'endAttribute' => 'to_date',
-                              'startInputOptions' => ['value' => $range_start],
-                              'endInputOptions' => ['value' => $range_end],
-                              'options' => [
-                                  'class' => 'form-control',
-                              ],
-                              'pluginOptions'=>[
-                                  'locale'=>[
-                                      'format' => 'Y-m-d',
-                                  ],
-                                  'drops' => 'up',
-                                  'minDate' => date('Y-m-d',strtotime("-4 days")),
-                                  'maxDate' => date('Y-m-d',strtotime("+1 month")),
-                              ]
-                          ]) . $addon;
-                          echo '</div>';
-                 ?>
-                </div>
-              </div>
-          </div>
-      </div>
-          <br>
-
-<?php } ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

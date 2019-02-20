@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         ],
                                         'attribute' => 'date_end',
                                     ],
-[
+                                    [
                                         'attribute'=>'status',
                                         'header'=>'Status',
                                         'headerOptions' =>[
@@ -138,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
                                               return Html::a('| <span class="fa fa-download"></span> |', $url, [
                                                           'title' => Yii::t('app', 'download'),
-                                                          'data-pjax' => 0, 
+                                                          'data-pjax' => 0,
                                                           'target' => '_blank'
                                               ]);
                                             }

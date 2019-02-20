@@ -15,6 +15,15 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
 $this->title = 'Buat Data Kegiatan Rutin';
 
 $Role = Yii::$app->user->identity->roleName();
+
+if($Role != "Sekretariat"){
+  $minDate = date('Y-m-d',strtotime("-1 weeks"));
+  $maxDate = date('Y-m-d',strtotime("+1 month"));
+}else{
+  $minDate = 0;
+  $maxDate = 0;
+}
+
 ?>
 
 <div class="activity-daily-form">
@@ -60,7 +69,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Uang Muka Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
+                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 uang-muka', 'id'=>'value-budget']) ?>
                 </div>
             </div>
         </div>
@@ -70,7 +79,7 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control', 'id'=>'value-budget']) ?>
+                    <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 nilai-anggaran', 'id'=>'value-budget']) ?>
                 </div>
             </div>
         </div>
@@ -124,14 +133,15 @@ HTML;
                             'endInputOptions' => ['value' => $range_end],
                             'options' => [
                                 'class' => 'form-control',
+                                'required'=>true,
                             ],
                             'pluginOptions'=>[
                                 'locale'=>[
                                     'format' => 'Y-m-d',
                                 ],
                                 'drops' => 'up',
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
-                                'maxDate' => date('Y-m-d',strtotime("+1 month")),
+                                'minDate' => $minDate,
+                                'maxDate' => $maxDate,
                             ]
                         ]) . $addon;
                         echo '</div>';
@@ -199,7 +209,6 @@ $('.uang-muka ').on('change',function(){
     }
 
 });
-
 
 $('#jenis-asal').on('change',function(){
     var tipe = $('#jenis-asal').val();

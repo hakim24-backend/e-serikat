@@ -319,15 +319,6 @@ echo $romawi .'/SKPG'; ?>
         </tr>
     </tbody>
 </table>
-<table>
-    <tbody>
-        <tr>
-            <td width="270">Telah disetujui sistem</td>
-            <td width="270">Tidak diperlukan</td>
-            <td>Tidak diperlukan</td>
-        </tr>
-    </tbody>
-</table>
 <br>
 <br>
 <br>
