@@ -35,13 +35,13 @@ $date = date('Y-m-d');
           }
     }
     -->
-    </style>
+</style>
 </head>
 <body>
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-  <span>NO : <?= $model->id.'/' ?>
+  <span>NO : <?= $model->id.'/'.$sekre->chief_code.'/'?>
   <?php
   $bulan = date('n');
   $romawi = getRomawi($bulan);

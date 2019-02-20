@@ -41,7 +41,7 @@ $date = date('Y-m-d');
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-<span>NO : <?= $model->id.'/' ?>
+<span>NO : <?= $model->id.'/'.$sekre->depart_code.'/' ?>
 <?php
 $bulan = date('n');
 $romawi = getRomawi($bulan);
@@ -231,7 +231,7 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
-                <td>Rp.<?=$anggaran-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
         </tr>
     </tbody>
 </table>

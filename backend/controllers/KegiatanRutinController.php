@@ -478,7 +478,7 @@ class KegiatanRutinController extends Controller
         $baru = SectionBudget::find()->where(['id'=>$awal])->one();
         $sekre = Section::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
-        $anggaran = $baru->secretariat_budget_value + $budget->budget_value_dp;
+        $anggaran = $baru->section_budget_value + $budget->budget_value_dp;
     }
 
     $content = $this->renderPartial('view_pdf',[

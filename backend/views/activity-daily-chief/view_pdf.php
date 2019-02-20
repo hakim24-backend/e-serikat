@@ -16,58 +16,23 @@ $this->params['breadcrumbs'][] = $this->title;
 $Role = Yii::$app->user->identity->roleName();
 $date = date('Y-m-d');
 ?>
-
 <html>
 <head>
 <style type="text/css">
-<!--
-#apDiv1 {
-    position:absolute;
-    left:136px;
-    top:16px;
-    width:431px;
-    height:116px;
-    z-index:1;
-}
-#apDiv2 {
-    position:absolute;
-    left:635px;
-    top:180px;
-    width:63px;
-    height:32px;
-    z-index:2;
-}
-.style3 {
-    font-size: 20px;
-    font-weight: bold;
-}
-.style9 {font-size: 15px}
-.style10 {font-size: 15px}
-#apDiv3 {
-    position:absolute;
-    left:607px;
-    top:205px;
-    width:86px;
-    height:35px;
-    z-index:2;
-}
-#apDiv4 {
-    position:absolute;
-    left:78px;
-    top:163px;
-    width:534px;
-    height:111px;
-    z-index:3;
-}
-#apDiv5 {
-    position:absolute;
-    left:527px;
-    top:204px;
-    width:73px;
-    height:57px;
-    z-index:4;
-}
--->
+    <!--
+    @page {
+              size: 29.7cm 21cm  portrait;   /*A4*/
+              padding:0; margin:1;
+              top:0; left:0; right:0;bottom:0; border:0;
+          }
+
+          @media print {
+              .table{
+                margin-bottom: 0px;
+              }
+          }
+    }
+    -->
 </style>
 </head>
 <body style="color:#000066;">
@@ -75,8 +40,7 @@ $date = date('Y-m-d');
 <p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-<span>
-NO : <?= $model->id.'/' ?>
+<span>NO : <?= $model->id.'/'.$sekre->chief_code.'/' ?>
 <?php
 $bulan = date('n');
 $romawi = getRomawi($bulan);
