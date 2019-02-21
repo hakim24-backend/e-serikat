@@ -20,6 +20,14 @@ $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'i
 $this->params['breadcrumbs'][] = 'Update';
 
 $Role = Yii::$app->user->identity->roleName();
+
+if($Role != "Sekretariat"){
+  $minDate = date('Y-m-d',strtotime("-1 weeks"));
+  $maxDate = date('Y-m-d',strtotime("+1 month"));
+}else{
+  $minDate = 0;
+  $maxDate = 0;
+}
 ?>
 <div class="activity-daily-form">
 
@@ -124,8 +132,8 @@ HTML;
                                 'locale'=>[
                                     'format' => 'Y-m-d'
                                 ],
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
-                                'maxDate' => date('Y-m-d',strtotime("+1 month")),
+                                'minDate' => $minDate,
+                                'maxDate' => $maxDate,
                             ]
                         ]) . $addon;
                         echo '</div>';

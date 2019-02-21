@@ -379,7 +379,7 @@ HTML;
                                     'format' => 'Y-m-d',
                                 ],
                                 'drops' => 'up',
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
+                                'minDate' => date('Y-m-d',strtotime("-1 weeks")),
                                 'maxDate' => date('Y-m-d',strtotime("+1 month")),
                             ]
                         ]) . $addon;

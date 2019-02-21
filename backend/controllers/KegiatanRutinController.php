@@ -217,7 +217,7 @@ class KegiatanRutinController extends Controller
                         $sectionId = \common\models\Section::find()->where(['user_id' => $id_user])->one();
                         $depId = \common\models\Department::find()->where(['id' => $sectionId->id_depart])->one();
                         $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
-                    
+
                         $daily->role = 8;
                         $daily->finance_status = 0;
                         $daily->department_status = 0;
@@ -476,24 +476,22 @@ class KegiatanRutinController extends Controller
         $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+        $kodeid = Secretariat::find()->where(['id'=>$baru])->one();
 
     } else if ($role == "Seksi") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
         $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
+        $kodeid = Section::find()->where(['id'=>$baru])->one();
         $department = Department::find()->where(['id'=>$model->department_code_id])->one();
-        $seksiId = Section::find()->where(['id_depart'=>$department->id])->one();
     }
 
     $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
-            'sekre'=>$sekre,
-            'seksiId'=>$seksiId
+            'kodeid'=>$kodeid,
         ]);
 
         // setup kartik\mpdf\Pdf component
