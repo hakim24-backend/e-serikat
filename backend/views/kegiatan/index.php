@@ -119,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'template' => ' {update} {view} {download} ',
                                       'buttons' => [
                                           'update' => function ($url, $model) {
-                                            if( $model->finance_status == 2 &&  $model->department_status ==2 &&  $model->chief_status ==2){
+                                            if($model->finance_status == 0 || $model->finance_status == 2 && $model->department_status == 0 || $model->department_status ==2 && $model->chief_status == 0 || $model->chief_status ==2){
                                             if(Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3'){
                                               return Html::a('| <span class="fa fa-pencil"></span>', $url, [
                                                           'title' => Yii::t('app', 'update'),

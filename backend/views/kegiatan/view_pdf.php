@@ -42,9 +42,9 @@ $date = date('Y-m-d');
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
 <?php if ($Role == "Sekretariat") { ?>
-<span>NO : <?= $model->id.'/'.$sekre->secretariat_code.'/' ?>
+<span>NO : <?= $model->id.'/'.$kodeid->secretariat_code.'/' ?>
 <?php } else if ($Role == "Seksi") { ?>
-<span>NO : <?= $model->id.'/'.$seksiId->section_code.'/' ?>
+<span>NO : <?= $model->id.'/'.$kodeid->section_code.'/' ?>
 <?php } ?>
 <?php
 $bulan = date('n');
@@ -62,14 +62,19 @@ echo $romawi .'/SKPG'; ?>
         </tr>
         <tr>
             <td>Nama</td>
-            <td>: <?=$seksiId->section_name?></td>
+            <?php if ($Role == "Sekretariat") { ?>
+            <td>: <?=$kodeid->secretariat_name?></td>
+            <?php } else if ($Role == "Seksi") { ?>
+            <td>: <?=$kodeid->section_name?></td>
+            <?php } ?>
+
         </tr>
         <tr>
             <td>Unit Kerja</td>
             <?php if ($Role == "Sekretariat") { ?>
-            <td>: <?=$sekre->secretariat_code?></td>
+            <td>: <?=$kodeid->secretariat_code?></td>
             <?php } else if ($Role == "Seksi") { ?>
-            <td>: <?=$seksiId->section_code?></td>
+            <td>: <?=$kodeid->section_code?></td>
             <?php } ?>
 
         </tr>
@@ -116,8 +121,17 @@ echo $romawi .'/SKPG'; ?>
             <tr>
                 <td>Nama Anggota Seksi</td>
                 <td>:</td>
-                <?php foreach ($sectionMember as $key => $value) { ?>
-                    <td><?=$value->section_name_member?></td>
+                <?php foreach ($sectionMember as $key => $value) {
+                    if($key == 0){ ?>
+                      <td><?=$value->section_name_member?></td>
+                    <?php }else{ ?>
+                      <tr>
+                      <td></td>
+                      <td></td>
+                      <td><?=$value->section_name_member?></td>
+                      </tr>
+                    <?php }
+                   ?>
                <?php } ?>
             </tr>
             <tr>
@@ -155,7 +169,7 @@ echo $romawi .'/SKPG'; ?>
             <?php } ?>
         </tr>
         <tr>
-            <td>Latar Belakang</td>
+            <td valign="top">Latar Belakang</td>
             <td>:</td>
             <?php if ($Role == "Sekretariat") { ?>
                 <td><?=$model->background?></td>

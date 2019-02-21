@@ -54,9 +54,9 @@ $list_seksi = array_values($array_seksi);
           <div class="box-body">
               <div class="col-sm-12">
                   <div class="form-group">
-                      <label class="col-sm-4">Jenis SDM</label>
+                      <label class="col-sm-4">Sumber Dana</label>
                       <div class="col-sm-8">
-                          <?= Html::dropDownList('jenis_sdm_source', null , [6 => 'Ketua'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
+                          <?= Html::dropDownList('jenis_sdm_source', null , [6 => 'Ketua'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
                       </div>
                   </div>
               </div>

@@ -599,7 +599,7 @@ $role = Yii::$app->user->identity->role;
           $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
           $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
           $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-          $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+          $kodeid = Secretariat::find()->where(['id'=>$baru])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
@@ -614,7 +614,7 @@ $role = Yii::$app->user->identity->role;
           $baru = SectionBudget::find()->where(['id'=>$awal])->one();
           $sekre = Secretariat::find()->where(['id'=>$baru])->one();
           $department = Department::find()->where(['id'=>$model->department_code_id])->one();
-          $seksiId = Section::find()->where(['id_depart'=>$department->id])->one();
+          $kodeid = Section::find()->where(['id_depart'=>$department->id])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
@@ -633,8 +633,7 @@ $role = Yii::$app->user->identity->role;
             'wakil'=>$wakil,
             'sekretaris'=>$sekretaris,
             'bendahara'=>$bendahara,
-            'sekre'=>$sekre,
-            'seksiId'=>$seksiId
+            'kodeid'=>$kodeid
         ]);
 
         // setup kartik\mpdf\Pdf component
