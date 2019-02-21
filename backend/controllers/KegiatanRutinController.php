@@ -6,6 +6,7 @@ use Yii;
 use common\models\ActivityDaily;
 use common\models\Budget;
 use common\models\Secretariat;
+use common\models\Department;
 use common\models\Section;
 use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
@@ -77,7 +78,7 @@ class KegiatanRutinController extends Controller
             ]);
         } elseif ($role == "Seksi") {
             $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>8])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
+            'query' => ActivityDaily::find()->where(['role'=>8])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0]),
             ]);
         } elseif ($role == "Bendahara") {
             $dataProvider = new ActiveDataProvider([
@@ -210,6 +211,7 @@ class KegiatanRutinController extends Controller
                         $daily->finance_status = 1;
                         $daily->department_status = 1;
                         $daily->chief_status = 1;
+
                     } elseif ($role == "Seksi") {
                         $id_user = Yii::$app->user->identity->id;
                         $sectionId = \common\models\Section::find()->where(['user_id' => $id_user])->one();
@@ -475,8 +477,6 @@ class KegiatanRutinController extends Controller
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
         $sekre = Secretariat::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
-        $anggaran = $baru->secretariat_budget_value + $budget->budget_value_dp;
 
     } else if ($role == "Seksi") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
@@ -484,17 +484,16 @@ class KegiatanRutinController extends Controller
         $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
         $baru = SectionBudget::find()->where(['id'=>$awal])->one();
         $sekre = Section::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
-        $anggaran = $baru->section_budget_value + $budget->budget_value_dp;
+        $department = Department::find()->where(['id'=>$model->department_code_id])->one();
+        $seksiId = Section::find()->where(['id_depart'=>$department->id])->one();
     }
 
     $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
-            'sumber'=>$sumber,
             'sekre'=>$sekre,
-            'anggaran'=>$anggaran
+            'seksiId'=>$seksiId
         ]);
 
         // setup kartik\mpdf\Pdf component

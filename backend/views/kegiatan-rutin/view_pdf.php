@@ -44,7 +44,7 @@ $date = date('Y-m-d');
 <?php if ($Role == "Sekretariat") { ?>
 <span>NO : <?= $model->id.'/'.$sekre->secretariat_code.'/' ?>
 <?php } else if ($Role == "Seksi") { ?>
-<span>NO : <?= $model->id.'/'.$sekre->section_code.'/' ?>
+<span>NO : <?= $model->id.'/'.$seksiId->section_code.'/' ?>
 <?php } ?>
 <?php
 $bulan = date('n');
@@ -63,14 +63,14 @@ echo $romawi .'/SKPG'; ?>
         </tr>
         <tr>
             <td>Nama</td>
-            <td>: <?=Yii::$app->user->identity->username?></td>
+            <td>:<?=$seksiId->section_name?></td>
         </tr>
         <tr>
             <td>Unit Kerja</td>
             <?php if ($Role == "Sekretariat") { ?>
                 <td>: <?=$sekre->secretariat_code?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>: <?=$sekre->section_code?></td>
+                <td>: <?=$seksiId->section_code?></td>
             <?php } ?>
         </tr>
     </tbody>
@@ -106,9 +106,9 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$anggaran?></td>
+                <td>Rp.<?=$baru->secretariat_budget_value + $budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$anggaran?></td>
+                <td>Rp.<?=$baru->section_budget_value + $budget->budget_value_dp?></td>
             <?php } ?>
         </tr>
         <tr>

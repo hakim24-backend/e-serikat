@@ -15,6 +15,7 @@ use common\models\Approve;
 use common\models\User;
 use common\models\Section;
 use common\models\Secretariat;
+use common\models\Department;
 use common\models\Budget;
 use common\models\TransferRecord;
 use common\models\SecretariatBudget;
@@ -605,12 +606,15 @@ $role = Yii::$app->user->identity->role;
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
+
         } else if ($role == 8) {
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
           $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
           $baru = SectionBudget::find()->where(['id'=>$awal])->one();
           $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+          $department = Department::find()->where(['id'=>$model->department_code_id])->one();
+          $seksiId = Section::find()->where(['id_depart'=>$department->id])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
@@ -629,7 +633,8 @@ $role = Yii::$app->user->identity->role;
             'wakil'=>$wakil,
             'sekretaris'=>$sekretaris,
             'bendahara'=>$bendahara,
-            'sekre'=>$sekre
+            'sekre'=>$sekre,
+            'seksiId'=>$seksiId
         ]);
 
         // setup kartik\mpdf\Pdf component
