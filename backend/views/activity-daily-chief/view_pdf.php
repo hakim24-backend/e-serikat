@@ -40,7 +40,7 @@ $date = date('Y-m-d');
 <p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-<span>NO : <?= $model->id.'/'.$sekre->chief_code.'/' ?>
+<span>NO : <?= $model->id.'/'.$chief->chief_code.'/' ?>
 <?php
 $bulan = date('n');
 $romawi = getRomawi($bulan);
@@ -58,29 +58,11 @@ echo $romawi .'/SKPG'; ?>
         </tr>
         <tr>
             <td>Nama</td>
-            <td>: <?=Yii::$app->user->identity->username?></td>
+            <td>: <?=$chief->chief_name?></td>
         </tr>
         <tr>
             <td>Unit Kerja</td>
-            <td>: <?=$sekre->chief_code?></td>
-        </tr>
-    </tbody>
-</table>
-<br>
-<table>
-    <tbody>
-        <tr>
-            <td width="200"><strong>Kode Anggaran</strong></td>
-        </tr>
-        <tr>
-            <td>Kode Anggaran Pengelola</td>
-            <td>:</td>
-            <td><?=$sumber->budget_code?></td>
-        </tr>
-        <tr>
-            <td>Kode Anggaran Penerima</td>
-            <td>:</td>
-            <td><?=$baru->chief_budget_code?></td>
+            <td>: <?=$chief->chief_code?></td>
         </tr>
     </tbody>
 </table>
@@ -108,7 +90,7 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
-            <td>Rp.<?=$baru->chief_budget_value?></td>
+            <td>Rp.<?=$baru->chief_budget_value+$budget->budget_value_dp?></td>
         </tr>
         <tr>
             <td>Waktu Pelaksanaan</td>

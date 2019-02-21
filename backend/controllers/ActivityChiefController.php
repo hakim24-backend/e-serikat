@@ -81,9 +81,14 @@ class ActivityChiefController extends \yii\web\Controller
             $model->done = 0;
             $model->date_start = $post['from_date'];
             $model->date_end = $post['to_date'];
-            $model->department_code_id = $depId->id;
-            $model->chief_code_id = $chiefId->id;
-            $data = ChiefBudget::findOne($post['source_sdm']);
+            if ($depId == null) {
+                $model->chief_code_id = $chiefId->id;
+                $data = ChiefBudget::findOne($post['source_sdm']);
+            } else {
+                $model->department_code_id = $depId->id;
+                $model->chief_code_id = $chiefId->id;
+                $data = ChiefBudget::findOne($post['source_sdm']);
+            }
 
             if ($post['money_budget'] > $post['source_value']) {
                 Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
@@ -450,29 +455,25 @@ class ActivityChiefController extends \yii\web\Controller
           $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model->id])->one();
           $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
           $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
-          $sekre = Chief::find()->where(['id'=>$baru])->one();
-          $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $chief = Chief::find()->where(['id'=>$model->chief_code_id])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model->id])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model->id])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$model->id])->one();
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$model->id])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$model->id])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$model->id])->one();
-          $anggaran = $baru->chief_budget_value + $budget->budget_value_dp;
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
-            'sumber'=>$sumber,
-            'sekre'=>$sekre,
+            'chief'=>$chief,
             'section'=>$section,
             'mainMember'=>$mainMember,
             'ketua'=>$ketua,
             'wakil'=>$wakil,
             'sekretaris'=>$sekretaris,
             'bendahara'=>$bendahara,
-            'anggaran'=>$anggaran
         ]);
 
         // setup kartik\mpdf\Pdf component

@@ -211,10 +211,17 @@ class KegiatanRutinController extends Controller
                         $daily->department_status = 1;
                         $daily->chief_status = 1;
                     } elseif ($role == "Seksi") {
+                        $id_user = Yii::$app->user->identity->id;
+                        $sectionId = \common\models\Section::find()->where(['user_id' => $id_user])->one();
+                        $depId = \common\models\Department::find()->where(['id' => $sectionId->id_depart])->one();
+                        $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
+                    
                         $daily->role = 8;
                         $daily->finance_status = 0;
                         $daily->department_status = 0;
                         $daily->chief_status = 0;
+                        $daily->department_code_id = $depId->id;
+                        $daily->chief_code_id = $chiefId->id;
                     }
 
                     $daily->date_start = $post['from_date'];

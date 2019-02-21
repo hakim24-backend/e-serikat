@@ -168,7 +168,7 @@ class ApprovalChiefActivityController extends Controller
     {
         $model = new ActivityReject();
         $reject = Activity::find()->where(['id'=>$id])->one();
-        // var_dump($reject->role);die;
+
         if ($model->load(Yii::$app->request->post())) {
             $model->activity_id = $id;
             $save = $model->save(false);

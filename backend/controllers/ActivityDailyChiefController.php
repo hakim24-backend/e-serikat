@@ -151,8 +151,12 @@ class ActivityDailyChiefController extends Controller
                 $daily->date_start = $post['from_date'];
                 $daily->date_end = $post['to_date'];
                 $daily->done = 0;
-                $daily->department_code_id = $depId->id;
-                $daily->chief_code_id = $chiefId->id;
+                if ($depId == null) {
+                    $daily->chief_code_id = $chiefId->id;
+                } else {
+                    $daily->department_code_id = $depId->id;
+                    $daily->chief_code_id = $chiefId->id;
+                }
 
                 $save = $daily->save(false);
 
@@ -283,17 +287,13 @@ class ActivityDailyChiefController extends Controller
           $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model])->one();
           $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
           $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
-          $sekre = Chief::find()->where(['id'=>$baru])->one();
-          $sumber = Budget::find()->where(['id'=>$baru])->one();
-          $anggaran = $baru->chief_budget_value + $budget->budget_value_dp;
+          $chief = Chief::find()->where(['id'=>$model->chief_code_id])->one();
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
-            'sumber'=>$sumber,
-            'sekre'=>$sekre,
-            'anggaran'=>$anggaran
+            'chief'=>$chief
         ]);
 
         // setup kartik\mpdf\Pdf component
