@@ -41,7 +41,7 @@ $date = date('Y-m-d');
 <p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-<span>NO : <?= $model->id.'/' ?>
+<span>NO : <?= $model->id.'/'.$department->depart_code.'/' ?>
 <?php
 $bulan = date('n');
 $romawi = getRomawi($bulan);
@@ -58,11 +58,11 @@ echo $romawi .'/SKPG'; ?>
         </tr>
         <tr>
             <td>Nama</td>
-            <td>: <?=Yii::$app->user->identity->username?></td>
+            <td>: <?=$department->depart_name?></td>
         </tr>
         <tr>
             <td>Unit Kerja</td>
-            <td>: <?=$sekre->depart_code?></td>
+            <td>: <?=$department->depart_code?></td>
         </tr>
     </tbody>
 </table>
@@ -166,7 +166,7 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
-                <td>Rp.<?=$anggaran?></td>
+                <td>Rp.<?=$baru->department_budget_value+$budget->budget_value_dp?></td>
         </tr>
         <tr>
             <td>Waktu Pelaksanaan</td>
@@ -231,7 +231,7 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
-                <td>Rp.<?=$anggaran-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
         </tr>
     </tbody>
 </table>

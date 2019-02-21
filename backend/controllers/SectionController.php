@@ -119,7 +119,7 @@ class SectionController extends Controller
             if ($listSeksi == null) {
                 $counter = '001';
             } else {
-                $counter = explode('-', $listSeksi['section_code'])[1];
+                $counter = explode('-', $listSeksi['section_code'])[2];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
             $code = $kodeSeksi.''.$counter;

@@ -200,6 +200,7 @@ $list_seksi = array_values($array_seksi);
                     'options' => ['required'=>true],
                     'clientOptions' => [
                         'source' => $list_seksi,
+                        'required' => true
                     ],
                 ]) ?>
             </div>
@@ -214,6 +215,7 @@ $list_seksi = array_values($array_seksi);
                   'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
+                      'required' => true
                   ],
               ]) ?>
             </div>
@@ -228,6 +230,7 @@ $list_seksi = array_values($array_seksi);
                   'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
+                      'required' => true
                   ],
               ]) ?>
             </div>
@@ -242,6 +245,7 @@ $list_seksi = array_values($array_seksi);
                   'options' => ['required'=>true],
                   'clientOptions' => [
                       'source' => $list_seksi,
+                      'required' => true
                   ],
               ]) ?>
             </div>

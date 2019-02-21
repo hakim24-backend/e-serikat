@@ -15,13 +15,13 @@ use common\models\Approve;
 use common\models\User;
 use common\models\Section;
 use common\models\Secretariat;
+use common\models\Department;
 use common\models\Budget;
 use common\models\TransferRecord;
 use common\models\SecretariatBudget;
 use common\models\ChiefBudget;
 use common\models\DepartmentBudget;
 use common\models\SectionBudget;
-
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -190,9 +190,16 @@ $role = Yii::$app->user->identity->role;
                $model->department_status = 1;
                $model->chief_status = 1;
              } elseif ($role == 8) {
+               $id_user = Yii::$app->user->identity->id;
+               $sectionId = \common\models\Section::find()->where(['user_id' => $id_user])->one();
+               $depId = \common\models\Department::find()->where(['id' => $sectionId->id_depart])->one();
+               $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
+
                $model->finance_status = 0;
                $model->department_status = 0;
                $model->chief_status = 0;
+               $model->department_code_id = $depId->id;
+               $model->chief_code_id = $chiefId->id;
              }
 
              $model->done = 0;
@@ -593,43 +600,41 @@ $role = Yii::$app->user->identity->role;
           $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
           $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
           $sekre = Secretariat::find()->where(['id'=>$baru])->one();
-          $sumber = Budget::find()->where(['id'=>$baru])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
-          $anggaran = $baru->secretariat_budget_value + $budget->budget_value_dp;
+
         } else if ($role == 8) {
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
           $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
           $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-          $sekre = Section::find()->where(['id'=>$baru])->one();
-          $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+          $department = Department::find()->where(['id'=>$model->department_code_id])->one();
+          $seksiId = Section::find()->where(['id_depart'=>$department->id])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
-          $anggaran = $baru->section_budget_value + $budget->budget_value_dp;
         }
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,
             'baru'=>$baru,
-            'sumber'=>$sumber,
-            'sekre'=>$sekre,
             'section'=>$section,
             'mainMember'=>$mainMember,
             'ketua'=>$ketua,
             'wakil'=>$wakil,
             'sekretaris'=>$sekretaris,
             'bendahara'=>$bendahara,
-            'anggaran'=>$anggaran
+            'sekre'=>$sekre,
+            'seksiId'=>$seksiId
         ]);
 
         // setup kartik\mpdf\Pdf component

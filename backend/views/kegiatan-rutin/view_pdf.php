@@ -20,54 +20,20 @@ $date = date('Y-m-d');
 <html>
 <head>
 <style type="text/css">
-<!--
-#apDiv1 {
-    position:absolute;
-    left:136px;
-    top:16px;
-    width:431px;
-    height:116px;
-    z-index:1;
-}
-#apDiv2 {
-    position:absolute;
-    left:635px;
-    top:180px;
-    width:63px;
-    height:32px;
-    z-index:2;
-}
-.style3 {
-    font-size: 20px;
-    font-weight: bold;
-}
-.style9 {font-size: 15px}
-.style10 {font-size: 15px}
-#apDiv3 {
-    position:absolute;
-    left:607px;
-    top:205px;
-    width:86px;
-    height:35px;
-    z-index:2;
-}
-#apDiv4 {
-    position:absolute;
-    left:78px;
-    top:163px;
-    width:534px;
-    height:111px;
-    z-index:3;
-}
-#apDiv5 {
-    position:absolute;
-    left:527px;
-    top:204px;
-    width:73px;
-    height:57px;
-    z-index:4;
-}
--->
+    <!--
+    @page {
+              size: 29.7cm 21cm  portrait;   /*A4*/
+              padding:0; margin:1;
+              top:0; left:0; right:0;bottom:0; border:0;
+          }
+
+          @media print {
+              .table{
+                margin-bottom: 0px;
+              }
+          }
+    }
+    -->
 </style>
 </head>
 <body style="color:#000066;">
@@ -75,7 +41,17 @@ $date = date('Y-m-d');
 <p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
     <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
   <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-    <span>NO : 834932482342</span><br>
+<?php if ($Role == "Sekretariat") { ?>
+<span>NO : <?= $model->id.'/'.$sekre->secretariat_code.'/' ?>
+<?php } else if ($Role == "Seksi") { ?>
+<span>NO : <?= $model->id.'/'.$seksiId->section_code.'/' ?>
+<?php } ?>
+<?php
+$bulan = date('n');
+$romawi = getRomawi($bulan);
+echo $romawi .'/SKPG'; ?>
+<?php echo '/'.date("Y"); ?>
+</span><br>
 
 <hr style="color:#000000;"></hr>
 
@@ -87,26 +63,14 @@ $date = date('Y-m-d');
         </tr>
         <tr>
             <td>Nama</td>
-            <td>: <?=Yii::$app->user->identity->username?></td>
+            <td>:<?=$seksiId->section_name?></td>
         </tr>
         <tr>
             <td>Unit Kerja</td>
-            <?php if ($Role == "Super Admin") { ?>
-                <td>: <?=$sekre->secretariat_code?></td>
-            <?php } else if ($Role == "Sekretariat") { ?>
+            <?php if ($Role == "Sekretariat") { ?>
                 <td>: <?=$sekre->secretariat_code?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>: <?=$sekre->section_code?></td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>Nomor Rekening</td>
-            <?php if ($Role == "Super Admin") { ?>
-                <td>: <?=$sumber->budget_rek?></td>
-            <?php } else if ($Role == "Sekretariat") { ?>
-                <td>: <?=$sumber->budget_rek?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>: <?=$sumber->budget_rek?></td>
+                <td>: <?=$seksiId->section_code?></td>
             <?php } ?>
         </tr>
     </tbody>
@@ -142,9 +106,9 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$anggaran?></td>
+                <td>Rp.<?=$baru->secretariat_budget_value + $budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$anggaran?></td>
+                <td>Rp.<?=$baru->section_budget_value + $budget->budget_value_dp?></td>
             <?php } ?>
         </tr>
         <tr>
@@ -241,9 +205,9 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>Sisa Nilai Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$anggaran-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$$anggaran-$budget->budget_value_dp?></td>
+                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
             <?php } ?>
         </tr>
     </tbody>
@@ -300,4 +264,46 @@ $date = date('Y-m-d');
     </tbody>
 </table>
 </body>
+<?php
+function getRomawi($bln){
+                switch ($bln){
+                    case 1:
+                        return "I";
+                        break;
+                    case 2:
+                        return "II";
+                        break;
+                    case 3:
+                        return "III";
+                        break;
+                    case 4:
+                        return "IV";
+                        break;
+                    case 5:
+                        return "V";
+                        break;
+                    case 6:
+                        return "VI";
+                        break;
+                    case 7:
+                        return "VII";
+                        break;
+                    case 8:
+                        return "VIII";
+                        break;
+                    case 9:
+                        return "IX";
+                        break;
+                    case 10:
+                        return "X";
+                        break;
+                    case 11:
+                        return "XI";
+                        break;
+                    case 12:
+                        return "XII";
+                        break;
+                }
+}
+?>
 </html>

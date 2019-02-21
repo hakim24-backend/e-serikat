@@ -162,6 +162,7 @@ HTML;
 <?php
 $url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
 $url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');
+$url3 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/check-anggaran?value=');
 
 $js=<<<js
 $('#jenis-tujuan').on('change',function(){
@@ -174,7 +175,6 @@ $('#jenis-tujuan').on('change',function(){
        $('select#kode-tujuan').html(data);
     });
 });
-
 
 $('.nilai-anggaran').on('change',function(){
     var uangmuka = $('.uang-muka').val();
@@ -215,7 +215,7 @@ $('#jenis-asal').on('change',function(){
     $.ajax({
         url : "$url" + tipe,
         dataType : 'html',
-        type : 'post'
+        type : 'post',
     }).done(function(data){
        $('select#kode-asal').html(data);
     });

@@ -124,7 +124,7 @@ class DepartmentController extends Controller
             if ($listDepartemen == null) {
                 $counter = '001';
             } else {
-                $counter = explode('-', $listDepartemen['depart_code'])[1];
+                $counter = explode('-', $listDepartemen['depart_code'])[2];
                 $counter = str_pad($counter+1, 3, '0', STR_PAD_LEFT);
             }
             $code = $kodeDepartemen.''.$counter;
