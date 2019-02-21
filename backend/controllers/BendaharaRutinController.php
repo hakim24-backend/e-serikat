@@ -204,7 +204,7 @@ class BendaharaRutinController extends Controller
                 $baru->save(false);
             }
 
-        Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');
+        Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Ditolak');
         return $this->redirect(['index']);
 
         }

@@ -454,8 +454,8 @@ class ActivityDepartmentController extends \yii\web\Controller
           $awal = ActivityBudgetDepartment::find()->where(['Department_budget_id'=>$budget])->one();
           $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
           $department = Department::find()->where(['id'=>$model->department_code_id])->one();
-          $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
-          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
+          $section = ActivitySection::find()->where(['activity_id'=>$model->id])->all();
+          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model->id])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();

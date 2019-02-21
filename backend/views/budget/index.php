@@ -58,10 +58,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'attribute' => 'budget_value',
                                     ],
 
-                                    [
-                                    'header' => 'Nilai Rekening',
-                                    'attribute' => 'budget_rek',
-                                    ],
 
                                     [
                                       'class' => 'yii\grid\ActionColumn',

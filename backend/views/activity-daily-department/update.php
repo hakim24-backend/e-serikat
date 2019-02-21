@@ -38,9 +38,9 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                 <div class="col-sm-8">
-                   
+
                     <?= $baru->department_budget_value ?>
-                  
+
                 </div>
             </div>
         </div>
@@ -120,7 +120,7 @@ HTML;
                                 'locale'=>[
                                     'format' => 'Y-m-d'
                                 ],
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
+                                'minDate' => date('Y-m-d',strtotime("-1 week")),
                                 'maxDate' => date('Y-m-d',strtotime("+1 month")),
                             ]
                         ]) . $addon;

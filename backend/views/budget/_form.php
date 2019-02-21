@@ -33,8 +33,6 @@ $this->title = 'Data Sumber Dana';
 
     <?= $form->field($model, 'budget_value')->textInput(['required'=>true])->label('Nilai Saldo') ?>
 
-    <?= $form->field($model, 'budget_rek')->textInput(['required'=>true])->label('Nilai Rekening') ?>
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>

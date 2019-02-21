@@ -31,11 +31,11 @@ $Role = Yii::$app->user->identity->roleName();
         <div class="box-body">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label class="col-sm-4">Jenis SDM</label>
+                    <label class="col-sm-4">Sumber Dana</label>
                     <div class="col-sm-8">
-                        
-                        <?=Html::dropDownList('jenis_sdm_source', null, [7 => 'Department'], ['prompt' => 'Pilih Jenis SDM', 'class' => 'col-sm-8 form-control', 'id' => 'jenis-asal'])?>
-                        
+
+                        <?=Html::dropDownList('jenis_sdm_source', null, [7 => 'Department'], ['prompt' => 'Pilih Sumber Dana', 'class' => 'col-sm-8 form-control', 'id' => 'jenis-asal'])?>
+
                     </div>
                 </div>
             </div>
@@ -127,7 +127,7 @@ echo DateRangePicker::widget([
             'format' => 'Y-m-d',
         ],
         'drops' => 'up',
-        'minDate' => date('Y-m-d', strtotime("-3 days")),
+        'minDate' => date('Y-m-d', strtotime("-1 week")),
         'maxDate' => date('Y-m-d', strtotime("+1 month")),
     ],
 ]) . $addon;

@@ -113,10 +113,10 @@ $list_seksi = array_values($array_seksi);
             </div>
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Judul</label>
+                <label>Nama Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true,'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>

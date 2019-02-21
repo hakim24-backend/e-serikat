@@ -482,8 +482,8 @@ class KegiatanRutinController extends Controller
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-        $kodeid = Section::find()->where(['id'=>$baru])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+        $kodeid = Section::find()->where(['id'=>$baru->section_id])->one();
         $department = Department::find()->where(['id'=>$model->department_code_id])->one();
     }
 
