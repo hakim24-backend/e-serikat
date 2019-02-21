@@ -371,13 +371,13 @@ class ActivityChiefController extends \yii\web\Controller
     {
 
       $role = Yii::$app->user->identity->role;
-
       // retrieve existing Deposit data
       $model = Activity::find()->where(['id' => $id])->one();
 
       $ketua = ActivityMainMember::find()
           ->where(['activity_id' => $id])
           ->andWhere(['name_committee' => "Ketua"])->one();
+          // var_dump($ketua->name_member);die;
       $wakil = ActivityMainMember::find()
           ->where(['activity_id' => $id])
           ->andWhere(['name_committee' => "Wakil"])
@@ -459,6 +459,7 @@ class ActivityChiefController extends \yii\web\Controller
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$model->id])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$model->id])->one();
           $anggaran = $baru->chief_budget_value + $budget->budget_value_dp;
+          // var_dump($ketua->name_member);die;
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,

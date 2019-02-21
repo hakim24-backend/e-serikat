@@ -534,8 +534,10 @@ class KegiatanRutinController extends Controller
 
     public function actionKodeTujuan($id)
     {
+
         if ($id=='4') {
-            $data = SecretariatBudget::find()->all();
+            $user_id = Yii::$app->user->identity->sekre->id;
+            $data = SecretariatBudget::find()->where(['secretariat_id'=>$user_id])->all();
             echo "<option value=0'> Pilih Kode Anggaran </option>";
 
             if ($data) {
@@ -545,7 +547,8 @@ class KegiatanRutinController extends Controller
                 $budgetSekre = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$datas])->one();
             }
         }elseif ($id=='6') {
-            $data = ChiefBudget::find()->all();
+            $user_id = Yii::$app->user->identity->chief->id;
+            $data = ChiefBudget::find()->where(['chief_id'=>$user_id])->all();
             echo "<option value=0'> Pilih Kode Anggaran </option>";
 
             if ($data) {
@@ -554,7 +557,9 @@ class KegiatanRutinController extends Controller
                 }
             }
         }elseif ($id=='7') {
-            $data = DepartmentBudget::find()->all();
+            $user_id = Yii::$app->user->identity->department->id;
+
+            $data = DepartmentBudget::find()->where(['department_id'=>$user_id])->all();
             echo "<option value=0'> Pilih Kode Anggaran </option>";
 
             if ($data) {
@@ -563,7 +568,9 @@ class KegiatanRutinController extends Controller
                 }
             }
         }elseif ($id=='8') {
-            $data = SectionBudget::find()->all();
+            $user_id = Yii::$app->user->identity->section->id;
+
+            $data = SectionBudget::find()->where(['section_id'=>$user_id])->all();
             echo "<option value=0'> Pilih Kode Anggaran </option>";
 
             if ($data) {
