@@ -70,7 +70,7 @@ class KegiatanController extends Controller
     public function actionIndex()
     {
         $role = Yii::$app->user->identity->role;
-        if($role != 1 && $role != 5){
+        if($role != 1 && $role != 5 && $role != 2 && $role !=3){
           $dataProvider = new ActiveDataProvider([
             'query' => Activity::find()->where(['role'=>$role]),
           ]);

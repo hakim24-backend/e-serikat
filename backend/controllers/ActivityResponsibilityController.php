@@ -72,6 +72,10 @@ class ActivityResponsibilityController extends Controller
           $dataProvider = new ActiveDataProvider([
             'query' => Activity::find()->where(['role'=>8])->Andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
           ]);
+        }else if($role == 2 || $role == 3){
+          $dataProvider = new ActiveDataProvider([
+            'query' => Activity::find()->where(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
+          ]);
         }
 
         return $this->render('index', [
@@ -268,7 +272,7 @@ class ActivityResponsibilityController extends Controller
 
         foreach ($oldPhotos as $key => $oldPhoto) {
           unlink($uploadPath.$oldPhoto);
-        }  
+        }
         Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
         $model->delete();
         return $this->redirect(Yii::$app->request->referrer);
@@ -300,7 +304,7 @@ class ActivityResponsibilityController extends Controller
             'budget'=>$budget,
             'baru'=>$baru,
             'sumber'=>$sumber,
-            'sekre'=>$sekre,  
+            'sekre'=>$sekre,
             'lpj'=>$lpj
         ]);
 

@@ -68,7 +68,7 @@ class KegiatanRutinController extends Controller
     {
         $role = Yii::$app->user->identity->roleName();
 
-        if ($role == "Super Admin") {
+        if ($role == "Super Admin" || $role == "Ketua Umum" || $role == "Sekertaris Umum") {
             $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find(),
             ]);
