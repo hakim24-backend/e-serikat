@@ -62,10 +62,16 @@ class ChiefApprovalActivityResponsibilityController extends Controller
      */
     public function actionIndex()
     {
+      $role = Yii::$app->user->identity->role;
+      $id_chief = Yii::$app->user->identity->chief->id;
+
+
         $dataProvider = new ActiveDataProvider([
             'query' => Activity::find()
                       ->joinWith('activityResponsibilities')
                       ->where(['activity.chief_status'=>1])
+                      ->andWhere(['role' => $role])
+                      ->andWhere(['chief_code_id'=>$id_chief])
                       ->andWhere(['activity_responsibility.responsibility_value'=>1])
                       ->andWhere(['activity.done'=>0]),
         ]);

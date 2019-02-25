@@ -59,8 +59,12 @@ class ActivityDailyChiefController extends Controller
     {
 
         $role = Yii::$app->user->identity->role;
+        $id_chief = Yii::$app->user->identity->chief->id;
+
         $dataProvider = new ActiveDataProvider([
-          'query' => ActivityDaily::find()->where(['role' => $role]),
+          'query' => ActivityDaily::find()
+                    ->where(['role' => $role])
+                    ->andWhere(['chief_code_id'=>$id_chief]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

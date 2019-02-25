@@ -57,8 +57,15 @@ class ChiefActivityResponsibilityController extends Controller
      */
     public function actionIndex()
     {
+        $id_chief = Yii::$app->user->identity->chief->id;
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>6])->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
+            'query' => Activity::find()
+                        ->where(['role'=>6])
+                        ->andWhere(['chief_code_id'=>$id_chief])
+                        ->andWhere(['finance_status'=> 1])
+                        ->andWhere(['chief_status'=>1])
+                        ->andWhere(['department_status'=>1]),
         ]);
 
         return $this->render('index', [

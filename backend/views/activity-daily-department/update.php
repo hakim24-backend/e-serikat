@@ -48,16 +48,6 @@ $Role = Yii::$app->user->identity->roleName();
         <br>
         <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Uang Muka Anggaran</label>
-                <div class="col-sm-8">
-                    <?= $form->field($budget, 'budget_value_dp')->textInput( )->label(false); ?>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="col-sm-12">
-            <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
                     <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?>

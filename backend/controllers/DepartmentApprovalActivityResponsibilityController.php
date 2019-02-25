@@ -56,9 +56,19 @@ class DepartmentApprovalActivityResponsibilityController extends Controller
      */
     public function actionIndex()
     {
+
+      $role = Yii::$app->user->identity->role;
+      $atasan = Yii::$app->user->identity->department->id_chief;
+
+
         $dataProvider = new ActiveDataProvider([
             'query' => Activity::find()
+                      ->joinWith('activityBudgetDepartments')
+                      ->joinWith('activityBudgetDepartments.departmentBudget')
+                      ->joinWith('activityBudgetDepartments.departmentBudget.department')
                       ->joinWith('activityResponsibilities')
+                      ->where(['role'=>$role])
+                      ->andWhere(['department.id_chief'=>$atasan])
                       ->where(['activity.department_status'=>1])
                       ->andWhere(['activity_responsibility.responsibility_value'=>0])
                       ->andWhere(['activity.done'=>0]),

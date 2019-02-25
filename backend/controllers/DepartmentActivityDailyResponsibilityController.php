@@ -65,9 +65,21 @@ class DepartmentActivityDailyResponsibilityController extends Controller
      */
     public function actionIndex()
     {
+        $role = Yii::$app->user->identity->role;
+        $atasan = Yii::$app->user->identity->department->id_chief;
+
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>7])->andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
+            'query' => ActivityDaily::find()
+                        ->joinWith('activityDailyBudgetDeparts')
+                        ->joinWith('activityDailyBudgetDeparts.departmentBudget')
+                        ->joinWith('activityDailyBudgetDeparts.departmentBudget.department')
+                        ->where(['role'=>$role])
+                        ->andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1])
+                        ->andWhere(['department.id_chief'=>$atasan])
+                        ->andWhere(['activity_daily.done'=>0]),
+
         ]);
+
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

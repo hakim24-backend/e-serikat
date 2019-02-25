@@ -62,10 +62,16 @@ class ChiefApprovalActivityDailyResponsibilityController extends Controller
      */
     public function actionIndex()
     {
+
+      $role = Yii::$app->user->identity->role;
+      $id_chief = Yii::$app->user->identity->chief->id;
+
         $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find()
                       ->joinWith('activityDailyResponsibilities')
                       ->where(['activity_daily.chief_status'=>1])
+                      ->andWhere(['role' => $role])
+                      ->andWhere(['chief_code_id'=>$id_chief])
                       ->andWhere(['activity_daily_responsibility.responsibility_value'=>1])
                       ->andWhere(['activity_daily.done'=>0]),
         ]);
@@ -113,7 +119,7 @@ class ChiefApprovalActivityDailyResponsibilityController extends Controller
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Selesai');
         return $this->redirect(Yii::$app->request->referrer);
-        
+
         return $this->render([
             'model' => $model,
         ]);

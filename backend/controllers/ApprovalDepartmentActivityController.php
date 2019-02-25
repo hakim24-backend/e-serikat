@@ -60,9 +60,22 @@ class ApprovalDepartmentActivityController extends Controller
      */
     public function actionIndex()
     {
+
+        $role = Yii::$app->user->identity->role;
+        $atasan = Yii::$app->user->identity->department->id_chief;
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0]),
+            'query' => Activity::find()
+                        ->joinWith('activityBudgetDepartments')
+                        ->joinWith('activityBudgetDepartments.departmentBudget')
+                        ->joinWith('activityBudgetDepartments.departmentBudget.department')
+                        ->where(['role'=>$role])
+                        ->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0])
+                        ->andWhere(['department.id_chief'=>$atasan]),
         ]);
+
+
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

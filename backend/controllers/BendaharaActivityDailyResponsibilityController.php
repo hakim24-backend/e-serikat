@@ -111,7 +111,7 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
             $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelSeksi->id])->one();
             $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-            $baru = ChiefBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+            $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
 
             $baru->department_budget_value=$baru->department_budget_value-$budget->budget_value_sum;
             $baru->save();
