@@ -73,8 +73,18 @@ class ActivityDailyResponsibilityController extends Controller
             'query' => ActivityDaily::find()->where(['role'=>4])->Andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
           ]);
         }elseif ($role == 8) {
+          $atasan = Yii::$app->user->identity->section->id_depart;
+
           $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>8])->Andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
+            'query' => ActivityDaily::find()
+            ->joinWith('activityDailyBudgetSections')
+            ->joinWith('activityDailyBudgetSections.sectionBudget')
+            ->joinWith('activityDailyBudgetSections.sectionBudget.section')
+            ->where(['activity_daily.role'=>8])
+            ->andWhere(['section.id_depart'=>$atasan])
+            ->Andwhere(['activity_daily.finance_status'=> 1])
+            ->andWhere(['activity_daily.department_status'=> 1])
+            ->andWhere(['activity_daily.chief_status'=> 1]),
           ]);
         }elseif ($role == 2 || $role == 3) {
           $dataProvider = new ActiveDataProvider([

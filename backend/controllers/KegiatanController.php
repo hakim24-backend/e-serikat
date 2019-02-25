@@ -70,10 +70,30 @@ class KegiatanController extends Controller
     public function actionIndex()
     {
         $role = Yii::$app->user->identity->role;
-        if($role != 1 && $role != 5 && $role != 2 && $role !=3){
-          $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>$role]),
-          ]);
+        // $department = Yii::$app->user->identity->section->id_depart;
+        if($role != 1 && $role != 5 && $role != 2 && $role !=3 && $role != 4){
+          if($role == 8){
+            $atasan = Yii::$app->user->identity->section->id_depart;
+            $dataProvider = new ActiveDataProvider([
+              'query' => Activity::find()
+                        ->joinWith('activityBudgetSections')
+                        ->joinWith('activityBudgetSections.sectionBudget')
+                        ->joinWith('activityBudgetSections.sectionBudget.section')
+                        ->where(['activity.role'=>$role])
+                        ->andWhere(['section.id_depart'=>$atasan]),
+            ]);
+
+          }else if($role == 7){
+            $atasan = Yii::$app->user->identity->department->id_chief;
+            $dataProvider = new ActiveDataProvider([
+              'query' => Activity::find()
+                        ->joinWith('activityBudgetDepartments')
+                        ->joinWith('activityBudgetDepartments.departmentBudget')
+                        ->joinWith('activityBudgetDepartments.departmentBudget.department')
+                        ->where(['activity.role'=>$role])
+                        ->andWhere(['department.id_chief'=>$atasan]),
+            ]);
+          }
         }else{
           $dataProvider = new ActiveDataProvider([
             'query' => Activity::find(),

@@ -69,8 +69,17 @@ class ActivityResponsibilityController extends Controller
             'query' => Activity::find()->where(['role'=>4])->Andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
           ]);
         }elseif ($role == 8) {
+          $atasan = Yii::$app->user->identity->section->id_depart;
           $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>8])->Andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
+            'query' => Activity::find()
+                        ->joinWith('activityBudgetSections')
+                        ->joinWith('activityBudgetSections.sectionBudget')
+                        ->joinWith('activityBudgetSections.sectionBudget.section')
+                        ->where(['activity.role'=>8])
+                        ->Andwhere(['activity.finance_status'=> 1])
+                        ->andWhere(['activity.department_status'=> 1])
+                        ->andWhere(['activity.chief_status'=> 1])
+                        ->andWhere(['section.id_depart'=>$atasan]),
           ]);
         }else if($role == 2 || $role == 3){
           $dataProvider = new ActiveDataProvider([
@@ -115,12 +124,19 @@ class ActivityResponsibilityController extends Controller
     public function actionCreate($id)
     {
 
-        $activity = Activity::find()->where(['id'=>$id])->one();
-        $modelBudget = ActivityBudgetSection::find()->where(['activity_id'=>$activity->id])->one();
-        $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$modelBudget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
-
         $model = new ActivityResponsibility();
+        $role = Yii::$app->user->identity->role;
+        $activity = Activity::find()->where(['id'=>$id])->one();
+        if($role == 8){
+          $modelBudget = ActivityBudgetSection::find()->where(['activity_id'=>$activity->id])->one();
+          $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$modelBudget])->one();
+          $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+        }else if($role == 4){
+          $modelBudget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$activity->id])->one();
+          $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$modelBudget])->one();
+          $baru = SecretariatBudget::find()->where(['id'=>$awal->secretariat_budget_id])->one();
+        }
+
 
         if ($model->load(Yii::$app->request->post())&& $modelBudget->load(Yii::$app->request->post())) {
 
@@ -162,20 +178,37 @@ class ActivityResponsibilityController extends Controller
 
             $tmp = rtrim($tmp,'**');
             $model->photo = $tmp;
-            $model->responsibility_value = 0;
             $model->activity_id = $id ;
 
-            if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
+            if($role == 8){
+              $model->responsibility_value = 0;
+              if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
 
-              Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
-              return $this->redirect(Yii::$app->request->referrer);
-            }else{
-              $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
-              // var_dump($danaReal);die;
-              $danaPotong = $baru->section_budget_value + $danaReal;
-              $baru->section_budget_value = $danaPotong;
-              if($baru->save(false)){
-                $modelBudget->save(false);
+                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                return $this->redirect(Yii::$app->request->referrer);
+              }else{
+                $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
+                // var_dump($danaReal);die;
+                $danaPotong = $baru->section_budget_value + $danaReal;
+                $baru->section_budget_value = $danaPotong;
+                if($baru->save(false)){
+                  $modelBudget->save(false);
+                }
+              }
+            }else if($role == 4){
+              $model->responsibility_value = 2;
+              if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->secretariat_budget_value ){
+
+                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                return $this->redirect(Yii::$app->request->referrer);
+              }else{
+                $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
+                // var_dump($danaReal);die;
+                $danaPotong = $baru->secretariat_budget_value + $danaReal;
+                $baru->secretariat_budget_value = $danaPotong;
+                if($baru->save(false)){
+                  $modelBudget->save(false);
+                }
               }
             }
 
@@ -201,8 +234,12 @@ class ActivityResponsibilityController extends Controller
     public function actionUpdate($id)
     {
         // var_dump($id);die;
+        $role = Yii::$app->user->identity->role;
+
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
         $activity = Activity::find()->where(['id'=>$id])->one();
+
+
         $modelBudget = ActivityBudgetSection::find()->where(['activity_id'=>$activity->id])->one();
         $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$modelBudget])->one();
         $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();

@@ -77,8 +77,14 @@ class KegiatanRutinController extends Controller
             'query' => ActivityDaily::find()->where(['role'=>4])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
             ]);
         } elseif ($role == "Seksi") {
+            $atasan = Yii::$app->user->identity->section->id_depart;
             $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>8])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0]),
+            'query' => ActivityDaily::find()
+                        ->joinWith('activityDailyBudgetSections')
+                        ->joinWith('activityDailyBudgetSections.sectionBudget')
+                        ->joinWith('activityDailyBudgetSections.sectionBudget.section')
+                        ->where(['activity_daily.role'=>8])
+                        ->andWhere(['section.id_depart'=>$atasan]),
             ]);
         } elseif ($role == "Bendahara") {
             $dataProvider = new ActiveDataProvider([

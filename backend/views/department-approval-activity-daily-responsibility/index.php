@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 //     $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
                                                 //     return Html::a(
                                                 //         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                //         $url, 
+                                                //         $url,
                                                 //         [
                                                 //             'title' => 'Edit Pertanggungjawaban',
                                                 //         ]
@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['/department-approval-activity-daily-responsibility/closing', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-ok"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Closing Pertanggungjawaban',
                                                         ]
@@ -101,27 +101,26 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['/department-approval-activity-daily-responsibility/view', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-eye-open"></span> |',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'View Pertanggungjawaban',
                                                         ]
                                                     );
                                         },
-                                        // 'download' => function($url, $model, $key)
-                                        // {
-                                        //             $url = Url::toRoute(['/bendahara-activity-daily-responsibility/report', 'id' => $model->id]);
-                                        //             return Html::a(
-                                        //                 '| <span class="glyphicon glyphicon-download"></span> |',
-                                        //                 $url, 
-                                        //                 [
-                                        //                     'title' => 'Download Pertanggungjawaban',
-                                        //                     'data-pjax' => 0, 
-                                        //                     'target' => '_blank'
-                                        //                 ]
-                                        //             );
-                                        // },
-                                    ]
-                                
+                                        'download' => function($url, $model, $key)
+                                        {
+                                                    $url = Url::toRoute(['/department-approval-activity-daily-responsibility/report', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        ' <span class="glyphicon glyphicon-download"></span> |',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Download Pertanggungjawaban',
+                                                            'data-pjax' => 0,
+                                                            'target' => '_blank'
+                                                        ]
+                                                    );
+                                        },                                    ]
+
                                 ],
 
                             ],
