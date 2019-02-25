@@ -329,9 +329,9 @@ class ActivityDailyResponsibilityController extends Controller
 
     if ($role == "Sekretariat") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-        $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+        $baru = SecretariatBudget::find()->where(['id'=>$awal->secretariat_budget_id])->one();
         $sekre = Secretariat::find()->where(['id'=>$baru])->one();
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         $departName = Department::find()->where(['id'=>$departID])->one();
@@ -339,9 +339,9 @@ class ActivityDailyResponsibilityController extends Controller
         $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
     } else if ($role == "Seksi") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
+        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
         $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
         $sekre = Section::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();

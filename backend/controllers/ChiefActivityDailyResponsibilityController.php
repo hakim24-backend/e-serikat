@@ -249,9 +249,9 @@ class ChiefActivityDailyResponsibilityController extends Controller
     public function actionReport($id) {
 
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model])->one();
+        $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model->id])->one();
         $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-        $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+        $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
         $sekre = Chief::find()->where(['id'=>$baru])->one();
         // $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         // $departName = Department::find()->where(['id'=>$departID])->one();

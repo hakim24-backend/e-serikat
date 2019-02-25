@@ -312,9 +312,9 @@ class DepartmentActivityDailyResponsibilityController extends Controller
     public function actionReport($id) {
 
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model])->one();
+        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model->id])->one();
         $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-        $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+        $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
         $sekre = Department::find()->where(['id'=>$baru])->one();
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         $departName = Department::find()->where(['id'=>$departID])->one();

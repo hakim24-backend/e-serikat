@@ -289,9 +289,9 @@ class DepartmentActivityResponsibilityController extends Controller
     public function actionReport($id) {
 
           $model = Activity::find()->where(['id'=>$id])->one();
-          $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model])->one();
+          $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model->id])->one();
           $awal = ActivityBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
-          $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+          $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
           $sekre = Department::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
           $departID = Section::find()->where(['id_depart'=>$sekre])->one();

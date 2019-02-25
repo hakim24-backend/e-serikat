@@ -287,9 +287,9 @@ class ChiefActivityResponsibilityController extends Controller
     public function actionReport($id) {
 
           $model = Activity::find()->where(['id'=>$id])->one();
-          $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model])->one();
+          $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model->id])->one();
           $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-          $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
           $sekre = Chief::find()->where(['id'=>$baru])->one();
           $sumber = Budget::find()->where(['id'=>$baru])->one();
           $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();

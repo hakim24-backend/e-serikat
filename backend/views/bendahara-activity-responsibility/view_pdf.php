@@ -154,14 +154,18 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td colspan="4">Jumlah Uang yang Diterima.</td>
-              <td class="text-center"><?=$budget->budget_value_dp?></td>
+              <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
               <?php if ($report->role == 4) { ?>
-                <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
+                <td class="text-center"><?=$baru->secretariat_budget_value?></td>
+              <?php } elseif ($report->role == 6) { ?>
+                <td class="text-center"><?=$baru->chief_budget_value?></td>
+              <?php } elseif ($report->role == 7) { ?>
+                <td class="text-center"><?=$baru->department_budget_value?></td>
               <?php } elseif ($report->role == 8) { ?>
-                <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
+                <td class="text-center"><?=$baru->section_budget_value?></td>
               <?php } ?>
             </tr>
             <tr>
