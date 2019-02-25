@@ -92,7 +92,7 @@ class ChiefApprovalActivityResponsibilityController extends Controller
     public function actionClosing($id)
     {
         $model = Activity::find()->where(['id'=>$id])->one();
-        $responsibility = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
+        $responsibility = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
 
         if ($responsibility == null) {
             Yii::$app->getSession()->setFlash('warning', 'Tidak Dapat Approve Pertangungjawaban Karena Data Pertangungjawaban Tidak Ada');

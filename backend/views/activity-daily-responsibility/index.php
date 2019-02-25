@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
 
                                 [
-                                'header' => 'Tangal Mulai',
+                                'header' => 'Tanggal Mulai',
                                 'headerOptions' =>[
                                   'style' => 'width:15%'
                                 ],
@@ -64,13 +64,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'date_end',
                                 ],
 
-                                [
-                                'header' => 'Status Anggaran',
-                                'headerOptions'=>[
-                                  'style'=>'width:15%'
-                                ],
-                                'attribute' => 'finance_status',
-                                ],
 
                                 [
 

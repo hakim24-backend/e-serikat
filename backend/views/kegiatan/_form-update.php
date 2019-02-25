@@ -60,7 +60,7 @@ if($Role != "Sekretariat"){
             <div class="col-sm-12">
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" id ="nilai-sekarang">
                         <?php
                         if($Role == "Sekretariat"){ ?>
                         <?= $baru->secretariat_budget_value ?>
@@ -74,19 +74,9 @@ if($Role != "Sekretariat"){
             <br>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label class="col-sm-4">Uang Muka Anggaran</label>
-                    <div class="col-sm-8">
-                        <?= $form->field($budget, 'budget_value_dp')->textInput( )->label(false); ?>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div class="col-sm-12">
-                <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran</label>
                     <div class="col-sm-8">
-                        <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?>
+                        <?= $form->field($budget, 'budget_value_sum')->textInput(['class'=>'nilai-anggaran'])->label(false); ?>
                     </div>
                 </div>
             </div>
@@ -458,7 +448,19 @@ $('#kode-asal').on('change',function(){
         });
     });
 });
+$('.nilai-anggaran').on('change',function(){
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
 
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(nilaianggaran) > res){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+    }
+
+
+});
 $('#kode-tujuan').on('change',function(){
     var tipe = $('#jenis-tujuan').val();
     var kode = $('#kode-tujuan').val();

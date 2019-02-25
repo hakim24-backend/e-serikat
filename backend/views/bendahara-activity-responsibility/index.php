@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     [
                                         'header' => 'Tujuan',
                                         'headerOptions' =>[
-                                        'style' => 'width:25%'
+                                        'style' => 'width:22%'
                                         ],
                                         'attribute' => 'purpose',
                                     ],
@@ -71,6 +71,31 @@ $this->params['breadcrumbs'][] = $this->title;
                                         ],
                                         'attribute' => 'date_end',
                                     ],
+                                    [
+                                      'attribute' => 'Status',
+                                      'filter' => false,
+                                      'format' => 'raw',
+                                       'value' => function ($model) {
+                                         if($model->activityResponsibilities[0]['responsibility_value'] == '0')
+                                         {
+                                             return '<span class="label label-info">Belum Dikonfirmasi</span>';
+                                         }
+                                         else if($model->activityResponsibilities[0]['responsibility_value'] == '1')
+                                         {
+                                             return '<span class="label label-success">Diterima Kepala Departemen</span>';
+                                         }
+                                         else if($model->activityResponsibilities[0]['responsibility_value'] == '2')
+                                         {
+                                           return '<span class="label label-success">Diterima Ketua</span>';
+                                         }
+                                         else if($model->activityResponsibilities[0]['responsibility_value'] == '3')
+                                         {
+                                           return '<span class="label label-success">Selesai</span>';
+                                         }
+                                       },
+                                    ],
+
+
                                 [
 
                                 'class' => 'yii\grid\ActionColumn',
@@ -83,20 +108,25 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 //     $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
                                                 //     return Html::a(
                                                 //         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                //         $url, 
+                                                //         $url,
                                                 //         [
                                                 //             'title' => 'Edit Pertanggungjawaban',
                                                 //         ]
                                                 //     );
                                                 // } else {
+                                                if($model->activityResponsibilities){
+                                                  if($model->activityResponsibilities[0]['responsibility_value'] == 2){
+
                                                     $url = Url::toRoute(['/bendahara-activity-responsibility/closing', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '| <span class="glyphicon glyphicon-ok"></span> ',
-                                                        $url, 
-                                                        [
-                                                            'title' => 'Closing Pertanggungjawaban',
-                                                        ]
+                                                      '| <span class="glyphicon glyphicon-ok"></span> ',
+                                                      $url,
+                                                      [
+                                                        'title' => 'Closing Pertanggungjawaban',
+                                                      ]
                                                     );
+                                                  }
+                                                }
                                                 // }
                                         },
                                         'view' => function($url, $model, $key)
@@ -104,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['/bendahara-activity-responsibility/view', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-eye-open"></span> |',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',
                                                         ]
@@ -115,10 +145,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['/bendahara-activity-responsibility/report', 'id' => $model->id]);
                                                     return Html::a(
                                                         ' <span class="glyphicon glyphicon-download"></span> |',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',
-                                                            'data-pjax' => 0, 
+                                                            'data-pjax' => 0,
                                                             'target' => '_blank'
                                                         ]
                                                     );

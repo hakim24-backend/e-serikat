@@ -114,8 +114,15 @@ class ActivityResponsibilityController extends Controller
      */
     public function actionCreate($id)
     {
+
+        $activity = Activity::find()->where(['id'=>$id])->one();
+        $modelBudget = ActivityBudgetSection::find()->where(['activity_id'=>$activity->id])->one();
+        $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$modelBudget])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+
         $model = new ActivityResponsibility();
-        if ($model->load(Yii::$app->request->post())) {
+
+        if ($model->load(Yii::$app->request->post())&&$modelBudget->load(Yii::$app->request->post())) {
 
             $file_dok = UploadedFile::getInstances($model, 'fileApproves');
             $uploadPath = Yii::getAlias('@backend')."/web/template";
@@ -155,9 +162,23 @@ class ActivityResponsibilityController extends Controller
 
             $tmp = rtrim($tmp,'**');
             $model->photo = $tmp;
-
             $model->responsibility_value = 0;
             $model->activity_id = $id ;
+
+            if((float)$modelBudget->budget_value_dp >= $baru->section_budget_value ){
+
+              Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+              return $this->redirect(Yii::$app->request->referrer);
+            }else{
+              $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
+              // var_dump($danaReal);die;
+              $danaPotong = $baru->section_budget_value + $danaReal;
+              $baru->section_budget_value = $danaPotong;
+              if($baru->save(false)){
+                $modelBudget->save(false);
+              }
+            }
+
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
             return $this->redirect(['activity-responsibility/index/']);
@@ -165,6 +186,8 @@ class ActivityResponsibilityController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'modelBudget' => $modelBudget,
+            'baru' => $baru,
         ]);
     }
 
@@ -177,10 +200,16 @@ class ActivityResponsibilityController extends Controller
      */
     public function actionUpdate($id)
     {
+        // var_dump($id);die;
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
+        $activity = Activity::find()->where(['id'=>$id])->one();
+        $modelBudget = ActivityBudgetSection::find()->where(['activity_id'=>$activity->id])->one();
+        $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$modelBudget])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+
         $oldfiles = explode("**", $model->file);
         $oldPhotos = explode("**", $model->photo);
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())&&$modelBudget->load(Yii::$app->request->post())) {
 
 
                 $file_dok = UploadedFile::getInstances($model, 'fileApproves');
@@ -236,19 +265,32 @@ class ActivityResponsibilityController extends Controller
                 $model->photo = $tmp;
                 }
 
-                $model->save(false);
-                Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['index','id'=>$model->activity_id]);
-
-
-            } else {
-                $model->save(false);
-                Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['index','id'=>$model->activity_id]);
             }
+
+                if((float)$modelBudget->budget_value_dp >= $baru->section_budget_value ){
+
+                  Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                  return $this->redirect(Yii::$app->request->referrer);
+                }else{
+                  $balikDana = $baru->section_budget_value + $oldDana;
+                  $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
+                  // $danaPotong = ($baru->section_budget_value + $oldDana) + $danaReal;
+                  // var_dump($danaReal);die;
+                  $baru->section_budget_value = $danaReal;
+                  if($baru->save(false)){
+                    $modelBudget->save(false);
+                  }
+                }
+
+                $model->responsibility_value = 0;
+                $model->save(false);
+                Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
+                return $this->redirect(['index','id'=>$model->activity_id]);
         }
         return $this->render('update', [
             'model' => $model,
+            'modelBudget' => $modelBudget,
+            'baru' => $baru,
         ]);
     }
 

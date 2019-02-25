@@ -104,8 +104,7 @@ class ChiefActivityDailyResponsibilityController extends Controller
             $file_gambar->saveAs($fotoName);
 
 
-            $model->description = $model->description;
-            $model->responsibility_value = 0;
+            $model->responsibility_value = 2;
             $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
             $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
             $model->activity_id = $activity->id ;
@@ -168,7 +167,7 @@ class ChiefActivityDailyResponsibilityController extends Controller
 
 
             } else {
-                $model->description = $model->description;
+                $model->responsibility_value = 2;
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
                 return $this->redirect(['highlight','id'=>$model->activity_id]);

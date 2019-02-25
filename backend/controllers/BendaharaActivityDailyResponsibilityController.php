@@ -59,8 +59,11 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
             'query' => ActivityDaily::find()
                       ->joinWith('activityDailyResponsibilities')
                       ->where(['activity_daily.finance_status'=>1])
-                      ->andWhere(['activity_daily_responsibility.responsibility_value'=>2])
-                      ->andWhere(['activity_daily.done'=>0]),
+                      ->andWhere(['or',
+                      ['activity_daily_responsibility.responsibility_value'=>2],
+                      ['activity_daily_responsibility.responsibility_value'=>3],
+                    ]),
+
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -93,7 +96,7 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
             $baru->section_budget_value=$baru->section_budget_value-$budget->budget_value_sum;
             $baru->save();
         }
-            
+
             $model->done = 1;
             $model->save(false);
 
@@ -135,7 +138,7 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
     public function actionReport($id) {
 
     $report = ActivityDaily::find()->where(['id'=>$id])->one();
-     
+
     if ($report->role == 4) {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();

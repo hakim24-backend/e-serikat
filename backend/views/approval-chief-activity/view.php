@@ -67,16 +67,7 @@ $list_seksi = array_values($array_seksi);
                     </div>
                 </div>
             </div>
-            <br>
-            <br>
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label class="col-sm-4">Uang Muka Anggaran</label>
-                    <div class="col-sm-8">
-                        <?= $form->field($budget, 'budget_value_dp')->textInput(['class' => 'form-control', 'disabled'=>true])->label(false); ?>
-                    </div>
-                </div>
-            </div>
+
             <br>
             <br>
             <div class="col-sm-12">

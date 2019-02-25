@@ -218,10 +218,7 @@ $role = Yii::$app->user->identity->role;
                    }
                  }
 
-                if ($post['money_budget'] > $post['source_value']) {
-                 Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                 return $this->redirect(Yii::$app->request->referrer);
-                }
+
              } elseif ($role == 8) {
                 $data = SectionBudget::findOne($post['source_sdm']);
                 // var_dump($data);die;
@@ -238,12 +235,12 @@ $role = Yii::$app->user->identity->role;
 
              if ($post['jenis_sdm_source']=='4') {
                  $data = SecretariatBudget::findOne($post['source_sdm']);
-                 $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['money_budget'];
+                 $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['source_value'];
                  $data->save();
                  $idSekreBudget = $data->id;
              } else if ($post['jenis_sdm_source']=='8') {
                  $data = SectionBudget::findOne($post['source_sdm']);
-                 $data->section_budget_value=$data->section_budget_value-(float)$post['money_budget'];
+                 $data->section_budget_value=$data->section_budget_value-(float)$post['source_value'];
                  $data->save();
                  $idSectionBudget = $data->id;
              }
@@ -310,7 +307,6 @@ $role = Yii::$app->user->identity->role;
                        if ($role == 4) {
                            $sekreBudget = new ActivityBudgetSecretariat();
                            $sekreBudget->secretariat_budget_id = $idSekreBudget;
-                           $sekreBudget->budget_value_dp = $post['money_budget'];
                            $sekreBudget->budget_value_sum = $post['source_value'];
 
                            $sekreBudget->activity_id = $model->id;
@@ -318,7 +314,6 @@ $role = Yii::$app->user->identity->role;
                        } elseif ($role == 8) {
                            $sectionBudget = new ActivityBudgetSection();
                            $sectionBudget->section_budget_id = $idSectionBudget;
-                           $sectionBudget->budget_value_dp = $post['money_budget'];
                            $sectionBudget->budget_value_sum = $post['source_value'];
 
                            $sectionBudget->activity_id = $model->id;
@@ -374,16 +369,16 @@ $role = Yii::$app->user->identity->role;
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
-            $oldDP = $budget->budget_value_dp;
+            $oldDP = $budget->budget_value_sum;
             $oldBudget = $baru->secretariat_budget_value;
           } elseif ($role == 8) {
-            $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
+            $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model->id])->one();
             $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
-            $oldDP = $budget->budget_value_dp;
+            $oldDP = $budget->budget_value_sum;
             $oldBudget = $baru->section_budget_value;
           }
 
@@ -453,18 +448,14 @@ $role = Yii::$app->user->identity->role;
 
                    if ($role == 4) {
 
-                       $dp = $budget->budget_value_dp;
+                       // $dp = $budget->budget_value_dp;
                        $total = $budget->budget_value_sum;
                        $modal = $baru->secretariat_budget_value;
 
-                       if ($dp > $total) {
-                           Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                           return $this->redirect(Yii::$app->request->referrer);
-                       }
 
                        //nilai anggaran dp lebih kecil dari anggaran saat ini
-                       if ($dp <= $modal) {
-                           $dpBaru = $oldDP - $dp;
+                       if ($total <= $modal) {
+                           $dpBaru = $oldDP - $total;
                            $oldBudgetBaru = $modal + $dpBaru;
                            if ($oldBudgetBaru <= 0) {
                                var_dump($oldBudgetBaru);die();
@@ -474,8 +465,8 @@ $role = Yii::$app->user->identity->role;
                        }
 
                        //nilai anggaran dp lebih besar dari anggaran saat ini
-                       if ($dp >= $modal) {
-                           $dpBaru = $dp - $oldDP;
+                       if ($total >= $modal) {
+                           $dpBaru = $total - $oldDP;
                            $oldBudgetBaru = $modal - $dpBaru;
                            if ($oldBudgetBaru <= 0) {
                                var_dump($oldBudgetBaru);die();
@@ -484,7 +475,7 @@ $role = Yii::$app->user->identity->role;
                            }
                        }
 
-                       $budget->budget_value_dp = $budget->budget_value_dp;
+                       // $budget->budget_value_dp = $budget->budget_value_dp;
                        $budget->budget_value_sum = $budget->budget_value_sum;
                        $budget->save(false);
 
@@ -493,17 +484,17 @@ $role = Yii::$app->user->identity->role;
 
                    } elseif ($role == 8) {
 
-                       $dp = $budget->budget_value_dp;
+                       // $dp = $budget->budget_value_dp;
                        $total = $budget->budget_value_sum;
                        $modal = $baru->section_budget_value;
 
-                       if ($dp > $total) {
-                           Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                           return $this->redirect(Yii::$app->request->referrer);
-                       }
+                       // if ($dp > $total) {
+                       //     Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
+                       //     return $this->redirect(Yii::$app->request->referrer);
+                       // }
 
-                       if ($dp <= $modal) {
-                           $dpBaru = $oldDP - $dp;
+                       if ($total <= $modal) {
+                           $dpBaru = $oldDP - $total;
                            $oldBudgetBaru = $modal + $dpBaru;
                            if ($oldBudgetBaru <= 0) {
                                var_dump($oldBudgetBaru);die();
@@ -511,10 +502,9 @@ $role = Yii::$app->user->identity->role;
                                return $this->redirect(Yii::$app->request->referrer);
                            }
                        }
-
                        //nilai anggaran dp lebih besar dari anggaran saat ini
-                       if ($dp >= $modal) {
-                           $dpBaru = $dp - $oldDP;
+                       if ($total >= $modal) {
+                           $dpBaru = $total - $oldDP;
                            $oldBudgetBaru = $modal - $dpBaru;
                            if ($oldBudgetBaru <= 0) {
                                var_dump($oldBudgetBaru);die();
@@ -523,7 +513,7 @@ $role = Yii::$app->user->identity->role;
                            }
                        }
 
-                       $budget->budget_value_dp = $budget->budget_value_dp;
+                       // $budget->budget_value_dp = $budget->budget_value_dp;
                        $budget->budget_value_sum = $budget->budget_value_sum;
                        $budget->save(false);
 
@@ -596,7 +586,7 @@ $role = Yii::$app->user->identity->role;
 
         if ($role == 4) {
           $model = Activity::find()->where(['id'=>$id])->one();
-          $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+          $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
           $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
           $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
           $kodeid = Secretariat::find()->where(['id'=>$baru])->one();
@@ -609,7 +599,7 @@ $role = Yii::$app->user->identity->role;
 
         } else if ($role == 8) {
           $model = Activity::find()->where(['id'=>$id])->one();
-          $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
+          $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model->id])->one();
           $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
           $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
           $kodeid = Section::find()->where(['id'=>$baru->section_id])->one();

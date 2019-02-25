@@ -72,8 +72,11 @@ class BendaharaActivityResponsibilityController extends Controller
             'query' => Activity::find()
                       ->joinWith('activityResponsibilities')
                       ->where(['activity.finance_status'=>1])
-                      ->andWhere(['activity_responsibility.responsibility_value'=>2])
-                      ->andWhere(['activity.done'=>0]),
+                      ->andWhere(['or',
+                      ['activity_responsibility.responsibility_value'=>2],
+                      ['activity_responsibility.responsibility_value'=>3],
+                    ]),
+                      // ->andWhere(['activity.done'=>0]),
 
         ]);
 
@@ -85,7 +88,7 @@ class BendaharaActivityResponsibilityController extends Controller
     public function actionClosing($id)
     {
         $model = Activity::find()->where(['id'=>$id])->one();
-        $responsibility = ActivityResponsibility::find()->where(['activity_id'=>$model])->one();
+        $responsibility = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
 
         if ($responsibility == null) {
             Yii::$app->getSession()->setFlash('warning', 'Tidak Dapat Approve Pertangungjawaban Karena Data Pertangungjawaban Tidak Ada');
@@ -111,7 +114,6 @@ class BendaharaActivityResponsibilityController extends Controller
 
             $model->done = 1;
             $model->save(false);
-
             $responsibility->responsibility_value = 3;
             $responsibility->save(false);
         }

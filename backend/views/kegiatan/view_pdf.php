@@ -212,7 +212,7 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Anggaran Saat Ini</td>
+            <td>Sisa Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$baru->secretariat_budget_value + $budget->budget_value_dp?></td>
             <?php } else if ($Role == "Seksi") { ?>
@@ -242,46 +242,31 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>Uang Muka Kegiatan</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?></td>
-            <?php } ?>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>Nilai Anggaran</td>
-            <?php if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$budget->budget_value_sum?></td>
             <?php } else if ($Role == "Seksi") { ?>
                 <td>Rp.<?=$budget->budget_value_sum?></td>
             <?php } ?>
         </tr>
         <tr>
-            <td>Uang Muka Kegiatan Rutin</td>
-            <td>:</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?><td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_dp?><td>
-            <?php } ?>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
         <tr>
-            <td>Nilai Anggaran Kegiatan</td>
+            <td>Uang Muka Kegiatan</td>
             <td>:</td>
             <?php if ($Role == "Sekretariat") { ?>
                 <td>Rp.<?=$budget->budget_value_sum ?></td>
@@ -301,12 +286,7 @@ echo $romawi .'/SKPG'; ?>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Sisa Nilai Anggaran Saat Ini</td>
-            <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
-            <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_sum-$budget->budget_value_dp?></td>
-            <?php } ?>
+
         </tr>
     </tbody>
 </table>

@@ -159,9 +159,9 @@ class DepartmentApprovalActivityResponsibilityController extends Controller
 
     public function actionReport($id) {
         $model = Activity::find()->where(['id'=>$id])->one();
-        $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model])->one();
+        $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model->id])->one();
         $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
         $sekre = Section::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
         $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();

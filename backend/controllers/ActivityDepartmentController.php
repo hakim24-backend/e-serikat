@@ -95,14 +95,14 @@ class ActivityDepartmentController extends \yii\web\Controller
                 }
              }
 
-            if ($post['money_budget'] > $post['source_value']) {
-                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                return $this->redirect(Yii::$app->request->referrer);
-            }
+            // if ($post['money_budget'] > $post['source_value']) {
+            //     Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
+            //     return $this->redirect(Yii::$app->request->referrer);
+            // }
 
             if ($post['jenis_sdm_source'] == '7') {
                 $data = DepartmentBudget::findOne($post['source_sdm']);
-                $data->department_budget_value = $data->department_budget_value - (float) $post['money_budget'];
+                $data->department_budget_value = $data->department_budget_value - (float) $post['source_value'];
                 $data->save();
                 $idDepBudget = $data->id;
             }
@@ -167,7 +167,7 @@ class ActivityDepartmentController extends \yii\web\Controller
 
                     $depBudget = new ActivityBudgetDepartment();
                     $depBudget->department_budget_id = $idDepBudget;
-                    $depBudget->budget_value_dp = $post['money_budget'];
+                    // $depBudget->budget_value_dp = $post['money_budget'];
                     $depBudget->budget_value_sum = $post['source_value'];
                     $depBudget->activity_id = $model->id;
                     $depBudget->save(false);

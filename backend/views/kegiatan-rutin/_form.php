@@ -65,16 +65,6 @@ if($Role != "Sekretariat"){
         <br>
         <div id="nilai-anggaran-source">
         </div>
-         <div class="col-sm-12">
-            <div class="form-group">
-                <label class="col-sm-4">Uang Muka Anggaran</label>
-                <div class="col-sm-8">
-                    <?= Html::textInput('money_budget', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 uang-muka', 'id'=>'value-budget']) ?>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
         <div class="col-sm-12">
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>

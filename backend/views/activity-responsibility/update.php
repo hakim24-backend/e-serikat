@@ -13,15 +13,27 @@ use yii\base\view;
 $this->title = 'Form Pertanggung Jawaban';
 $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$Role = Yii::$app->user->identity->roleName();
+
 ?>
 
 <div class="approve-form">
-
+  <div class="col-sm-12">
+    <label>Dana Budget Sekarang : </label>
+    <?php if ($Role == "Sekretariat") { ?>
+        <?= $baru->secretariat_budget_value ?>
+    <?php } elseif ($Role == "Seksi") { ?>
+        <?= $baru->section_budget_value ?>
+   <?php } ?>
+  </div>
+  <br>
+  <br>
     <?php $form = ActiveForm::begin([
     	'options'=>[
     	'enctype' => 'multipart/form-data'
     	]
     ]); ?>
+    <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?>
 
     <?= $form->field($model, 'description')->textInput()->label('Uraian') ?>
 

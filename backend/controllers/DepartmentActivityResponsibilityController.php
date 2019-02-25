@@ -134,7 +134,7 @@ class DepartmentActivityResponsibilityController extends Controller
             $tmp = rtrim($tmp,'**');
             $model->photo = $tmp;
 
-            $model->responsibility_value = 0;
+            $model->responsibility_value = 1;
             $model->activity_id = $id ;
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
@@ -214,12 +214,14 @@ class DepartmentActivityResponsibilityController extends Controller
                 $model->photo = $tmp;
                 }
 
+                $model->responsibility_value = 1;
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
                 return $this->redirect(['index','id'=>$model->activity_id]);
 
 
             } else {
+                $model->responsibility_value = 1;
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
                 return $this->redirect(['index','id'=>$model->activity_id]);
@@ -301,7 +303,7 @@ class DepartmentActivityResponsibilityController extends Controller
 
         foreach ($oldPhotos as $key => $oldPhoto) {
           unlink($uploadPath.$oldPhoto);
-        }  
+        }
         Yii::$app->getSession()->setFlash('success', 'Hapus Data Pertanggungjawaban Berhasil');
         $model->delete();
         return $this->redirect(Yii::$app->request->referrer);
