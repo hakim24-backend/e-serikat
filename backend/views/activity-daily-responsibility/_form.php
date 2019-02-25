@@ -35,7 +35,7 @@ $Role = Yii::$app->user->identity->roleName();
 
     <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?>
 
-    <?= $form->field($model, 'description')->textArea(['row' => 5])->label('Deskripsi') ?>
+    <?= $form->field($model, 'description')->textArea(['row' => 5])->label('Uraian') ?>
 
 <!--     <?= $form->field($model, 'responsibility_value')->textInput() ?> -->
 
