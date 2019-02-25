@@ -89,8 +89,6 @@ class ActivityDailyChiefController extends Controller
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
-          $oldDP = $budget->budget_value_sum;
-          $oldBudget = $baru->chief_budget_value;
       }
 
         return $this->render('view', [
@@ -278,9 +276,9 @@ class ActivityDailyChiefController extends Controller
         $role = Yii::$app->user->identity->role;
 
           $model = ActivityDaily::find()->where(['id'=>$id])->one();
-          $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model])->one();
+          $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model->id])->one();
           $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-          $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
           $chief = Chief::find()->where(['id'=>$model->chief_code_id])->one();
 
         $content = $this->renderPartial('view_pdf',[

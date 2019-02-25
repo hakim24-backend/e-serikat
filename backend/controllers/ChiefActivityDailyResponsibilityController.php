@@ -94,34 +94,59 @@ class ChiefActivityDailyResponsibilityController extends Controller
 
         if ($model->load(Yii::$app->request->post())&&$modelBudget->load(Yii::$app->request->post())) {
 
-            $file_dok = UploadedFile::getInstance($model, 'fileApprove');
-            $uploadPath = Yii::getAlias('@backend')."/web/template";
-            $acak = substr( md5(time()) , 0, 10);
-            $fileName = $uploadPath."/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
-            $file_dok->saveAs($fileName);
+          $file_dok = UploadedFile::getInstances($model, 'fileApproves');
+          $uploadPath = Yii::getAlias('@backend')."/web/template";
+          $acak = substr( md5(time()) , 0, 10);
 
-            $file_gambar = UploadedFile::getInstance($model, 'photoApprove');
-            $uploadPath = Yii::getAlias('@backend')."/web/template";
-            $acak = substr( md5(time()) , 0, 10);
-            $fotoName = $uploadPath."/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            // var_dump($fotoName);die;
-            $file_gambar->saveAs($fotoName);
+          $i = 0;
+          $tmp = '';
+          foreach ($file_dok as $dok) {
+
+            $fileName = $uploadPath."/dokumen_".$dok->baseName ."_". $acak ."_" .$i. "." .$dok->extension;
+
+            $dok->saveAs($fileName);
+
+            $tmp .= "/dokumen_".$dok->baseName ."_". $acak ."_" .$i. "." .$dok->extension."**";
+
+            $i++;
+          }
+
+          $tmp = rtrim($tmp,'**');
+          $model->file = $tmp;
 
 
-            $model->responsibility_value = 2;
-            $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
-            $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
-            $model->activity_id = $activity->id ;
+          $file_gambar = UploadedFile::getInstances($model, 'photoApproves');
+          $uploadPath = Yii::getAlias('@backend')."/web/template";
+          $acak = substr( md5(time()) , 0, 10);
 
-            if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
+          $i = 0;
+          $tmp = '';
+          foreach ($file_gambar as $gambar) {
+
+            $fileName = $uploadPath."/foto_".$gambar->baseName ."_". $acak ."_" .$i. "." .$gambar->extension;
+
+            $gambar->saveAs($fileName);
+
+            $tmp .= "/foto_".$gambar->baseName ."_". $acak ."_" .$i. "." .$gambar->extension."**";
+
+            $i++;
+          }
+
+          $tmp = rtrim($tmp,'**');
+          $model->photo = $tmp;
+
+          $model->responsibility_value = 2;
+          $model->activity_id = $id ;
+
+            if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->chief_budget_value ){
 
               Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
               return $this->redirect(Yii::$app->request->referrer);
             }else{
               $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
               // var_dump($danaReal);die;
-              $danaPotong = $baru->section_budget_value + $danaReal;
-              $baru->section_budget_value = $danaPotong;
+              $danaPotong = $baru->chief_budget_value + $danaReal;
+              $baru->chief_budget_value = $danaPotong;
               if($baru->save(false)){
                 $modelBudget->save(false);
               }

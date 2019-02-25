@@ -44,7 +44,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','index','view','create','update','delete'],
+                        'actions' => ['logout','index','view','create','update','delete','report'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

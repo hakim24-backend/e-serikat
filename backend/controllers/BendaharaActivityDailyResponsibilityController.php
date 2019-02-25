@@ -11,6 +11,7 @@ use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
 use common\models\ActivityDailyBudgetSection;
+use common\models\ActivityDailyBudgetChief;
 use common\models\ActivityDailyBudgetDepart;
 use common\models\Approve;
 use common\models\User;
@@ -74,7 +75,7 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
     public function actionClosing($id)
     {
     	$model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $responsibility = ActivityDailyResponsibility::find()->where(['activity_id'=>$model])->one();
+        $responsibility = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
 
         if ($responsibility == null) {
             Yii::$app->getSession()->setFlash('warning', 'Tidak Dapat Approve Pertangungjawaban Karena Data Pertangungjawaban Tidak Ada');
@@ -82,19 +83,35 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
         } else {
             if ($model->role == 4) {
             $modelRutin = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
+            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin->id])->one();
             $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$awal->secretariat_budget_id])->one();
 
             $baru->secretariat_budget_value=$baru->secretariat_budget_value-$budget->budget_value_sum;
             $baru->save();
         } else if ($model->role == 8) {
             $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
+            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi->id])->one();
             $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
 
             $baru->section_budget_value=$baru->section_budget_value-$budget->budget_value_sum;
+            $baru->save();
+        }else if ($model->role == 6) {
+            $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$modelSeksi->id])->one();
+            $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+            $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+
+            $baru->chief_budget_value=$baru->chief_budget_value-$budget->budget_value_sum;
+            $baru->save();
+        }else if ($model->role == 7) {
+            $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelSeksi->id])->one();
+            $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
+            $baru = ChiefBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+
+            $baru->department_budget_value=$baru->department_budget_value-$budget->budget_value_sum;
             $baru->save();
         }
 

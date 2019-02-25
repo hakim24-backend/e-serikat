@@ -113,9 +113,9 @@ class BendaharaRutinController extends Controller
       // var_dump($model->role);die;
 
       if ($model->role == 6) {
-          $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
+          $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $baru = ChiefBudget::find()->where(['id' => $awal->chief_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -124,9 +124,9 @@ class BendaharaRutinController extends Controller
       }
 
       if ($model->role == 7) {
-          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
+          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
-          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $awal->department_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;

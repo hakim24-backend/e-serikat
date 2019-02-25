@@ -12,7 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="activity-daily-create">
 
     <?= $this->render('_form', [
-        'model' => $model,
+      'model' => $model,
+      'modelBudget' => $modelBudget,
+      'baru' => $baru,
     ]) ?>
 
 </div>

@@ -91,8 +91,8 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Anggaran Saat Ini</td>
-            <td>Rp.<?=$baru->chief_budget_value+$budget->budget_value_dp?></td>
+            <td>Sisa Anggaran Saat Ini</td>
+            <td>Rp.<?=$baru->chief_budget_value?></td>
         </tr>
         <tr>
             <td>Waktu Pelaksanaan</td>
@@ -111,8 +111,6 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Uang Muka Kegiatan Rutin</td>
-            <td>Rp.<?=$budget->budget_value_dp?></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
@@ -131,16 +129,11 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Nilai Anggaran</td>
+            <td>Uang Muka Kegiatan Rutin</td>
             <td>Rp.<?=$budget->budget_value_sum?></td>
         </tr>
         <tr>
             <td>Uang Muka Kegiatan Rutin</td>
-            <td>:</td>
-            <td>Rp.<?=$budget->budget_value_dp?><td>
-        </tr>
-        <tr>
-            <td>Nilai Anggaran Kegiatan</td>
             <td>:</td>
             <td>Rp.<?=$budget->budget_value_sum ?></td>
             <td>&nbsp;</td>
@@ -156,8 +149,6 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Sisa Nilai Anggaran Saat Ini</td>
-            <td>Rp.<?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
         </tr>
     </tbody>
 </table>

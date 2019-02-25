@@ -10,15 +10,29 @@ use yii\base\view;
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->title = 'Form Pertanggung Jawaban';
+$this->params['breadcrumbs'][] = ['label' => 'Activities', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="approve-form">
-
+  <div class="col-sm-12">
+    <label>Dana Budget Sekarang : </label>
+    <?php if ($Role == "Ketua") { ?>
+        <?= $baru->chief_budget_value ?>
+    <?php } elseif ($Role == "Seksi") { ?>
+        <?= $baru->section_budget_value ?>
+   <?php } ?>
+  </div>
+  <br>
+  <br>
     <?php $form = ActiveForm::begin([
     	'options'=>[
     	'enctype' => 'multipart/form-data'
     	]
     ]); ?>
+    <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?>
 
     <?= $form->field($model, 'description')->textInput()->label('Deskripsi') ?>
 
