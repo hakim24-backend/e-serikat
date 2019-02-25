@@ -589,13 +589,8 @@ $role = Yii::$app->user->identity->role;
           $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
           $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
           $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-<<<<<<< HEAD
-          $sekre = Secretariat::find()->where(['id'=>$baru])->one();
-          $department = Department::find()->where(['id'=>$model->department_code_id])->one();
-          $seksiId = Section::find()->where(['id_depart'=>$department])->one();
-=======
+
           $kodeid = Secretariat::find()->where(['id'=>$baru])->one();
->>>>>>> f2386011ab8f80385c3f65a4c1df67ca0fffa63a
           $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();

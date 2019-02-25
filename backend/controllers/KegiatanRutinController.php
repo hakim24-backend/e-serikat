@@ -477,13 +477,7 @@ class KegiatanRutinController extends Controller
         $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-<<<<<<< HEAD
-        $sekre = Secretariat::find()->where(['id'=>$baru])->one();
-        $department = Department::find()->where(['id'=>$model->department_code_id])->one();
-        $seksiId = Section::find()->where(['id_depart'=>$department])->one();
-=======
         $kodeid = Secretariat::find()->where(['id'=>$baru])->one();
->>>>>>> f2386011ab8f80385c3f65a4c1df67ca0fffa63a
 
     } else if ($role == "Seksi") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
