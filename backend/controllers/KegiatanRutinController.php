@@ -224,9 +224,9 @@ class KegiatanRutinController extends Controller
                         $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
 
                         $daily->role = 8;
-                        $daily->finance_status = 1;
-                        $daily->department_status = 1;
-                        $daily->chief_status = 1;
+                        $daily->finance_status = 0;
+                        $daily->department_status = 0;
+                        $daily->chief_status = 0;
                         $daily->department_code_id = $depId->id;
                         $daily->chief_code_id = $chiefId->id;
                     }
