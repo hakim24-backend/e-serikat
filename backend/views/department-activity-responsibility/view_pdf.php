@@ -146,11 +146,11 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td colspan="4">Jumlah Uang yang Diterima.</td>
-              <td class="text-center"><?=$budget->budget_value_dp?></td>
+              <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
-              <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
+              <td class="text-center"><?=$baru->department_budget_value?></td>
             </tr>
             <tr>
               <td colspan="5">Gresik, <?=$date?></td>
