@@ -47,6 +47,10 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-right-style: hidden;">:</td>
               <?php if ($report->role == 4) { ?>
                 <td colspan="3"><?=$sekre->secretariat_name?></td>
+              <?php } elseif ($report->role == 6) { ?>
+                <td colspan="3"><?=$sekre->chief_name?></td>
+              <?php } elseif ($report->role == 7) { ?>
+                <td colspan="3"><?=$sekre->depart_name?></td>
               <?php } elseif ($report->role == 8) { ?>
                 <td colspan="3"><?=$sekre->section_name?></td>
               <?php } ?>
@@ -56,6 +60,10 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-right-style: hidden;">:</td>
               <?php if ($report->role == 4) { ?>
                 <td colspan="3"><?=$sekre->secretariat_code?></td>
+              <?php } elseif ($report->role == 6) { ?>
+                <td colspan="3"><?=$sekre->chief_code?></td>
+              <?php } elseif ($report->role == 7) { ?>
+                <td colspan="3"><?=$sekre->depart_code?></td>
               <?php } elseif ($report->role == 8) { ?>
                 <td colspan="3"><?=$sekre->section_code?></td>
               <?php } ?>

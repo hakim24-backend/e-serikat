@@ -8,6 +8,8 @@ use common\models\ActivityDaily;
 use common\models\Budget;
 use common\models\Secretariat;
 use common\models\Section;
+use common\models\Department;
+use common\models\Chief;
 use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
@@ -202,7 +204,7 @@ class BendaharaActivityResponsibilityController extends Controller
         $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model->id])->one();
         $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
         $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
+        $sekre = Chief::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
         $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
     }else if ($report->role == 7) {
@@ -210,7 +212,7 @@ class BendaharaActivityResponsibilityController extends Controller
         $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model->id])->one();
         $awal = ActivityBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
         $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
+        $sekre = Department::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
         $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
     }else if ($report->role == 8) {

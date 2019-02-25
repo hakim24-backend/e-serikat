@@ -5,11 +5,16 @@ namespace backend\controllers;
 use Yii;
 use common\models\ActivityDaily;
 use common\models\ActivityDailyResponsibility;
+use common\models\ActivityDailyBudgetSection;
+use common\models\Section;
+use common\models\Budget;
+use common\models\SectionBudget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use kartik\mpdf\Pdf;
 
 /**
  * DepartmentApprovalActivityDailyResponsibilityController implements the CRUD actions for ActivityDaily model.
@@ -30,7 +35,7 @@ class DepartmentApprovalActivityDailyResponsibilityController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','index','view','closing','update','delete','download'],
+                        'actions' => ['logout','index','view','closing','update','delete','download','report'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
