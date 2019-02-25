@@ -60,6 +60,8 @@ $list_seksi = array_values($array_seksi);
                     <div class="col-sm-8">
                         <?php if($model->role == 6){
                           echo $baru->chief_budget_value;
+                        }else if($model->role == 7){
+                          echo $baru->department_budget_value;
                         }else if($model->role == 8){
                           echo $baru->section_budget_value;
                         } ?>

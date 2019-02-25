@@ -214,7 +214,7 @@ class ActivityDepartmentController extends \yii\web\Controller
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
-            $oldDP = $budget->budget_value_dp;
+            $oldDP = $budget->budget_value_sum;
             $oldBudget = $baru->department_budget_value;
         }
 
@@ -281,18 +281,13 @@ class ActivityDepartmentController extends \yii\web\Controller
 
                     if ($role == 7) {
 
-                        $dp = $budget->budget_value_dp;
+                        // $dp = $budget->budget_value_dp;
                         $total = $budget->budget_value_sum;
                         $modal = $baru->department_budget_value;
 
-                        if ($dp > $total) {
-                            Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                            return $this->redirect(Yii::$app->request->referrer);
-                        }
-
                         //nilai anggaran dp lebih kecil dari anggaran saat ini
-                        if ($dp <= $modal) {
-                            $dpBaru = $oldDP - $dp;
+                        if ($total <= $modal) {
+                            $dpBaru = $oldDP - $total;
                             $oldBudgetBaru = $modal + $dpBaru;
                             if ($oldBudgetBaru <= 0) {
                                 var_dump($oldBudgetBaru);die();
@@ -302,8 +297,8 @@ class ActivityDepartmentController extends \yii\web\Controller
                         }
 
                         //nilai anggaran dp lebih besar dari anggaran saat ini
-                        if ($dp >= $modal) {
-                            $dpBaru = $dp - $oldDP;
+                        if ($total >= $modal) {
+                            $dpBaru = $total - $oldDP;
                             $oldBudgetBaru = $modal - $dpBaru;
                             if ($oldBudgetBaru <= 0) {
                                 var_dump($oldBudgetBaru);die();
@@ -312,7 +307,7 @@ class ActivityDepartmentController extends \yii\web\Controller
                             }
                         }
 
-                        $budget->budget_value_dp = $budget->budget_value_dp;
+                        // $budget->budget_value_dp = $budget->budget_value_dp;
                         $budget->budget_value_sum = $budget->budget_value_sum;
                         $budget->save(false);
 
