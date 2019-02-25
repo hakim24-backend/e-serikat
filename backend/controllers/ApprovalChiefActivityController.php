@@ -62,8 +62,16 @@ class ApprovalChiefActivityController extends Controller
      */
     public function actionIndex()
     {
+      $role = Yii::$app->user->identity->role;
+      $id_chief = Yii::$app->user->identity->chief->id;
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 0]),
+            'query' => Activity::find()
+            ->where(['finance_status'=> 1])
+            ->andWhere(['role' => $role])
+            ->andWhere(['chief_code_id'=>$id_chief])
+            ->andWhere(['department_status'=> 1])
+            ->andWhere(['chief_status'=> 0]),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

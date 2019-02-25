@@ -122,11 +122,11 @@ class ApprovalDepartmentActivityDailyController extends Controller
             $model->save(false);
 
             $modelDepart = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDepart])->one();
+            $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDepart->id])->one();
             $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-            $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
-            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelDepart])->one();
-            $departBudget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDepart])->one();
+            $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelDepart->id])->one();
+            $departBudget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDepart->id])->one();
 
             $modelDepart->department_status=2;
             $modelDepart->save(false);

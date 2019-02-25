@@ -6,6 +6,7 @@ use kartik\file\FileInput;
 use yii\widgets\ActiveForm;
 use yii\web\Session;
 use yii\base\view;
+$Role = Yii::$app->user->identity->roleName();
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */

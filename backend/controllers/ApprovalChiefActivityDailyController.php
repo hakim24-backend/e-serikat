@@ -58,8 +58,16 @@ class ApprovalChiefActivityDailyController extends Controller
      */
     public function actionIndex()
     {
+      $role = Yii::$app->user->identity->role;
+      $id_chief = Yii::$app->user->identity->chief->id;
+
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 0]),
+            'query' => ActivityDaily::find()
+            ->where(['finance_status'=> 1])
+            ->andWhere(['role' => $role])
+            ->andWhere(['chief_code_id'=>$id_chief])
+            ->andWhere(['department_status'=> 1])
+            ->andWhere(['chief_status'=> 0]),
         ]);
 
         return $this->render('index', [
@@ -98,7 +106,7 @@ class ApprovalChiefActivityDailyController extends Controller
           $range_end = $model->date_end;
           $oldDP = $budget->budget_value_dp;
           $oldBudget = $baru->department_budget_value;
-          
+
       }else if ($model->role == 8) {
           $budget = ActivityDailyBudgetSection::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id' => $budget])->one();

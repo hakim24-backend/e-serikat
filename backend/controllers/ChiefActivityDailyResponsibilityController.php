@@ -57,8 +57,16 @@ class ChiefActivityDailyResponsibilityController extends Controller
      */
     public function actionIndex()
     {
+        $id_chief = Yii::$app->user->identity->chief->id;
+
+
         $dataProvider = new ActiveDataProvider([
-            'query' => ActivityDaily::find()->where(['role'=>6])->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
+            'query' => ActivityDaily::find()
+            ->where(['role'=>6])
+            ->andWhere(['chief_code_id'=>$id_chief])
+            ->andWhere(['finance_status'=> 1])
+            ->andWhere(['chief_status'=>1])
+            ->andWhere(['department_status'=>1]),
         ]);
 
         return $this->render('index', [
@@ -175,9 +183,16 @@ class ChiefActivityDailyResponsibilityController extends Controller
     public function actionUpdate($id)
     {
         $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
+
+        $activity = ActivityDaily::find()->where(['id'=>$id])->one();
+        $modelBudget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$activity->id])->one();
+        $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$modelBudget])->one();
+        $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+        $oldDana = $modelBudget->budget_value_dp;
+
         $oldfile = $model->file;
         $oldPhoto = $model->photo;
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())&&$modelBudget->load(Yii::$app->request->post())) {
 
                 $file_dok = UploadedFile::getInstance($model, 'fileApprove');
                 $file_gambar = UploadedFile::getInstance($model, 'photoApprove');
@@ -208,21 +223,45 @@ class ChiefActivityDailyResponsibilityController extends Controller
                 $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
                 }
 
-                $model->save(false);
-                Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['highlight','id'=>$model->activity_id]);
+            }
 
+            if((float)$modelBudget->budget_value_dp != $oldDana){
+              if((float)$modelBudget->budget_value_dp >= $baru->chief_budget_value){
+                if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->chief_budget_value ){
+                  var_dump($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp);die;
+                  Yii::$app->getSession()->setFlash('danger', 'Dana tidak cukup');
+                  return $this->redirect(Yii::$app->request->referrer);
+                }else{
+                  $balikDana = $baru->chief_budget_value + $oldDana;
+                  $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
+                  // $danaPotong = ($baru->chief_budget_value + $oldDana) + $danaReal;
+                  $baru->chief_budget_value = $danaReal;
+                  if($baru->save(false)){
+                    $modelBudget->save(false);
+                  }
+                }
+              }else{
+                $balikDana = $baru->chief_budget_value + $oldDana;
+                $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
+                // $danaPotong = ($baru->chief_budget_value + $oldDana) + $danaReal;
+                $baru->chief_budget_value = $danaReal;
+                if($baru->save(false)){
+                  $modelBudget->save(false);
+                }
+              }
+            }
 
-            } else {
                 $model->responsibility_value = 2;
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['highlight','id'=>$model->activity_id]);
-            }
+                return $this->redirect(['index']);
+
         }
 
         return $this->render('update', [
             'model' => $model,
+            'baru' => $baru,
+            'modelBudget' => $modelBudget,
         ]);
     }
 
