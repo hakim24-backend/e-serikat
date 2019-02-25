@@ -219,6 +219,28 @@ ExportMenu::widget([
                                 ],
                                 'attribute' => 'date_end',
                                 ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+                                    'contentOptions' => ['style' => 'width:160px;'],
+                                    'header' => 'Actions',
+                                    'template' => '{view}',
+                                    'buttons' => [
+                                        'view' => function ($url, $model) {
+                                            if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
+                                                return Html::a('| <span class="fa fa-eye"></span> |', $url, [
+                                                    'title' => Yii::t('app', 'view'),
+                                                ]);
+                                            }
+                                        },
+                                    ],
+
+                                    'urlCreator' => function ($action, $model, $key, $index) {
+                                        if ($action === 'view') {
+                                            $url = Url::to(['activity-daily-report/view', 'id' => $model['id']]);
+                                            return $url;
+                                        }
+                                    },
+                                ],
                             ],
                         ]); ?>
                         <?php Pjax::end(); ?>

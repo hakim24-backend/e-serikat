@@ -231,15 +231,6 @@ ExportMenu::widget([
                                         'header' => 'Actions',
                                         'template' => '{view}',
                                         'buttons' => [
-                                            'update' => function ($url, $model) {
-                                              if($model->finance_status == 0 || $model->finance_status == 2){
-                                                if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
-                                                  return Html::a('| <span class="fa fa-pencil"></span>', $url, [
-                                                    'title' => Yii::t('app', 'update'),
-                                                  ]);
-                                                }
-                                              } 
-                                            },
                                             'view' => function ($url, $model) {
                                                 if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
                                                     return Html::a('| <span class="fa fa-eye"></span> |', $url, [

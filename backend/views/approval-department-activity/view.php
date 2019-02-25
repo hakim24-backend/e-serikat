@@ -58,6 +58,7 @@ $list_seksi = array_values($array_seksi);
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                     <div class="col-sm-8">
+                      
                         <?php if($model->role == 6){
                           echo $baru->chief_budget_value;
                         }else if($model->role == 8){
