@@ -73,6 +73,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'buttons' => [
                                         'update' => function($url, $model, $key)
                                         {
+                                          if(Yii::$app->user->identity->role != 2 && Yii::$app->user->identity->role != 3){
+
                                                 if ($model->activityDailyResponsibilities) {
                                                     $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
                                                     return Html::a(
@@ -92,6 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         ]
                                                     );
                                                 }
+                                              }
                                         },
                                         'download' => function($url, $model, $key)
                                         {
