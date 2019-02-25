@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             if($model->activityResponsibilities){
                                               $url = Url::toRoute(['/activity-responsibility/update', 'id' => $model->id]);
                                               return Html::a(
-                                                '<span class="glyphicon glyphicon-pencil"></span>',
+                                                '| <span class="glyphicon glyphicon-pencil"></span> | ',
                                                 $url,
                                                 [
                                                   'title' => 'Update Laporan Pertanggung Jawaban',
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             }else{
                                               $url = Url::toRoute(['/activity-responsibility/create', 'id' => $model->id]);
                                               return Html::a(
-                                                '| <span class="glyphicon glyphicon-plus"></span>',
+                                                '| <span class="glyphicon glyphicon-plus"></span> | ',
                                                 $url,
                                                 [
                                                   'title' => 'Create Laporan Pertanggung Jawaban',
@@ -109,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                                     $url = Url::toRoute(['/activity-responsibility/report', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '| <span class="glyphicon glyphicon-download"></span> |',
+                                                        '<span class="glyphicon glyphicon-download"></span> |',
                                                         $url,
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',

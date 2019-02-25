@@ -167,10 +167,15 @@ class KegiatanRutinController extends Controller
                     //     return $this->redirect(Yii::$app->request->referrer);
                     // }
 
-                    if ($post['source_value'] > $data->secretariat_budget_value ) {
+                    if ($data == null) {
+                      Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
+                      return $this->redirect(Yii::$app->request->referrer);
+                     } else {
+                        if ($post['source_value'] > $data->secretariat_budget_value ) {
                         Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                         return $this->redirect(Yii::$app->request->referrer);
-                    }
+                       }
+                     }
 
                     if ($post['jenis_sdm_source']=='4') {
                         $data = SecretariatBudget::findOne($post['source_sdm']);
@@ -219,9 +224,9 @@ class KegiatanRutinController extends Controller
                         $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
 
                         $daily->role = 8;
-                        $daily->finance_status = 0;
-                        $daily->department_status = 0;
-                        $daily->chief_status = 0;
+                        $daily->finance_status = 1;
+                        $daily->department_status = 1;
+                        $daily->chief_status = 1;
                         $daily->department_code_id = $depId->id;
                         $daily->chief_code_id = $chiefId->id;
                     }
@@ -472,7 +477,13 @@ class KegiatanRutinController extends Controller
         $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+<<<<<<< HEAD
+        $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+        $department = Department::find()->where(['id'=>$model->department_code_id])->one();
+        $seksiId = Section::find()->where(['id_depart'=>$department])->one();
+=======
         $kodeid = Secretariat::find()->where(['id'=>$baru])->one();
+>>>>>>> f2386011ab8f80385c3f65a4c1df67ca0fffa63a
 
     } else if ($role == "Seksi") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
