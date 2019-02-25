@@ -65,9 +65,21 @@ class DepartmentActivityResponsibilityController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>7])->andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
-        ]);
+
+
+      $role = Yii::$app->user->identity->role;
+      $atasan = Yii::$app->user->identity->department->id_chief;
+
+      $dataProvider = new ActiveDataProvider([
+          'query' => Activity::find()
+                      ->joinWith('activityBudgetDepartments')
+                      ->joinWith('activityBudgetDepartments.departmentBudget')
+                      ->joinWith('activityBudgetDepartments.departmentBudget.department')
+                      ->where(['role'=>$role])
+                      ->andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1])
+                      ->andWhere(['department.id_chief'=>$atasan]),
+      ]);
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

@@ -54,9 +54,22 @@ class ApprovalDepartmentActivityDailyController extends Controller
      */
     public function actionIndex()
     {
+
+        $role = Yii::$app->user->identity->role;
+        $atasan = Yii::$app->user->identity->department->id_chief;
+
         $dataProvider = new ActiveDataProvider([
-        'query' => ActivityDaily::find()->where(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0]),
+            'query' => ActivityDaily::find()
+                        ->joinWith('activityDailyBudgetDeparts')
+                        ->joinWith('activityDailyBudgetDeparts.departmentBudget')
+                        ->joinWith('activityDailyBudgetDeparts.departmentBudget.department')
+                        ->where(['role'=>$role])
+                        ->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0])
+                        ->andWhere(['department.id_chief'=>$atasan])
+                        ->andWhere(['activity_daily.done'=>0]),
+
         ]);
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

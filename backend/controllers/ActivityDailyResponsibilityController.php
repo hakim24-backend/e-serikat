@@ -127,12 +127,22 @@ class ActivityDailyResponsibilityController extends Controller
      */
     public function actionCreate($id)
     {
+
+        $role = Yii::$app->user->identity->role;
+        $activity = ActivityDaily::find()->where(['id'=>$id])->one();
         $model = new ActivityDailyResponsibility();
 
-        $activity = ActivityDaily::find()->where(['id'=>$id])->one();
-        $modelBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$activity->id])->one();
-        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$modelBudget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+        if($role == 8){
+          $modelBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$activity->id])->one();
+          $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$modelBudget])->one();
+          $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+
+        }else if($role == 4){
+          $modelBudget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$activity->id])->one();
+          $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$modelBudget])->one();
+          $baru = SecretariatBudget::find()->where(['id'=>$awal->secretariat_budget_id])->one();
+
+        }
 
         if ($model->load(Yii::$app->request->post())&&$modelBudget->load(Yii::$app->request->post())) {
 
@@ -174,25 +184,39 @@ class ActivityDailyResponsibilityController extends Controller
             $tmp = rtrim($tmp,'**');
             $model->photo = $tmp;
 
-
-            $model->responsibility_value = 0;
             $model->activity_id = $activity->id ;
 
-            if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
+            if($role == 8){
+              $model->responsibility_value = 0;
+              if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
 
-              Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
-              return $this->redirect(Yii::$app->request->referrer);
-            }else{
-              $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
-              // var_dump($danaReal);die;
-              $danaPotong = $baru->section_budget_value + $danaReal;
-              $baru->section_budget_value = $danaPotong;
+                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                return $this->redirect(Yii::$app->request->referrer);
+              }else{
+                $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
+                // var_dump($danaReal);die;
+                $danaPotong = $baru->section_budget_value + $danaReal;
+                $baru->section_budget_value = $danaPotong;
+                if($baru->save(false)){
+                  $modelBudget->save(false);
+                }
+              }
+            }else if($role == 4){
+              $model->responsibility_value = 2;
+              if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->secretariat_budget_value ){
 
-              if($baru->save(false)){
-                $modelBudget->save(false);
+                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+                return $this->redirect(Yii::$app->request->referrer);
+              }else{
+                $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
+                // var_dump($danaReal);die;
+                $danaPotong = $baru->secretariat_budget_value + $danaReal;
+                $baru->secretariat_budget_value = $danaPotong;
+                if($baru->save(false)){
+                  $modelBudget->save(false);
+                }
               }
             }
-
 
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
