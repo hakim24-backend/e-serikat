@@ -11,6 +11,7 @@ use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
 use common\models\ActivityDailyBudgetSection;
+use common\models\ActivityDailyBudgetDepart;
 use common\models\Approve;
 use common\models\User;
 use common\models\TransferRecord;
@@ -145,6 +146,22 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
         $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
         $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
         $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+    }else if ($report->role == 6) {
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model->id])->one();
+        $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+        $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+        $sekre = Section::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+    }else if ($report->role == 7) {
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model->id])->one();
+        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
+        $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+        $sekre = Section::find()->where(['id'=>$baru])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
         $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
     } elseif ($report->role == 8) {

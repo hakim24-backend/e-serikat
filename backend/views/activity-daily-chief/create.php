@@ -53,21 +53,12 @@ $Role = Yii::$app->user->identity->roleName();
             <br>
             <div id="nilai-anggaran-source">
             </div>
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label class="col-sm-4">Uang Muka Anggaran</label>
-                    <div class="col-sm-8">
-                        <?=Html::textInput('money_budget', '', ['autofocus' => true, 'required' => true, 'type' => 'number', 'step' => 'any', 'min' => 0, 'class' => 'col-sm-8 form-control', 'id' => 'value-budget'])?>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
+
             <div class="col-sm-12">
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran</label>
                     <div class="col-sm-8">
-                        <?=Html::textInput('source_value', '', ['autofocus' => true, 'required' => true, 'type' => 'number', 'step' => 'any', 'min' => 0, 'class' => 'col-sm-8 form-control', 'id' => 'value-budget'])?>
+                        <?=Html::textInput('source_value', '', ['autofocus' => true, 'required' => true, 'type' => 'number', 'step' => 'any', 'min' => 0, 'class' => 'col-sm-8 nilai-anggaran', 'id' => 'value-budget'])?>
                     </div>
                 </div>
             </div>
@@ -172,7 +163,18 @@ $('#jenis-asal').on('change',function(){
        $('select#kode-asal').html(data);
     });
 });
+$('.nilai-anggaran').on('change',function(){
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
 
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(nilaianggaran) > res){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+    }
+
+});
 $('#kode-asal').on('change',function(){
     var tipe = $('#jenis-asal').val();
     var kode = $('#kode-asal').val();

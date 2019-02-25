@@ -122,7 +122,7 @@ class ActivityResponsibilityController extends Controller
 
         $model = new ActivityResponsibility();
 
-        if ($model->load(Yii::$app->request->post())&&$modelBudget->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())&& $modelBudget->load(Yii::$app->request->post())) {
 
             $file_dok = UploadedFile::getInstances($model, 'fileApproves');
             $uploadPath = Yii::getAlias('@backend')."/web/template";
@@ -165,7 +165,7 @@ class ActivityResponsibilityController extends Controller
             $model->responsibility_value = 0;
             $model->activity_id = $id ;
 
-            if((float)$modelBudget->budget_value_dp >= $baru->section_budget_value ){
+            if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
 
               Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
               return $this->redirect(Yii::$app->request->referrer);
@@ -206,6 +206,7 @@ class ActivityResponsibilityController extends Controller
         $modelBudget = ActivityBudgetSection::find()->where(['activity_id'=>$activity->id])->one();
         $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$modelBudget])->one();
         $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+        $oldDana = $modelBudget->budget_value_dp;
 
         $oldfiles = explode("**", $model->file);
         $oldPhotos = explode("**", $model->photo);
@@ -267,20 +268,31 @@ class ActivityResponsibilityController extends Controller
 
             }
 
-                if((float)$modelBudget->budget_value_dp >= $baru->section_budget_value ){
-
-                  Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+            if((float)$modelBudget->budget_value_dp != $oldDana){
+              if((float)$modelBudget->budget_value_dp >= $baru->section_budget_value){
+                if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
+                  var_dump($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp);die;
+                  Yii::$app->getSession()->setFlash('danger', 'Dana tidak cukup');
                   return $this->redirect(Yii::$app->request->referrer);
                 }else{
                   $balikDana = $baru->section_budget_value + $oldDana;
                   $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
                   // $danaPotong = ($baru->section_budget_value + $oldDana) + $danaReal;
-                  // var_dump($danaReal);die;
                   $baru->section_budget_value = $danaReal;
                   if($baru->save(false)){
                     $modelBudget->save(false);
                   }
                 }
+              }else{
+                $balikDana = $baru->section_budget_value + $oldDana;
+                $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
+                // $danaPotong = ($baru->section_budget_value + $oldDana) + $danaReal;
+                $baru->section_budget_value = $danaReal;
+                if($baru->save(false)){
+                  $modelBudget->save(false);
+                }
+              }
+            }
 
                 $model->responsibility_value = 0;
                 $model->save(false);
@@ -304,9 +316,11 @@ class ActivityResponsibilityController extends Controller
     public function actionDelete($id)
     {
         $model = ActivityResponsibility::find()->where(['id'=>$id])->one();
+
         $uploadPath = Yii::getAlias('@backend')."/web/template";
         $oldfiles = explode("**", $model->file);
         $oldPhotos = explode("**", $model->photo);
+        $oldDana = $modelBudget->budget_value_dp;
 
         foreach ($oldfiles as $key => $oldfile) {
           unlink($uploadPath.$oldfile);
@@ -510,14 +524,14 @@ class ActivityResponsibilityController extends Controller
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
                         <div class='col-sm-8'>
-                            ".$data->department_budget_value."
+                            ".$data->section_budget_value."
                         </div>
                     </div>
                 </div>
                 <br>
                 <br>
                 ";
-                $datas['max']=$data->department_budget_value;
+                $datas['max']=$data->section_budget_value;
             }else{
                 $datas['message']= "
                  <div class='col-sm-12'>

@@ -90,10 +90,6 @@ class ActivityChiefController extends \yii\web\Controller
                 $data = ChiefBudget::findOne($post['source_sdm']);
             }
 
-            if ($post['money_budget'] > $post['source_value']) {
-                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                return $this->redirect(Yii::$app->request->referrer);
-            }
 
             if ($post['source_value'] > $data->chief_budget_value) {
                 Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
@@ -101,7 +97,7 @@ class ActivityChiefController extends \yii\web\Controller
             }
             if ($post['jenis_sdm_source'] == '6') {
                 $data = ChiefBudget::findOne($post['source_sdm']);
-                $data->chief_budget_value = $data->chief_budget_value - (float) $post['money_budget'];
+                $data->chief_budget_value = $data->chief_budget_value - (float) $post['source_value'];
                 $data->save();
                 $idDepBudget = $data->id;
             }
@@ -166,7 +162,6 @@ class ActivityChiefController extends \yii\web\Controller
 
                     $depBudget = new ActivityBudgetChief();
                     $depBudget->chief_budget_id = $idDepBudget;
-                    $depBudget->budget_value_dp = $post['money_budget'];
                     $depBudget->budget_value_sum = $post['source_value'];
                     $depBudget->activity_id = $model->id;
                     $depBudget->save(false);
@@ -214,7 +209,7 @@ class ActivityChiefController extends \yii\web\Controller
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
-            $oldDP = $budget->budget_value_dp;
+            $oldDP = $budget->budget_value_sum;
             $oldBudget = $baru->chief_budget_value;
         }
 
@@ -281,18 +276,13 @@ class ActivityChiefController extends \yii\web\Controller
 
                     if ($role == 6) {
 
-                        $dp = $budget->budget_value_dp;
+                        // $dp = $budget->budget_value_dp;
                         $total = $budget->budget_value_sum;
                         $modal = $baru->chief_budget_value;
 
-                        if ($dp > $total) {
-                            Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                            return $this->redirect(Yii::$app->request->referrer);
-                        }
-
                         //nilai anggaran dp lebih kecil dari anggaran saat ini
-                        if ($dp <= $modal) {
-                            $dpBaru = $oldDP - $dp;
+                        if ($total <= $modal) {
+                            $dpBaru = $oldDP - $total;
                             $oldBudgetBaru = $modal + $dpBaru;
                             if ($oldBudgetBaru <= 0) {
                                 var_dump($oldBudgetBaru);die();
@@ -302,8 +292,8 @@ class ActivityChiefController extends \yii\web\Controller
                         }
 
                         //nilai anggaran dp lebih besar dari anggaran saat ini
-                        if ($dp >= $modal) {
-                            $dpBaru = $dp - $oldDP;
+                        if ($total >= $modal) {
+                            $dpBaru = $total - $oldDP;
                             $oldBudgetBaru = $modal - $dpBaru;
                             if ($oldBudgetBaru <= 0) {
                                 var_dump($oldBudgetBaru);die();
@@ -312,7 +302,6 @@ class ActivityChiefController extends \yii\web\Controller
                             }
                         }
 
-                        $budget->budget_value_dp = $budget->budget_value_dp;
                         $budget->budget_value_sum = $budget->budget_value_sum;
                         $budget->save(false);
 
@@ -403,7 +392,7 @@ class ActivityChiefController extends \yii\web\Controller
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
-          $oldDP = $budget->budget_value_dp;
+          $oldDP = $budget->budget_value_sum;
           $oldBudget = $baru->chief_budget_value;
       }
 

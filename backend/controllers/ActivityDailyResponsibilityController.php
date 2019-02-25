@@ -168,7 +168,7 @@ class ActivityDailyResponsibilityController extends Controller
             $model->responsibility_value = 0;
             $model->activity_id = $activity->id ;
 
-            if((float)$modelBudget->budget_value_dp >= $baru->section_budget_value ){
+            if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
 
               Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
               return $this->redirect(Yii::$app->request->referrer);
@@ -270,7 +270,7 @@ class ActivityDailyResponsibilityController extends Controller
 
             }
 
-            if((float)$modelBudget->budget_value_dp >= $baru->section_budget_value ){
+            if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
 
               Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
               return $this->redirect(Yii::$app->request->referrer);

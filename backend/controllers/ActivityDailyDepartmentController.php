@@ -68,11 +68,6 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                 $post = Yii::$app->request->post();
                 $data = DepartmentBudget::findOne($post['source_sdm']);
 
-                if ($post['money_budget'] > $post['source_value']) {
-                    Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                    return $this->redirect(Yii::$app->request->referrer);
-                }
-
                 if ($data == null) {
                     Yii::$app->getSession()->setFlash('danger', 'Jenis SDM / Kode Anggaran Harus Diisi');
                     return $this->redirect(Yii::$app->request->referrer);
@@ -86,7 +81,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                 if ($post['jenis_sdm_source'] == '7') {
                     $data = DepartmentBudget::findOne($post['source_sdm']);
 
-                    $data->department_budget_value = $data->department_budget_value - (float) $post['money_budget'];
+                    $data->department_budget_value = $data->department_budget_value - (float) $post['source_value'];
                     $data->save();
 
                     $idDep = $data->id;
@@ -114,7 +109,6 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
                     $dailyBudget = new ActivityDailyBudgetDepart();
                     $dailyBudget->department_budget_id = $idDep;
-                    $dailyBudget->budget_value_dp = $post['money_budget'];
                     $dailyBudget->budget_value_sum = $post['source_value'];
 
                     $dailyBudget->activity_id = $daily->id;

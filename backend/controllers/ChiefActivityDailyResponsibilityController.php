@@ -88,7 +88,11 @@ class ChiefActivityDailyResponsibilityController extends Controller
     {
         $model = new ActivityDailyResponsibility();
         $activity = ActivityDaily::find()->where(['id'=>$id])->one();
-        if ($model->load(Yii::$app->request->post())) {
+        $modelBudget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$activity->id])->one();
+        $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$modelBudget])->one();
+        $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+
+        if ($model->load(Yii::$app->request->post())&&$modelBudget->load(Yii::$app->request->post())) {
 
             $file_dok = UploadedFile::getInstance($model, 'fileApprove');
             $uploadPath = Yii::getAlias('@backend')."/web/template";
@@ -108,6 +112,22 @@ class ChiefActivityDailyResponsibilityController extends Controller
             $model->file = "/dokumen_".$file_dok->baseName ."_". $acak.".".$file_dok->extension;
             $model->photo = "/foto_".$file_gambar->baseName ."_". $acak.".".$file_gambar->extension;
             $model->activity_id = $activity->id ;
+
+            if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
+
+              Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
+              return $this->redirect(Yii::$app->request->referrer);
+            }else{
+              $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
+              // var_dump($danaReal);die;
+              $danaPotong = $baru->section_budget_value + $danaReal;
+              $baru->section_budget_value = $danaPotong;
+              if($baru->save(false)){
+                $modelBudget->save(false);
+              }
+            }
+
+
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
             return $this->redirect(['index']);
@@ -115,6 +135,8 @@ class ChiefActivityDailyResponsibilityController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'modelBudget' => $modelBudget,
+            'baru' => $baru,
         ]);
     }
 

@@ -83,13 +83,13 @@ class ActivityDailyChiefController extends Controller
       $model = ActivityDaily::find()->where(['id' => $id])->one();
 
       if ($model->role == 6) {
-          $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
+          $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $baru = ChiefBudget::find()->where(['id' => $awal->chief_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
-          $oldDP = $budget->budget_value_dp;
+          $oldDP = $budget->budget_value_sum;
           $oldBudget = $baru->chief_budget_value;
       }
 
@@ -119,11 +119,6 @@ class ActivityDailyChiefController extends Controller
                 $post = Yii::$app->request->post();
                 $data = ChiefBudget::findOne($post['source_sdm']);
 
-                if ($post['money_budget'] > $post['source_value']) {
-                    Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                    return $this->redirect(Yii::$app->request->referrer);
-                }
-
                 if ($post['source_value'] > $data->chief_budget_value) {
                     Yii::$app->getSession()->setFlash('danger', 'Dana Yang Diajukan Melebihi Anggaran Saat Ini');
                     return $this->redirect(Yii::$app->request->referrer);
@@ -132,7 +127,7 @@ class ActivityDailyChiefController extends Controller
                 if ($post['jenis_sdm_source'] == '6') {
                     $data = ChiefBudget::findOne($post['source_sdm']);
 
-                    $data->chief_budget_value = $data->chief_budget_value - (float) $post['money_budget'];
+                    $data->chief_budget_value = $data->chief_budget_value - (float) $post['source_value'];
                     $data->save();
 
                     $idDep = $data->id;
@@ -143,8 +138,8 @@ class ActivityDailyChiefController extends Controller
 
                 $daily = new ActivityDaily();
                 $daily->finance_status = 0;
-                $daily->department_status = 0;
-                $daily->chief_status = 0;
+                $daily->department_status = 1;
+                $daily->chief_status = 1;
                 $daily->title = $post['judul'];
                 $daily->description = $post['description'];
                 $daily->role = 6;
@@ -164,7 +159,6 @@ class ActivityDailyChiefController extends Controller
 
                     $dailyBudget = new ActivityDailyBudgetChief();
                     $dailyBudget->chief_budget_id = $idDep;
-                    $dailyBudget->budget_value_dp = $post['money_budget'];
                     $dailyBudget->budget_value_sum = $post['source_value'];
 
                     $dailyBudget->activity_id = $daily->id;
