@@ -38,15 +38,18 @@ $date = date('Y-m-d');
     </style>
 </head>
 <body>
-<p align="center"><strong>RINCIAN UANG MUKA KEGIATAN </strong><br>
-    <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
-  <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-<span>NO : <?= $model->id.'/'.$department->depart_code.'/' ?>
-<?php
-$bulan = date('n');
-$romawi = getRomawi($bulan);
-echo $romawi .'/SKPG'; ?>
-<?php echo '/'.date("Y"); ?></span><br>
+  <img src="<?=Yii::getAlias('@web'); ?>/image/kop-surat.png">
+  <p align="center">
+    <span>Jl. Jenderal Ahmad Yani - Gresik 61119</span>
+  </p>
+  <p align="center">
+  <span>NO : <?= $model->id.'/'.$department->depart_code.'/' ?>
+  <?php
+  $bulan = date('n');
+  $romawi = getRomawi($bulan);
+  echo $romawi .'/SKPG'; ?>
+  <?php echo '/'.date("Y"); ?></span><br>
+  </p>
 
 <hr style="color:#000000;"></hr>
 
