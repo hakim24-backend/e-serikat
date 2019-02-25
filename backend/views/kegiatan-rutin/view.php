@@ -39,8 +39,6 @@ $list_seksi = array_values($array_seksi);
 <div class="activity-form">
 
   <p>
-      <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-      <?= Html::a('Download File', ['report','id' => $model->id], ['class' => 'btn btn-success']) ?>
       <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
   </p>
 
@@ -65,7 +63,7 @@ $list_seksi = array_values($array_seksi);
                           <?= $baru->secretariat_budget_value ?>
                       <?php } elseif ($Role == "Seksi") { ?>
                           <?= $baru->section_budget_value ?>
-                     <?php } ?> 
+                     <?php } ?>
                     </div>
                 </div>
             </div>

@@ -41,12 +41,12 @@ if($Role != "Sekretariat"){
     <div class="box-body">
         <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Jenis SDM</label>
+                <label class="col-sm-4">Sumber Dana</label>
                 <div class="col-sm-8">
                     <?php if ($Role == "Sekretariat"){ ?>
-                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
                     <?php }else if($Role == "Seksi"){ ?>
-                    <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
                     <?php } ?>
                 </div>
             </div>

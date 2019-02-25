@@ -24,7 +24,7 @@ $date = date('Y-m-d');
     <!--
     @page {
               size: 29.7cm 21cm  portrait;   /*A4*/
-              padding:0; margin:1; 
+              padding:0; margin:1;
               top:0; left:0; right:0;bottom:0; border:0;
           }
 
@@ -107,8 +107,17 @@ echo $romawi .'/SKPG'; ?>
             <tr>
                 <td>Nama Anggota Seksi</td>
                 <td>:</td>
-                <?php foreach ($sectionMember as $key => $value) { ?>
-                    <td><?=$value->section_name_member?></td>
+                <?php foreach ($sectionMember as $key => $value) {
+                    if($key == 0){ ?>
+                      <td><?=$value->section_name_member?></td>
+                    <?php }else{ ?>
+                      <tr>
+                      <td></td>
+                      <td></td>
+                      <td><?=$value->section_name_member?></td>
+                      </tr>
+                    <?php }
+                   ?>
                <?php } ?>
             </tr>
             <tr>
@@ -134,7 +143,7 @@ echo $romawi .'/SKPG'; ?>
                 <td><?=$model->title?></td>
         </tr>
         <tr>
-            <td>Latar Belakang</td>
+            <td valign="top">Latar Belakang</td>
             <td>:</td>
                 <td><?=$model->background?></td>
         </tr>

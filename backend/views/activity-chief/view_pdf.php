@@ -108,8 +108,17 @@ $date = date('Y-m-d');
             <tr>
                 <td>Nama Anggota Seksi</td>
                 <td>:</td>
-                <?php foreach ($sectionMember as $key => $value) { ?>
-                    <td><?=$value->section_name_member?></td>
+                <?php foreach ($sectionMember as $key => $value) {
+                    if($key == 0){ ?>
+                      <td><?=$value->section_name_member?></td>
+                    <?php }else{ ?>
+                      <tr>
+                      <td></td>
+                      <td></td>
+                      <td><?=$value->section_name_member?></td>
+                      </tr>
+                    <?php }
+                   ?>
                <?php } ?>
             </tr>
             <tr>
@@ -135,7 +144,7 @@ $date = date('Y-m-d');
                 <td><?=$model->title?></td>
         </tr>
         <tr>
-            <td>Latar Belakang</td>
+            <td valign="top">Latar Belakang</td>
             <td>:</td>
                 <td><?=$model->background?></td>
         </tr>

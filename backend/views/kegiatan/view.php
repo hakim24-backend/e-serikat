@@ -36,8 +36,6 @@ $list_seksi = array_values($array_seksi);
 <div class="activity-form">
 
   <p>
-      <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-      <?= Html::a('Download File', ['report','id' => $model->id], ['class' => 'btn btn-success']) ?>
       <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
   </p>
 
@@ -62,7 +60,7 @@ $list_seksi = array_values($array_seksi);
                             <?= $baru->secretariat_budget_value ?>
                         <?php } elseif ($Role == "Seksi") { ?>
                             <?= $baru->section_budget_value ?>
-                       <?php } ?> 
+                       <?php } ?>
 
                     </div>
                 </div>
@@ -103,7 +101,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Nama Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'name_activity',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'required' => true, 'disabled'=>true])->label(false) ?>
+                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true, 'disabled'=>true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
             <div class="col-md-12">
@@ -111,7 +109,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Judul</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'disabled'=>true])->label(false) ?>
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'disabled'=>true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -121,7 +119,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'disabled'=>true])->label(false) ?>
+                <?= $form->field($model, 'background')->textarea(['rows' => 4, 'disabled'=>true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -131,7 +129,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'disabled'=>true])->label(false) ?>
+                <?= $form->field($model, 'purpose')->textarea(['rows' => 4, 'disabled'=>true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -141,7 +139,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Target Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'disabled'=>true])->label(false) ?>
+                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4, 'disabled'=>true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -169,7 +167,7 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
-                <?= Html::dropDownList('ketua', $ketua->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control', 'disabled'=>true]) ?>
+                <?= $ketua->name_member?>
             </div>
         </div>
     </div>
@@ -177,7 +175,7 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Wakil</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('wakil', $wakil->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control', 'disabled'=>true]) ?>
+              <?=  $wakil->name_member?>
             </div>
         </div>
     </div>
@@ -185,7 +183,7 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Sekretaris</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('sekretaris', $sekretaris->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control', 'disabled'=>true]) ?>
+              <?= $sekretaris->name_member ?>
             </div>
         </div>
     </div>
@@ -193,7 +191,7 @@ $list_seksi = array_values($array_seksi);
         <div class="form-group">
             <label class="col-sm-4">Bendahara</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('bendahara', $bendahara->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control', 'disabled'=>true]) ?>
+              <?=$bendahara->name_member ?>
             </div>
         </div>
     </div>

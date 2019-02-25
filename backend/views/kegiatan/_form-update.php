@@ -34,6 +34,14 @@ $list_seksi = array_values($array_seksi);
 // $range = date('Y-m-d').' to '.date('Y-m-d');
 // $range_start = date('Y-m-d');
 // $range_end = date('Y-m-d');
+if($Role != "Sekretariat"){
+  $minDate = date('Y-m-d',strtotime("-1 weeks"));
+  $maxDate = date('Y-m-d',strtotime("+1 month"));
+}else{
+  $minDate = 0;
+  $maxDate = 0;
+}
+
 ?>
 
 <div class="activity-form">
@@ -382,8 +390,8 @@ HTML;
                                     'format' => 'Y-m-d',
                                 ],
                                 'drops' => 'up',
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
-                                'maxDate' => date('Y-m-d',strtotime("+1 month")),
+                                'minDate' => $minDate,
+                                'maxDate' => $maxDate,
                             ]
                         ]) . $addon;
                         echo '</div>';

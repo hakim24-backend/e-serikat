@@ -115,7 +115,7 @@ class BendaharaRutinController extends Controller
       if ($model->role == 6) {
           $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
           $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -204,7 +204,7 @@ class BendaharaRutinController extends Controller
                 $baru->save(false);
             }
 
-        Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');
+        Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Ditolak');
         return $this->redirect(['index']);
 
         }

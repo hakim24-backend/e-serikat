@@ -203,7 +203,19 @@ class User extends ActiveRecord implements IdentityInterface
     public function getSekre() {
         return $this->hasOne(Secretariat::className(), ['user_id' => 'id']);
     }
-    
+
+    public function getChief() {
+        return $this->hasOne(Chief::className(), ['user_id' => 'id']);
+    }
+
+    public function getDepartment() {
+        return $this->hasOne(Department::className(), ['user_id' => 'id']);
+    }
+
+    public function getSection() {
+        return $this->hasOne(Section::className(), ['user_id' => 'id']);
+    }
+
     public function roleName()
     {
          return \Yii::$app->user->identity->roles->name_role;

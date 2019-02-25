@@ -22,11 +22,11 @@ $this->title = 'Pemindahan Dana';
         </div>
     </div>
     <div class="box-body">
-        <div class="col-sm-12">        
+        <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Jenis SDM</label>
+                <label class="col-sm-4">Sumber Dana</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_source', null, [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                    <?= Html::dropDownList('jenis_sdm_source', null, [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@ $this->title = 'Pemindahan Dana';
         <br>
         <br>
         <div id="nilai-anggaran-source">
-            
+
         </div>
         <div class="col-sm-12">
             <div class="form-group">
@@ -65,11 +65,11 @@ $this->title = 'Pemindahan Dana';
         </div>
     </div>
     <div class="box-body">
-        <div class="col-sm-12">        
+        <div class="col-sm-12">
             <div class="form-group">
-                <label class="col-sm-4">Jenis SDM</label>
+                <label class="col-sm-4">Sumber Dana</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_dest', null, [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Jenis SDM', 'class'=>'col-sm-8', 'id'=>'jenis-tujuan']) ?>
+                    <?= Html::dropDownList('jenis_sdm_dest', null, [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8', 'id'=>'jenis-tujuan']) ?>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@ $this->title = 'Pemindahan Dana';
         <br>
         <br>
         <div id="nilai-anggaran-dest">
-            
+
         </div>
     </div>
 </div>

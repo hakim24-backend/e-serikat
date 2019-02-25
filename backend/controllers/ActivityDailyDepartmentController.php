@@ -231,9 +231,10 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
       $model = ActivityDaily::find()->where(['id' => $id])->one();
 
       if ($model->role == 7) {
-          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
-          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget->id])->one();
-          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
+          // var_dump($budget);die;
+          $baru = DepartmentBudget::find()->where(['id' => $awal->department_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;

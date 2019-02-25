@@ -95,7 +95,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Nama Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'name_activity',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
             <div class="col-md-12">
@@ -103,7 +103,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Judul</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'title',['inputOptions'=>['autocomplete'=>'off']])->textInput(['maxlength' => true, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Latar Belakang</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'background',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'background')->textarea(['rows' => 4, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Tujuan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'purpose',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'purpose')->textarea(['rows' => 4, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@ $list_seksi = array_values($array_seksi);
                 <label>Target Kegiatan</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'target_activity',['inputOptions'=>['autocomplete'=>'off']])->textarea(['rows' => 4, 'required' => true])->label(false) ?>
+                <?= $form->field($model, 'target_activity')->textarea(['rows' => 4, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
           </div>
@@ -169,6 +169,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'ketua',
+                  'value' => $ketua->name_member,
                   'options' => ['required' => true],
                   'clientOptions' => [
                       'source' => $list_seksi,
@@ -184,8 +185,8 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'wakil',
+                  'value' => $wakil->name_member,
                   'options' => ['required' => true],
-
                   'clientOptions' => [
                       'source' => $list_seksi,
                   ],
@@ -199,6 +200,7 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'sekretaris',
+                  'value' => $sekretaris->name_member,
                   'options' => ['required' => true],
                   'clientOptions' => [
                       'source' => $list_seksi,
@@ -213,8 +215,8 @@ $list_seksi = array_values($array_seksi);
             <div class="col-sm-8">
               <?= \yii\jui\AutoComplete::widget([
                   'name' => 'bendahara',
+                  'value' => $bendahara->name_member,
                   'options' => ['required' => true],
-
                   'clientOptions' => [
                       'source' => $list_seksi,
                   ],
@@ -308,7 +310,7 @@ $list_seksi = array_values($array_seksi);
 
                                   ?>
 
-                                  <?= $form->field($modelSection, "[{$indexSection}]section_name",['inputOptions'=>['autocomplete'=>'off']])->label(false)->textInput(['maxlength' => true, 'required' => true]) ?>
+                                  <?= $form->field($modelSection, "[{$indexSection}]section_name")->label(false)->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']]) ?>
 
                               </td>
 
@@ -377,7 +379,7 @@ HTML;
                                     'format' => 'Y-m-d',
                                 ],
                                 'drops' => 'up',
-                                'minDate' => date('Y-m-d',strtotime("-3 days")),
+                                'minDate' => date('Y-m-d',strtotime("-1 weeks")),
                                 'maxDate' => date('Y-m-d',strtotime("+1 month")),
                             ]
                         ]) . $addon;

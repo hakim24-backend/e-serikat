@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDailyReject */
 /* @var $form yii\widgets\ActiveForm */
-$this->title = 'Approval - Data Kegiatan Rutin Sekretariat';
+$this->title = 'Reject - Data Kegiatan';
 ?>
 
 <div class="activity-daily-reject-form">
