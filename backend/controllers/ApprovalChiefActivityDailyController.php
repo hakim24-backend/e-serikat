@@ -86,9 +86,7 @@ class ApprovalChiefActivityDailyController extends Controller
           $range_end = $model->date_end;
           $oldDP = $budget->budget_value_dp;
           $oldBudget = $baru->chief_budget_value;
-      }
-
-      if ($model->role == 7) {
+      }else if ($model->role == 7) {
           $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model])->one();
           $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
           $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
@@ -97,7 +95,19 @@ class ApprovalChiefActivityDailyController extends Controller
           $range_end = $model->date_end;
           $oldDP = $budget->budget_value_dp;
           $oldBudget = $baru->department_budget_value;
+      }else if ($model->role == 8) {
+          $budget = ActivityDailyBudgetSection::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id' => $budget])->one();
+          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->section_budget_value;
       }
+
+
+
 
         return $this->render('view', [
             'model' => $model,
