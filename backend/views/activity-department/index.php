@@ -29,6 +29,9 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                             <?php Pjax::begin();?>
                               <?=GridView::widget([
                                 'dataProvider' => $dataProvider,
+                                'options' =>[
+                                  'style'=>'width:100%'
+                                  ],
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
 
@@ -43,7 +46,7 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                     [
                                         'header' => 'Tujuan',
                                         'headerOptions' =>[
-                                        'style' => 'width:10%'
+                                        'style' => 'width:20%'
                                         ],
                                         'attribute' => 'purpose',
                                     ],
@@ -51,7 +54,7 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
                                     [
                                         'header' => 'Tempat Pelaksanaan',
                                         'headerOptions' =>[
-                                        'style' => 'width:20%'
+                                        'style' => 'width:10%'
                                         ],
                                         'attribute' => 'place_activity',
                                     ],

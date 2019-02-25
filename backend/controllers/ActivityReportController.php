@@ -4,11 +4,23 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Activity;
+use common\models\ActivityMainMember;
+use common\models\ActivityBudgetChief;
+use common\models\ActivityBudgetSection;
+use common\models\ActivityBudgetDepartment;
+use common\models\ActivityBudgetSecretariat;
+use common\models\ChiefBudget;
+use common\models\SectionBudget;
+use common\models\SecretariatBudget;
+use common\models\DepartmentBudget;
+use common\models\ActivitySection;
+use common\models\ActivitySectionMember;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 /**
  * ActivityReportController implements the CRUD actions for Activity model.
@@ -132,7 +144,16 @@ class ActivityReportController extends Controller
           ->andWhere(['name_committee' => "Bendahara"])
           ->one();
 
-      if ($role == 6) {
+      if ($model->role == 4) {
+          $budget = ActivityBudgetSecretariat::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id' => $budget])->one();
+          $baru = SecretariatBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->secretariat_budget_value;
+      } elseif ($model->role == 6) {
           $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
           $baru = ChiefBudget::find()->where(['id' => $awal])->one();
@@ -141,6 +162,24 @@ class ActivityReportController extends Controller
           $range_end = $model->date_end;
           $oldDP = $budget->budget_value_sum;
           $oldBudget = $baru->chief_budget_value;
+      } elseif ($model->role == 7) {
+          $budget = ActivityBudgetDepartment::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetDepartment::find()->where(['department_budget_id' => $budget])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_sum;
+          $oldBudget = $baru->department_budget_value;
+      } elseif ($model->role == 8) {
+          $budget = ActivityBudgetSection::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetSection::find()->where(['section_budget_id' => $budget])->one();
+          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->section_budget_value;
       }
 
       // retrieve existing ActivitySection data
