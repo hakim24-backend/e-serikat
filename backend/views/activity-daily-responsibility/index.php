@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 if ($model->activityDailyResponsibilities) {
                                                     $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '| <span class="glyphicon glyphicon-pencil"></span> ',
+                                                        '| <span class="glyphicon glyphicon-pencil"></span> | ',
                                                         $url,
                                                         [
                                                             'title' => 'Edit Pertanggungjawaban',
@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 } else {
                                                     $url = Url::toRoute(['/activity-daily-responsibility/create', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '| <span class="glyphicon glyphicon-plus"></span> |',
+                                                        '| <span class="glyphicon glyphicon-plus"></span> | ',
                                                         $url,
                                                         [
                                                             'title' => 'Buat Pertanggungjawaban',
@@ -105,7 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 if ($model->activityDailyResponsibilities) {
                                                     $url = Url::toRoute(['/activity-daily-responsibility/report', 'id' => $model->id]);
                                                     return Html::a(
-                                                        '| <span class="glyphicon glyphicon-download"></span> |',
+                                                        '<span class="glyphicon glyphicon-download"></span> |',
                                                         $url,
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',

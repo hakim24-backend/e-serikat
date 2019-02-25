@@ -62,7 +62,11 @@ echo $romawi .'/SKPG'; ?>
         </tr>
         <tr>
             <td>Nama</td>
+            <?php if ($Role == "Sekretariat") { ?>
+            <td>: <?=$sekre->secretariat_name?></td>
+            <?php } else if ($Role == "Seksi") { ?>
             <td>: <?=$seksiId->section_name?></td>
+            <?php } ?>
         </tr>
         <tr>
             <td>Unit Kerja</td>

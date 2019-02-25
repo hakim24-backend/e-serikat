@@ -195,9 +195,9 @@ $role = Yii::$app->user->identity->role;
                $depId = \common\models\Department::find()->where(['id' => $sectionId->id_depart])->one();
                $chiefId = \common\models\Chief::find()->where(['id' => $depId->id_chief])->one();
 
-               $model->finance_status = 0;
-               $model->department_status = 0;
-               $model->chief_status = 0;
+               $model->finance_status = 1;
+               $model->department_status = 1;
+               $model->chief_status = 1;
                $model->department_code_id = $depId->id;
                $model->chief_code_id = $chiefId->id;
              }
@@ -600,6 +600,8 @@ $role = Yii::$app->user->identity->role;
           $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
           $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
           $sekre = Secretariat::find()->where(['id'=>$baru])->one();
+          $department = Department::find()->where(['id'=>$model->department_code_id])->one();
+          $seksiId = Section::find()->where(['id_depart'=>$department])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
           $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
