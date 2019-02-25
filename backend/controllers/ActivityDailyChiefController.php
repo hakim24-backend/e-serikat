@@ -193,7 +193,7 @@ class ActivityDailyChiefController extends Controller
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
-            $oldDP = $budget->budget_value_dp;
+            $oldDP = $budget->budget_value_sum;
             $oldBudget = $baru->chief_budget_value;
 
             if ($model->load(Yii::$app->request->post())) {
@@ -207,19 +207,15 @@ class ActivityDailyChiefController extends Controller
 
                 if ($save && $budget->load(Yii::$app->request->post())) {
 
-                    $dp = $budget->budget_value_dp;
+                    // $dp = $budget->budget_value_dp;
                     $total = $budget->budget_value_sum;
                     $modal = $baru->chief_budget_value;
 
-                    if ($dp > $total) {
-                        Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                        return $this->redirect(Yii::$app->request->referrer);
-                    }
 
                     //nilai anggaran dp lebih kecil dari anggaran saat ini
-                    if ($oldBudget <= $dp) {
-                        $dpBaru = $oldDP - $dp;
-                        $oldBudgetBaru = $oldBudget + $dpBaru;
+                    if ($total <= $modal) {
+                        $dpBaru = $oldDP - $total;
+                        $oldBudgetBaru = $modal + $dpBaru;
                         if ($oldBudgetBaru <= 0) {
                             var_dump($oldBudgetBaru);die();
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
@@ -228,9 +224,9 @@ class ActivityDailyChiefController extends Controller
                     }
 
                     //nilai anggaran dp lebih besar dari anggaran saat ini
-                    if ($oldBudget >= $dp) {
-                        $dpBaru = $dp - $oldDP;
-                        $oldBudgetBaru = $oldDP - $dpBaru;
+                    if ($total >= $modal) {
+                        $dpBaru = $total - $oldDP;
+                        $oldBudgetBaru = $modal - $dpBaru;
                         if ($oldBudgetBaru <= 0) {
                             var_dump($oldBudgetBaru);die();
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
@@ -238,7 +234,7 @@ class ActivityDailyChiefController extends Controller
                         }
                     }
 
-                    $budget->budget_value_dp = $budget->budget_value_dp;
+                    // $budget->budget_value_dp = $budget->budget_value_dp;
                     $budget->budget_value_sum = $budget->budget_value_sum;
                     $budget->save(false);
 

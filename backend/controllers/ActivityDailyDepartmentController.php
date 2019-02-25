@@ -165,19 +165,15 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
                 if ($save && $budget->load(Yii::$app->request->post())) {
 
-                    $dp = $budget->budget_value_dp;
+                    // $dp = $budget->budget_value_dp;
                     $total = $budget->budget_value_sum;
                     $modal = $baru->department_budget_value;
 
-                    if ($dp > $total) {
-                        Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Yang Diajukan');
-                        return $this->redirect(Yii::$app->request->referrer);
-                    }
 
                     //nilai anggaran dp lebih kecil dari anggaran saat ini
-                    if ($oldBudget <= $dp) {
-                        $dpBaru = $oldDP - $dp;
-                        $oldBudgetBaru = $oldBudget + $dpBaru;
+                    if ($total <= $modal) {
+                        $dpBaru = $oldDP - $total;
+                        $oldBudgetBaru = $modal + $dpBaru;
                         if ($oldBudgetBaru <= 0) {
                             var_dump($oldBudgetBaru);die();
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
@@ -186,9 +182,9 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                     }
 
                     //nilai anggaran dp lebih besar dari anggaran saat ini
-                    if ($oldBudget >= $dp) {
-                        $dpBaru = $dp - $oldDP;
-                        $oldBudgetBaru = $oldDP - $dpBaru;
+                    if ($total >= $modal) {
+                        $dpBaru = $total - $oldDP;
+                        $oldBudgetBaru = $modal - $dpBaru;
                         if ($oldBudgetBaru <= 0) {
                             var_dump($oldBudgetBaru);die();
                             Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
@@ -196,7 +192,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                         }
                     }
 
-                    $budget->budget_value_dp = $budget->budget_value_dp;
+                    // $budget->budget_value_dp = $budget->budget_value_dp;
                     $budget->budget_value_sum = $budget->budget_value_sum;
                     $budget->save(false);
 
