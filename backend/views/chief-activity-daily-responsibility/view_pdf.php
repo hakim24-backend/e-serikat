@@ -39,14 +39,7 @@ $Role = Yii::$app->user->identity->roleName();
     <body>
       <section id="core" style="width: 100%;">
       <div class="center-content">
-        <table class="table table-responsive" width="100%" border="1">
-          <tbody>
-             <tr>
-              <td colspan="1" rowspan="2" width="16%" class="text-center" ><img src="<?=Yii::getAlias('@web'); ?>/image/logo.png"></td>
-              <th colspan="4" class="text-center" style="vertical-align: middle;">PERTANGGUNG JAWABAN UANG MUKA</th>
-            </tr>
-          </tbody>
-         </table>
+         <img src="<?=Yii::getAlias('@web'); ?>/image/kop-lpj.png">
          <table>
            <tbody>
              <tr style="border-bottom-style: hidden;">

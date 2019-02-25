@@ -36,22 +36,24 @@ $date = date('Y-m-d');
     -->
 </style>
 </head>
-<body style="color:#000066;">
-<div id="apDiv1">
-<p align="center"><span class="style9"><strong>RINCIAN UANG MUKA KEGIATAN RUTIN </strong><br>
-    <span class="style3"><strong>PETRO KIMIA GRESIK</strong></span><br>
-  <span>Jl. Jenderal Ahmad Yani - Gresik 61119<br><br>
-<?php if ($Role == "Sekretariat") { ?>
-<span>NO : <?= $model->id.'/'.$kodeid->secretariat_code.'/' ?>
-<?php } else if ($Role == "Seksi") { ?>
-<span>NO : <?= $model->id.'/'.$kodeid->section_code.'/' ?>
-<?php } ?>
-<?php
-$bulan = date('n');
-$romawi = getRomawi($bulan);
-echo $romawi .'/SKPG'; ?>
-<?php echo '/'.date("Y"); ?>
-</span><br>
+<body>
+  <img src="<?=Yii::getAlias('@web'); ?>/image/kop-surat.png">
+  <p align="center">
+    <span>Jl. Jenderal Ahmad Yani - Gresik 61119</span>
+  </p>
+  <p align="center">
+   <?php if ($Role == "Sekretariat") { ?>
+   <span>NO : <?= $model->id.'/'.$kodeid->secretariat_code.'/' ?>
+   <?php } else if ($Role == "Seksi") { ?>
+   <span>NO : <?= $model->id.'/'.$kodeid->section_code.'/' ?>
+   <?php } ?>
+   <?php
+   $bulan = date('n');
+   $romawi = getRomawi($bulan);
+   echo $romawi .'/SKPG'; ?>
+   <?php echo '/'.date("Y"); ?>
+   </span><br>
+  </p>
 
 <hr style="color:#000000;"></hr>
 
