@@ -110,8 +110,69 @@ class ActivityReportController extends Controller
      */
     public function actionView($id)
     {
+
+      $role = Yii::$app->user->identity->role;
+      // retrieve existing Deposit data
+      $model = Activity::find()->where(['id' => $id])->one();
+
+      $ketua = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Ketua"])->one();
+          // var_dump($ketua->name_member);die;
+      $wakil = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Wakil"])
+          ->one();
+      $sekretaris = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Sekretaris"])
+          ->one();
+      $bendahara = ActivityMainMember::find()
+          ->where(['activity_id' => $id])
+          ->andWhere(['name_committee' => "Bendahara"])
+          ->one();
+
+      if ($role == 6) {
+          $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
+          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_sum;
+          $oldBudget = $baru->chief_budget_value;
+      }
+
+      // retrieve existing ActivitySection data
+      $oldActivitySectionIds = ActivitySection::find()->select('id')
+          ->where(['activity_id' => $id])->asArray()->all();
+      $oldActivitySectionIds = ArrayHelper::getColumn($oldActivitySectionIds, 'id');
+      $modelsSection = ActivitySection::findAll(['id' => $oldActivitySectionIds]);
+      $modelsSection = (empty($modelsSection)) ? [new ActivitySection] : $modelsSection;
+
+      // retrieve existing Loads data
+      $oldLoadIds = [];
+      foreach ($modelsSection as $i => $modelSection) {
+          $oldLoads = ActivitySectionMember::findAll(['section_activity_id' => $modelSection->id]);
+          $modelsMember[$i] = $oldLoads;
+          $oldLoadIds = array_merge($oldLoadIds, ArrayHelper::getColumn($oldLoads, 'id'));
+          $modelsMember[$i] = (empty($modelsMember[$i])) ? [new ActivitySectionMember] : $modelsMember[$i];
+      }
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'budget' => $budget,
+            'baru' => $baru,
+            'ketua' => $ketua,
+            'wakil' => $wakil,
+            'sekretaris' => $sekretaris,
+            'bendahara' => $bendahara,
+            'modelsSection' => $modelsSection,
+            'modelsMember' => $modelsMember,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
         ]);
     }
 

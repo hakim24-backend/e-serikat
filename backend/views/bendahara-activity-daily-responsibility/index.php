@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '{closing} {view} {download}',
+                                'template' => '{closing} {view}',
                                 'buttons' => [
                                         'closing' => function($url, $model, $key)
                                         {

@@ -4,12 +4,23 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ActivityDaily;
+use common\models\ActivityDailyBudgetChief;
+use common\models\ActivityDailyBudgetDepart;
+use common\models\ActivityDailyBudgetSection;
 use common\models\ActivityDailyResponsibility;
+use common\models\DepartmentBudget;
+use common\models\SectionBudget;
+use common\models\ChiefBudget;
+use common\models\Section;
+use common\models\Chief;
+use common\models\Department;
+use common\models\Budget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use kartik\mpdf\Pdf;
 
 /**
  * ChiefApprovalActivityDailyResponsibilityController implements the CRUD actions for ActivityDaily model.
@@ -30,7 +41,7 @@ class ChiefApprovalActivityDailyResponsibilityController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','index','view','closing','update-closing','delete','download'],
+                        'actions' => ['logout','index','view','closing','update-closing','delete','download','report'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -153,6 +164,67 @@ class ChiefApprovalActivityDailyResponsibilityController extends Controller
         if (file_exists($path)) {
             return Yii::$app->response->sendFile($path);
         }
+    }
+
+    public function actionReport($id) {
+
+    $report = ActivityDaily::find()->where(['id'=>$id])->one();
+
+    if ($report->role == 7) {
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model->id])->one();
+        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
+        $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+        $sekre = Department::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+    } elseif ($report->role == 8) {
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
+        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+        $sekre = Section::find()->where(['id'=>$baru])->one();
+        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+    }
+
+    $content = $this->renderPartial('view_pdf',[
+            'model'=>$model,
+            'budget'=>$budget,
+            'baru'=>$baru,
+            'sumber'=>$sumber,
+            'sekre'=>$sekre,
+            'report'=>$report,
+            'lpj'=> $lpj
+        ]);
+
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE,
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER,
+            // your html content input
+            'content' => $content,
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}',
+             // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+             // call mPDF methods on the fly
+            'methods' => [
+                // 'SetHeader'=>['Krajee Report Header'],
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+    // return the pdf output as per the destination setting
+    return $pdf->render();
     }
 
     /**

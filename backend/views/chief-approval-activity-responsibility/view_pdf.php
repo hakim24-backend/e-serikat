@@ -8,7 +8,7 @@ use kartik\mpdf\Pdf;
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
 
-$this->title = 'Data Kegiatan Rutin Bendahara';
+$this->title = 'Data Kegiatan Rutin Ketua';
 $this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -45,11 +45,7 @@ $Role = Yii::$app->user->identity->roleName();
              <tr style="border-bottom-style: hidden;">
               <td colspan="2" style="border-right-style: hidden;">Nama</td>
               <td style="border-right-style: hidden;">:</td>
-              <?php if ($report->role == 4) { ?>
-                <td colspan="3"><?=$sekre->secretariat_name?></td>
-              <?php } elseif ($report->role == 6) { ?>
-                <td colspan="3"><?=$sekre->chief_name?></td>
-              <?php } elseif ($report->role == 7) { ?>
+              <?php if ($report->role == 7) { ?>
                 <td colspan="3"><?=$sekre->depart_name?></td>
               <?php } elseif ($report->role == 8) { ?>
                 <td colspan="3"><?=$sekre->section_name?></td>
@@ -58,11 +54,7 @@ $Role = Yii::$app->user->identity->roleName();
             <tr style="border-bottom-style: hidden;">
               <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen</td>
               <td style="border-right-style: hidden;">:</td>
-              <?php if ($report->role == 4) { ?>
-                <td colspan="3"><?=$sekre->secretariat_code?></td>
-              <?php } elseif ($report->role == 6) { ?>
-                <td colspan="3"><?=$sekre->chief_code?></td>
-              <?php } elseif ($report->role == 7) { ?>
+              <?php if ($report->role == 7) { ?>
                 <td colspan="3"><?=$sekre->depart_code?></td>
               <?php } elseif ($report->role == 8) { ?>
                 <td colspan="3"><?=$sekre->section_code?></td>
@@ -166,11 +158,7 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
-              <?php if ($report->role == 4) { ?>
-                <td class="text-center"><?=$baru->secretariat_budget_value?></td>
-              <?php } elseif ($report->role == 6) { ?>
-                <td class="text-center"><?=$baru->chief_budget_value?></td>
-              <?php } elseif ($report->role == 7) { ?>
+              <?php if ($report->role == 7) { ?>
                 <td class="text-center"><?=$baru->department_budget_value?></td>
               <?php } elseif ($report->role == 8) { ?>
                 <td class="text-center"><?=$baru->section_budget_value?></td>
@@ -185,23 +173,20 @@ $Role = Yii::$app->user->identity->roleName();
           <tbody>
              <tr>
               <td colspan="1" rowspan="2" width="16%" class="text-center">Yang mempertanggung jawabkan</td>
-              <td colspan="4" class="text-center">Menyetujui</td>
+              <td colspan="3" class="text-center">Menyetujui</td>
             </tr>
             <tr>
-              <td width="21%">KADEP</td>
-              <td class="text-center" width="21%">KETUA II </td>
-              <td class="text-center" width="21%">SEKRETARIS UMUM </td>
-              <td class="text-center" width="21%">BENDAHARA </td>
+              <td class="text-center" width="21%">KETUA</td>
+              <td class="text-center" width="21%">SEKRETARIS</td>
+              <td class="text-center" width="21%">BENDAHARA</td>
             </tr>
             <tr>
-              <td class="text-center" style="border-bottom-style: hidden;">Ketua Seksi</td>
-              <td style="border-bottom-style: hidden;"></td>
+              <td class="text-center" style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
-              <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
@@ -212,17 +197,8 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
@@ -233,6 +209,11 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
@@ -240,24 +221,21 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
-              <td></td>
               <td></td>
               <td class="text-center"><div style="margin-top: 100px;"></div></td>
               <td class="text-center"><div style="margin-top: 100px;"></div></td>
               <td></td>
             </tr>
             <tr>
-              <td colspan="6"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>
+              <td colspan="4"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>
             </tr>
           </tbody>
          </table>

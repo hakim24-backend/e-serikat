@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?>
 
 
-    <?= $form->field($model, 'description')->textInput()->label('Deskripsi') ?>
+    <?= $form->field($model, 'description')->textInput()->label('Uraian') ?>
 
 <!--     <?= $form->field($model, 'responsibility_value')->textInput() ?> -->
 
