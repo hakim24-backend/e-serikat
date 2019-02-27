@@ -36,7 +36,7 @@ class TransferController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index', 'create','result','save','update-sekretariat','update-ketua','update-departemen','update-seksi','cek_null'],
+                        'actions' => ['index', 'create','result','save','update-sekretariat','update-ketua','update-departemen','update-seksi','cek_null','delete-sekretariat','delete-ketua','delete-departemen','delete-seksi'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -120,16 +120,16 @@ class TransferController extends Controller
                 $highestRow = $worksheet->getHighestRow();
                 $highestColumn = $worksheet->getHighestColumn();
                 $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn);
-                
+
                 $dataArr = array();
-                
+
                 for ($row = 2; $row <= $highestRow; ++$row) {
-                   
+
                     for ($col = 0; $col <= $highestColumnIndex; ++$col) {
                         $value = $worksheet->getCellByColumnAndRow($col + 1, $row)->getValue();
                         $dataArr[$row][$col] = $value;
                     }
-                    
+
                 }
 
                 $success = false;
@@ -189,7 +189,7 @@ class TransferController extends Controller
                                 }
                             }
                         }
-                        
+
                     }
 
                 }
@@ -207,7 +207,7 @@ class TransferController extends Controller
                 'arrSeksi' => $arrSeksi,
                 'arrSekretariat' => $arrSekretariat,
             ]);
-            
+
         }
     }
 
@@ -273,7 +273,7 @@ class TransferController extends Controller
         if (isset($post['departemen'])) {
             foreach ($post['departemen'] as $key => $value) {
                 $sumber_dana_find = Budget::find()->where(['budget_code'=>$value['sumber']])->one();
-                
+
                 $departemen = new DepartmentBudget();
                 $departemen->department_budget_id = $sumber_dana_find->id;
                 $departemen->department_budget_value = $value['nilai'];
@@ -305,7 +305,7 @@ class TransferController extends Controller
                 $seksi->section_budget_id = $sumber_dana_find->id;
                 $seksi->section_budget_value = $value['nilai'];
                 $seksi->section_id = $value['id'];
-                
+
 
                 $kodeAnggaran = 'SEKSI'.'-'.$sumber_dana_find->budget_code.'-';
 
@@ -354,7 +354,7 @@ class TransferController extends Controller
         return $this->render('update-form-ketua', [
             'model' => $model,
         ]);
-        
+
     }
 
     public function actionUpdateDepartemen($id)
@@ -369,7 +369,7 @@ class TransferController extends Controller
             'model' => $model,
         ]);
     }
-    
+
     public function actionUpdateSeksi($id)
     {
         $model = SectionBudget::findOne($id);
@@ -382,6 +382,45 @@ class TransferController extends Controller
             'model' => $model,
         ]);
     }
+
+
+    public function actionDeleteSekretariat($id)
+    {
+        $model = SecretariatBudget::findOne($id);
+            $model->delete();
+            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            return $this->redirect(['index']);
+
+    }
+
+    public function actionDeleteKetua($id)
+    {
+        $model = ChiefBudget::findOne($id);
+            $model->delete();
+            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            return $this->redirect(['index']);
+
+
+    }
+
+    public function actionDeleteDepartemen($id)
+    {
+        $model = DepartmentBudget::findOne($id);
+            $model->delete();
+            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            return $this->redirect(['index']);
+
+    }
+
+    public function actionDeleteSeksi($id)
+    {
+        $model = SectionBudget::findOne($id);
+            $model->delete();
+            Yii::$app->getSession()->setFlash('success', 'Berhasil!');
+            return $this->redirect(['index']);
+
+    }
+
 
     private function cek_null($var)
     {

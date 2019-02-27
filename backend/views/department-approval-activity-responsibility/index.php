@@ -33,22 +33,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ['class' => 'yii\grid\SerialColumn'],
 
                                 [
-                                'header' => 'Judul',
-                                'attribute' => 'title',
+                                    'header' => 'Judul',
+                                    'headerOptions' =>[
+                                    'style' => 'width:50%'
+                                    ],
+                                    'attribute' => 'title',
                                 ],
 
                                 [
-                                'header' => 'Latar Belakang',
-                                'attribute' => 'background',
-                                ],
-
-                                [
-                                'header' => 'Tujuan',
-                                'attribute' => 'purpose',
-                                ],
-
-                                [
-                                'header' => 'Tangal Mulai',
+                                'header' => 'Tanggal Mulai',
                                 'attribute' => 'date_start',
                                 ],
 

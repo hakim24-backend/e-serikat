@@ -85,8 +85,8 @@ $gridColumns = [
 ];
 
 $range = date('Y-m-d').' to '.date('Y-m-d');
-$range_start = date('Y-m-d');
-$range_end = date('Y-m-d');
+// $range_start = date('Y-m-d');
+// $range_end = date('Y-m-d');
 ?>
 <div class="activity-daily-index">
 <div class="box box-primary">
@@ -125,7 +125,7 @@ HTML;
                                         'convertFormat'=>true,
                                         'startAttribute' => 'from_date',
                                         'endAttribute' => 'to_date',
-                                        'startInputOptions' => ['value' => ''],
+                                         'startInputOptions' => ['value' => ''],
                                         'endInputOptions' => ['value' => ''],
                                         'options' => [
                                             'class' => 'form-control',
