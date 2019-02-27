@@ -134,13 +134,24 @@ class BendaharaRutinController extends Controller
           $oldBudget = $baru->department_budget_value;
       }
 
+      if ($model->role == 8) {
+          $budget = ActivityDailyBudgetSection::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id' => $budget])->one();
+          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->section_budget_value;
+      }
+
         return $this->render('view', [
             'model' => $model,
             'budget' => $budget,
             'baru' => $baru,
             'range' => $range,
             'range_start' => $range_start,
-            'range_end' => $range_end,
+            'range_end' => $range_end
         ]);
     }
 

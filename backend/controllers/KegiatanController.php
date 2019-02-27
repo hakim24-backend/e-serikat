@@ -11,6 +11,7 @@ use common\models\ActivitySectionMember;
 use common\models\ActivityResponsibility;
 use common\models\ActivityBudgetSecretariat;
 use common\models\ActivityBudgetSection;
+use common\models\ActivityReject;
 use common\models\Approve;
 use common\models\User;
 use common\models\Section;
@@ -139,6 +140,7 @@ $role = Yii::$app->user->identity->role;
           $budget = ActivityBudgetSecretariat::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id' => $budget])->one();
           $baru = SecretariatBudget::find()->where(['id' => $awal])->one();
+          $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -148,6 +150,7 @@ $role = Yii::$app->user->identity->role;
           $budget = ActivityBudgetSection::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityBudgetSection::find()->where(['section_budget_id' => $budget])->one();
           $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -185,6 +188,7 @@ $role = Yii::$app->user->identity->role;
             'range' => $range,
             'range_start' => $range_start,
             'range_end' => $range_end,
+            'reject'=>$reject
         ]);
     }
 
@@ -385,6 +389,7 @@ $role = Yii::$app->user->identity->role;
             $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
             $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -394,6 +399,7 @@ $role = Yii::$app->user->identity->role;
             $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model->id])->one();
             $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -538,6 +544,12 @@ $role = Yii::$app->user->identity->role;
 
                        $baru->section_budget_value = $oldBudgetBaru;
                        $baru->save(false);
+
+                       if ($reject != null) {
+                          $reject->delete();
+                       } else {
+                          //no-action
+                       }
                    }
 
                    if($post){

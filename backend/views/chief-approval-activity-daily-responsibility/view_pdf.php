@@ -39,32 +39,58 @@ $Role = Yii::$app->user->identity->roleName();
     <body>
       <section id="core" style="width: 100%;">
       <div class="center-content">
-         <img src="<?=Yii::getAlias('@web'); ?>/image/kop-lpj.png">
-         <table>
+         <table class="table table-responsive" width="100%" border="1">
            <tbody>
-             <tr style="border-bottom-style: hidden;">
-              <td colspan="2" style="border-right-style: hidden;">Nama</td>
-              <td style="border-right-style: hidden;">:</td>
+             <tr>
+              <td colspan="1" class="text-center"><img src="<?=Yii::getAlias('@web'); ?>/image/kop-lpj.png"></td>
+              <td colspan="4" class="text-center" style="vertical-align: middle"><img src="<?=Yii::getAlias('@web'); ?>/image/text.png"></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-right-style: hidden;">
+                <p align="center">
+                  <span align="center">NO : PJ-
+                  <?php 
+                  echo date("Y");
+                  echo date("m"); 
+                  echo '-'.$lpj->id
+                   ?>
+                  </span>
+                </p>
+              </td>
+              <td colspan="3"></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-right-style: hidden;">
+                <p align="center">
+                  <span align="center">NO : UM-
+                  <?php 
+                  echo date("Y");
+                  echo date("m"); 
+                  echo '-'.$model->id
+                   ?>
+                  </span>
+                </p>
+              </td>
+              <td colspan="3"></td>
+            </tr>
+            <tr style="border-bottom-style: hidden;">
               <?php if ($report->role == 7) { ?>
-                <td colspan="3"><?=$sekre->depart_name?></td>
+              <td colspan="2" style="border-right-style: hidden;">Nama : <?=$sekre->depart_name?></td>
+              <td colspan="3"></td>
               <?php } elseif ($report->role == 8) { ?>
-                <td colspan="3"><?=$sekre->section_name?></td>
+              <td colspan="2" style="border-right-style: hidden;">Nama : <?=$sekre->section_name?></td>
+              <td colspan="3"></td>
               <?php } ?>
             </tr>
             <tr style="border-bottom-style: hidden;">
-              <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen</td>
-              <td style="border-right-style: hidden;">:</td>
               <?php if ($report->role == 7) { ?>
-                <td colspan="3"><?=$sekre->depart_code?></td>
+              <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen : <?=$sekre->depart_code?></td>
+              <td colspan="3"></td>
               <?php } elseif ($report->role == 8) { ?>
-                <td colspan="3"><?=$sekre->section_code?></td>
+              <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen : <?=$sekre->section_code?></td>
+              <td colspan="3"></td>
               <?php } ?>
             </tr>
-           </tbody>
-         </table>
-         <br>
-         <table class="table table-responsive" width="100%" border="1">
-           <tbody>
              <tr>
               <td rowspan="2" class="text-center" style="vertical-align: middle;">No.</td>
               <td rowspan="2" colspan="2" class="text-center" style="vertical-align: middle;">Uraian</td>
@@ -79,36 +105,6 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$lpj->description?></td>
               <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_sum?></td>
               <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_dp?></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;"></td>

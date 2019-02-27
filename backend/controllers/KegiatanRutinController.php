@@ -12,6 +12,7 @@ use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
 use common\models\ActivityDailyBudgetSection;
+use common\models\ActivityDailyReject;
 use common\models\Approve;
 use common\models\User;
 use common\models\TransferRecord;
@@ -112,6 +113,7 @@ class KegiatanRutinController extends Controller
             $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
             $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -123,6 +125,7 @@ class KegiatanRutinController extends Controller
             $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -139,6 +142,7 @@ class KegiatanRutinController extends Controller
               'range' => $range,
               'range_start' => $range_start,
               'range_end' => $range_end,
+              'reject' => $reject
           ]);
 
 
@@ -289,6 +293,7 @@ class KegiatanRutinController extends Controller
             $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
             $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -343,6 +348,12 @@ class KegiatanRutinController extends Controller
                     $baru->secretariat_budget_value = $oldBudgetBaru;
                     $baru->save(false);
 
+                    if ($reject != null) {
+                        $reject->delete();
+                    } else {
+                        //no-action
+                    }
+
                     Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
                     return $this->redirect(['index']);
                 }
@@ -352,6 +363,7 @@ class KegiatanRutinController extends Controller
             $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
             $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -361,6 +373,9 @@ class KegiatanRutinController extends Controller
             if ($model->load(Yii::$app->request->post())) {
                 $post = Yii::$app->request->post();
 
+                $model->finance_status = 0;
+                $model->department_status = 0;
+                $model->chief_status = 0;
                 $model->date_start = $post['from_date'];
                 $model->date_end = $post['to_date'];
                 $save = $model->save(false);
@@ -400,6 +415,12 @@ class KegiatanRutinController extends Controller
 
                     $baru->section_budget_value = $oldBudgetBaru;
                     $baru->save(false);
+
+                    if ($reject != null) {
+                        $reject->delete();
+                    } else {
+                        //no-action
+                    }
 
                     Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
                     return $this->redirect(['index']);

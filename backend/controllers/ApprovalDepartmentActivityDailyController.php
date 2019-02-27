@@ -6,8 +6,8 @@ use Yii;
 use common\models\ActivityDaily;
 use common\models\ActivityDailyReject;
 use common\models\ActivityDailyResponsibility;
-use common\models\ActivityDailyBudgetDepart;
-use common\models\DepartmentBudget;
+use common\models\ActivityDailyBudgetSection;
+use common\models\SectionBudget;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -63,10 +63,10 @@ class ApprovalDepartmentActivityDailyController extends Controller
                         ->joinWith('activityDailyBudgetDeparts')
                         ->joinWith('activityDailyBudgetDeparts.departmentBudget')
                         ->joinWith('activityDailyBudgetDeparts.departmentBudget.department')
-                        ->where(['role'=>$role])
+                        ->where(['role'=>8])
                         ->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0])
-                        ->andWhere(['department.id_chief'=>$atasan])
-                        ->andWhere(['activity_daily.done'=>0]),
+                        // ->andWhere(['department.id_chief'=>$atasan])
+                        // ->andWhere(['activity_daily.done'=>0]),
 
         ]);
 
@@ -83,9 +83,28 @@ class ApprovalDepartmentActivityDailyController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+      $role = Yii::$app->user->identity->role;
+      $model = ActivityDaily::find()->where(['id' => $id])->one();
+
+      if ($model->role == 8) {
+          $budget = ActivityDailyBudgetSection::find()->where(['activity_id' => $model->id])->one();
+          $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id' => $budget])->one();
+          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $range = $model->date_start . ' to ' . $model->date_end;
+          $range_start = $model->date_start;
+          $range_end = $model->date_end;
+          $oldDP = $budget->budget_value_dp;
+          $oldBudget = $baru->section_budget_value;
+      }
+
+      return $this->render('view', [
+            'model' => $model,
+            'budget' => $budget,
+            'baru' => $baru,
+            'range' => $range,
+            'range_start' => $range_start,
+            'range_end' => $range_end,
+      ]);
     }
 
     /**
@@ -121,17 +140,17 @@ class ApprovalDepartmentActivityDailyController extends Controller
             $model->activity_id = $id;
             $model->save(false);
 
-            $modelDepart = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDepart->id])->one();
-            $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-            $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
-            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelDepart->id])->one();
-            $departBudget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDepart->id])->one();
+            $modelSection = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSection->id])->one();
+            $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
+            $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelSection->id])->one();
+            $departBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSection->id])->one();
 
-            $modelDepart->department_status=2;
-            $modelDepart->save(false);
+            $modelSection->department_status=2;
+            $modelSection->save(false);
 
-            $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;
+            $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
             $baru->save();
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');

@@ -43,12 +43,12 @@ $date = date('Y-m-d');
     <span>Jl. Jenderal Ahmad Yani - Gresik 61119</span>
   </p>
   <p align="center">
-    <span align="center">NO : <?= $model->id.'/'.$chief->chief_code.'/'?>
-    <?php
-    $bulan = date('n');
-    $romawi = getRomawi($bulan);
-    echo $romawi .'/SKPG'; ?>
-    <?php echo '/'.date("Y"); ?>
+    <span align="center">NO : UM-
+    <?php 
+    echo date("Y");
+    echo date("m"); 
+    echo '-'.$model->id
+     ?>
     </span>
   </p>
 
@@ -282,47 +282,4 @@ $date = date('Y-m-d');
     </tbody>
 </table>
 </body>
-<?php
-function getRomawi($bln){
-                switch ($bln){
-                    case 1:
-                        return "I";
-                        break;
-                    case 2:
-                        return "II";
-                        break;
-                    case 3:
-                        return "III";
-                        break;
-                    case 4:
-                        return "IV";
-                        break;
-                    case 5:
-                        return "V";
-                        break;
-                    case 6:
-                        return "VI";
-                        break;
-                    case 7:
-                        return "VII";
-                        break;
-                    case 8:
-                        return "VIII";
-                        break;
-                    case 9:
-                        return "IX";
-                        break;
-                    case 10:
-                        return "X";
-                        break;
-                    case 11:
-                        return "XI";
-                        break;
-                    case 12:
-                        return "XII";
-                        break;
-                }
-}
-?>
-
 </html>

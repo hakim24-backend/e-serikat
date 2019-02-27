@@ -64,7 +64,7 @@ class ApprovalChiefActivityDailyController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find()
             ->where(['finance_status'=> 1])
-            ->andWhere(['role' => $role])
+            // ->andWhere(['role' => $role])
             ->andWhere(['chief_code_id'=>$id_chief])
             ->andWhere(['department_status'=> 1])
             ->andWhere(['chief_status'=> 0]),
@@ -84,7 +84,6 @@ class ApprovalChiefActivityDailyController extends Controller
     public function actionView($id)
     {
       $role = Yii::$app->user->identity->role;
-
       $model = ActivityDaily::find()->where(['id' => $id])->one();
 
       if ($model->role == 6) {

@@ -9,6 +9,7 @@ use Mpdf\Mpdf;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
 use yii\widgets\ActiveForm;
+use common\models\Activity;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -59,6 +60,27 @@ $gridColumns = [
         ],
         'attribute' => 'date_end',
     ],
+
+    [
+        'header' => 'Uang Muka',
+        'headerOptions' =>[
+            'style' => 'width:15%'
+        ],
+        'format'=> 'raw',
+        'value' => function($data)
+        {
+            if($data->activityBudgetChiefsOne != null){
+                return $data->activityBudgetChiefsOne->budget_value_sum;
+            }elseif ($data->activityBudgetDepartmentsOne != null) {
+                return $data->activityBudgetDepartmentsOne->budget_value_sum;
+            }elseif($data->activitySectionsOne != null){
+                return $data->activityBudgetSectionsOne->budget_value_sum;
+            }else{
+                return "-";
+            }
+        }
+        //'attribute' => 'activityBudgetChiefsOne.budget_value_sum',
+    ],
     ['class' => 'kartik\grid\ActionColumn', 'urlCreator'=>function(){return '#';}]
 ];
 
@@ -90,7 +112,7 @@ $range_end = date('Y-m-d');
                                         ]);
                                     ?>
                                 </div>
-                                <div class="col-md-2 col-xs-12">
+                                <div class="col-md-3 col-xs-12">
                                     <label>Range Tanggal</label>
                                     <?php
                                     $addon = <<< HTML
@@ -196,7 +218,7 @@ ExportMenu::widget([
                                     [
                                         'header' => 'Tujuan',
                                         'headerOptions' =>[
-                                        'style' => 'width:25%'
+                                        'style' => 'width:20%'
                                         ],
                                         'attribute' => 'purpose',
                                     ],
@@ -223,6 +245,26 @@ ExportMenu::widget([
                                         'style' => 'width:15%'
                                         ],
                                         'attribute' => 'date_end',
+                                    ],
+
+                                    [
+                                        'header' => 'Uang Muka',
+                                        'headerOptions' =>[
+                                            'style' => 'width:15%'
+                                        ],
+                                        'format'=> 'raw',
+                                        'value' => function($data)
+                                        {
+                                            if($data->activityBudgetChiefsOne != null){
+                                                return $data->activityBudgetChiefsOne->budget_value_sum;
+                                            }elseif ($data->activityBudgetDepartmentsOne != null) {
+                                                return $data->activityBudgetDepartmentsOne->budget_value_sum;
+                                            }elseif($data->activitySectionsOne != null){
+                                                return $data->activityBudgetSectionsOne->budget_value_sum;
+                                            }else{
+                                                return "-";
+                                            }
+                                        }
                                     ],
 
                                     [

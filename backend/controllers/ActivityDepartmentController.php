@@ -6,6 +6,7 @@ use common\models\Activity;
 use common\models\ActivityBudgetDepartment;
 use common\models\ActivityMainMember;
 use common\models\ActivitySection;
+use common\models\ActivityReject;
 use common\models\ActivitySectionMember;
 use common\models\ChiefBudget;
 use common\models\DepartmentBudget;
@@ -219,6 +220,7 @@ class ActivityDepartmentController extends \yii\web\Controller
             $awal = ActivityBudgetDepartment::find()->where(['department_budget_id' => $budget])->one();
             $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
+            $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range_start = $model->date_start;
             $range_end = $model->date_end;
             $oldDP = $budget->budget_value_sum;
@@ -321,6 +323,12 @@ class ActivityDepartmentController extends \yii\web\Controller
                         $baru->department_budget_value = $oldBudgetBaru;
                         $baru->save(false);
 
+                        if ($reject != null) {
+                            $reject->delete();
+                        } else {
+                            //no-action
+                        }
+
                     }
                     if ($post) {
                         if ($post['ketua']) {
@@ -400,6 +408,7 @@ class ActivityDepartmentController extends \yii\web\Controller
           $budget = ActivityBudgetDepartment::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityBudgetDepartment::find()->where(['department_budget_id' => $budget])->one();
           $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -437,6 +446,7 @@ class ActivityDepartmentController extends \yii\web\Controller
             'range' => $range,
             'range_start' => $range_start,
             'range_end' => $range_end,
+            'reject'=>$reject
         ]);
     }
 

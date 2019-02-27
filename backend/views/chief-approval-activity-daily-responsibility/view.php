@@ -12,25 +12,22 @@ $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
+<?php if ($role->role == 7) { ?>
 <div class="approve-view">
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            // 'description',
-            // 'responsibility_value',
-            // 'file',
-            // 'photo',
-            // 'activity_id',
-
             [
                 'attribute'=>'description',
                 'label'=>'Deskripsi'
             ],
             [
-                'attribute'=>'responsibility_value',
-                'label'=>'Nilai Pertangungjawaban'
+                'attribute'=>'activity.activityDailyBudgetDepartsOne.budget_value_sum',
+                'label'=>'Uang Muka'
+            ],
+            [
+                'attribute'=>'activity.activityDailyBudgetDepartsOne.budget_value_dp',
+                'label'=>'Uang Yang Terealisasikan'
             ],
             [
                 'attribute'=>'file',
@@ -47,3 +44,36 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 </div>
+<?php } elseif ($role->role == 8) { ?>
+<div class="approve-view">
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            [
+                'attribute'=>'description',
+                'label'=>'Deskripsi'
+            ],
+            [
+                'attribute'=>'activity.activityDailyBudgetSectionsOne.budget_value_sum',
+                'label'=>'Uang Muka'
+            ],
+            [
+                'attribute'=>'activity.activityDailyBudgetSectionsOne.budget_value_dp',
+                'label'=>'Uang Yang Terealisasikan'
+            ],
+            [
+                'attribute'=>'file',
+                'format'=>'raw',
+                'value'=>Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']),
+                'label'=>'File'
+            ],
+            [
+                'attribute'=>'photo',
+                'value'=>'../../web/template/'.$model->photo,
+                'format' => ['image',['width'=>'100']],
+                'label'=>'Foto'
+            ],
+        ],
+    ]) ?>
+</div>
+<?php } ?>

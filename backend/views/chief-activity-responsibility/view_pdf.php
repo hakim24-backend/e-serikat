@@ -13,7 +13,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['inde
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 $date = date('Y-m-d');
-
 $Role = Yii::$app->user->identity->roleName();
 ?>
 
@@ -39,25 +38,49 @@ $Role = Yii::$app->user->identity->roleName();
     <body>
       <section id="core" style="width: 100%;">
       <div class="center-content">
-         <img src="<?=Yii::getAlias('@web'); ?>/image/kop-lpj.png">
-         <table>
-           <tbody>
-             <tr style="border-bottom-style: hidden;">
-              <td colspan="2" style="border-right-style: hidden;">Nama</td>
-              <td style="border-right-style: hidden;">:</td>
-              <td colspan="3"><?=$sekre->chief_name?></td>
-            </tr>
-            <tr style="border-bottom-style: hidden;">
-              <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen</td>
-              <td style="border-right-style: hidden;">:</td>
-              <td colspan="3"><?=$sekre->chief_code?></td>
-            </tr>
-           </tbody>
-         </table>
-         <br>
          <table class="table table-responsive" width="100%" border="1">
            <tbody>
-             <tr>
+            <tr>
+              <td colspan="1" class="text-center"><img src="<?=Yii::getAlias('@web'); ?>/image/kop-lpj.png"></td>
+              <td colspan="4" class="text-center" style="vertical-align: middle"><img src="<?=Yii::getAlias('@web'); ?>/image/text.png"></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-right-style: hidden;">
+                <p align="center">
+                  <span align="center">NO : PJ-
+                  <?php 
+                  echo date("Y");
+                  echo date("m"); 
+                  echo '-'.$lpj->id
+                   ?>
+                  </span>
+                </p> 
+              </td>
+              <td colspan="3"></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-right-style: hidden;">
+                <p align="center">
+                  <span align="center">NO : UM-
+                  <?php 
+                  echo date("Y");
+                  echo date("m"); 
+                  echo '-'.$model->id
+                   ?>
+                  </span>
+                </p>
+              </td>
+              <td colspan="3"></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-right-style: hidden;">Nama : <?=$sekre->chief_name?></td>
+              <td colspan="3"></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="border-right-style: hidden;">Seksi/Departemen : <?=$sekre->chief_code?></td>
+              <td colspan="3"></td>
+            </tr>
+            <tr>
               <td rowspan="2" class="text-center" style="vertical-align: middle;">No.</td>
               <td rowspan="2" colspan="2" class="text-center" style="vertical-align: middle;">Uraian</td>
               <td colspan="2" class="text-center">Pengeluaran</td>
@@ -71,36 +94,6 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$lpj->description?></td>
               <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_sum?></td>
               <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_dp?></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td colspan="2" class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;"></td>

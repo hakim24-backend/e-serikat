@@ -64,9 +64,9 @@ $list_seksi = array_values($array_seksi);
                       <?php }else if($model->role == 7){ ?>
                         <?= $baru->department_budget_value ?>
 
-                      <?php }else if($model->role == 8){
-                        echo $baru->section_budget_value;
-                      } ?>
+                      <?php }else if($model->role == 8){ ?>
+                         <?=$baru->section_budget_value?>
+                      <?php } ?>
 
                     </div>
                 </div>

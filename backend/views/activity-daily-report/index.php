@@ -51,6 +51,26 @@ $gridColumns = [
     'attribute' => 'date_end',
     ],
 
+    [
+    'header' => 'Uang Muka',
+    'headerOptions' =>[
+        'style' => 'width:15%'
+    ],
+    'format'=> 'raw',
+    'value' => function($data)
+        {
+            if($data->activityDailyBudgetChiefsOne != null){
+                return $data->activityDailyBudgetChiefsOne->budget_value_sum;
+            }elseif ($data->activityDailyBudgetDepartsOne != null) {
+                return $data->activityDailyBudgetDepartsOne->budget_value_sum;
+            }elseif($data->activityDailyBudgetSectionsOne != null){
+                return $data->activityDailyBudgetSectionsOne->budget_value_sum;
+            }else{
+                return "-";
+            }
+        }
+    ],
+
     ['class' => 'kartik\grid\ActionColumn', 'urlCreator'=>function(){return '#';}]
 ];
 
@@ -82,7 +102,7 @@ $range_end = date('Y-m-d');
                                         ]);
                                     ?>
                                 </div>
-                                <div class="col-md-2 col-xs-12">
+                                <div class="col-md-3 col-xs-12">
                                     <label>Range Tanggal</label>
                                     <?php
                                     $addon = <<< HTML
@@ -219,6 +239,27 @@ ExportMenu::widget([
                                 ],
                                 'attribute' => 'date_end',
                                 ],
+
+                                [
+                                'header' => 'Uang Muka',
+                                'headerOptions' =>[
+                                    'style' => 'width:15%'
+                                ],
+                                'format'=> 'raw',
+                                'value' => function($data)
+                                    {
+                                        if($data->activityDailyBudgetChiefsOne != null){
+                                            return $data->activityDailyBudgetChiefsOne->budget_value_sum;
+                                        }elseif ($data->activityDailyBudgetDepartsOne != null) {
+                                            return $data->activityDailyBudgetDepartsOne->budget_value_sum;
+                                        }elseif($data->activityDailyBudgetSectionsOne != null){
+                                            return $data->activityDailyBudgetSectionsOne->budget_value_sum;
+                                        }else{
+                                            return "-";
+                                        }
+                                    }
+                                ],
+
                                 [
                                     'class' => 'yii\grid\ActionColumn',
                                     'contentOptions' => ['style' => 'width:160px;'],

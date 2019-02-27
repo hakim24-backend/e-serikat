@@ -331,7 +331,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
         $departID = Section::find()->where(['id_depart'=>$sekre])->one();
         $departName = Department::find()->where(['id'=>$departID])->one();
         $sumber = Budget::find()->where(['id'=>$baru])->one();
-        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
 
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,

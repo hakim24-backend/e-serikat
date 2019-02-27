@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\ActivityDaily;
 use common\models\ActivityDailyBudgetDepart;
 use common\models\ActivityBudgetDepartment;
+use common\models\ActivityDailyReject;
 use common\models\DepartmentBudget;
 use common\models\Department;
 use common\models\Budget;
@@ -146,6 +147,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
             $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model->id])->one();
             $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
             $baru = DepartmentBudget::find()->where(['id' => $awal->department_budget_id])->one();
+            $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -154,7 +156,6 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
             if ($model->load(Yii::$app->request->post())) {
                 $post = Yii::$app->request->post();
-
 
                 $model->finance_status = 0;
                 $model->department_status = 1;
@@ -199,6 +200,12 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                     $baru->department_budget_value = $oldBudgetBaru;
                     $baru->save(false);
 
+                    if ($reject != null) {
+                        $reject->delete();
+                    } else {
+                        //no-action
+                    }
+
                     Yii::$app->getSession()->setFlash('success', 'Update Data Kegiatan Rutin Berhasil');
                     return $this->redirect(['index']);
                 }
@@ -231,8 +238,8 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
       if ($model->role == 7) {
           $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
-          // var_dump($budget);die;
           $baru = DepartmentBudget::find()->where(['id' => $awal->department_budget_id])->one();
+          $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -247,6 +254,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
             'range' => $range,
             'range_start' => $range_start,
             'range_end' => $range_end,
+            'reject'=>$reject
         ]);
     }
 

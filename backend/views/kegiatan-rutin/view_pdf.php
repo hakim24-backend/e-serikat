@@ -42,17 +42,13 @@ $date = date('Y-m-d');
     <span>Jl. Jenderal Ahmad Yani - Gresik 61119</span>
   </p>
   <p align="center">
-   <?php if ($Role == "Sekretariat") { ?>
-   <span>NO : <?= $model->id.'/'.$kodeid->secretariat_code.'/' ?>
-   <?php } else if ($Role == "Seksi") { ?>
-   <span>NO : <?= $model->id.'/'.$kodeid->section_code.'/' ?>
-   <?php } ?>
-   <?php
-   $bulan = date('n');
-   $romawi = getRomawi($bulan);
-   echo $romawi .'/SKPG'; ?>
-   <?php echo '/'.date("Y"); ?>
-   </span><br>
+    <span align="center">NO : UM-
+    <?php 
+    echo date("Y");
+    echo date("m"); 
+    echo '-'.$model->id
+     ?>
+    </span>
   </p>
 
 <hr style="color:#000000;"></hr>

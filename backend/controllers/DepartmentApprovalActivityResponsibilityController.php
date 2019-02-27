@@ -105,6 +105,7 @@ class DepartmentApprovalActivityResponsibilityController extends Controller
 
         $dataProvider = new ArrayDataProvider([
           'allModels' => $data
+
         ]);
 
         return $this->render('index', [

@@ -129,9 +129,25 @@ class Activity extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getActivityBudgetChiefsOne()
+    {
+        return $this->hasOne(ActivityBudgetChief::className(), ['activity_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getActivityBudgetDepartments()
     {
         return $this->hasMany(ActivityBudgetDepartment::className(), ['activity_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActivityBudgetDepartmentsOne()
+    {
+        return $this->hasOne(ActivityBudgetDepartment::className(), ['activity_id' => 'id']);
     }
 
     /**
@@ -142,12 +158,28 @@ class Activity extends \yii\db\ActiveRecord
         return $this->hasMany(ActivityBudgetSecretariat::className(), ['activity_id' => 'id']);
     }
 
+        /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActivityBudgetSecretariatsOne()
+    {
+        return $this->hasOne(ActivityBudgetSecretariat::className(), ['activity_id' => 'id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getActivityBudgetSections()
     {
         return $this->hasMany(ActivityBudgetSection::className(), ['activity_id' => 'id']);
+    }
+
+        /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActivityBudgetSectionsOne()
+    {
+        return $this->hasOne(ActivityBudgetSection::className(), ['activity_id' => 'id']);
     }
 
     /**
