@@ -44,7 +44,11 @@ $Role = Yii::$app->user->identity->roleName();
              <tr>
               <td colspan="1" class="text-center"><img src="<?=Yii::getAlias('@web'); ?>/image/kop-lpj.png"></td>
               <td colspan="4" class="text-center" style="vertical-align: middle"><img src="<?=Yii::getAlias('@web'); ?>/image/text.png"></td>
-            </tr>
+             </tr>
+            </tbody>
+          </table>
+          <table class="table table-responsive" width="100%" border="1">
+            <tbody>
             <tr>
               <td colspan="2" style="border-right-style: hidden;">
                 <p align="center">
@@ -92,7 +96,7 @@ $Role = Yii::$app->user->identity->roleName();
               <?php } ?>
             </tr>
              <tr>
-              <td rowspan="2" class="text-center" style="vertical-align: middle;">No.</td>
+              <td rowspan="2" class="text-center" style="vertical-align: middle; width: 10%">No.</td>
               <td rowspan="2" colspan="2" class="text-center" style="vertical-align: middle;">Uraian</td>
               <td colspan="2" class="text-center">Pengeluaran</td>
             </tr>
@@ -178,12 +182,6 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
