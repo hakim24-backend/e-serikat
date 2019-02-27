@@ -68,7 +68,7 @@ class ApprovalChiefActivityController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Activity::find()
             ->where(['finance_status'=> 1])
-            ->andWhere(['role' => $role])
+            // ->andWhere(['role' => $role])
             ->andWhere(['chief_code_id'=>$id_chief])
             ->andWhere(['department_status'=> 1])
             ->andWhere(['chief_status'=> 0]),

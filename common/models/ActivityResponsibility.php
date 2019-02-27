@@ -67,4 +67,6 @@ class ActivityResponsibility extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Activity::className(), ['id' => 'activity_id']);
     }
+
+    
 }

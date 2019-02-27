@@ -17,20 +17,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            // 'description',
-            // 'responsibility_value',
-            // 'file',
-            // 'photo',
-            // 'activity_id',
-
             [
                 'attribute'=>'description',
                 'label'=>'Deskripsi'
             ],
             [
-                'attribute'=>'responsibility_value',
-                'label'=>'Nilai Pertangungjawaban'
+                'attribute'=>'activity.activityBudgetSectionsOne.budget_value_sum',
+                'label'=>'Uang Muka'
+            ],
+            [
+                'attribute'=>'activity.activityBudgetSectionsOne.budget_value_dp',
+                'label'=>'Uang Yang Terealisasikan'
             ],
             [
                 'attribute'=>'file',

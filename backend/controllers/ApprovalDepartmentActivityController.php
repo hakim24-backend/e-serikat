@@ -69,12 +69,10 @@ class ApprovalDepartmentActivityController extends Controller
                         ->joinWith('activityBudgetDepartments')
                         ->joinWith('activityBudgetDepartments.departmentBudget')
                         ->joinWith('activityBudgetDepartments.departmentBudget.department')
-                        ->where(['role'=>$role])
+                        ->where(['role'=>8])
                         ->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0])
-                        ->andWhere(['department.id_chief'=>$atasan]),
+                        // ->andWhere(['department.id_chief'=>$atasan]),
         ]);
-
-
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

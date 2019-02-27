@@ -88,6 +88,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                             {
                                                 return '<span class="label label-success">Diterima Bendahara</span>';
                                             }
+                                            else if($model->finance_status == '1' && $model->department_status == '1' && $model->chief_status == '0')
+                                            {
+                                                return '<span class="label label-success">Diterima Departemen</span>';
+                                            }
                                             else if($model->finance_status == '1' && $model->department_status == '2' && $model->chief_status == '0')
                                             {
                                                 return '<span class="label label-warning">Draft Departemen</span>';

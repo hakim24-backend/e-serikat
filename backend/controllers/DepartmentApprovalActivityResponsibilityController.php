@@ -67,7 +67,7 @@ class DepartmentApprovalActivityResponsibilityController extends Controller
                       ->joinWith('activityBudgetDepartments.departmentBudget')
                       ->joinWith('activityBudgetDepartments.departmentBudget.department')
                       ->joinWith('activityResponsibilities')
-                      ->where(['role'=>$role])
+                      // ->where(['role'=>$role])
                       ->andWhere(['department.id_chief'=>$atasan])
                       ->where(['activity.department_status'=>1])
                       ->andWhere(['activity_responsibility.responsibility_value'=>0])

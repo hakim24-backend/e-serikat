@@ -43,12 +43,13 @@ $date = date('Y-m-d');
     <span>Jl. Jenderal Ahmad Yani - Gresik 61119</span>
   </p>
   <p align="center">
-  <span>NO : <?= $model->id.'/'.$department->depart_code.'/' ?>
-  <?php
-  $bulan = date('n');
-  $romawi = getRomawi($bulan);
-  echo $romawi .'/SKPG'; ?>
-  <?php echo '/'.date("Y"); ?></span><br>
+    <span align="center">NO : UM-
+    <?php 
+    echo date("Y");
+    echo date("m"); 
+    echo '-'.$model->id
+     ?>
+    </span>
   </p>
 
 <hr style="color:#000000;"></hr>

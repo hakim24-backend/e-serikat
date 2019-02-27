@@ -7,6 +7,7 @@ use common\models\ActivityBudgetChief;
 use common\models\ActivityMainMember;
 use common\models\ActivitySection;
 use common\models\ActivitySectionMember;
+use common\models\ActivityReject;
 use common\models\ChiefBudget;
 use common\models\Chief;
 use common\models\Budget;
@@ -209,6 +210,7 @@ class ActivityChiefController extends \yii\web\Controller
             $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
             $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
             $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+            $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
@@ -311,6 +313,12 @@ class ActivityChiefController extends \yii\web\Controller
                         $baru->chief_budget_value = $oldBudgetBaru;
                         $baru->save(false);
 
+                        if ($reject != null) {
+                            $reject->delete();
+                        } else {
+                            //no-action
+                        }
+
                     }
                     if ($post) {
                         if ($post['ketua']) {
@@ -392,6 +400,7 @@ class ActivityChiefController extends \yii\web\Controller
           $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
           $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
           $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -429,6 +438,7 @@ class ActivityChiefController extends \yii\web\Controller
             'range' => $range,
             'range_start' => $range_start,
             'range_end' => $range_end,
+            'reject'=>$reject
         ]);
     }
 
@@ -455,7 +465,6 @@ class ActivityChiefController extends \yii\web\Controller
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$model->id])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$model->id])->one();
           $anggaran = $baru->chief_budget_value + $budget->budget_value_dp;
-          // var_dump($ketua->name_member);die;
 
 
         $content = $this->renderPartial('view_pdf',[

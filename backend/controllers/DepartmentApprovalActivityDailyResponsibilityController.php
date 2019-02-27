@@ -66,7 +66,7 @@ class DepartmentApprovalActivityDailyResponsibilityController extends Controller
                       ->joinWith('activityDailyBudgetDeparts')
                       ->joinWith('activityDailyBudgetDeparts.departmentBudget')
                       ->joinWith('activityDailyBudgetDeparts.departmentBudget.department')
-                      ->where(['role'=>$role])
+                      // ->where(['role'=>$role])
                       ->andWhere(['activity_daily.department_status'=>1])
                       ->andWhere(['activity_daily_responsibility.responsibility_value'=>0])
                       ->andWhere(['activity_daily.done'=>0]),

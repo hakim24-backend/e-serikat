@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="clearfix">
             <ul class="nav nav-tabs c-font-uppercase c-font-bold">
                 <li class="active">
-                    <a href="#tab_1_1_content" data-toggle="tab">Dana Serikat</a>
+                    <a href="#tab_1_1_content" data-toggle="tab">Dana Sekretariat</a>
                 </li>
                 <li>
                     <a href="#tab_1_2_content" data-toggle="tab">Dana Ketua</a>

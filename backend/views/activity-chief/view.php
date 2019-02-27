@@ -31,9 +31,6 @@ $Role = Yii::$app->user->identity->roleName();
 $seksi = User::find()->where(['role'=>8])->all();
 $array_seksi = ArrayHelper::map(User::find()->all(), 'id','name');
 $list_seksi = array_values($array_seksi);
-// $range = date('Y-m-d').' to '.date('Y-m-d');
-// $range_start = date('Y-m-d');
-// $range_end = date('Y-m-d');
 ?>
 
 <div class="activity-form">
@@ -345,6 +342,30 @@ HTML;
 
     <?php ActiveForm::end(); ?>
 </div>
+
+<div class="box box-primary">
+        <div class="box-header with-border">
+          <label>Alasan Ditolak</label>
+        </div>
+        <div class="box-body">
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="col-md-2">
+                <label>Keterangan</label>
+              </div>
+              <div class="col-md-10">
+                <?php if ($reject == null) { ?>
+                    <p>-</p>
+                <?php } else { ?>
+                    <?= $reject->message?>
+                 <?php } ?>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  
 <style>
 #box-pengurusan .form-group{
     margin-bottom:45px !important;

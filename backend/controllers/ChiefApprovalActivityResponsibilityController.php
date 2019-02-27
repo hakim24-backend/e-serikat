@@ -70,7 +70,7 @@ class ChiefApprovalActivityResponsibilityController extends Controller
             'query' => Activity::find()
                       ->joinWith('activityResponsibilities')
                       ->where(['activity.chief_status'=>1])
-                      ->andWhere(['role' => $role])
+                      // ->andWhere(['role' => $role])
                       ->andWhere(['chief_code_id'=>$id_chief])
                       ->andWhere(['activity_responsibility.responsibility_value'=>1])
                       ->andWhere(['activity.done'=>0]),
@@ -89,11 +89,13 @@ class ChiefApprovalActivityResponsibilityController extends Controller
      */
     public function actionView($id)
     {
+        $role = Activity::find()->where(['id'=>$id])->one();
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
 
         if ($model != null) {
             return $this->render('view', [
             'model' => $model,
+            'role' => $role
         ]);
         } else {
             Yii::$app->getSession()->setFlash('warning', 'Data Pertangungjawaban Tidak Ada');

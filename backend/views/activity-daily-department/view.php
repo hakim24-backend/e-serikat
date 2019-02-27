@@ -154,6 +154,30 @@ HTML;
 
     <?php ActiveForm::end(); ?>
 </div>
+
+<div class="box box-primary">
+        <div class="box-header with-border">
+          <label>Alasan Ditolak</label>
+        </div>
+        <div class="box-body">
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="col-md-2">
+                <label>Keterangan</label>
+              </div>
+              <div class="col-md-10">
+                <?php if ($reject == null) { ?>
+                    <p>-</p>
+                <?php } else { ?>
+                    <?= $reject->message?>
+                 <?php } ?>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  
 <style>
 #box-pengurusan .form-group{
     margin-bottom:45px !important;
