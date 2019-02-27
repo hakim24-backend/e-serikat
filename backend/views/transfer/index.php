@@ -67,26 +67,37 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'header' => 'Nilai Anggaran',
                                             'attribute' => 'secretariat_budget_value',
                                         ],
-                                        // [
-                                        //     'class' => 'yii\grid\ActionColumn',
-                                        //     'header' => 'Action',
-                                        //     'template' => '{update}',
-                                        //     'buttons' => [
-                                        //         'update' => function ($url,$model,$key) {
+                                        [
+                                            'class' => 'yii\grid\ActionColumn',
+                                            'header' => 'Action',
+                                            'template' => '{update} {delete}',
+                                            'buttons' => [
+                                                'update' => function ($url,$model,$key) {
+                                                    $url = Url::toRoute(['/transfer/update-sekretariat', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        '| <span class="glyphicon glyphicon-pencil"></span> | ',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Update Anggaran',
+                                                        ]
+                                                    );
 
-                                        //             $url = Url::toRoute(['/transfer/update-sekretariat', 'id' => $model->id]);
-                                        //             return Html::a(
-                                        //                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                        //                 $url,
-                                        //                 [
-                                        //                     'title' => 'Update Anggaran',
-                                        //                 ]
-                                        //             );
+
+                                                },
+                                                'delete' => function ($url,$model,$key) {
+                                                    $url = Url::toRoute(['/transfer/delete-sekretariat', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        ' <span class="glyphicon glyphicon-trash"></span> |',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Hapus Anggaran',
+                                                        ]
+                                                    );
 
 
-                                        //         },
-                                        //     ]
-                                        // ],
+                                                },
+                                            ]
+                                        ],
                                     ],
                                 ]);
                             ?>
@@ -121,26 +132,38 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'header' => 'Nilai Anggaran',
                                             'attribute' => 'chief_budget_value',
                                         ],
-                                        // [
-                                        //     'class' => 'yii\grid\ActionColumn',
-                                        //     'header' => 'Action',
-                                        //     'template' => '{update}',
-                                        //     'buttons' => [
-                                        //         'update' => function ($url,$model,$key) {
+                                        [
+                                            'class' => 'yii\grid\ActionColumn',
+                                            'header' => 'Action',
+                                            'template' => '{update} {delete}',
+                                            'buttons' => [
+                                                'update' => function ($url,$model,$key) {
 
-                                        //             $url = Url::toRoute(['/transfer/update-ketua', 'id' => $model->id]);
-                                        //             return Html::a(
-                                        //                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                        //                 $url,
-                                        //                 [
-                                        //                     'title' => 'Update Anggaran',
-                                        //                 ]
-                                        //             );
+                                                    $url = Url::toRoute(['/transfer/update-ketua', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        '| <span class="glyphicon glyphicon-pencil"></span> |',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Update Anggaran',
+                                                        ]
+                                                    );
 
 
-                                        //         },
-                                        //     ]
-                                        // ],
+                                                },
+                                                'delete' => function ($url,$model,$key) {
+                                                    $url = Url::toRoute(['/transfer/delete-ketua', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        ' <span class="glyphicon glyphicon-trash"></span> |',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Hapus Anggaran',
+                                                        ]
+                                                    );
+
+
+                                                },
+                                            ]
+                                        ],
                                     ],
                                 ]);
                             ?>
@@ -176,26 +199,34 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'header' => 'Nilai Anggaran',
                                             'attribute' => 'department_budget_value',
                                         ],
-                                        // [
-                                        //     'class' => 'yii\grid\ActionColumn',
-                                        //     'header' => 'Action',
-                                        //     'template' => '{update}',
-                                        //     'buttons' => [
-                                        //         'update' => function ($url,$model,$key) {
+                                        [
+                                            'class' => 'yii\grid\ActionColumn',
+                                            'header' => 'Action',
+                                            'template' => '{update} {delete}',
+                                            'buttons' => [
+                                                'update' => function ($url,$model,$key) {
 
-                                        //             $url = Url::toRoute(['/transfer/update-departemen', 'id' => $model->id]);
-                                        //             return Html::a(
-                                        //                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                        //                 $url,
-                                        //                 [
-                                        //                     'title' => 'Update Anggaran',
-                                        //                 ]
-                                        //             );
-
-
-                                        //         },
-                                        //     ]
-                                        // ],
+                                                    $url = Url::toRoute(['/transfer/update-departemen', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        '| <span class="glyphicon glyphicon-pencil"></span> |',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Update Anggaran',
+                                                        ]
+                                                    );
+                                                },
+                                                'delete' => function ($url,$model,$key) {
+                                                    $url = Url::toRoute(['/transfer/delete-departemen', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        ' <span class="glyphicon glyphicon-trash"></span> |',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Hapus Anggaran',
+                                                        ]
+                                                    );
+                                                },
+                                            ]
+                                        ],
                                     ],
                                 ]);
                             ?>
@@ -230,26 +261,34 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'header' => 'Nilai Anggaran',
                                             'attribute' => 'section_budget_value',
                                         ],
-                                        // [
-                                        //     'class' => 'yii\grid\ActionColumn',
-                                        //     'header' => 'Action',
-                                        //     'template' => '{update}',
-                                        //     'buttons' => [
-                                        //         'update' => function ($url,$model,$key) {
+                                        [
+                                            'class' => 'yii\grid\ActionColumn',
+                                            'header' => 'Action',
+                                            'template' => '{update} {delete}',
+                                            'buttons' => [
+                                                'update' => function ($url,$model,$key) {
 
-                                        //             $url = Url::toRoute(['/transfer/update-seksi', 'id' => $model->id]);
-                                        //             return Html::a(
-                                        //                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                        //                 $url,
-                                        //                 [
-                                        //                     'title' => 'Update Anggaran',
-                                        //                 ]
-                                        //             );
-
-
-                                        //         },
-                                        //     ]
-                                        // ],
+                                                    $url = Url::toRoute(['/transfer/update-seksi', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        '| <span class="glyphicon glyphicon-pencil"></span> |',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Update Anggaran',
+                                                        ]
+                                                    );
+                                                },
+                                                'delete' => function ($url,$model,$key) {
+                                                    $url = Url::toRoute(['/transfer/delete-seksi', 'id' => $model->id]);
+                                                    return Html::a(
+                                                        ' <span class="glyphicon glyphicon-trash"></span> |',
+                                                        $url,
+                                                        [
+                                                            'title' => 'Hapus Anggaran',
+                                                        ]
+                                                    );
+                                                },
+                                            ]
+                                        ],
                                     ],
                                 ]);
                             ?>
