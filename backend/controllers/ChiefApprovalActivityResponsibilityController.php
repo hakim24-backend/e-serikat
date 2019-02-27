@@ -21,7 +21,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use kartik\mpdf\Pdf;
-
+use yii\data\ArrayDataProvider;
+use common\models\ActivityDaily;
 /**
  * ChiefApprovalActivityResponsibilityController implements the CRUD actions for Activity model.
  */
@@ -65,16 +66,45 @@ class ChiefApprovalActivityResponsibilityController extends Controller
       $role = Yii::$app->user->identity->role;
       $id_chief = Yii::$app->user->identity->chief->id;
 
+      $dataA = Activity::find()
+                ->joinWith('activityResponsibilities')
+                ->where(['activity.chief_status'=>1])
+                // ->andWhere(['role' => $role])
+                ->andWhere(['chief_code_id'=>$id_chief])
+                ->andWhere(['activity_responsibility.responsibility_value'=>1])
+                ->andWhere(['activity.done'=>0])
+                  ->asArray()->all();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()
-                      ->joinWith('activityResponsibilities')
-                      ->where(['activity.chief_status'=>1])
-                      // ->andWhere(['role' => $role])
-                      ->andWhere(['chief_code_id'=>$id_chief])
-                      ->andWhere(['activity_responsibility.responsibility_value'=>1])
-                      ->andWhere(['activity.done'=>0]),
-        ]);
+                  $typeA = array(
+                    'tipe' => 'kegiatan',
+                  );
+                  //
+                  foreach ($dataA as $key => $data) {
+                    array_splice($dataA[$key], 0, 0 , $typeA);
+                  }
+
+        $dataB = ActivityDaily::find()
+                  ->joinWith('activityDailyResponsibilities')
+                  ->where(['activity_daily.chief_status'=>1])
+                  // ->andWhere(['role' => $role])
+                  ->andWhere(['chief_code_id'=>$id_chief])
+                  ->andWhere(['activity_daily_responsibility.responsibility_value'=>1])
+                  ->andWhere(['activity_daily.done'=>0])
+                  ->asArray()->all();
+
+                  $typeB = array(
+                    'tipe' => 'rutin',
+                  );
+                  //
+                  foreach ($dataB as $key => $data) {
+                    array_splice($dataB[$key], 0, 0 , $typeB);
+                  }
+
+                  $data = array_merge($dataA, $dataB);
+
+                  $dataProvider = new ArrayDataProvider([
+                    'allModels' => $data
+                  ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -89,13 +119,11 @@ class ChiefApprovalActivityResponsibilityController extends Controller
      */
     public function actionView($id)
     {
-        $role = Activity::find()->where(['id'=>$id])->one();
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
 
         if ($model != null) {
             return $this->render('view', [
             'model' => $model,
-            'role' => $role
         ]);
         } else {
             Yii::$app->getSession()->setFlash('warning', 'Data Pertangungjawaban Tidak Ada');

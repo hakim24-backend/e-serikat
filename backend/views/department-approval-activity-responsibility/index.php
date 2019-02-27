@@ -64,49 +64,74 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'buttons' => [
                                         'closing' => function($url, $model, $key)
                                         {
-                                                // if ($responsibility->responsibility_value) {
-                                                //     $url = Url::toRoute(['/approval-department-activity-responsibility/update', 'id' => $model->id]);
-                                                //     return Html::a(
-                                                //         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                //         $url, 
-                                                //         [
-                                                //             'title' => 'Edit Pertanggungjawaban',
-                                                //         ]
-                                                //     );
-                                                // } else {
-                                                    $url = Url::toRoute(['/department-approval-activity-responsibility/closing', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        '| <span class="glyphicon glyphicon-ok"></span> ',
-                                                        $url, 
-                                                        [
-                                                            'title' => 'Closing Pertanggungjawaban',
-                                                        ]
-                                                    );
-                                                // }
+                                          if($model[0]=="kegiatan"){
+                                            $url = Url::toRoute(['/department-approval-activity-responsibility/closing', 'id' => $model['id']]);
+                                            return Html::a(
+                                              '| <span class="glyphicon glyphicon-ok"></span> ',
+                                              $url,
+                                              [
+                                                'title' => 'Closing Pertanggungjawaban',
+                                              ]
+                                            );
+                                          }else if($model[0]=="rutin"){
+                                            $url = Url::toRoute(['/department-approval-activity-daily-responsibility/closing', 'id' => $model['id']]);
+                                            return Html::a(
+                                              '| <span class="glyphicon glyphicon-ok"></span> ',
+                                              $url,
+                                              [
+                                                'title' => 'Closing Pertanggungjawaban',
+                                              ]
+                                            );
+                                          }
                                         },
                                         'view' => function($url, $model, $key)
                                         {
-                                                    $url = Url::toRoute(['/department-approval-activity-responsibility/view', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        '| <span class="glyphicon glyphicon-eye-open"></span> |',
-                                                        $url, 
-                                                        [
-                                                            'title' => 'Download Pertanggungjawaban',
-                                                        ]
-                                                    );
+                                          if($model[0]=="kegiatan"){
+                                            $url = Url::toRoute(['/department-approval-activity-responsibility/view', 'id' => $model['id']]);
+                                            return Html::a(
+                                              '| <span class="glyphicon glyphicon-eye-open"></span> |',
+                                              $url,
+                                              [
+                                                'title' => 'Download Pertanggungjawaban',
+                                              ]
+                                            );
+                                          }else if($model[0]=="rutin"){
+                                            $url = Url::toRoute(['/department-approval-activity-daily-responsibility/view', 'id' => $model['id']]);
+                                            return Html::a(
+                                              '| <span class="glyphicon glyphicon-eye-open"></span> |',
+                                              $url,
+                                              [
+                                                'title' => 'Download Pertanggungjawaban',
+                                              ]
+                                            );
+                                          }
                                         },
                                         'download' => function($url, $model, $key)
                                         {
-                                                    $url = Url::toRoute(['/department-approval-activity-responsibility/report', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        ' <span class="glyphicon glyphicon-download"></span> |',
-                                                        $url, 
-                                                        [
-                                                            'title' => 'Download Pertanggungjawaban',
-                                                            'data-pjax' => 0, 
-                                                            'target' => '_blank'
-                                                        ]
-                                                    );
+                                          if($model[0]=="kegiatan"){
+                                            $url = Url::toRoute(['/department-approval-activity-responsibility/report', 'id' => $model['id']]);
+                                            return Html::a(
+                                              ' <span class="glyphicon glyphicon-download"></span> |',
+                                              $url,
+                                              [
+                                                'title' => 'Download Pertanggungjawaban',
+                                                'data-pjax' => 0,
+                                                'target' => '_blank'
+                                              ]
+                                            );
+
+                                          }else if($model[0]=="rutin"){
+                                            $url = Url::toRoute(['/department-approval-activity-daily-responsibility/report', 'id' => $model['id']]);
+                                            return Html::a(
+                                              ' <span class="glyphicon glyphicon-download"></span> |',
+                                              $url,
+                                              [
+                                                'title' => 'Download Pertanggungjawaban',
+                                                'data-pjax' => 0,
+                                                'target' => '_blank'
+                                              ]
+                                            );
+                                          }
                                         },
                                     ]
 

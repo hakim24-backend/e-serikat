@@ -6,6 +6,7 @@ use Yii;
 use common\models\Approve;
 use common\models\ActivityResponsibility;
 use common\models\Activity;
+use common\models\ActivityDaily;
 use common\models\User;
 use common\models\ActivityBudgetSection;
 use common\models\ActivityBudgetSecretariat;
@@ -22,7 +23,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use kartik\mpdf\Pdf;
-
+use yii\data\ArrayDataProvider;
 /**
  * ApproveController implements the CRUD actions for Approve model.
  */
@@ -65,26 +66,147 @@ class ActivityResponsibilityController extends Controller
     {
         $role = Yii::$app->user->identity->role;
         if($role == 4){
-          $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['role'=>4])->Andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
+
+            $dataA =Activity::find()
+                      ->where(['role'=>4])
+                      ->Andwhere(['finance_status'=> 1])
+                      ->andWhere(['department_status'=> 1])
+                      ->andWhere(['chief_status'=> 1])
+                      ->asArray()->all();
+
+
+                      $typeA = array(
+                        'tipe' => 'kegiatan',
+                      );
+                      //
+                      foreach ($dataA as $key => $data) {
+                        array_splice($dataA[$key], 0, 0 , $typeA);
+                      }
+
+
+            $dataB = ActivityDaily::find()
+                    ->where(['role'=>4])
+                    ->Andwhere(['finance_status'=> 1])
+                    ->andWhere(['department_status'=> 1])
+                    ->andWhere(['chief_status'=> 1])
+                      ->asArray()->all();
+
+                      $typeB = array(
+                        'tipe' => 'rutin',
+                      );
+                      //
+                      foreach ($dataB as $key => $data) {
+                        array_splice($dataB[$key], 0, 0 , $typeB);
+                      }
+
+
+
+          $data = array_merge($dataA, $dataB);
+
+          // var_dump($dataB);die;
+
+          $dataProvider = new ArrayDataProvider([
+            'allModels' => $data
           ]);
+
         }elseif ($role == 8) {
           $atasan = Yii::$app->user->identity->section->id_depart;
-          $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()
-                        ->joinWith('activityBudgetSections')
-                        ->joinWith('activityBudgetSections.sectionBudget')
-                        ->joinWith('activityBudgetSections.sectionBudget.section')
-                        ->where(['activity.role'=>8])
-                        ->Andwhere(['activity.finance_status'=> 1])
-                        ->andWhere(['activity.department_status'=> 1])
-                        ->andWhere(['activity.chief_status'=> 1])
-                        ->andWhere(['section.id_depart'=>$atasan]),
+
+          $dataA =Activity::find()
+                      ->joinWith('activityBudgetSections')
+                      ->joinWith('activityBudgetSections.sectionBudget')
+                      ->joinWith('activityBudgetSections.sectionBudget.section')
+                      ->where(['activity.role'=>8])
+                      ->Andwhere(['activity.finance_status'=> 1])
+                      ->andWhere(['activity.department_status'=> 1])
+                      ->andWhere(['activity.chief_status'=> 1])
+                      ->andWhere(['section.id_depart'=>$atasan])
+                      ->asArray()->all();
+
+
+                      $typeA = array(
+                        'tipe' => 'kegiatan',
+                      );
+                      //
+                      foreach ($dataA as $key => $data) {
+                        array_splice($dataA[$key], 0, 0 , $typeA);
+                      }
+
+            $dataB = ActivityDaily::find()
+                      ->joinWith('activityDailyBudgetSections')
+                      ->joinWith('activityDailyBudgetSections.sectionBudget')
+                      ->joinWith('activityDailyBudgetSections.sectionBudget.section')
+                      ->where(['activity_daily.role'=>8])
+                      ->andWhere(['section.id_depart'=>$atasan])
+                      ->Andwhere(['activity_daily.finance_status'=> 1])
+                      ->andWhere(['activity_daily.department_status'=> 1])
+                      ->andWhere(['activity_daily.chief_status'=> 1])
+                      ->asArray()->all();
+
+                      $typeB = array(
+                        'tipe' => 'rutin',
+                      );
+                      //
+                      foreach ($dataB as $key => $data) {
+                        array_splice($dataB[$key], 0, 0 , $typeB);
+                      }
+
+
+
+          $data = array_merge($dataA, $dataB);
+
+          // var_dump($dataB);die;
+
+          $dataProvider = new ArrayDataProvider([
+            'allModels' => $data
           ]);
+
+          // $dataProvider = new ActiveDataProvider([
+          //   'query' => Activity::find()
+          //               ->joinWith('activityBudgetSections')
+          //               ->joinWith('activityBudgetSections.sectionBudget')
+          //               ->joinWith('activityBudgetSections.sectionBudget.section')
+          //               ->where(['activity.role'=>8])
+          //               ->Andwhere(['activity.finance_status'=> 1])
+          //               ->andWhere(['activity.department_status'=> 1])
+          //               ->andWhere(['activity.chief_status'=> 1])
+          //               ->andWhere(['section.id_depart'=>$atasan]),
+          // ]);
         }else if($role == 2 || $role == 3){
-          $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()->where(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1]),
+
+          $dataA = Activity::find()
+                  ->where(['finance_status'=> 1])
+                  ->andWhere(['department_status'=> 1])
+                  ->andWhere(['chief_status'=> 1])
+                  ->asArray()->all();
+
+                  $typeA = array(
+                    'tipe' => 'kegiatan',
+                  );
+                  //
+                  foreach ($dataA as $key => $data) {
+                    array_splice($dataA[$key], 0, 0 , $typeA);
+                  }
+
+          $dataB = ActivityDaily::find()
+                  ->where(['finance_status'=> 1])
+                  ->andWhere(['department_status'=> 1])
+                  ->andWhere(['chief_status'=> 1])
+                  ->asArray()->all();
+
+                  $typeB = array(
+                    'tipe' => 'rutin',
+                  );
+                  //
+                  foreach ($dataB as $key => $data) {
+                    array_splice($dataB[$key], 0, 0 , $typeB);
+                  }
+
+          $data = array_merge($dataA, $dataB);
+          $dataProvider = new ArrayDataProvider([
+            'allModels' => $data
           ]);
+
         }
 
         return $this->render('index', [

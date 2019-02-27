@@ -6,7 +6,8 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+use common\models\ActivityResponsibility;
+use common\models\ActivityDailyResponsibility;
 $this->title = 'Ketua - Data Pertanggung Jawaban';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -34,29 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                     [
                                         'header' => 'Judul',
                                         'headerOptions' =>[
-                                        'style' => 'width:15%'
+                                        'style' => 'width:50%'
                                         ],
                                         'attribute' => 'title',
                                     ],
 
                                     [
-                                        'header' => 'Tujuan',
-                                        'headerOptions' =>[
-                                        'style' => 'width:25%'
-                                        ],
-                                        'attribute' => 'purpose',
-                                    ],
-
-                                    [
-                                        'header' => 'Tempat Pelaksanaan',
-                                        'headerOptions' =>[
-                                        'style' => 'width:20%'
-                                        ],
-                                        'attribute' => 'place_activity',
-                                    ],
-
-                                    [
-                                        'header' => 'Tangal Mulai',
+                                        'header' => 'Tanggal Mulai',
                                         'headerOptions' =>[
                                         'style' => 'width:15%'
                                         ],
@@ -81,42 +66,78 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'create' => function($url, $model, $key)
                                         {
                                           if(Yii::$app->user->identity->role != 2 && Yii::$app->user->identity->role != 3){
-                                            if($model->activityResponsibilities){
-                                              $url = Url::toRoute(['/chief-activity-responsibility/update', 'id' => $model->id]);
-                                              return Html::a(
-                                                '| <span class="glyphicon glyphicon-pencil"></span>',
-                                                $url,
-                                                [
-                                                  'title' => 'Update Laporan Pertanggung Jawaban',
-                                                ]
-                                              );
-                                            }else{
-                                              $url = Url::toRoute(['/chief-activity-responsibility/create', 'id' => $model->id]);
-                                              return Html::a(
-                                                '| <span class="glyphicon glyphicon-plus"></span>',
-                                                $url,
-                                                [
-                                                  'title' => 'Create Laporan Pertanggung Jawaban',
-                                                ]
-                                              );
+                                            if($model[0]=="kegiatan"){
+                                              $dataRespo = ActivityResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                              if($dataRespo){
+                                                $url = Url::toRoute(['/chief-activity-responsibility/update', 'id' => $model['id']]);
+                                                return Html::a(
+                                                  '| <span class="glyphicon glyphicon-pencil"></span>',
+                                                  $url,
+                                                  [
+                                                    'title' => 'Update Laporan Pertanggung Jawaban',
+                                                  ]
+                                                );
+                                              }else{
+                                                $url = Url::toRoute(['/chief-activity-responsibility/create', 'id' => $model['id']]);
+                                                return Html::a(
+                                                  '| <span class="glyphicon glyphicon-plus"></span>',
+                                                  $url,
+                                                  [
+                                                    'title' => 'Create Laporan Pertanggung Jawaban',
+                                                  ]
+                                                );
+                                              }
+                                            }else if($model[0]=="rutin"){
+                                              $dataRespo = ActivityDailyResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                              if($dataRespo){
+                                                $url = Url::toRoute(['/chief-activity-daily-responsibility/update', 'id' => $model['id']]);
+                                                return Html::a(
+                                                  '| <span class="glyphicon glyphicon-pencil"></span>  ',
+                                                  $url,
+                                                  [
+                                                    'title' => 'Update Laporan Pertanggung Jawaban',
+                                                  ]
+                                                );
+                                              }else{
+                                                $url = Url::toRoute(['/chief-activity-daily-responsibility/create', 'id' => $model['id']]);
+                                                return Html::a(
+                                                  '| <span class="glyphicon glyphicon-plus"></span>  ',
+                                                  $url,
+                                                  [
+                                                    'title' => 'Create Laporan Pertanggung Jawaban',
+                                                  ]
+                                                );
+                                              }
                                             }
                                           }
                                         },
                                         'download' => function($url, $model, $key)
                                         {
-                                          if($model->activityResponsibilities){
-
-                                                    $url = Url::toRoute(['/chief-activity-responsibility/report', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        '| <span class="glyphicon glyphicon-download"></span> |',
-                                                        $url,
-                                                        [
-                                                            'title' => 'Download Pertanggungjawaban',
-                                                            'data-pjax' => 0,
-                                                            'target' => '_blank'
-                                                        ]
-                                                    );
-                                        }
+                                          if($model[0]=="kegiatan"){
+                                            $dataRespo = ActivityResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                            $url = Url::toRoute(['/chief-activity-responsibility/report', 'id' => $model['id']]);
+                                            return Html::a(
+                                              '| <span class="glyphicon glyphicon-download"></span> ',
+                                              $url,
+                                              [
+                                                'title' => 'Download Pertanggungjawaban',
+                                                'data-pjax' => 0,
+                                                'target' => '_blank'
+                                              ]
+                                            );
+                                          }else if($model[0]=="rutin"){
+                                            $dataRespo = ActivityDailyResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                            $url = Url::toRoute(['/chief-activity-daily-responsibility/report', 'id' => $model['id']]);
+                                            return Html::a(
+                                                '| <span class="glyphicon glyphicon-download"></span> ',
+                                                $url,
+                                                [
+                                                    'title' => 'Download Pertanggungjawaban',
+                                                    'data-pjax' => 0,
+                                                    'target' => '_blank'
+                                                ]
+                                            );
+                                          }
                                       }
                                     ]
 

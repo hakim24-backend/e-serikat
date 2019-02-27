@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Activity;
+use common\models\ActivityDaily;
 use common\models\ActivityBudgetSection;
 use common\models\SectionBudget;
 use common\models\Section;
@@ -15,6 +16,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use kartik\mpdf\Pdf;
+use yii\data\ArrayDataProvider;
 
 /**
  * DepartmentApprovalActivityResponsibilityController implements the CRUD actions for Activity model.
@@ -60,18 +62,50 @@ class DepartmentApprovalActivityResponsibilityController extends Controller
       $role = Yii::$app->user->identity->role;
       $atasan = Yii::$app->user->identity->department->id_chief;
 
+      $dataA = Activity::find()
+                  ->joinWith('activityBudgetDepartments')
+                  ->joinWith('activityBudgetDepartments.departmentBudget')
+                  ->joinWith('activityBudgetDepartments.departmentBudget.department')
+                  ->joinWith('activityResponsibilities')
+                  ->where(['department.id_chief'=>$atasan])
+                  ->andWhere(['activity.department_status'=>1])
+                  ->andWhere(['activity_responsibility.responsibility_value'=>0])
+                  ->andWhere(['activity.done'=>0])
+                  ->asArray()->all();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()
-                      ->joinWith('activityBudgetDepartments')
-                      ->joinWith('activityBudgetDepartments.departmentBudget')
-                      ->joinWith('activityBudgetDepartments.departmentBudget.department')
-                      ->joinWith('activityResponsibilities')
-                      // ->where(['role'=>$role])
-                      ->andWhere(['department.id_chief'=>$atasan])
-                      ->where(['activity.department_status'=>1])
-                      ->andWhere(['activity_responsibility.responsibility_value'=>0])
-                      ->andWhere(['activity.done'=>0]),
+                  $typeA = array(
+                    'tipe' => 'kegiatan',
+                  );
+                  //
+                  foreach ($dataA as $key => $data) {
+                    array_splice($dataA[$key], 0, 0 , $typeA);
+                  }
+
+
+        $dataB = ActivityDaily::find()
+                  ->joinWith('activityDailyResponsibilities')
+                  ->joinWith('activityDailyBudgetDeparts')
+                  ->joinWith('activityDailyBudgetDeparts.departmentBudget')
+                  ->joinWith('activityDailyBudgetDeparts.departmentBudget.department')
+                  ->where(['department.id_chief'=>$atasan])
+                  ->andWhere(['activity_daily.department_status'=>1])
+                  ->andWhere(['activity_daily_responsibility.responsibility_value'=>0])
+                  ->andWhere(['activity_daily.done'=>0])
+                  ->asArray()->all();
+
+                  $typeB = array(
+                    'tipe' => 'rutin',
+                  );
+                  //
+                  foreach ($dataB as $key => $data) {
+                    array_splice($dataB[$key], 0, 0 , $typeB);
+                  }
+
+        $data = array_merge($dataA, $dataB);
+
+        $dataProvider = new ArrayDataProvider([
+          'allModels' => $data
+
         ]);
 
         return $this->render('index', [

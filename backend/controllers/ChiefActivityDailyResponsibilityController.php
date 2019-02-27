@@ -163,7 +163,7 @@ class ChiefActivityDailyResponsibilityController extends Controller
 
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
-            return $this->redirect(['index']);
+            return $this->redirect(['chief-activity-responsibility/index']);
         }
 
         return $this->render('create', [
@@ -254,7 +254,7 @@ class ChiefActivityDailyResponsibilityController extends Controller
                 $model->responsibility_value = 2;
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['index']);
+                return $this->redirect(['chief-activity-responsibility/index']);
 
         }
 

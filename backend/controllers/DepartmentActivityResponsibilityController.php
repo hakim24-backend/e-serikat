@@ -24,6 +24,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use kartik\mpdf\Pdf;
+use yii\data\ArrayDataProvider;
+use common\models\ActivityDaily;
 
 /**
  * DepartmentActivityResponsibilityController implements the CRUD actions for ActivityResponsibility model.
@@ -70,15 +72,46 @@ class DepartmentActivityResponsibilityController extends Controller
       $role = Yii::$app->user->identity->role;
       $atasan = Yii::$app->user->identity->department->id_chief;
 
-      $dataProvider = new ActiveDataProvider([
-          'query' => Activity::find()
-                      ->joinWith('activityBudgetDepartments')
-                      ->joinWith('activityBudgetDepartments.departmentBudget')
-                      ->joinWith('activityBudgetDepartments.departmentBudget.department')
-                      ->where(['role'=>$role])
-                      ->andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1])
-                      ->andWhere(['department.id_chief'=>$atasan]),
-      ]);
+      $dataA = Activity::find()
+                  ->joinWith('activityBudgetDepartments')
+                  ->joinWith('activityBudgetDepartments.departmentBudget')
+                  ->joinWith('activityBudgetDepartments.departmentBudget.department')
+                  ->where(['role'=>$role])
+                  ->andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1])
+                  ->andWhere(['department.id_chief'=>$atasan])
+                  ->asArray()->all();
+
+                  $typeA = array(
+                    'tipe' => 'kegiatan',
+                  );
+                  //
+                  foreach ($dataA as $key => $data) {
+                    array_splice($dataA[$key], 0, 0 , $typeA);
+                  }
+
+        $dataB = ActivityDaily::find()
+                  ->joinWith('activityDailyBudgetDeparts')
+                  ->joinWith('activityDailyBudgetDeparts.departmentBudget')
+                  ->joinWith('activityDailyBudgetDeparts.departmentBudget.department')
+                  ->where(['role'=>$role])
+                  ->andwhere(['finance_status'=> 1])->andWhere(['department_status'=> 1])->andWhere(['chief_status'=> 1])
+                  ->andWhere(['department.id_chief'=>$atasan])
+                  ->andWhere(['activity_daily.done'=>0])
+                  ->asArray()->all();
+
+                  $typeB = array(
+                    'tipe' => 'rutin',
+                  );
+                  //
+                  foreach ($dataB as $key => $data) {
+                    array_splice($dataB[$key], 0, 0 , $typeB);
+                  }
+
+                  $data = array_merge($dataA, $dataB);
+
+                  $dataProvider = new ArrayDataProvider([
+                    'allModels' => $data
+                  ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
