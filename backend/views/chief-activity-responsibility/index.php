@@ -69,14 +69,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                             if($model[0]=="kegiatan"){
                                               $dataRespo = ActivityResponsibility::find()->where(['activity_id'=>$model['id']])->one();
                                               if($dataRespo){
-                                                $url = Url::toRoute(['/chief-activity-responsibility/update', 'id' => $model['id']]);
-                                                return Html::a(
-                                                  '| <span class="glyphicon glyphicon-pencil"></span>',
-                                                  $url,
-                                                  [
-                                                    'title' => 'Update Laporan Pertanggung Jawaban',
-                                                  ]
-                                                );
+                                                if($dataRespo->responsibility_value!=3){
+                                                  $url = Url::toRoute(['/chief-activity-responsibility/update', 'id' => $model['id']]);
+                                                  return Html::a(
+                                                    '| <span class="glyphicon glyphicon-pencil"></span>',
+                                                    $url,
+                                                    [
+                                                      'title' => 'Update Laporan Pertanggung Jawaban',
+                                                    ]
+                                                  );
+                                                }
                                               }else{
                                                 $url = Url::toRoute(['/chief-activity-responsibility/create', 'id' => $model['id']]);
                                                 return Html::a(
@@ -90,14 +92,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                             }else if($model[0]=="rutin"){
                                               $dataRespo = ActivityDailyResponsibility::find()->where(['activity_id'=>$model['id']])->one();
                                               if($dataRespo){
-                                                $url = Url::toRoute(['/chief-activity-daily-responsibility/update', 'id' => $model['id']]);
-                                                return Html::a(
-                                                  '| <span class="glyphicon glyphicon-pencil"></span>  ',
-                                                  $url,
-                                                  [
-                                                    'title' => 'Update Laporan Pertanggung Jawaban',
-                                                  ]
-                                                );
+                                                if($dataRespo->responsibility_value!=3){
+                                                  $url = Url::toRoute(['/chief-activity-daily-responsibility/update', 'id' => $model['id']]);
+                                                  return Html::a(
+                                                    '| <span class="glyphicon glyphicon-pencil"></span>  ',
+                                                    $url,
+                                                    [
+                                                      'title' => 'Update Laporan Pertanggung Jawaban',
+                                                    ]
+                                                  );
+                                                }
                                               }else{
                                                 $url = Url::toRoute(['/chief-activity-daily-responsibility/create', 'id' => $model['id']]);
                                                 return Html::a(
@@ -141,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                   'target' => '_blank'
                                                 ]
                                               );
-                                              
+
                                             }
                                           }
                                       }

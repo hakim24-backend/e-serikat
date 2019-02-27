@@ -88,38 +88,41 @@ class BendaharaActivityDailyResponsibilityController extends \yii\web\Controller
             $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin->id])->one();
             $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
             $baru = SecretariatBudget::find()->where(['id'=>$awal->secretariat_budget_id])->one();
+            $realOutput = $budget->budget_value_dp - $budget->budget_value_sum;
 
-            $baru->secretariat_budget_value=$baru->secretariat_budget_value-$budget->budget_value_sum;
+            $baru->secretariat_budget_value=$baru->secretariat_budget_value+$realOutput;
             $baru->save();
         } else if ($model->role == 8) {
             $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi->id])->one();
             $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+            $realOutput = $budget->budget_value_dp - $budget->budget_value_sum;
 
-            $baru->section_budget_value=$baru->section_budget_value-$budget->budget_value_sum;
+            $baru->section_budget_value=$baru->section_budget_value+$realOutput;
             $baru->save();
         }else if ($model->role == 6) {
             $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$modelSeksi->id])->one();
             $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
             $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+            $realOutput = $budget->budget_value_dp - $budget->budget_value_sum;
 
-            $baru->chief_budget_value=$baru->chief_budget_value-$budget->budget_value_sum;
+            $baru->chief_budget_value=$baru->chief_budget_value+$realOutput;
             $baru->save();
         }else if ($model->role == 7) {
             $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelSeksi->id])->one();
             $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
             $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+            $realOutput = $budget->budget_value_dp - $budget->budget_value_sum;
 
-            $baru->department_budget_value=$baru->department_budget_value-$budget->budget_value_sum;
+            $baru->department_budget_value=$baru->department_budget_value+$realOutput;
             $baru->save();
         }
 
             $model->done = 1;
             $model->save(false);
-
             $responsibility->responsibility_value = 3;
             $responsibility->save(false);
         }
