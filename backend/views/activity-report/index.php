@@ -46,7 +46,7 @@ $gridColumns = [
     ],
 
     [
-        'header' => 'Tangal Mulai',
+        'header' => 'Tanggal Mulai',
         'headerOptions' =>[
         'style' => 'width:15%'
         ],
@@ -91,7 +91,7 @@ $range_end = date('Y-m-d');
 <div class="activity-daily-index">
 <div class="box box-primary">
 
-        <?php $form = ActiveForm::begin(['id' => 'dynamic-form', 'method'=>'get']); ?>
+        <?php $form = ActiveForm::begin(['id' => 'dynamic-form', 'method'=>'get', 'options'=>['autocomplete'=>false]]); ?>
           <div class="box-header with-border">
             <label>Filter Data Kegiatan</label>
           </div>
@@ -120,13 +120,13 @@ HTML;
                                     echo '<div class="input-group drp-container">';
                                     echo DateRangePicker::widget([
                                         'name'=>'date_range',
-                                        'value'=>$range,
+                                        'value'=>'',
                                         'useWithAddon'=>true,
                                         'convertFormat'=>true,
                                         'startAttribute' => 'from_date',
                                         'endAttribute' => 'to_date',
-                                        'startInputOptions' => ['value' => $range_start],
-                                        'endInputOptions' => ['value' => $range_end],
+                                        'startInputOptions' => ['value' => ''],
+                                        'endInputOptions' => ['value' => ''],
                                         'options' => [
                                             'class' => 'form-control',
                                         ],
@@ -186,7 +186,8 @@ ExportMenu::widget([
     'dropdownOptions' => [
         'label' => 'Export Data Kegiatan',
         'class' => 'btn btn-secondary'
-    ]
+    ],
+    'autoWidth' => false,
 ])
 ?>
 <br>
@@ -232,7 +233,7 @@ ExportMenu::widget([
                                     ],
 
                                     [
-                                        'header' => 'Tangal Mulai',
+                                        'header' => 'Tanggal Mulai',
                                         'headerOptions' =>[
                                         'style' => 'width:15%'
                                         ],
