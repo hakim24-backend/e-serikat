@@ -31,7 +31,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use kartik\mpdf\Pdf;
-
+use yii\data\ArrayDataProvider;
 /**
  * BendaharaActivityResponsibilityController implements the CRUD actions for ActivityResponsibility model.
  */
@@ -72,17 +72,59 @@ class BendaharaActivityResponsibilityController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()
-                      ->joinWith('activityResponsibilities')
-                      ->where(['activity.finance_status'=>1])
-                      ->andWhere(['or',
-                      ['activity_responsibility.responsibility_value'=>2],
-                      ['activity_responsibility.responsibility_value'=>3],
-                    ]),
+
+        $dataA = Activity::find()
+                    ->joinWith('activityResponsibilities')
+                    ->where(['activity.finance_status'=>1])
+                    ->andWhere(['or',
+                    ['activity_responsibility.responsibility_value'=>2],
+                    ['activity_responsibility.responsibility_value'=>3],
+                    ])
+                    ->asArray()->all();
+
+                  $typeA = array(
+                    'tipe' => 'kegiatan',
+                  );
+                  //
+                  foreach ($dataA as $key => $data) {
+                    array_splice($dataA[$key], 0, 0 , $typeA);
+                  }
+
+        $dataB = ActivityDaily::find()
+                  ->joinWith('activityDailyResponsibilities')
+                  ->where(['activity_daily.finance_status'=>1])
+                  ->andWhere(['or',
+                  ['activity_daily_responsibility.responsibility_value'=>2],
+                  ['activity_daily_responsibility.responsibility_value'=>3],
+                  ])
+                  ->asArray()->all();
+
+                  $typeB = array(
+                    'tipe' => 'rutin',
+                  );
+                  //
+                  foreach ($dataB as $key => $data) {
+                    array_splice($dataB[$key], 0, 0 , $typeB);
+                  }
+
+                  $data = array_merge($dataA, $dataB);
+
+                  $dataProvider = new ArrayDataProvider([
+                    'allModels' => $data
+                  ]);
+
+
+        // $dataProvider = new ActiveDataProvider([
+        //     'query' => Activity::find()
+        //               ->joinWith('activityResponsibilities')
+        //               ->where(['activity.finance_status'=>1])
+        //               ->andWhere(['or',
+        //               ['activity_responsibility.responsibility_value'=>2],
+        //               ['activity_responsibility.responsibility_value'=>3],
+        //             ]),
                       // ->andWhere(['activity.done'=>0]),
 
-        ]);
+        // ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

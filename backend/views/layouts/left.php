@@ -58,7 +58,6 @@ $Role = Yii::$app->user->identity->roleName();
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
                           ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
-                          ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
 
@@ -91,7 +90,6 @@ $Role = Yii::$app->user->identity->roleName();
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
                           ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
-                          ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
 
@@ -126,7 +124,7 @@ $Role = Yii::$app->user->identity->roleName();
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
                           ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
-                          ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
+                          // ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
 
@@ -151,7 +149,6 @@ $Role = Yii::$app->user->identity->roleName();
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/kegiatan'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/kegiatan-rutin'],],
                           ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/activity-responsibility'],],
-                          ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-responsibility'],],
                       ],
                   ],
 
@@ -184,7 +181,7 @@ $Role = Yii::$app->user->identity->roleName();
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/bendahara'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara-rutin'],],
                           ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/bendahara-activity-responsibility'],],
-                          ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara-activity-daily-responsibility'],],
+                          // ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/bendahara-activity-daily-responsibility'],],
 
                       ],
                   ],
@@ -217,7 +214,7 @@ $Role = Yii::$app->user->identity->roleName();
                           ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/activity-department'],],
                           ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-department'],],
                           ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/department-activity-responsibility'],],
-                          ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/department-activity-daily-responsibility'],],
+                          // ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/department-activity-daily-responsibility'],],
                       ],
                   ],
                   [
@@ -228,7 +225,6 @@ $Role = Yii::$app->user->identity->roleName();
                         ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/approval-department-activity'],],
                         ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/approval-department-activity-daily'],],
                         ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/department-approval-activity-responsibility'],],
-                        ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/department-approval-activity-daily-responsibility'],],
 
                     ],
                 ],
@@ -253,7 +249,6 @@ $Role = Yii::$app->user->identity->roleName();
                         ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/activity-chief'],],
                         ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/activity-daily-chief'],],
                         ['label' => 'Pertanggung Jawaban', 'icon' => 'file-code-o', 'url' => ['/chief-activity-responsibility'],],
-                        ['label' => 'Pertanggung Jawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/chief-activity-daily-responsibility'],],
                     ],
                 ],
                 [
@@ -264,7 +259,7 @@ $Role = Yii::$app->user->identity->roleName();
                       ['label' => 'Uang Muka Kegiatan', 'icon' => 'file-code-o', 'url' => ['/approval-chief-activity'],],
                       ['label' => 'Uang Muka Kegiatan Rutin', 'icon' => 'file-code-o', 'url' => ['/approval-chief-activity-daily'],],
                       ['label' => 'Pertanggungjawaban', 'icon' => 'file-code-o', 'url' => ['/chief-approval-activity-responsibility'],],
-                      ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/chief-approval-activity-daily-responsibility'],],
+                      // ['label' => 'Pertanggungjawaban Rutin', 'icon' => 'file-code-o', 'url' => ['/chief-approval-activity-daily-responsibility'],],
 
                   ],
               ],

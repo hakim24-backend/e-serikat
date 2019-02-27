@@ -6,7 +6,8 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+use common\models\ActivityResponsibility;
+use common\models\ActivityDailyResponsibility;
 $this->title = 'Data Pertanggung Jawaban Kegiatan Rutin';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -35,29 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                             [
                                         'header' => 'Judul',
                                         'headerOptions' =>[
-                                        'style' => 'width:15%'
+                                        'style' => 'width:50%'
                                         ],
                                         'attribute' => 'title',
                                     ],
 
                                     [
-                                        'header' => 'Tujuan',
-                                        'headerOptions' =>[
-                                        'style' => 'width:22%'
-                                        ],
-                                        'attribute' => 'purpose',
-                                    ],
-
-                                    [
-                                        'header' => 'Tempat Pelaksanaan',
-                                        'headerOptions' =>[
-                                        'style' => 'width:20%'
-                                        ],
-                                        'attribute' => 'place_activity',
-                                    ],
-
-                                    [
-                                        'header' => 'Tangal Mulai',
+                                        'header' => 'Tanggal Mulai',
                                         'headerOptions' =>[
                                         'style' => 'width:15%'
                                         ],
@@ -76,21 +61,58 @@ $this->params['breadcrumbs'][] = $this->title;
                                       'filter' => false,
                                       'format' => 'raw',
                                        'value' => function ($model) {
-                                         if($model->activityResponsibilities[0]['responsibility_value'] == '0')
-                                         {
+
+                                         if($model[0]=="kegiatan"){
+                                           $data = ActivityResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                           if($data->responsibility_value == 0)
+                                           {
                                              return '<span class="label label-info">Belum Dikonfirmasi</span>';
-                                         }
-                                         else if($model->activityResponsibilities[0]['responsibility_value'] == '1')
-                                         {
-                                             return '<span class="label label-success">Diterima Kepala Departemen</span>';
-                                         }
-                                         else if($model->activityResponsibilities[0]['responsibility_value'] == '2')
-                                         {
-                                           return '<span class="label label-success">Diterima Ketua</span>';
-                                         }
-                                         else if($model->activityResponsibilities[0]['responsibility_value'] == '3')
-                                         {
-                                           return '<span class="label label-success">Selesai</span>';
+                                           }
+                                           else if($data->responsibility_value == 1)
+                                           {
+                                               return '<span class="label label-success">Diterima Kepala Departemen</span>';
+                                           }
+                                           else if($data->responsibility_value == '2')
+                                           {
+                                             return '<span class="label label-success">Diterima Ketua</span>';
+                                           }
+                                           else if($data->responsibility_value == '3')
+                                           {
+                                             return '<span class="label label-success">Selesai</span>';
+                                           }
+                                           // if($model->activityResponsibilities[0]['responsibility_value'] == '0')
+                                           // {
+                                           // }
+                                           // else if($model->activityResponsibilities[0]['responsibility_value'] == '1')
+                                           // {
+                                           //   return '<span class="label label-success">Diterima Kepala Departemen</span>';
+                                           // }
+                                           // else if($model->activityResponsibilities[0]['responsibility_value'] == '2')
+                                           // {
+                                           //   return '<span class="label label-success">Diterima Ketua</span>';
+                                           // }
+                                           // else if($model->activityResponsibilities[0]['responsibility_value'] == '3')
+                                           // {
+                                           //   return '<span class="label label-success">Selesai</span>';
+                                           // }
+                                         }else if($model[0]=="rutin"){
+                                           $data = ActivityDailyResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                           if($data->responsibility_value == 0)
+                                           {
+                                             return '<span class="label label-info">Belum Dikonfirmasi</span>';
+                                           }
+                                           else if($data->responsibility_value == 1)
+                                           {
+                                               return '<span class="label label-success">Diterima Kepala Departemen</span>';
+                                           }
+                                           else if($data->responsibility_value == '2')
+                                           {
+                                             return '<span class="label label-success">Diterima Ketua</span>';
+                                           }
+                                           else if($data->responsibility_value == '3')
+                                           {
+                                             return '<span class="label label-success">Selesai</span>';
+                                           }
                                          }
                                        },
                                     ],
@@ -104,54 +126,80 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'buttons' => [
                                         'closing' => function($url, $model, $key)
                                         {
-                                                // if ($model->activityDailyResponsibilities) {
-                                                //     $url = Url::toRoute(['/activity-daily-responsibility/update', 'id' => $model->id]);
-                                                //     return Html::a(
-                                                //         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                //         $url,
-                                                //         [
-                                                //             'title' => 'Edit Pertanggungjawaban',
-                                                //         ]
-                                                //     );
-                                                // } else {
-                                                if($model->activityResponsibilities){
-                                                  if($model->activityResponsibilities[0]['responsibility_value'] == 2){
-
-                                                    $url = Url::toRoute(['/bendahara-activity-responsibility/closing', 'id' => $model->id]);
-                                                    return Html::a(
-                                                      '| <span class="glyphicon glyphicon-ok"></span> ',
-                                                      $url,
-                                                      [
-                                                        'title' => 'Closing Pertanggungjawaban',
-                                                      ]
-                                                    );
-                                                  }
-                                                }
-                                                // }
+                                          if($model[0]=="kegiatan"){
+                                            $dataRespo = ActivityResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                            if($dataRespo->responsibility_value == 2){
+                                              $url = Url::toRoute(['/bendahara-activity-responsibility/closing', 'id' => $model['id']]);
+                                              return Html::a(
+                                                '| <span class="glyphicon glyphicon-ok"></span> ',
+                                                $url,
+                                                [
+                                                  'title' => 'Closing Pertanggungjawaban',
+                                                ]
+                                              );
+                                            }
+                                          }else if($model[0]=="rutin"){
+                                            $dataRespo = ActivityDailyResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                            if($dataRespo->responsibility_value == 2){
+                                              $url = Url::toRoute(['/bendahara-activity-daily-responsibility/closing', 'id' => $model['id']]);
+                                              return Html::a(
+                                                '| <span class="glyphicon glyphicon-ok"></span> ',
+                                                $url,
+                                                [
+                                                  'title' => 'Closing Pertanggungjawaban',
+                                                ]
+                                              );
+                                            }
+                                          }
                                         },
                                         'view' => function($url, $model, $key)
                                         {
-                                                    $url = Url::toRoute(['/bendahara-activity-responsibility/view', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        '| <span class="glyphicon glyphicon-eye-open"></span> |',
-                                                        $url,
-                                                        [
-                                                            'title' => 'Download Pertanggungjawaban',
-                                                        ]
-                                                    );
+                                          if($model[0]=="kegiatan"){
+                                            $url = Url::toRoute(['/bendahara-activity-responsibility/view', 'id' => $model['id']]);
+                                            return Html::a(
+                                                '| <span class="glyphicon glyphicon-eye-open"></span> |',
+                                                $url,
+                                                [
+                                                    'title' => 'Download Pertanggungjawaban',
+                                                ]
+                                            );
+                                          }else if($model[0]=="rutin"){
+                                            $url = Url::toRoute(['/bendahara-activity-daily-responsibility/view', 'id' => $model['id']]);
+                                            return Html::a(
+                                                '| <span class="glyphicon glyphicon-eye-open"></span> |',
+                                                $url,
+                                                [
+                                                    'title' => 'Download Pertanggungjawaban',
+                                                ]
+                                            );
+                                          }
+
                                         },
                                         'download' => function($url, $model, $key)
                                         {
-                                                    $url = Url::toRoute(['/bendahara-activity-responsibility/report', 'id' => $model->id]);
-                                                    return Html::a(
-                                                        ' <span class="glyphicon glyphicon-download"></span> |',
-                                                        $url,
-                                                        [
-                                                            'title' => 'Download Pertanggungjawaban',
-                                                            'data-pjax' => 0,
-                                                            'target' => '_blank'
-                                                        ]
-                                                    );
+                                          if($model[0]=="kegiatan"){
+                                            $url = Url::toRoute(['/bendahara-activity-responsibility/report', 'id' => $model['id']]);
+                                            return Html::a(
+                                                ' <span class="glyphicon glyphicon-download"></span> |',
+                                                $url,
+                                                [
+                                                    'title' => 'Download Pertanggungjawaban',
+                                                    'data-pjax' => 0,
+                                                    'target' => '_blank'
+                                                ]
+                                            );
+                                          }else if($model[0]=="rutin"){
+                                            $url = Url::toRoute(['/bendahara-activity-daily-responsibility/report', 'id' => $model['id']]);
+                                            return Html::a(
+                                                ' <span class="glyphicon glyphicon-download"></span> |',
+                                                $url,
+                                                [
+                                                    'title' => 'Download Pertanggungjawaban',
+                                                    'data-pjax' => 0,
+                                                    'target' => '_blank'
+                                                ]
+                                            );
+                                          }
                                         },
                                     ]
 

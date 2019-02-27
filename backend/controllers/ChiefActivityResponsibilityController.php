@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Activity;
+use common\models\ActivityDaily;
 use common\models\ActivityResponsibility;
 use common\models\ActivityBudgetChief;
 use common\models\ChiefBudget;
@@ -16,6 +17,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use kartik\mpdf\Pdf;
+use yii\data\ArrayDataProvider;
 
 /**
  * ChiefActivityResponsibilityController implements the CRUD actions for Activity model.
@@ -59,14 +61,43 @@ class ChiefActivityResponsibilityController extends Controller
     {
         $id_chief = Yii::$app->user->identity->chief->id;
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => Activity::find()
-                        ->where(['role'=>6])
-                        ->andWhere(['chief_code_id'=>$id_chief])
-                        ->andWhere(['finance_status'=> 1])
-                        ->andWhere(['chief_status'=>1])
-                        ->andWhere(['department_status'=>1]),
-        ]);
+        $dataA = Activity::find()
+                    ->where(['role'=>6])
+                    ->andWhere(['chief_code_id'=>$id_chief])
+                    ->andWhere(['finance_status'=> 1])
+                    ->andWhere(['chief_status'=>1])
+                    ->andWhere(['department_status'=>1])
+                    ->asArray()->all();
+
+                    $typeA = array(
+                      'tipe' => 'kegiatan',
+                    );
+                    //
+                    foreach ($dataA as $key => $data) {
+                      array_splice($dataA[$key], 0, 0 , $typeA);
+                    }
+
+          $dataB = ActivityDaily::find()
+                    ->where(['role'=>6])
+                    ->andWhere(['chief_code_id'=>$id_chief])
+                    ->andWhere(['finance_status'=> 1])
+                    ->andWhere(['chief_status'=>1])
+                    ->andWhere(['department_status'=>1])
+                    ->asArray()->all();
+
+                    $typeB = array(
+                      'tipe' => 'rutin',
+                    );
+                    //
+                    foreach ($dataB as $key => $data) {
+                      array_splice($dataB[$key], 0, 0 , $typeB);
+                    }
+
+                    $data = array_merge($dataA, $dataB);
+
+                    $dataProvider = new ArrayDataProvider([
+                      'allModels' => $data
+                    ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

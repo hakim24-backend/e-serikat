@@ -70,7 +70,7 @@ class ChiefApprovalActivityDailyResponsibilityController extends Controller
             'query' => ActivityDaily::find()
                       ->joinWith('activityDailyResponsibilities')
                       ->where(['activity_daily.chief_status'=>1])
-                      ->andWhere(['role' => $role])
+                      // ->andWhere(['role' => $role])
                       ->andWhere(['chief_code_id'=>$id_chief])
                       ->andWhere(['activity_daily_responsibility.responsibility_value'=>1])
                       ->andWhere(['activity_daily.done'=>0]),
