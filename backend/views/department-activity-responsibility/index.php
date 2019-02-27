@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                               }else{
                                                 $url = Url::toRoute(['/department-activity-daily-responsibility/create', 'id' => $model['id']]);
                                                 return Html::a(
-                                                  '| <span class="glyphicon glyphicon-plus"></span> | ',
+                                                  ' <span class="glyphicon glyphicon-plus"></span> | ',
                                                   $url,
                                                   [
                                                     'title' => 'Create Laporan Pertanggung Jawaban',
@@ -134,6 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                               $url = Url::toRoute(['/department-activity-daily-responsibility/report', 'id' => $model['id']]);
                                               return Html::a(
                                                 '| <span class="glyphicon glyphicon-download"></span> |',
+
                                                 $url,
                                                 [
                                                   'title' => 'Download Pertanggungjawaban',
@@ -141,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                   'target' => '_blank'
                                                 ]
                                               );
-                                              
+
                                             }
                                           }
                                         }

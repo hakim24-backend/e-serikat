@@ -65,7 +65,7 @@ class ActivityDailyReportController extends Controller
         if (Yii::$app->request->get()) {
             $post = Yii::$app->request->get();
 
-            //data sdm
+            //data sdm only
             if ($post['jenis_sdm_source'] == 6) {
                 if ($post['from_date'] && $post['to_date']) {
                 $dateStart = $post['from_date'];
@@ -104,14 +104,33 @@ class ActivityDailyReportController extends Controller
                 }
             }
 
-            // //range tanggal
-            // if ($post['from_date'] && $post['to_date']) {
-            //     $dateStart = $post['from_date'];
-            //     $dateEnd = $post['to_date'];
-            //     $dataProvider = new ActiveDataProvider([
-            //         'query' => Activity::find()->where(['done'=>1])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
-            //     ]);
-            // }
+            //data sdm with date range
+            if ($post['jenis_sdm_source'] == 6 && $post['from_date'] && $post['to_date']) {
+                $dateStart = $post['from_date'];
+                $dateEnd = $post['to_date'];
+                $dataProvider = new ActiveDataProvider([
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>6])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                ]);
+            } elseif ($post['jenis_sdm_source'] == 7 && $post['from_date'] && $post['to_date']) {
+                $dateStart = $post['from_date'];
+                $dateEnd = $post['to_date'];
+                $dataProvider = new ActiveDataProvider([
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>7])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                ]);
+            } elseif ($post['jenis_sdm_source'] == 8 && $post['from_date'] && $post['to_date']) {
+                $dateStart = $post['from_date'];
+                $dateEnd = $post['to_date'];
+                $dataProvider = new ActiveDataProvider([
+                    'query' => ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>8])->andFilterWhere(['>=', 'date_start',$dateStart])->andFilterWhere(['<=', 'date_end',$dateEnd])
+                ]);
+            }
+
+            //just date range
+            if ($post['from_date'] && $post['to_date']) {
+                $dataProvider = new ActiveDataProvider([
+                'query' => ActivityDaily::find()->where(['done'=>1])->andFilterWhere(['>=', 'date_start',$post['from_date']])->andFilterWhere(['<=', 'date_end',$post['to_date']])
+                ]);
+            }
         }
 
         return $this->render('index', [
