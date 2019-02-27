@@ -35,29 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                     [
                                         'header' => 'Judul',
                                         'headerOptions' =>[
-                                        'style' => 'width:15%'
+                                        'style' => 'width:50%'
                                         ],
                                         'attribute' => 'title',
                                     ],
 
                                     [
-                                        'header' => 'Tujuan',
-                                        'headerOptions' =>[
-                                        'style' => 'width:25%'
-                                        ],
-                                        'attribute' => 'purpose',
-                                    ],
-
-                                    [
-                                        'header' => 'Tempat Pelaksanaan',
-                                        'headerOptions' =>[
-                                        'style' => 'width:20%'
-                                        ],
-                                        'attribute' => 'place_activity',
-                                    ],
-
-                                    [
-                                        'header' => 'Tangal Mulai',
+                                        'header' => 'Tanggal Mulai',
                                         'headerOptions' =>[
                                         'style' => 'width:15%'
                                         ],
