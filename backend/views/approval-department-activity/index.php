@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ],
 
                                     [
-                                    'header' => 'Tangal Mulai',
+                                    'header' => 'Tanggal Mulai',
                                     'attribute' => 'date_start',
                                     ],
 
@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['approval-department-activity/update-apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Edit Pertanggungjawaban',
                                                         ]
@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['approval-department-activity/apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-ok"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Apply Pertanggungjawaban',
                                                         ]
@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['approval-department-activity/view', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-eye-open"></span>',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'View Data Kegiatan Rutin',
                                                         ]
@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['approval-department-activity/reject', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-remove"></span> |',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Download Pertanggungjawaban',
                                                         ]

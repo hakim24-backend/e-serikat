@@ -120,10 +120,13 @@ class ChiefApprovalActivityResponsibilityController extends Controller
     public function actionView($id)
     {
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
+        $role = Activity::find()->where(['id'=>$id])->one();
 
         if ($model != null) {
             return $this->render('view', [
             'model' => $model,
+            'role'=> $role
+
         ]);
         } else {
             Yii::$app->getSession()->setFlash('warning', 'Data Pertangungjawaban Tidak Ada');

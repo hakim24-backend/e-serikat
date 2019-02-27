@@ -115,28 +115,34 @@ $this->params['breadcrumbs'][] = $this->title;
                                         {
                                           if($model[0]=="kegiatan"){
                                             $dataRespo = ActivityResponsibility::find()->where(['activity_id'=>$model['id']])->one();
-                                            $url = Url::toRoute(['/chief-activity-responsibility/report', 'id' => $model['id']]);
-                                            return Html::a(
-                                              '| <span class="glyphicon glyphicon-download"></span> ',
-                                              $url,
-                                              [
-                                                'title' => 'Download Pertanggungjawaban',
-                                                'data-pjax' => 0,
-                                                'target' => '_blank'
-                                              ]
-                                            );
-                                          }else if($model[0]=="rutin"){
-                                            $dataRespo = ActivityDailyResponsibility::find()->where(['activity_id'=>$model['id']])->one();
-                                            $url = Url::toRoute(['/chief-activity-daily-responsibility/report', 'id' => $model['id']]);
-                                            return Html::a(
+                                            if($dataRespo){
+                                              $url = Url::toRoute(['/chief-activity-responsibility/report', 'id' => $model['id']]);
+                                              return Html::a(
                                                 '| <span class="glyphicon glyphicon-download"></span> ',
                                                 $url,
                                                 [
-                                                    'title' => 'Download Pertanggungjawaban',
-                                                    'data-pjax' => 0,
-                                                    'target' => '_blank'
+                                                  'title' => 'Download Pertanggungjawaban',
+                                                  'data-pjax' => 0,
+                                                  'target' => '_blank'
                                                 ]
-                                            );
+                                              );
+
+                                            }
+                                          }else if($model[0]=="rutin"){
+                                            $dataRespo = ActivityDailyResponsibility::find()->where(['activity_id'=>$model['id']])->one();
+                                            if($dataRespo){
+                                              $url = Url::toRoute(['/chief-activity-daily-responsibility/report', 'id' => $model['id']]);
+                                              return Html::a(
+                                                '| <span class="glyphicon glyphicon-download"></span> ',
+                                                $url,
+                                                [
+                                                  'title' => 'Download Pertanggungjawaban',
+                                                  'data-pjax' => 0,
+                                                  'target' => '_blank'
+                                                ]
+                                              );
+                                              
+                                            }
                                           }
                                       }
                                     ]

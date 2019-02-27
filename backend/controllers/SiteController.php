@@ -70,7 +70,7 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            // $kegiatan =
             return $this->render('index-sa',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
@@ -80,7 +80,7 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            // $kegiatan =
             return $this->render('index-ketum',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
@@ -90,7 +90,7 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            // $kegiatan =
             return $this->render('index-sekum',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
@@ -100,7 +100,7 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            // $kegiatan =
             return $this->render('index-sekretariat',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
@@ -110,7 +110,7 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            // $kegiatan =
             return $this->render('index-bendahara',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
@@ -120,19 +120,19 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            $dataKegiatan = Activity::find()->where(['role'=>$role])->one();
-            // $kegiatan = 
+            // $dataKegiatan = Activity::find()->where(['role'=>$role])->one();
+            // $kegiatan =
             return $this->render('index-ketua',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
-                'dataKegiatan'=> $dataKegiatan,
+                // 'dataKegiatan'=> $dataKegiatan,
             ]);
         }elseif ($role==7) {
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            // $kegiatan =
             return $this->render('index-departemen',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
@@ -142,7 +142,7 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            // $kegiatan =
             return $this->render('index-seksi',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
