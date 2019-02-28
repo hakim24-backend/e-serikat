@@ -118,6 +118,9 @@ class ActivityDailyChiefController extends Controller
         if (Yii::$app->request->post()) {
 
             $role = Yii::$app->user->identity->roleName();
+            $tahun = date('Y');
+            $bulan = date('m');
+            $tanggal = date('d');
 
             if ($role == "Ketua") {
                 $idDep = 0;
@@ -158,6 +161,8 @@ class ActivityDailyChiefController extends Controller
                     $daily->chief_code_id = $chiefId->id;
                 }
 
+                $daily->save(false);
+                $daily->activity_code = '02'.$daily->id.''.$tahun.''.$bulan;
                 $save = $daily->save(false);
 
                 if ($save) {

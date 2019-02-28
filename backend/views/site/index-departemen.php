@@ -3,6 +3,9 @@
 /* @var $this yii\web\View */
 
 $this->title = 'E-Serikat';
+$noKegiatanBelum = 1;
+$noKegiatan = 1;
+$noKegiatanRutin = 1;
 ?>
 <div class="site-index">
     <section class="content">
@@ -71,76 +74,80 @@ $this->title = 'E-Serikat';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                        <td>Call of Duty IV</td>
-                                        <td><span class="label label-success">Shipped</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-warning">Pending</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>iPhone 6 Plus</td>
-                                        <td><span class="label label-danger">Delivered</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f56954" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-info">Processing</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00c0ef" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-warning">Pending</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>iPhone 6 Plus</td>
-                                        <td><span class="label label-danger">Delivered</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f56954" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                        <td>Call of Duty IV</td>
-                                        <td><span class="label label-success">Shipped</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php foreach ($kegiatanBelum as $key => $value) { ?>
+                                        <tr>
+                                            <td><?= $noKegiatanBelum++ ?></td>
+                                            <td><?=$value->activity_code?></td>
+                                            <td><?=$value->title?></td>
+                                            <td>
+                                            <?php if($value->finance_status == '0')
+                                            { ?>
+                                                <span class="label label-info">Belum Dikonfirmasi</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '1' && $value->chief_status == '1')
+                                            { ?>
+                                                <span class="label label-success">Diterima</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '0' && $value->chief_status == '0')
+                                            { ?>
+                                                <span class="label label-success">Diterima Bendahara</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '1' && $value->chief_status == '0')
+                                            { ?>
+                                                <span class="label label-success">Diterima Departemen</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '2' && $value->chief_status == '0')
+                                            { ?>
+                                                <span class="label label-warning">Draft Departemen</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '1' && $value->chief_status == '2')
+                                            { ?>
+                                                <span class="label label-warning">Draft Ketua</span>
+                                            <?php }
+                                            else if($value->finance_status == '2')
+                                            { ?>
+                                                <span class="label label-warning">Draft Bendahara</span>
+                                            <?php } ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                    <?php foreach ($kegiatanRutinBelum as $key => $value) { ?>
+                                        <tr>
+                                            <td><?= $noKegiatanBelum++ ?></td>
+                                            <td><?=$value->activity_code?></td>
+                                            <td><?=$value->title?></td>
+                                            <td>
+                                            <?php if($value->finance_status == '0')
+                                            { ?>
+                                                <span class="label label-info">Belum Dikonfirmasi</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '1' && $value->chief_status == '1')
+                                            { ?>
+                                                <span class="label label-success">Diterima</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '0' && $value->chief_status == '0')
+                                            { ?>
+                                                <span class="label label-success">Diterima Bendahara</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '1' && $value->chief_status == '0')
+                                            { ?>
+                                                <span class="label label-success">Diterima Departemen</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '2' && $value->chief_status == '0')
+                                            { ?>
+                                                <span class="label label-warning">Draft Departemen</span>
+                                            <?php }
+                                            else if($value->finance_status == '1' && $value->department_status == '1' && $value->chief_status == '2')
+                                            { ?>
+                                                <span class="label label-warning">Draft Ketua</span>
+                                            <?php }
+                                            else if($value->finance_status == '2')
+                                            { ?>
+                                                <span class="label label-warning">Draft Bendahara</span>
+                                            <?php } ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -174,76 +181,14 @@ $this->title = 'E-Serikat';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                        <td>Call of Duty IV</td>
-                                        <td><span class="label label-success">Shipped</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-warning">Pending</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>iPhone 6 Plus</td>
-                                        <td><span class="label label-danger">Delivered</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f56954" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-info">Processing</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00c0ef" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-warning">Pending</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>iPhone 6 Plus</td>
-                                        <td><span class="label label-danger">Delivered</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f56954" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                        <td>Call of Duty IV</td>
-                                        <td><span class="label label-success">Shipped</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php foreach ($dataKegiatan as $key => $value) { ?>
+                                        <tr>
+                                            <td><?=$noKegiatan++?></td>
+                                            <td><?=$value->activity_code?></td>
+                                            <td><?=$value->title?></td>
+                                            <td><span class="label label-success">Diterima</span></td>
+                                        </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -276,76 +221,14 @@ $this->title = 'E-Serikat';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                        <td>Call of Duty IV</td>
-                                        <td><span class="label label-success">Shipped</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-warning">Pending</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>iPhone 6 Plus</td>
-                                        <td><span class="label label-danger">Delivered</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f56954" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-info">Processing</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00c0ef" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-warning">Pending</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f39c12" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>iPhone 6 Plus</td>
-                                        <td><span class="label label-danger">Delivered</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f56954" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                        <td>Call of Duty IV</td>
-                                        <td><span class="label label-success">Shipped</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
-                                                <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php foreach ($dataKegiatanRutin as $key => $value) { ?>
+                                        <tr>
+                                            <td><?=$noKegiatanRutin++?></td>
+                                            <td><?=$value->activity_code?></td>
+                                            <td><?=$value->title?></td>
+                                            <td><span class="label label-success">Diterima</span></td>
+                                        </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>

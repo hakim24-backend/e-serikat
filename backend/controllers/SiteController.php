@@ -7,10 +7,12 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use common\models\Activity;
+use common\models\ActivityDaily;
 use common\models\Chief;
 use common\models\Department;
 use common\models\Section;
 use common\models\ActivityMainMember;
+use yii\data\ActiveDataProvider;
 
 /**
  * Site controller
@@ -70,86 +72,123 @@ class SiteController extends Controller
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            $dataKegiatan = Activity::find()->all();
+            $dataKegiatanRutin = ActivityDaily::find()->all();
             return $this->render('index-sa',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
+                'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanRutin'=>$dataKegiatanRutin,
             ]);
         }elseif ($role==2) {
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            $dataKegiatan = Activity::find()->all();
+            $dataKegiatanRutin = ActivityDaily::find()->all();
             return $this->render('index-ketum',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
+                'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanRutin'=>$dataKegiatanRutin,
             ]);
         }elseif ($role==3) {
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            $dataKegiatan = Activity::find()->all();
+            $dataKegiatanRutin = ActivityDaily::find()->all(); 
             return $this->render('index-sekum',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
+                'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanRutin'=>$dataKegiatanRutin,
             ]);
         }elseif ($role==4) {
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            $dataKegiatan = Activity::find()->where(['role'=>4])->all();
+            $dataKegiatanRutin = ActivityDaily::find()->where(['role'=>4])->all(); 
             return $this->render('index-sekretariat',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
+                'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanRutin'=>$dataKegiatanRutin,
             ]);
         }elseif ($role==5) {
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            $dataKegiatan = Activity::find()->where(['done'=>1])->all();
+            $dataKegiatanRutin = ActivityDaily::find()->where(['done'=>1])->all();
+            $kegiatanBelum = Activity::find()->where(['done'=>0])->all();
+            $kegiatanRutinBelum = ActivityDaily::find()->where(['done'=>0])->all(); 
             return $this->render('index-bendahara',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
+                'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanRutin'=>$dataKegiatanRutin,
+                'kegiatanBelum'=>$kegiatanBelum,
+                'kegiatanRutinBelum'=>$kegiatanRutinBelum,
             ]);
         }elseif ($role==6) {
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            $dataKegiatan = Activity::find()->where(['role'=>$role])->one();
-            // $kegiatan = 
+            $dataKegiatan = Activity::find()->where(['done'=>1])->andWhere(['role'=>6])->all();
+            $dataKegiatanRutin = ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>6])->all();
+            $kegiatanBelum = Activity::find()->where(['done'=>0])->andWhere(['role'=>6])->all();
+            $kegiatanRutinBelum = ActivityDaily::find()->where(['done'=>0])->andWhere(['role'=>6])->all();
             return $this->render('index-ketua',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
-                'dataKegiatan'=> $dataKegiatan,
+                'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanRutin'=>$dataKegiatanRutin,
+                'kegiatanBelum'=>$kegiatanBelum,
+                'kegiatanRutinBelum'=>$kegiatanRutinBelum,
             ]);
         }elseif ($role==7) {
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            $dataKegiatan = Activity::find()->where(['done'=>1])->andWhere(['role'=>7])->all();
+            $dataKegiatanRutin = ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>7])->all();
+            $kegiatanBelum = Activity::find()->where(['done'=>0])->andWhere(['role'=>7])->all();
+            $kegiatanRutinBelum = ActivityDaily::find()->where(['done'=>0])->andWhere(['role'=>7])->all(); 
             return $this->render('index-departemen',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
+                'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanRutin'=>$dataKegiatanRutin,
+                'kegiatanBelum'=>$kegiatanBelum,
+                'kegiatanRutinBelum'=>$kegiatanRutinBelum,
             ]);
         }elseif ($role==8) {
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            // $kegiatan = 
+            $dataKegiatan = Activity::find()->where(['done'=>1])->andWhere(['role'=>8])->all();
+            $dataKegiatanRutin = ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>8])->all();
+            $kegiatanBelum = Activity::find()->where(['done'=>0])->andWhere(['role'=>8])->all();
+            $kegiatanRutinBelum = ActivityDaily::find()->where(['done'=>0])->andWhere(['role'=>8])->all(); 
             return $this->render('index-seksi',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
+                'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanRutin'=>$dataKegiatanRutin,
+                'kegiatanBelum'=>$kegiatanBelum,
+                'kegiatanRutinBelum'=>$kegiatanRutinBelum,
             ]);
         }
-        // $this->redirect('serikatinti/');
     }
 
     public function actionCek(){

@@ -163,6 +163,9 @@ class KegiatanRutinController extends Controller
     public function actionCreate()
     {
         $daily = new ActivityDaily();
+        $tahun = date('Y');
+        $bulan = date('m');
+        $tanggal = date('d');
 
         if ($daily->load(Yii::$app->request->post())) {
             $role = Yii::$app->user->identity->roleName();
@@ -244,7 +247,10 @@ class KegiatanRutinController extends Controller
                     $daily->date_start = $post['from_date'];
                     $daily->date_end = $post['to_date'];
                     $daily->done = 0;
+                    $daily->save(false);
+                    $daily->activity_code = '02'.$daily->id.''.$tahun.''.$bulan;
                     $save = $daily->save(false);
+
 
                     if ($save) {
                         if ($role == "Sekretariat") {
