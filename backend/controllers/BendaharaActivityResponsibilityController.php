@@ -146,7 +146,8 @@ class BendaharaActivityResponsibilityController extends Controller
             $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
             $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
 
-            $baru->secretariat_budget_value=$baru->secretariat_budget_value-$budget->budget_value_sum;
+            $realOutput = $budget->budget_value_dp - $budget->budget_value_sum;
+            $baru->secretariat_budget_value=$baru->secretariat_budget_value+$realOutput;
             $baru->save();
         } else if ($model->role == 8) {
             $modelSeksi = Activity::find()->where(['id'=>$id])->one();
@@ -154,7 +155,26 @@ class BendaharaActivityResponsibilityController extends Controller
             $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
             $baru = SectionBudget::find()->where(['id'=>$awal])->one();
 
-            $baru->section_budget_value=$baru->section_budget_value-$budget->budget_value_sum;
+            $realOutput = $budget->budget_value_dp - $budget->budget_value_sum;
+            $baru->section_budget_value=$baru->section_budget_value+$realOutput;
+            $baru->save();
+        }else if ($model->role == 6) {
+            $modelSeksi = Activity::find()->where(['id'=>$id])->one();
+            $budget = ActivityBudgetChief::find()->where(['activity_id'=>$modelSeksi->id])->one();
+            $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
+            $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+
+            $realOutput = $budget->budget_value_dp - $budget->budget_value_sum;
+            $baru->chief_budget_value=$baru->chief_budget_value+$realOutput;
+            $baru->save();
+        }else if ($model->role == 7) {
+            $modelSeksi = Activity::find()->where(['id'=>$id])->one();
+            $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$modelSeksi->id])->one();
+            $awal = ActivityBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
+            $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+
+            $realOutput = $budget->budget_value_dp - $budget->budget_value_sum;
+            $baru->department_budget_value=$baru->department_budget_value+$realOutput;
             $baru->save();
         }
 
@@ -208,10 +228,12 @@ class BendaharaActivityResponsibilityController extends Controller
 
     public function actionView($id)
     {
+        $role = Activity::find()->where(['id'=>$id])->one();
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
         if ($model != null) {
             return $this->render('view', [
             'model' => $model,
+            'role' => $role,
         ]);
         } else {
             Yii::$app->getSession()->setFlash('warning', 'Data Pertangungjawaban Tidak Ada');

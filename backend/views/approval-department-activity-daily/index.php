@@ -85,7 +85,7 @@ $Role = Yii::$app->user->identity->roleName();
                                     ],
 
                                     [
-                                    'header' => 'Tangal Mulai',
+                                    'header' => 'Tanggal Mulai',
                                     'headerOptions' =>[
                                       'style' => 'width:15%'
                                     ],
@@ -112,7 +112,7 @@ $Role = Yii::$app->user->identity->roleName();
                                                     $url = Url::toRoute(['approval-department-activity-daily/update-apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Edit Data Kegiatan Rutin',
                                                         ]
@@ -121,7 +121,7 @@ $Role = Yii::$app->user->identity->roleName();
                                                     $url = Url::toRoute(['approval-department-activity-daily/apply', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-ok"></span> ',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Apply Data Kegiatan Rutin',
                                                         ]
@@ -133,7 +133,7 @@ $Role = Yii::$app->user->identity->roleName();
                                                     $url = Url::toRoute(['approval-department-activity-daily/view', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-eye-open"></span>',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'View Data Kegiatan Rutin',
                                                         ]
@@ -144,7 +144,7 @@ $Role = Yii::$app->user->identity->roleName();
                                                     $url = Url::toRoute(['approval-department-activity-daily/reject', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-remove"></span> |',
-                                                        $url, 
+                                                        $url,
                                                         [
                                                             'title' => 'Reject Data Kegiatan Rutin',
                                                         ]

@@ -188,34 +188,11 @@ class ActivityDailyResponsibilityController extends Controller
 
             if($role == 8){
               $model->responsibility_value = 0;
-              if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
+              $modelBudget->save(false);
 
-                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
-                return $this->redirect(Yii::$app->request->referrer);
-              }else{
-                $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
-                // var_dump($danaReal);die;
-                $danaPotong = $baru->section_budget_value + $danaReal;
-                $baru->section_budget_value = $danaPotong;
-                if($baru->save(false)){
-                  $modelBudget->save(false);
-                }
-              }
             }else if($role == 4){
               $model->responsibility_value = 2;
-              if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->secretariat_budget_value ){
-
-                Yii::$app->getSession()->setFlash('danger', 'Tidak Bisa Melebihi Anggaran Dana Saat Ini');
-                return $this->redirect(Yii::$app->request->referrer);
-              }else{
-                $danaReal = $modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp;
-                // var_dump($danaReal);die;
-                $danaPotong = $baru->secretariat_budget_value + $danaReal;
-                $baru->secretariat_budget_value = $danaPotong;
-                if($baru->save(false)){
-                  $modelBudget->save(false);
-                }
-              }
+              $modelBudget->save(false);
             }
 
             $model->save(false);
@@ -313,66 +290,15 @@ class ActivityDailyResponsibilityController extends Controller
                 }
 
             }
-
             if($role == 8){
               $model->responsibility_value = 0;
+              $modelBudget->save(false);
 
-              if((float)$modelBudget->budget_value_dp != $oldDana){
-                if((float)$modelBudget->budget_value_dp >= $baru->section_budget_value){
-                  if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->section_budget_value ){
-                    var_dump($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp);die;
-                    Yii::$app->getSession()->setFlash('danger', 'Dana tidak cukup');
-                    return $this->redirect(Yii::$app->request->referrer);
-                  }else{
-                    $balikDana = $baru->section_budget_value + $oldDana;
-                    $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
-                    // $danaPotong = ($baru->section_budget_value + $oldDana) + $danaReal;
-                    $baru->section_budget_value = $danaReal;
-                    if($baru->save(false)){
-                      $modelBudget->save(false);
-                    }
-                  }
-                }else{
-                  $balikDana = $baru->section_budget_value + $oldDana;
-                  $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
-                  // $danaPotong = ($baru->section_budget_value + $oldDana) + $danaReal;
-                  $baru->section_budget_value = $danaReal;
-                  if($baru->save(false)){
-                    $modelBudget->save(false);
-                  }
-                }
-              }
             }else if($role == 4){
               $model->responsibility_value = 2;
-
-              if((float)$modelBudget->budget_value_dp != $oldDana){
-                if((float)$modelBudget->budget_value_dp >= $baru->secretariat_budget_value){
-                  if(($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp )  >= $baru->secretariat_budget_value ){
-                    var_dump($modelBudget->budget_value_sum - (float)$modelBudget->budget_value_dp);die;
-                    Yii::$app->getSession()->setFlash('danger', 'Dana tidak cukup');
-                    return $this->redirect(Yii::$app->request->referrer);
-                  }else{
-                    $balikDana = $baru->secretariat_budget_value + $oldDana;
-                    $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
-                    // $danaPotong = ($baru->section_budget_value + $oldDana) + $danaReal;
-                    $baru->secretariat_budget_value = $danaReal;
-                    if($baru->save(false)){
-                      $modelBudget->save(false);
-                    }
-                  }
-                }else{
-                  $balikDana = $baru->secretariat_budget_value + $oldDana;
-                  $danaReal = $balikDana - (float)$modelBudget->budget_value_dp;
-                  // $danaPotong = ($baru->section_budget_value + $oldDana) + $danaReal;
-                  $baru->secretariat_budget_value = $danaReal;
-                  if($baru->save(false)){
-                    $modelBudget->save(false);
-                  }
-                }
-              }
+              $modelBudget->save(false);
             }
 
-            $model->responsibility_value = 0;
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
             return $this->redirect(['activity-responsibility/index','id'=>$model->activity_id]);

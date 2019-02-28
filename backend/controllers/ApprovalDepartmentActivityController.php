@@ -62,16 +62,17 @@ class ApprovalDepartmentActivityController extends Controller
     {
 
         $role = Yii::$app->user->identity->role;
-        $atasan = Yii::$app->user->identity->department->id_chief;
+        $atasan = Yii::$app->user->identity->department->id;
+
 
         $dataProvider = new ActiveDataProvider([
             'query' => Activity::find()
-                        ->joinWith('activityBudgetDepartments')
-                        ->joinWith('activityBudgetDepartments.departmentBudget')
-                        ->joinWith('activityBudgetDepartments.departmentBudget.department')
+                        ->joinWith('activityBudgetSections')
+                        ->joinWith('activityBudgetSections.sectionBudget')
+                        ->joinWith('activityBudgetSections.sectionBudget.section')
                         ->where(['role'=>8])
                         ->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0])
-                        // ->andWhere(['department.id_chief'=>$atasan]),
+                        ->andWhere(['section.id_depart'=>$atasan]),
         ]);
 
         return $this->render('index', [

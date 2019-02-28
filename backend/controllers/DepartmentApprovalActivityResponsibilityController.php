@@ -60,14 +60,14 @@ class DepartmentApprovalActivityResponsibilityController extends Controller
     {
 
       $role = Yii::$app->user->identity->role;
-      $atasan = Yii::$app->user->identity->department->id_chief;
+      $atasan = Yii::$app->user->identity->department->id;
 
       $dataA = Activity::find()
-                  ->joinWith('activityBudgetDepartments')
-                  ->joinWith('activityBudgetDepartments.departmentBudget')
-                  ->joinWith('activityBudgetDepartments.departmentBudget.department')
+                  ->joinWith('activityBudgetSections')
+                  ->joinWith('activityBudgetSections.sectionBudget')
+                  ->joinWith('activityBudgetSections.sectionBudget.section')
                   ->joinWith('activityResponsibilities')
-                  ->where(['department.id_chief'=>$atasan])
+                  ->where(['section.id_depart'=>$atasan])
                   ->andWhere(['activity.department_status'=>1])
                   ->andWhere(['activity_responsibility.responsibility_value'=>0])
                   ->andWhere(['activity.done'=>0])
@@ -84,10 +84,10 @@ class DepartmentApprovalActivityResponsibilityController extends Controller
 
         $dataB = ActivityDaily::find()
                   ->joinWith('activityDailyResponsibilities')
-                  ->joinWith('activityDailyBudgetDeparts')
-                  ->joinWith('activityDailyBudgetDeparts.departmentBudget')
-                  ->joinWith('activityDailyBudgetDeparts.departmentBudget.department')
-                  ->where(['department.id_chief'=>$atasan])
+                  ->joinWith('activityDailyBudgetSections')
+                  ->joinWith('activityDailyBudgetSections.sectionBudget')
+                  ->joinWith('activityDailyBudgetSections.sectionBudget.section')
+                  ->where(['section.id_depart'=>$atasan])
                   ->andWhere(['activity_daily.department_status'=>1])
                   ->andWhere(['activity_daily_responsibility.responsibility_value'=>0])
                   ->andWhere(['activity_daily.done'=>0])

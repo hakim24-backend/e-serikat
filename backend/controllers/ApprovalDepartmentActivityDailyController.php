@@ -56,17 +56,17 @@ class ApprovalDepartmentActivityDailyController extends Controller
     {
 
         $role = Yii::$app->user->identity->role;
-        $atasan = Yii::$app->user->identity->department->id_chief;
+        $atasan = Yii::$app->user->identity->department->id;
 
         $dataProvider = new ActiveDataProvider([
             'query' => ActivityDaily::find()
-                        ->joinWith('activityDailyBudgetDeparts')
-                        ->joinWith('activityDailyBudgetDeparts.departmentBudget')
-                        ->joinWith('activityDailyBudgetDeparts.departmentBudget.department')
+                        ->joinWith('activityDailyBudgetSections')
+                        ->joinWith('activityDailyBudgetSections.sectionBudget')
+                        ->joinWith('activityDailyBudgetSections.sectionBudget.section')
                         ->where(['role'=>8])
                         ->andWhere(['finance_status'=> 1])->andWhere(['chief_status'=>0])->andWhere(['department_status'=>0])
-                        // ->andWhere(['department.id_chief'=>$atasan])
-                        // ->andWhere(['activity_daily.done'=>0]),
+                        ->andWhere(['section.id_depart'=>$atasan])
+                        ->andWhere(['activity_daily.done'=>0]),
 
         ]);
 
