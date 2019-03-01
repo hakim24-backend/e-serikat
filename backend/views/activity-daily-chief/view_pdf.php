@@ -36,22 +36,27 @@ $date = date('Y-m-d');
 </style>
 </head>
 <body>
-  <img src="<?=Yii::getAlias('@web'); ?>/image/kop-surat.png">
-  <p align="center">
-    <span>Jl. Jenderal Ahmad Yani - Gresik 61119</span>
-  </p>
-  <p align="center">
-    <span align="center">NO : UM-
-    <?php 
-    echo date("Y");
-    echo date("m"); 
-    echo '-'.$model->id
-     ?>
-    </span>
-  </p>
-
-<hr style="color:#000000;"></hr>
-
+  <table class="table table-responsive" width="100%" border="1">
+       <tbody>
+        <tr>
+          <td colspan="1" class="text-center"><img src="<?=Yii::getAlias('@web'); ?>/image/kop-lpj.png"></td>
+          <td colspan="4" class="text-center" style="vertical-align: middle"><img src="<?=Yii::getAlias('@web'); ?>/image/text2.png">
+            <p align="center">
+            <span>Jl. Jenderal Ahmad Yani - Gresik 61119</span>
+          </p>
+          <p align="center">
+            <span align="center">NO : UM-
+            <?php 
+            echo date("Y");
+            echo date("m"); 
+            echo '-'.$model->id
+             ?>
+            </span>
+          </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 <p><strong><em>&nbsp;</em></strong></p>
 <table>
     <tbody>
