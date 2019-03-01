@@ -86,7 +86,7 @@ $noKegiatanRutin = 1;
                                             <?php }
                                             else if($value->finance_status == '1' && $value->department_status == '1' && $value->chief_status == '1')
                                             { ?>
-                                                <span class="label label-success">Diterima</span>
+                                                <span class="label label-success">Belum ditutup bendahara</span>
                                             <?php }
                                             else if($value->finance_status == '1' && $value->department_status == '0' && $value->chief_status == '0')
                                             { ?>
