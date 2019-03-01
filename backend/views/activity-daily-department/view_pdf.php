@@ -92,8 +92,8 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>Anggaran Saat Ini</td>
-            <td>Rp.<?=$baru->department_budget_value+$budget->budget_value_dp?></td>
+            <td>Sisa Anggaran Saat Ini</td>
+            <td>Rp.<?=$baru->department_budget_value+$budget->budget_value_sum?></td>
         </tr>
         <tr>
             <td>Waktu Pelaksanaan</td>
