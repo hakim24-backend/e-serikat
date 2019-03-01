@@ -158,24 +158,16 @@ $Role = Yii::$app->user->identity->roleName();
          <table class="table table-responsive" width="100%" border="1">
           <tbody>
              <tr>
-              <td colspan="1" rowspan="2" width="20%" class="text-center">Yang mempertanggung jawabkan</td>
+              <td colspan="1" rowspan="2" width="15%" class="text-center">Yang mempertanggung jawabkan</td>
               <td colspan="3" class="text-center">Menyetujui</td>
             </tr>
             <tr>
-              <td class="text-center" width="40%">KETUA</td>
-              <td class="text-center" width="40%">BENDAHARA </td>
+              <td class="text-center" width="25%">KETUA</td>
+              <td class="text-center" width="25%">SEKERTARIS UMUM </td>
+              <td class="text-center" width="25%">BENDAHARA </td>
             </tr>
             <tr>
               <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
@@ -184,18 +176,34 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td></td>
               <td class="text-center"><div style="margin-top: 100px;"></div></td>
               <td class="text-center"><div style="margin-top: 100px;"></div></td>
               <td></td>

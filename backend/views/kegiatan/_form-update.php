@@ -36,7 +36,7 @@ $list_seksi = array_values($array_seksi);
 // $range_end = date('Y-m-d');
 if($Role != "Sekretariat"){
   $minDate = date('Y-m-d',strtotime("0 days"));
-  // 'maxDate' => date('Y-m-d',strtotime("+1 month")),
+  $maxDate = 0;
 }else{
   $minDate = 0;
   $maxDate = 0;

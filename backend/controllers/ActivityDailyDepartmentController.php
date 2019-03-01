@@ -156,7 +156,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
             $range_end = $model->date_end;
-            $oldDP = $budget->budget_value_dp;
+            $oldDP = $budget->budget_value_sum;
             $oldBudget = $baru->department_budget_value;
 
             if ($model->load(Yii::$app->request->post())) {

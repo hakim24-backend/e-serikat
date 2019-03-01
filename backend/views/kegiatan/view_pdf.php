@@ -44,9 +44,9 @@ $date = date('Y-m-d');
   </p>
   <p align="center">
     <span align="center">NO : UM-
-    <?php 
+    <?php
     echo date("Y");
-    echo date("m"); 
+    echo date("m");
     echo '-'.$model->id
      ?>
     </span>
@@ -213,9 +213,9 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>Sisa Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value + $budget->budget_value_dp?></td>
+                <td>Rp.<?=$baru->secretariat_budget_value + $budget->budget_value_sum?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$baru->section_budget_value+$budget->budget_value_dp?></td>
+                <td>Rp.<?=$baru->section_budget_value + $budget->budget_value_sum?></td>
             <?php } ?>
         </tr>
         <tr>

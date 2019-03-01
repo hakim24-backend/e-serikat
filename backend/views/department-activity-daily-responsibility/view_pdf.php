@@ -159,32 +159,23 @@ $Role = Yii::$app->user->identity->roleName();
           <tbody>
              <tr>
               <td colspan="1" rowspan="2" width="16%" class="text-center">Yang mempertanggung jawabkan</td>
-              <td colspan="3" class="text-center">Menyetujui</td>
+              <td colspan="4" class="text-center">Menyetujui</td>
             </tr>
             <tr>
-              <td width="21%">KADEP</td>
-              <td class="text-center" width="21%">KETUA</td>
-              <td class="text-center" width="21%">BENDAHARA </td>
+              <td width="25%">KADEP</td>
+              <td class="text-center" width="25%">KETUA</td>
+              <td class="text-center" width="25%">SEKERTARIS UMUM</td>
+              <td class="text-center" width="25%">BENDAHARA </td>
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
               <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
@@ -195,11 +186,6 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
@@ -207,15 +193,39 @@ $Role = Yii::$app->user->identity->roleName();
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
             </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+            <tr>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+              <td style="border-bottom-style: hidden;"></td>
+            </tr>
+
             <tr>
               <td></td>
               <td></td>
+              <td></td>
               <td class="text-center">Telah disetujui oleh System<div style="margin-top: 100px;"></div></td>
-              <td class="text-center">Telah disetujui oleh System<div style="margin-top: 100px;"></div></td>
+              <td class="text-center"><div style="margin-top: 100px;"></div></td>
             </tr>
             <tr>
-              <td colspan="4"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>
+              <td colspan="5"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>
             </tr>
           </tbody>
          </table>
