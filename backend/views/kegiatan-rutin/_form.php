@@ -17,8 +17,8 @@ $this->title = 'Buat Data Kegiatan Rutin';
 $Role = Yii::$app->user->identity->roleName();
 
 if($Role != "Sekretariat"){
-  $minDate = date('Y-m-d',strtotime("-1 weeks"));
-  $maxDate = date('Y-m-d',strtotime("+1 month"));
+  $minDate = date('Y-m-d',strtotime("0 days"));
+  $maxDate = 0;
 }else{
   $minDate = 0;
   $maxDate = 0;

@@ -38,7 +38,7 @@ $Role = Yii::$app->user->identity->roleName();
   </head>
     <body>
       <section id="core" style="width: 100%;">
-      <div class="center-content"> 
+      <div class="center-content">
          <table class="table table-responsive" width="100%" border="1">
            <tbody>
             <tr>
@@ -53,13 +53,13 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="2" style="border-right-style: hidden;">
                 <p align="center">
                   <span align="center">NO : PJ-
-                  <?php 
+                  <?php
                   echo date("Y");
-                  echo date("m"); 
+                  echo date("m");
                   echo '-'.$lpj->id
                    ?>
                   </span>
-                </p> 
+                </p>
               </td>
               <td colspan="3"></td>
             </tr>
@@ -67,9 +67,9 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="2" style="border-right-style: hidden;">
                 <p align="center">
                   <span align="center">NO : UM-
-                  <?php 
+                  <?php
                   echo date("Y");
-                  echo date("m"); 
+                  echo date("m");
                   echo '-'.$model->id
                    ?>
                   </span>
@@ -159,9 +159,9 @@ $Role = Yii::$app->user->identity->roleName();
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
               <?php if ($Role == "Sekretariat") { ?>
-                <td class="text-center"><?=$baru->secretariat_budget_value?></td>
+                <td class="text-center"><?=$baru->secretariat_budget_value + $budget->budget_value_sum - $budget->budget_value_dp?></td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td class="text-center"><?=$baru->section_budget_value?></td>
+                <td class="text-center"><?=$baru->section_budget_value + $budget->budget_value_sum - $budget->budget_value_dp?></td>
               <?php } ?>
             </tr>
             <tr>
@@ -172,79 +172,130 @@ $Role = Yii::$app->user->identity->roleName();
          <table class="table table-responsive" width="100%" border="1">
           <tbody>
              <tr>
-              <td colspan="1" rowspan="2" width="16%" class="text-center">Yang mempertanggung jawabkan</td>
-              <td colspan="4" class="text-center">Menyetujui</td>
+              <td colspan="1" rowspan="2" width="20%" class="text-center">Yang mempertanggung jawabkan</td>
+              <?php if($Role == "Sekretariat"){ ?>
+                <td colspan="2" class="text-center">Menyetujui</td>
+
+              <?php }else{ ?>
+                <td colspan="4" class="text-center">Menyetujui</td>
+
+              <?php } ?>
             </tr>
             <tr>
               <?php if ($Role == "Sekretariat") { ?>
-                <td width="21%" class="text-center">KADEP</td>
+                <td class="text-center" width="40%">SEKRETARIS UMUM</td>
+                <td class="text-center" width="40%">BENDAHARA </td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td width="21%" class="text-center">KADEP</td>
+                <td width="20%" class="text-center">KADEP</td>
+                <td class="text-center" width="20%">KETUA</td>
+                <td class="text-center" width="20%">SEKRETARIS UMUM</td>
+                <td class="text-center" width="20%">BENDAHARA </td>
               <?php } ?>
-              <td class="text-center" width="21%">KETUA II </td>
-              <td class="text-center" width="21%">SEKRETARIS UMUM </td>
-              <td class="text-center" width="21%">BENDAHARA </td>
             </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <?php if ($Role == "Sekretariat") { ?>
+
+            <?php if ($Role == "Sekretariat") { ?>
+              <tr>
+                <td class="text-center" style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+
+                <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
+                <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
                 <td></td>
-              <?php } elseif ($Role == "Seksi") { ?>
+              </tr>
+
+            <?php } elseif ($Role == "Seksi") { ?>
+              <tr>
+                <td class="text-center" style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+                <td style="border-bottom-style: hidden;"></td>
+              </tr>
+              <tr>
                 <td></td>
-              <?php } ?>
-              <td></td>
-              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
-              <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
-              <td></td>
-            </tr>
+                <td></td>
+                <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
+                <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
+                <td></td>
+              </tr>
+
+            <?php } ?>
+
             <tr>
               <td colspan="6"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>
             </tr>

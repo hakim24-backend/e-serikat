@@ -72,7 +72,7 @@ class KegiatanController extends Controller
     {
         $role = Yii::$app->user->identity->role;
         // $department = Yii::$app->user->identity->section->id_depart;
-        if($role != 1 && $role != 5 && $role != 2 && $role !=3 && $role != 4){
+        if($role != 1 && $role != 5 && $role != 2 && $role !=3){
           if($role == 8){
             $atasan = Yii::$app->user->identity->section->id_depart;
             $dataProvider = new ActiveDataProvider([
@@ -93,6 +93,10 @@ class KegiatanController extends Controller
                         ->joinWith('activityBudgetDepartments.departmentBudget.department')
                         ->where(['activity.role'=>$role])
                         ->andWhere(['department.id_chief'=>$atasan]),
+            ]);
+          }else if($role == 4){
+            $dataProvider = new ActiveDataProvider([
+              'query' =>  Activity::find()->where(['role'=>4])->andWhere(['chief_status'=>1])->andWhere(['department_status'=>1]),
             ]);
           }
         }else{

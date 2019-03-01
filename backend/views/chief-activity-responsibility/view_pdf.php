@@ -22,7 +22,7 @@ $Role = Yii::$app->user->identity->roleName();
     <!--
     @page {
               size: 29.7cm 21cm  portrait;   /*A4*/
-              padding:0; margin:1; 
+              padding:0; margin:1;
               top:0; left:0; right:0;bottom:0; border:0;
           }
 
@@ -52,13 +52,13 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="2" style="border-right-style: hidden;">
                 <p align="center">
                   <span align="center">NO : PJ-
-                  <?php 
+                  <?php
                   echo date("Y");
-                  echo date("m"); 
+                  echo date("m");
                   echo '-'.$lpj->id
                    ?>
                   </span>
-                </p> 
+                </p>
               </td>
               <td colspan="3"></td>
             </tr>
@@ -66,9 +66,9 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="2" style="border-right-style: hidden;">
                 <p align="center">
                   <span align="center">NO : UM-
-                  <?php 
+                  <?php
                   echo date("Y");
-                  echo date("m"); 
+                  echo date("m");
                   echo '-'.$model->id
                    ?>
                   </span>
@@ -155,68 +155,62 @@ $Role = Yii::$app->user->identity->roleName();
           </tbody>
          </table>
          <table class="table table-responsive" width="100%" border="1">
-          <tbody>
+           <tbody>
+              <tr>
+               <td colspan="1" rowspan="2" width="15%" class="text-center">Yang mempertanggung jawabkan</td>
+               <td colspan="3" class="text-center">Menyetujui</td>
+             </tr>
              <tr>
-              <td colspan="1" rowspan="2" width="16%" class="text-center">Yang mempertanggung jawabkan</td>
-              <td colspan="3" class="text-center">Menyetujui</td>
-            </tr>
-            <tr>
-              <td class="text-center" width="21%">KETUA</td>
-              <td class="text-center" width="21%">SEKRETARIS</td>
-              <td class="text-center" width="21%">BENDAHARA </td>
-            </tr>
-            <tr>
-              <td class="text-center" style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-              <td style="border-bottom-style: hidden;"></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td class="text-center"><div style="margin-top: 100px;"></div></td>
-              <td class="text-center"><div style="margin-top: 100px;"></div></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colspan="4"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>
-            </tr>
-          </tbody>
+               <td class="text-center" width="25%">KETUA</td>
+               <td class="text-center" width="25%">SEKERTARIS UMUM </td>
+               <td class="text-center" width="25%">BENDAHARA </td>
+             </tr>
+             <tr>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+             </tr>
+             <tr>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+             </tr>
+             <tr>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+             </tr>
+             <tr>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+             </tr>
+             <tr>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+             </tr>
+             <tr>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+               <td style="border-bottom-style: hidden;"></td>
+             </tr>
+             <tr>
+               <td></td>
+               <td class="text-center"><div style="margin-top: 100px;"></div></td>
+               <td class="text-center"><div style="margin-top: 100px;"></div></td>
+               <td></td>
+             </tr>
+             <tr>
+               <td colspan="4"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>
+             </tr>
+           </tbody>
          </table>
       </div>
     </section>

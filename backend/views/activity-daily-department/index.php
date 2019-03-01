@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ],
 
                                     [
-                                    'header' => 'Tangal Mulai',
+                                    'header' => 'Tanggal Mulai',
                                     'headerOptions' =>[
                                       'style' => 'width:15%'
                                     ],
