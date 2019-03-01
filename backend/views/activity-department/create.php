@@ -387,8 +387,8 @@ HTML;
                                     'format' => 'Y-m-d',
                                 ],
                                 'drops' => 'up',
-                                'minDate' => date('Y-m-d',strtotime("-1 week")),
-                                'maxDate' => date('Y-m-d',strtotime("+1 month")),
+                                'minDate' => date('Y-m-d',strtotime("0 days")),
+                                // 'maxDate' => date('Y-m-d',strtotime("+1 month")),
                             ]
                         ]) . $addon;
                         echo '</div>';

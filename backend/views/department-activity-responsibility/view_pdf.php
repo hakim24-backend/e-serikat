@@ -23,7 +23,7 @@ $Role = Yii::$app->user->identity->roleName();
     <!--
     @page {
               size: 29.7cm 21cm  portrait;   /*A4*/
-              padding:0; margin:1; 
+              padding:0; margin:1;
               top:0; left:0; right:0;bottom:0; border:0;
           }
 
@@ -53,9 +53,9 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="2" style="border-right-style: hidden;">
                 <p align="center">
                   <span align="center">NO : PJ-
-                  <?php 
+                  <?php
                   echo date("Y");
-                  echo date("m"); 
+                  echo date("m");
                   echo '-'.$lpj->id
                    ?>
                   </span>
@@ -67,9 +67,9 @@ $Role = Yii::$app->user->identity->roleName();
               <td colspan="2" style="border-right-style: hidden;">
                 <p align="center">
                   <span align="center">NO : UM-
-                  <?php 
+                  <?php
                   echo date("Y");
-                  echo date("m"); 
+                  echo date("m");
                   echo '-'.$model->id
                    ?>
                   </span>
@@ -163,7 +163,7 @@ $Role = Yii::$app->user->identity->roleName();
             </tr>
             <tr>
               <td width="21%">KADEP</td>
-              <td class="text-center" width="21%">SEKRETARIS</td>
+              <td class="text-center" width="21%">KETUA</td>
               <td class="text-center" width="21%">BENDAHARA</td>
             </tr>
             <tr>
@@ -211,8 +211,8 @@ $Role = Yii::$app->user->identity->roleName();
             <tr>
               <td></td>
               <td></td>
-              <td class="text-center"><div style="margin-top: 100px;"></div></td>
-              <td class="text-center"><div style="margin-top: 100px;"></div></td>
+              <td class="text-center">Telah disetujui oleh System<div style="margin-top: 100px;"></div></td>
+              <td class="text-center">Telah disetujui oleh System<div style="margin-top: 100px;"></div></td>
             </tr>
             <tr>
               <td colspan="4"><b>CATATAN :</b><br>Apabila pertanggung jawaban melebihi waktu yang telah ditentukan, maka sementara kegiatan terkait dibulan selanjutnya tidak diberikan Uang Muka sampai dengan pertanggung jawaban diselesaikan.</td>

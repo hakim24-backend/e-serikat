@@ -48,7 +48,7 @@ $Role = Yii::$app->user->identity->roleName();
     'options' => [
     	'accept' => 'application/*',
 	    'multiple' => true,
-	    'required' => 'required',
+	    // 'required' => 'required',
 	    'allowedFileExtensions'=>['pdf','doc','docx'],
     	],
     	'pluginOptions' => [

@@ -44,9 +44,9 @@ $date = date('Y-m-d');
   </p>
   <p align="center">
     <span align="center">NO : UM-
-    <?php 
+    <?php
     echo date("Y");
-    echo date("m"); 
+    echo date("m");
     echo '-'.$model->id
      ?>
     </span>
