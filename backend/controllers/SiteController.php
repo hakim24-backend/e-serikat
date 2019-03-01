@@ -126,8 +126,14 @@ class SiteController extends Controller
             $jumlahSeksi = Section::find()->count('id');
             $dataKegiatan = Activity::find()->where(['done'=>1])->all();
             $dataKegiatanRutin = ActivityDaily::find()->where(['done'=>1])->all();
-            $kegiatanBelum = Activity::find()->where(['done'=>0])->all();
-            $kegiatanRutinBelum = ActivityDaily::find()->where(['done'=>0])->all(); 
+            $kegiatanBelum = Activity::find()
+            ->where(['done'=>0])
+            ->andWhere(['<>','role',4])
+            ->all();
+            $kegiatanRutinBelum = ActivityDaily::find()
+            ->where(['done'=>0])
+            ->andWhere(['<>','role',4])
+            ->all(); 
             return $this->render('index-bendahara',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
@@ -138,13 +144,28 @@ class SiteController extends Controller
                 'kegiatanRutinBelum'=>$kegiatanRutinBelum,
             ]);
         }elseif ($role==6) {
+            $id_chief = Yii::$app->user->identity->chief->id;
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            $dataKegiatan = Activity::find()->where(['done'=>1])->andWhere(['role'=>6])->all();
-            $dataKegiatanRutin = ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>6])->all();
-            $kegiatanBelum = Activity::find()->where(['done'=>0])->andWhere(['role'=>6])->all();
-            $kegiatanRutinBelum = ActivityDaily::find()->where(['done'=>0])->andWhere(['role'=>6])->all();
+            $dataKegiatan = Activity::find()
+            ->where(['done'=>1])
+            ->andWhere(['chief_code_id'=>$id_chief])
+            ->all();
+            $dataKegiatanRutin = ActivityDaily::find()
+            ->where(['done'=>1])
+            ->andWhere(['chief_code_id'=>$id_chief])
+            ->all();
+            $kegiatanBelum = Activity::find()
+            ->where(['done'=>0])
+            ->andWhere(['<>','role',8])
+            ->andWhere(['chief_code_id'=>$id_chief])
+            ->all();
+            $kegiatanRutinBelum = ActivityDaily::find()
+            ->where(['done'=>0])
+            ->andWhere(['<>','role',8])
+            ->andWhere(['chief_code_id'=>$id_chief])
+            ->all();
             return $this->render('index-ketua',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
@@ -155,30 +176,112 @@ class SiteController extends Controller
                 'kegiatanRutinBelum'=>$kegiatanRutinBelum,
             ]);
         }elseif ($role==7) {
+            $id_department = Yii::$app->user->identity->department->id;
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            $dataKegiatan = Activity::find()->where(['done'=>1])->andWhere(['role'=>7])->all();
-            $dataKegiatanRutin = ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>7])->all();
-            $kegiatanBelum = Activity::find()->where(['done'=>0])->andWhere(['role'=>7])->all();
-            $kegiatanRutinBelum = ActivityDaily::find()->where(['done'=>0])->andWhere(['role'=>7])->all(); 
+            $dataKegiatan = Activity::find()
+            ->where(['done'=>1])
+            ->andWhere(['role'=>7])
+            ->andWhere(['department_code_id'=>$id_department])
+            ->all();
+            $dataKegiatanSeksi = Activity::find()
+            ->joinWith('activityBudgetSections')
+            ->joinWith('activityBudgetSections.sectionBudget')
+            ->joinWith('activityBudgetSections.sectionBudget.section')
+            ->where(['done'=>1])
+            ->andWhere(['role'=>8])
+            ->andWhere(['section.id_depart'=>$id_department])
+            ->all();
+            $dataKegiatanRutin = ActivityDaily::find()
+            ->where(['done'=>1])
+            ->andWhere(['role'=>7])
+            ->andWhere(['department_code_id'=>$id_department])
+            ->all();
+            $dataKegiatanRutinSeksi = ActivityDaily::find()
+            ->joinWith('activityDailyBudgetSections')
+            ->joinWith('activityDailyBudgetSections.sectionBudget')
+            ->joinWith('activityDailyBudgetSections.sectionBudget.section')
+            ->where(['done'=>1])
+            ->andWhere(['role'=>8])
+            ->andWhere(['section.id_depart'=>$id_department])
+            ->all();
+            $kegiatanBelum = Activity::find()
+            ->where(['done'=>0])
+            ->andWhere(['role'=>7])
+            ->andWhere(['department_code_id'=>$id_department])
+            ->all();
+            $kegiatanBelumSeksi = Activity::find()
+            ->joinWith('activityBudgetSections')
+            ->joinWith('activityBudgetSections.sectionBudget')
+            ->joinWith('activityBudgetSections.sectionBudget.section')
+            ->where(['done'=>0])
+            ->andWhere(['role'=>8])
+            ->andWhere(['section.id_depart'=>$id_department])
+            ->all();
+            $kegiatanRutinBelum = ActivityDaily::find()
+            ->where(['done'=>0])
+            ->andWhere(['role'=>7])
+            ->andWhere(['department_code_id'=>$id_department])
+            ->all();
+            $kegiatanRutinBelumSeksi = ActivityDaily::find()
+            ->joinWith('activityDailyBudgetSections')
+            ->joinWith('activityDailyBudgetSections.sectionBudget')
+            ->joinWith('activityDailyBudgetSections.sectionBudget.section')
+            ->where(['done'=>0])
+            ->andWhere(['role'=>8])
+            ->andWhere(['section.id_depart'=>$id_department])
+            ->all(); 
             return $this->render('index-departemen',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,
                 'jumlahSeksi' => $jumlahSeksi,
                 'dataKegiatan'=>$dataKegiatan,
+                'dataKegiatanSeksi'=>$dataKegiatanSeksi,
                 'dataKegiatanRutin'=>$dataKegiatanRutin,
+                'dataKegiatanRutinSeksi'=>$dataKegiatanRutinSeksi,
                 'kegiatanBelum'=>$kegiatanBelum,
+                'kegiatanBelumSeksi'=>$kegiatanBelumSeksi,
                 'kegiatanRutinBelum'=>$kegiatanRutinBelum,
+                'kegiatanRutinBelumSeksi'=>$kegiatanRutinBelumSeksi,
             ]);
         }elseif ($role==8) {
+            $atasan = Yii::$app->user->identity->section->id_depart;
             $jumlahKetua = Chief::find()->count('id');
             $jumlahDepartemen = Department::find()->count('id');
             $jumlahSeksi = Section::find()->count('id');
-            $dataKegiatan = Activity::find()->where(['done'=>1])->andWhere(['role'=>8])->all();
-            $dataKegiatanRutin = ActivityDaily::find()->where(['done'=>1])->andWhere(['role'=>8])->all();
-            $kegiatanBelum = Activity::find()->where(['done'=>0])->andWhere(['role'=>8])->all();
-            $kegiatanRutinBelum = ActivityDaily::find()->where(['done'=>0])->andWhere(['role'=>8])->all(); 
+            $dataKegiatan = Activity::find()
+            ->joinWith('activityBudgetSections')
+            ->joinWith('activityBudgetSections.sectionBudget')
+            ->joinWith('activityBudgetSections.sectionBudget.section')
+            ->where(['done'=>1])
+            ->andWhere(['role'=>8])
+            ->andWhere(['section.id_depart'=>$atasan])
+            ->all();
+            $dataKegiatanRutin = ActivityDaily::find()
+            ->joinWith('activityDailyBudgetSections')
+            ->joinWith('activityDailyBudgetSections.sectionBudget')
+            ->joinWith('activityDailyBudgetSections.sectionBudget.section')
+            ->where(['done'=>1])
+            ->andWhere(['role'=>8])
+            ->andWhere(['section.id_depart'=>$atasan])
+            ->all();
+            $kegiatanBelum = Activity::find()
+            ->joinWith('activityBudgetSections')
+            ->joinWith('activityBudgetSections.sectionBudget')
+            ->joinWith('activityBudgetSections.sectionBudget.section')
+            ->where(['done'=>0])
+            ->andWhere(['role'=>8])
+            ->andWhere(['section.id_depart'=>$atasan])
+            ->all();
+            $kegiatanRutinBelum = ActivityDaily::find()
+            ->joinWith('activityDailyBudgetSections')
+            ->joinWith('activityDailyBudgetSections.sectionBudget')
+            ->joinWith('activityDailyBudgetSections.sectionBudget.section')
+            ->where(['done'=>0])
+            ->andWhere(['role'=>8])
+            ->andWhere(['section.id_depart'=>$atasan])
+            ->all(); 
             return $this->render('index-seksi',[
                 'jumlahKetua'=>$jumlahKetua,
                 'jumlahDepartemen' => $jumlahDepartemen,

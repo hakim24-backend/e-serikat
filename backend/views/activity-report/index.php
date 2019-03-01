@@ -81,6 +81,50 @@ $gridColumns = [
         }
         //'attribute' => 'activityBudgetChiefsOne.budget_value_sum',
     ],
+
+    [
+    'attribute'=>'role',
+    'header'=>'Role',
+    'headerOptions' =>[
+    'style' => 'width:20%'
+    ],
+    'format'=>'raw',
+    'value' => function($model, $key, $index)
+    {
+        if($model->role == '1')
+        {
+            return '<span class="label label-info">Super Admin</span>';
+        }
+        else if($model->role == '2')
+        {
+            return '<span class="label label-info">Ketua Umum</span>';
+        }
+        else if($model->role == '3')
+        {
+            return '<span class="label label-info">Sekretaris Umum</span>';
+        }
+        else if($model->role == '4')
+        {
+            return '<span class="label label-info">Sekretariat</span>';
+        }
+        else if($model->role == '5')
+        {
+            return '<span class="label label-info">Bendahara</span>';
+        }
+        else if($model->role == '6')
+        {
+            return '<span class="label label-info">Ketua</span>';
+        }
+        else if($model->role == '7')
+        {
+            return '<span class="label label-info">Departemen</span>';
+        }
+        else if($model->role == '8')
+        {
+            return '<span class="label label-info">Seksi</span>';
+        }
+    },
+],
     ['class' => 'kartik\grid\ActionColumn', 'urlCreator'=>function(){return '#';}]
 ];
 
@@ -266,6 +310,50 @@ ExportMenu::widget([
                                                 return "-";
                                             }
                                         }
+                                    ],
+
+                                    [
+                                        'attribute'=>'role',
+                                        'header'=>'Role',
+                                        'headerOptions' =>[
+                                        'style' => 'width:20%'
+                                        ],
+                                        'format'=>'raw',
+                                        'value' => function($model, $key, $index)
+                                        {
+                                            if($model->role == '1')
+                                            {
+                                                return '<span class="label label-info">Super Admin</span>';
+                                            }
+                                            else if($model->role == '2')
+                                            {
+                                                return '<span class="label label-info">Ketua Umum</span>';
+                                            }
+                                            else if($model->role == '3')
+                                            {
+                                                return '<span class="label label-info">Sekretaris Umum</span>';
+                                            }
+                                            else if($model->role == '4')
+                                            {
+                                                return '<span class="label label-info">Sekretariat</span>';
+                                            }
+                                            else if($model->role == '5')
+                                            {
+                                                return '<span class="label label-info">Bendahara</span>';
+                                            }
+                                            else if($model->role == '6')
+                                            {
+                                                return '<span class="label label-info">Ketua</span>';
+                                            }
+                                            else if($model->role == '7')
+                                            {
+                                                return '<span class="label label-info">Departemen</span>';
+                                            }
+                                            else if($model->role == '8')
+                                            {
+                                                return '<span class="label label-info">Seksi</span>';
+                                            }
+                                        },
                                     ],
 
                                     [

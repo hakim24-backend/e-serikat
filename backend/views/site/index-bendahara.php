@@ -71,6 +71,7 @@ $noKegiatanRutin = 1;
                                         <th>No</th>
                                         <th>Kode Kegiatan</th>
                                         <th>Judul Kegiatan</th>
+                                        <th>Role</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -80,6 +81,40 @@ $noKegiatanRutin = 1;
                                             <td><?=$noKegiatanBelum++?></td>
                                             <td><?=$value->activity_code?></td>
                                             <td><?=$value->title?></td>
+                                            <td>
+                                            <?php if($value->role == '1')
+                                            { ?>
+                                                <span class="label label-info">Super Admin</span>
+                                            <?php }
+                                            else if($value->role == '2')
+                                            { ?>
+                                                <span class="label label-info">Ketua Umum</span>
+                                            <?php }
+                                            else if($value->role == '3')
+                                            { ?>
+                                                <span class="label label-info">Sekretaris Umum</span>
+                                            <?php }
+                                            else if($value->role == '4')
+                                            { ?>
+                                                <span class="label label-info">Sekretariat</span>
+                                            <?php }
+                                            else if($value->role == '5')
+                                            { ?>
+                                                <span class="label label-info">Bendahara</span>
+                                            <?php }
+                                            else if($value->role == '6')
+                                            { ?>
+                                                <span class="label label-info">Ketua</span>
+                                            <?php }
+                                            else if($value->role == '7')
+                                            { ?>
+                                                <span class="label label-info">Departemen</span>
+                                            <?php }
+                                            else if($value->role == '8')
+                                            { ?>
+                                                <span class="label label-info">Seksi</span>
+                                            <?php } ?>
+                                            </td>
                                             <td>
                                             <?php if($value->finance_status == '0')
                                             { ?>
@@ -117,6 +152,40 @@ $noKegiatanRutin = 1;
                                             <td><?=$noKegiatanBelum++?></td>
                                             <td><?=$value->activity_code?></td>
                                             <td><?=$value->title?></td>
+                                            <td>
+                                            <?php if($value->role == '1')
+                                            { ?>
+                                                <span class="label label-info">Super Admin</span>
+                                            <?php }
+                                            else if($value->role == '2')
+                                            { ?>
+                                                <span class="label label-info">Ketua Umum</span>
+                                            <?php }
+                                            else if($value->role == '3')
+                                            { ?>
+                                                <span class="label label-info">Sekretaris Umum</span>
+                                            <?php }
+                                            else if($value->role == '4')
+                                            { ?>
+                                                <span class="label label-info">Sekretariat</span>
+                                            <?php }
+                                            else if($value->role == '5')
+                                            { ?>
+                                                <span class="label label-info">Bendahara</span>
+                                            <?php }
+                                            else if($value->role == '6')
+                                            { ?>
+                                                <span class="label label-info">Ketua</span>
+                                            <?php }
+                                            else if($value->role == '7')
+                                            { ?>
+                                                <span class="label label-info">Departemen</span>
+                                            <?php }
+                                            else if($value->role == '8')
+                                            { ?>
+                                                <span class="label label-info">Seksi</span>
+                                            <?php } ?>
+                                            </td>
                                             <td>
                                             <?php if($value->finance_status == '0')
                                             { ?>
@@ -178,6 +247,7 @@ $noKegiatanRutin = 1;
                                         <th>No</th>
                                         <th>Kode Kegiatan</th>
                                         <th>Judul Kegiatan</th>
+                                        <th>Role</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -187,6 +257,40 @@ $noKegiatanRutin = 1;
                                             <td><?=$noKegiatan++?></td>
                                             <td><?=$value->activity_code?></td>
                                             <td><?=$value->title?></td>
+                                            <td>
+                                            <?php if($value->role == '1')
+                                            { ?>
+                                                <span class="label label-info">Super Admin</span>
+                                            <?php }
+                                            else if($value->role == '2')
+                                            { ?>
+                                                <span class="label label-info">Ketua Umum</span>
+                                            <?php }
+                                            else if($value->role == '3')
+                                            { ?>
+                                                <span class="label label-info">Sekretaris Umum</span>
+                                            <?php }
+                                            else if($value->role == '4')
+                                            { ?>
+                                                <span class="label label-info">Sekretariat</span>
+                                            <?php }
+                                            else if($value->role == '5')
+                                            { ?>
+                                                <span class="label label-info">Bendahara</span>
+                                            <?php }
+                                            else if($value->role == '6')
+                                            { ?>
+                                                <span class="label label-info">Ketua</span>
+                                            <?php }
+                                            else if($value->role == '7')
+                                            { ?>
+                                                <span class="label label-info">Departemen</span>
+                                            <?php }
+                                            else if($value->role == '8')
+                                            { ?>
+                                                <span class="label label-info">Seksi</span>
+                                            <?php } ?>
+                                            </td>
                                             <td><span class="label label-success">Diterima</span></td>
                                         </tr>
                                     <?php } ?>
@@ -218,6 +322,7 @@ $noKegiatanRutin = 1;
                                         <th>No</th>
                                         <th>Kode Kegiatan</th>
                                         <th>Judul Kegiatan</th>
+                                        <th>Role</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -227,6 +332,40 @@ $noKegiatanRutin = 1;
                                             <td><?=$noKegiatanRutin++?></td>
                                             <td><?=$value->activity_code?></td>
                                             <td><?=$value->title?></td>
+                                            <td>
+                                            <?php if($value->role == '1')
+                                            { ?>
+                                                <span class="label label-info">Super Admin</span>
+                                            <?php }
+                                            else if($value->role == '2')
+                                            { ?>
+                                                <span class="label label-info">Ketua Umum</span>
+                                            <?php }
+                                            else if($value->role == '3')
+                                            { ?>
+                                                <span class="label label-info">Sekretaris Umum</span>
+                                            <?php }
+                                            else if($value->role == '4')
+                                            { ?>
+                                                <span class="label label-info">Sekretariat</span>
+                                            <?php }
+                                            else if($value->role == '5')
+                                            { ?>
+                                                <span class="label label-info">Bendahara</span>
+                                            <?php }
+                                            else if($value->role == '6')
+                                            { ?>
+                                                <span class="label label-info">Ketua</span>
+                                            <?php }
+                                            else if($value->role == '7')
+                                            { ?>
+                                                <span class="label label-info">Departemen</span>
+                                            <?php }
+                                            else if($value->role == '8')
+                                            { ?>
+                                                <span class="label label-info">Seksi</span>
+                                            <?php } ?>
+                                            </td>
                                             <td><span class="label label-success">Diterima</span></td>
                                         </tr>
                                     <?php } ?>
