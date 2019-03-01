@@ -204,6 +204,9 @@ $role = Yii::$app->user->identity->role;
          $modelsSection = [new ActivitySection()];
          $modelsMember[] = [new ActivitySectionMember];
          $role = Yii::$app->user->identity->role;
+         $tahun = date('Y');
+         $bulan = date('m');
+         $tanggal = date('d');
 
          if ($model->load(Yii::$app->request->post())) {
 
@@ -328,6 +331,10 @@ $role = Yii::$app->user->identity->role;
                    }
 
                        if ($role == 4) {
+                          //save activity code
+                           $model->activity_code = '01'.$model->id.''.$tahun.''.$bulan;
+                           $model->save(false);
+
                            $sekreBudget = new ActivityBudgetSecretariat();
                            $sekreBudget->secretariat_budget_id = $idSekreBudget;
                            $sekreBudget->budget_value_sum = $post['source_value'];
@@ -335,6 +342,10 @@ $role = Yii::$app->user->identity->role;
                            $sekreBudget->activity_id = $model->id;
                            $sekreBudget->save(false);
                        } elseif ($role == 8) {
+                           //save activity code
+                           $model->activity_code = '01'.$model->id.''.$tahun.''.$bulan;
+                           $model->save(false);
+
                            $sectionBudget = new ActivityBudgetSection();
                            $sectionBudget->section_budget_id = $idSectionBudget;
                            $sectionBudget->budget_value_sum = $post['source_value'];

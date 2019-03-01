@@ -71,6 +71,9 @@ class ActivityChiefController extends \yii\web\Controller
         $model = new Activity();
         $modelsSection = [new ActivitySection()];
         $modelsMember[] = [new ActivitySectionMember];
+        $tahun = date('Y');
+        $bulan = date('m');
+        $tanggal = date('d');
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -163,6 +166,9 @@ class ActivityChiefController extends \yii\web\Controller
                             $modelsMain->save();
                         }
                     }
+                    //save activity code
+                    $model->activity_code = '01'.$model->id.''.$tahun.''.$bulan;
+                    $model->save(false);
 
                     $depBudget = new ActivityBudgetChief();
                     $depBudget->chief_budget_id = $idDepBudget;

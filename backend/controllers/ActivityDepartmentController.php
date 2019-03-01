@@ -75,6 +75,9 @@ class ActivityDepartmentController extends \yii\web\Controller
         $model = new Activity();
         $modelsSection = [new ActivitySection()];
         $modelsMember[] = [new ActivitySectionMember];
+        $tahun = date('Y');
+        $bulan = date('m');
+        $tanggal = date('d');
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -173,9 +176,12 @@ class ActivityDepartmentController extends \yii\web\Controller
                         }
                     }
 
+                    //save activity code
+                    $model->activity_code = '01'.$model->id.''.$tahun.''.$bulan;
+                    $model->save(false);
+
                     $depBudget = new ActivityBudgetDepartment();
                     $depBudget->department_budget_id = $idDepBudget;
-                    // $depBudget->budget_value_dp = $post['money_budget'];
                     $depBudget->budget_value_sum = $post['source_value'];
                     $depBudget->activity_id = $model->id;
                     $depBudget->save(false);
