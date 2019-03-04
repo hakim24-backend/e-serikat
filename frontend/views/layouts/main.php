@@ -1,3 +1,6 @@
+<?php $this->beginPage() ?>
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -32,6 +35,8 @@
 	</head>
 
 	<body class="skin-green">
+    <?php $this->beginBody() ?>
+
 		<header class="primary">
 			<div class="firstbar">
 				<div class="container">
@@ -87,160 +92,50 @@
 				<div class="sidebar-title for-tablet">Sidebar</div>
 				<aside class="side-box">
 					<div class="main_title2">
-						<h2 class="aside-title">Upcoming <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h2>
+						<h2 class="aside-title">Kegiatan <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h2>
 					</div>
 					<div class="aside-body">
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img07.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img14.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img09.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">Aliquam et metus convallis tincidunt velit ut rhoncus dolor</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img11.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">dui augue facilisis lacus fringilla pulvinar massa felis quis velit</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img06.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">neque est semper nulla, ac elementum risus quam a enim</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img03.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">Morbi vitae nisl ac mi luctus aliquet a vitae libero</a></h1>
-								</div>
-							</div>
-						</article>
+            <?php
+                $allActivity = \common\models\Activity::find()->where(['done'=>1])->all();
+                foreach ($allActivity as $key => $activity) { ?>
+                  <article class="article-mini">
+                    <div class="inner">
+                      <figure>
+                        <a href="artikel.php">
+                          <img src="images/news/img07.jpg" alt="Sample Article">
+                        </a>
+                      </figure>
+                      <div class="padding">
+                        <h1><a href="artikel.php"><?php echo $activity->title ?></a></h1>
+                      </div>
+                    </div>
+                  </article>
+                <?php }
+             ?>
 					</div>
 				</aside>
 				<aside class="side-box">
 					<div class="main_title2">
-						<h2 class="aside-title">Feed <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h2>
+						<h2 class="aside-title">Kegiatan Rutin <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h2>
 					</div>
-					<div class="aside-body">
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img07.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img14.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img09.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">Aliquam et metus convallis tincidunt velit ut rhoncus dolor</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img11.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">dui augue facilisis lacus fringilla pulvinar massa felis quis velit</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img06.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">neque est semper nulla, ac elementum risus quam a enim</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="artikel.php">
-										<img src="images/news/img03.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="artikel.php">Morbi vitae nisl ac mi luctus aliquet a vitae libero</a></h1>
-								</div>
-							</div>
-						</article>
+          <div class="aside-body">
+            <?php
+                $allActivity = \common\models\ActivityDaily::find()->where(['done'=>1])->all();
+                foreach ($allActivity as $key => $activity) { ?>
+                  <article class="article-mini">
+                    <div class="inner">
+                      <figure>
+                        <a href="artikel.php">
+                          <img src="images/news/img07.jpg" alt="Sample Article">
+                        </a>
+                      </figure>
+                      <div class="padding">
+                        <h1><a href="artikel.php"><?php echo $activity->title ?></a></h1>
+                      </div>
+                    </div>
+                  </article>
+                <?php }
+             ?>
 					</div>
 				</aside>
 			</div>
@@ -273,5 +168,8 @@
   <script src="scripts/toast/jquery.toast.min.js"></script>
   <script src="js/e-magz.js"></script>
   <script src="js/custom.js"></script>
+  <?php $this->endBody() ?>
+
 </body>
 </html>
+<?php $this->endPage() ?>
