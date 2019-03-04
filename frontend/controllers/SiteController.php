@@ -12,7 +12,9 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-
+use yii\data\ArrayDataProvider;
+use common\models\Activity;
+use common\models\ActivityDaily;
 /**
  * Site controller
  */
@@ -72,7 +74,45 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+      $dataA =Activity::find()
+                ->where(['done'=>1])
+                ->asArray()->all();
+
+
+                $typeA = array(
+                  'tipe' => 'kegiatan',
+                );
+
+                foreach ($dataA as $key => $data) {
+                  array_splice($dataA[$key], 0, 0 , $typeA);
+                }
+
+
+      $dataB = ActivityDaily::find()
+              ->where(['done'=>1])
+              ->asArray()->all();
+
+                $typeB = array(
+                  'tipe' => 'rutin',
+                );
+                //
+                foreach ($dataB as $key => $data) {
+                  array_splice($dataB[$key], 0, 0 , $typeB);
+                }
+
+
+
+      $data = array_merge($dataA, $dataB);
+
+
+      $dataProvider = new ArrayDataProvider([
+      'allModels' => $data
+      ]);
+
+      // var_dump($dataProvider);die;
+      return $this->render('index', [
+          'dataProvider' => $dataProvider,
+      ]);
     }
 
     /**
