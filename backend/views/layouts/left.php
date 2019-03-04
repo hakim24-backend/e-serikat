@@ -39,16 +39,16 @@ $Role = Yii::$app->user->identity->roleName();
                   // ['label' => 'Giis', 'icon' => 'file-code-o', 'url' => ['/gii']],
                   // ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
 
-                  // [
-                  //     'label' => 'Modul Bendahara',
-                  //     'icon' => 'archive',
-                  //     'url' => '#',
-                  //     'items' => [
-                  //         ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
-                  //         ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
-                  //
-                  //     ],
-                  // ],
+                  [
+                      'label' => 'Modul Bendahara',
+                      'icon' => 'archive',
+                      'url' => '#',
+                      'items' => [
+                          ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
+                          ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
+
+                      ],
+                  ],
 
                   [
                       'label' => 'Uang Muka',
