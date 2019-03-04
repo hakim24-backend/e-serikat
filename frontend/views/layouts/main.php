@@ -1,6 +1,10 @@
+<?php
+use yii\helpers\Url;
+
+
+ ?>
+
 <?php $this->beginPage() ?>
-
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -101,12 +105,13 @@
                   <article class="article-mini">
                     <div class="inner">
                       <figure>
-                        <a href="artikel.php">
-                          <img src="images/news/img07.jpg" alt="Sample Article">
+                        <a href="<?= Url::to(['kegiatan/detail','id'=>$activity->id])?>">
+                          <?php $getRespo = \common\models\ActivityResponsibility::find()->where(['activity_id'=>$activity->id])->one() ?>
+                          <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
                         </a>
                       </figure>
                       <div class="padding">
-                        <h1><a href="artikel.php"><?php echo $activity->title ?></a></h1>
+                        <h1><a href="<?= Url::to(['kegiatan/detail','id'=>$activity->id])?>"><?php echo $activity->title ?></a></h1>
                       </div>
                     </div>
                   </article>
@@ -122,15 +127,16 @@
             <?php
                 $allActivity = \common\models\ActivityDaily::find()->where(['done'=>1])->all();
                 foreach ($allActivity as $key => $activity) { ?>
+                  <?php $getRespo = \common\models\ActivityDailyResponsibility::find()->where(['activity_id'=>$activity->id])->one() ?>
                   <article class="article-mini">
                     <div class="inner">
                       <figure>
-                        <a href="artikel.php">
-                          <img src="images/news/img07.jpg" alt="Sample Article">
+                        <a href="<?= Url::to(['kegiatan-rutin/detail','id'=>$activity->id])?>">
+                          <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
                         </a>
                       </figure>
                       <div class="padding">
-                        <h1><a href="artikel.php"><?php echo $activity->title ?></a></h1>
+                        <h1><a href="<?= Url::to(['kegiatan-rutin/detail','id'=>$activity->id])?>"><?php echo $activity->title ?></a></h1>
                       </div>
                     </div>
                   </article>
