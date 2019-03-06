@@ -6,7 +6,7 @@
     <h5 class="text-white"><?php echo $model->title ?></h5>
     <p class="text-white">
 
-      Kegiatan <?php echo $model->name_activity ?> ini, bertempat di <?php echo $model->place_activity ?> telah dilaksanakan dengan latar
+      <b>Gresik</b> - Kegiatan <?php echo $model->name_activity ?> ini, bertempat di <?php echo $model->place_activity ?> telah dilaksanakan dengan latar
       belakang <?php echo $model->background ?>. Dengan tujuan <?php echo $model->purpose ?>.
       Target kegiatan ini adalah <?php echo $model->target_activity ?>. Kegiatan ini diadakan pada tanggal <?php echo $model->date_start ?>,
       dan selesai pada tanggal <?php echo $model->date_end ?>.

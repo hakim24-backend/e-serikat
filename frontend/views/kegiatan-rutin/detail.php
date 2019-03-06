@@ -6,7 +6,7 @@
     <h5 class="text-white"><?php echo $model->title ?></h5>
     <p class="text-white">
 
-      Kegiatan <?php echo $model->title ?> ini, <?php echo $model->description ?>. Kegiatan ini diadakan pada tanggal <?php echo $model->date_start ?>,
+      <b>Gresik</b> - Kegiatan <?php echo $model->title ?> ini, <?php echo $model->description ?>. Kegiatan ini diadakan pada tanggal <?php echo $model->date_start ?>,
       dan selesai pada tanggal <?php echo $model->date_end ?>.
 
     </p>
