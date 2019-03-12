@@ -51,11 +51,11 @@ AppAsset::register($this);
               </a>
             </div>
           </div>
-          <div class="col-md-6 col-sm-12 text-right">
+          <!-- <div class="col-md-6 col-sm-12 text-right">
             <ul class="nav-icons">
               <li><a href="login.php"><i class="ion-person"></i><div>Login</div></a></li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
