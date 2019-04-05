@@ -4,8 +4,8 @@ use yii\helpers\Url;
 
  ?>
 
-<div class="col-md-8 col-sm-12 col-xs-12">
-  <div class="row content-box">
+<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+  <div class="container content-box">
     <div class="main_title2">
       <h2 class="title-col">Kegiatan - Kegiatan</h2>
     </div>

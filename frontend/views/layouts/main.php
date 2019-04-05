@@ -34,7 +34,7 @@ use yii\helpers\Url;
 		<link rel="stylesheet" href="scripts/sweetalert/dist/sweetalert.css">
 		<!-- Custom style -->
 		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="src/custom.css">
 		<link rel="stylesheet" href="css/skins/green.css">
 	</head>
 
@@ -43,16 +43,17 @@ use yii\helpers\Url;
 
 		<header class="primary">
 			<div class="firstbar">
-				<div class="container">
+				<div class="container marg-cust">
 					<div class="row">
-						<div class="col-md-6 col-sm-12">
+						<div class="col-md-6 col-sm-6 col-xs-6">
 							<div class="brand">
-								<a href="index.php">
-									<img src="images/logo.png" alt="Magz Logo">
-								</a>
-							</div>
+								<a href="<?php echo Yii::$app->homeUrl; ?>">
+					                <img src="<?=Yii::$app->urlManagerFrontend->createUrl(['/images/logo.png'])?>" alt="Magz Logo">
+					              </a>
+							</div>						
 						</div>
-						<div class="col-md-6 col-sm-12 text-right">
+
+						<div class="col-md-6 col-sm-6 col-xs-6 text-right">
 							<ul class="nav-icons">
 								<li><a href="<?php echo Yii::$app->urlManagerBackend->createUrl(''); ?>"><i class="ion-person"></i><div>Login</div></a></li>
 							</ul>
@@ -60,10 +61,32 @@ use yii\helpers\Url;
 					</div>
 				</div>
 			</div>
+<!-- 			<nav class="menu">
+				<div class="container">
+					<div class="brand">
+						<a href="index.php">
+							<img src="images/logo.png" alt="Magz Logo">
+						</a>
+					</div>
+					<div class="mobile-toggle">
+						<a href="#" data-toggle="menu" data-target="#menu-list"><i class="ion-navicon-round"></i></a>
+					</div>
+					<div class="mobile-toggle">
+						<a href="#" data-toggle="sidebar" data-target="#sidebar"><i class="ion-navicon-round"></i></a>
+					</div>
+					<div id="menu-list">
+						<ul class="nav-icons">
+							<li class="for-tablet"><a class="sidebar" href="<?php echo Yii::$app->urlManagerBackend->createUrl(''); ?>"><i class="ion-person"></i><div>Login</div></a></li>
+						</ul>
+					</div>
+				</div>
+			</nav> -->
 		</header>
 
+
+
 <section class="home">
-	<div class="container">
+	<div class="container marg-cust">
 		<div class="row">
 			<!-- <div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="row content-box">
@@ -92,56 +115,56 @@ use yii\helpers\Url;
 					<!-- </div>
 				</div>
 			</div> -->
-      <div class="col-xs-6 col-md-4 sidebar" id="sidebar">
-				<div class="sidebar-title for-tablet">Sidebar</div>
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="sidebar">
+			<div class="sidebar-title for-tablet">Sidebar</div>
 				<aside class="side-box">
 					<div class="main_title2">
 						<h2 class="aside-title">Kegiatan <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h2>
 					</div>
 					<div class="aside-body">
-            <?php
-                $allActivity = \common\models\Activity::find()->where(['done'=>1])->all();
-                foreach ($allActivity as $key => $activity) { ?>
-                  <article class="article-mini">
-                    <div class="inner">
-                      <figure>
-                        <a href="<?= Url::to(['kegiatan/detail','id'=>$activity->id])?>">
-                          <?php $getRespo = \common\models\ActivityResponsibility::find()->where(['activity_id'=>$activity->id])->one() ?>
-                          <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
-                        </a>
-                      </figure>
-                      <div class="padding">
-                        <h1><a href="<?= Url::to(['kegiatan/detail','id'=>$activity->id])?>"><?php echo $activity->title ?></a></h1>
-                      </div>
-                    </div>
-                  </article>
-                <?php }
-             ?>
+           				<?php
+		                $allActivity = \common\models\Activity::find()->where(['done'=>1])->all();
+		                foreach ($allActivity as $key => $activity) { ?>
+		                  <article class="article-mini">
+		                    <div class="inner">
+		                      <figure>
+		                        <a href="<?= Url::to(['kegiatan/detail','id'=>$activity->id])?>">
+		                          <?php $getRespo = \common\models\ActivityResponsibility::find()->where(['activity_id'=>$activity->id])->one() ?>
+		                          <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
+		                        </a>
+		                      </figure>
+		                      <div class="padding">
+		                        <h1><a href="<?= Url::to(['kegiatan/detail','id'=>$activity->id])?>"><?php echo $activity->title ?></a></h1>
+		                      </div>
+		                    </div>
+		                  </article>
+		                <?php }
+		             	?>
 					</div>
 				</aside>
 				<aside class="side-box">
 					<div class="main_title2">
 						<h2 class="aside-title">Kegiatan Rutin <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h2>
 					</div>
-          <div class="aside-body">
-            <?php
-                $allActivity = \common\models\ActivityDaily::find()->where(['done'=>1])->all();
-                foreach ($allActivity as $key => $activity) { ?>
-                  <?php $getRespo = \common\models\ActivityDailyResponsibility::find()->where(['activity_id'=>$activity->id])->one() ?>
-                  <article class="article-mini">
-                    <div class="inner">
-                      <figure>
-                        <a href="<?= Url::to(['kegiatan-rutin/detail','id'=>$activity->id])?>">
-                          <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
-                        </a>
-                      </figure>
-                      <div class="padding">
-                        <h1><a href="<?= Url::to(['kegiatan-rutin/detail','id'=>$activity->id])?>"><?php echo $activity->title ?></a></h1>
-                      </div>
-                    </div>
-                  </article>
-                <?php }
-             ?>
+			         <div class="aside-body">
+			            <?php
+			                $allActivity = \common\models\ActivityDaily::find()->where(['done'=>1])->all();
+			                foreach ($allActivity as $key => $activity) { ?>
+			                  <?php $getRespo = \common\models\ActivityDailyResponsibility::find()->where(['activity_id'=>$activity->id])->one() ?>
+			                  <article class="article-mini">
+			                    <div class="inner">
+			                      <figure>
+			                        <a href="<?= Url::to(['kegiatan-rutin/detail','id'=>$activity->id])?>">
+			                          <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
+			                        </a>
+			                      </figure>
+			                      <div class="padding">
+			                        <h1><a href="<?= Url::to(['kegiatan-rutin/detail','id'=>$activity->id])?>"><?php echo $activity->title ?></a></h1>
+			                      </div>
+			                    </div>
+			                  </article>
+			                <?php }
+			             ?>
 					</div>
 				</aside>
 			</div>
@@ -169,7 +192,7 @@ use yii\helpers\Url;
   <script src="scripts/jquery-number/jquery.number.min.js"></script>
   <script src="scripts/owlcarousel/dist/owl.carousel.min.js"></script>
   <script src="scripts/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
-  <script src="scripts/easescroll/jquery.easeScroll.js"></script>
+  <!-- <script src="scripts/easescroll/jquery.easeScroll.js"></script> -->
   <script src="scripts/sweetalert/dist/sweetalert.min.js"></script>
   <script src="scripts/toast/jquery.toast.min.js"></script>
   <script src="js/e-magz.js"></script>
