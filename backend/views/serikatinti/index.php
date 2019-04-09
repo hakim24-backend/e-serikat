@@ -51,9 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '| {edit} | {delete} |',
+                                'template' => ' {edit}  {delete} ',
                                 'buttons' => [
-                                    
+
 
                                     'edit' => function($url, $model, $key)
                                     {
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             $url = Url::toRoute(['/serikatinti/update', 'id' => $model->id]);
                                             return Html::a(
                                                 '<span class="glyphicon glyphicon-pencil"></span>',
-                                                $url, 
+                                                $url,
                                                 [
                                                     'title' => 'Edit User',
                                                 ]
@@ -71,13 +71,24 @@ $this->params['breadcrumbs'][] = $this->title;
                                             $url = Url::toRoute(['/serikatinti/create', 'id' => $model->id]);
                                             return Html::a(
                                                 '<span class="glyphicon glyphicon-plus"></span>',
-                                                $url, 
+                                                $url,
                                                 [
                                                     'title' => 'Buat User',
                                                 ]
                                             );
                                         }
-                                    }
+                                    },
+                                    'delete' => function ($url, $model) {
+                                      if($model->users){
+                                        $url = Url::toRoute(['/serikatinti/delete', 'id' => $model->id]);
+                                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                          'title' => Yii::t('app', 'Delete'),
+                                          'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
+                                          'data-method' => 'post', 'data-pjax' => '0',
+
+                                        ]);
+                                      }
+                                    },
                                 ]
                             ],
                         ],

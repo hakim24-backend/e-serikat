@@ -1,53 +1,80 @@
 <?php
+use yii\helpers\Url;
 
-/* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
-?>
-<div class="site-index">
+ ?>
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+  <div class="container content-box">
+    <div class="main_title2">
+      <h2 class="title-col">Kegiatan - Kegiatan</h2>
     </div>
+    <div class="body-col">
 
-    <div class="body-content">
+      <?php foreach ($dataProvider->allModels as $value) { ?>
 
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+        <article class="article-mini">
+        <div class="inner">
+        <figure>
+        <a href="
+        <?php if($value[0]=="kegiatan"){
+          echo Url::to(['kegiatan/detail','id'=>$value['id']]);
+        }else{
+          echo Url::to(['kegiatan-rutin/detail','id'=>$value['id']]);
+        } ?>
+        ">
+        <?php
+          if($value[0]=="kegiatan"){
+            $getRespo = \common\models\ActivityResponsibility::find()->where(['activity_id'=>$value['id']])->one();
+          }else if($value[0]=="rutin"){
+            $getRespo = \common\models\ActivityDailyResponsibility::find()->where(['activity_id'=>$value['id']])->one();
+          }
+         ?>
+        <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
+        </a>
+        </figure>
+        <div class="padding">
+        <h1><a href="
+          <?php if($value[0]=="kegiatan"){
+            echo Url::to(['kegiatan/detail','id'=>$value['id']]);
+          }else{
+            echo Url::to(['kegiatan-rutin/detail','id'=>$value['id']]);
+          } ?>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+          ">
+          <?php echo $value['title'] ; ?>
+        </a></h1>
+        <div class="detail">
+        <div class="category">
+          <a href="category.html">
+            <?php
+              if($value['role']==1){
+                echo "Superadmin";
+              }else if($value['role']==2){
+                echo "Ketua Umum";
+              }else if($value['role']==3){
+                echo "Sekertaris Umum";
+              }else if($value['role']==4){
+                echo "Sekretariat";
+              }else if($value['role']==5){
+                echo "Bendahara";
+              }else if($value['role']==6){
+                echo "Ketua";
+              }else if($value['role']==7){
+                echo "Department";
+              }else if($value['role']==8){
+                echo "Seksi";
+              } ?>
+          </a></div>
+        <div class="time"><?php echo date('F j, Y',strtotime($value['date_end']));  ?></div>
         </div>
+        </div>
+        </div>
+        </article>
 
+
+      <?php } ?>
     </div>
+  </div>
 </div>

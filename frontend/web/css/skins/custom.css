@@ -1,0 +1,12 @@
+.firstbar {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.firstbar .brand {
+    margin: 3px 0;
+}
+
+.firstbar .brand img {
+    width: 75px;
+}
