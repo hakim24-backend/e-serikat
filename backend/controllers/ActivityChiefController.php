@@ -82,6 +82,7 @@ class ActivityChiefController extends \yii\web\Controller
             $chiefId = \common\models\Chief::find()->where(['user_id' => $id_user])->one();
             $depId = \common\models\Department::find()->where(['id_chief' => $chiefId->id])->one();
             $model->role = Yii::$app->user->identity->role;
+            // $model->type = 1;
             $model->finance_status = 0;
             $model->department_status = 1;
             $model->chief_status = 1;

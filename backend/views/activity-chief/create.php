@@ -272,7 +272,7 @@ $list_seksi = array_values($array_seksi);
 
                           <tr>
 
-                              <th>Bagian Seksi</th>
+                              <th>Bagian Seksi</th> 
 
                               <th style="width: 450px;">Anggota Seksi</th>
 

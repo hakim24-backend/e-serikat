@@ -20,7 +20,6 @@ if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role !=
       </p>
         <?php }
 ?>
-
       <div class="box box-primary">
             <div class="box-body">
                 <div class="tab-content c-bordered c-padding-lg">

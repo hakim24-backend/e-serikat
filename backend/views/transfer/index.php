@@ -73,6 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'template' => '{update} {delete}',
                                             'buttons' => [
                                                 'update' => function ($url,$model,$key) {
+                                                    if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
                                                     $url = Url::toRoute(['/transfer/update-sekretariat', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> | ',
@@ -81,20 +82,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'title' => 'Update Anggaran',
                                                         ]
                                                     );
-
+                                                    }
 
                                                 },
                                                 'delete' => function ($url,$model,$key) {
-																									if(!$model->activityBudgetSecretariats && !$model->activityDailyBudgetSecretariats){
-																										$url = Url::toRoute(['/transfer/delete-sekretariat', 'id' => $model->id]);
-																										return Html::a(
-																											' <span class="glyphicon glyphicon-trash"></span> |',
-																											$url,
-																											[
-																												'title' => 'Hapus Anggaran',
-																											]
-																										);
-																									}
+    												if(!$model->activityBudgetSecretariats && !$model->activityDailyBudgetSecretariats){
+    													$url = Url::toRoute(['/transfer/delete-sekretariat', 'id' => $model->id]);
+    													return Html::a(
+    														' <span class="glyphicon glyphicon-trash"></span> |',
+    														$url,
+    														[
+    															'title' => 'Hapus Anggaran',
+    														]
+    													);
+    												}
 
 
                                                 },
@@ -140,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'template' => '{update} {delete}',
                                             'buttons' => [
                                                 'update' => function ($url,$model,$key) {
-
+                                                    if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
                                                     $url = Url::toRoute(['/transfer/update-ketua', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> |',
@@ -149,11 +150,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'title' => 'Update Anggaran',
                                                         ]
                                                     );
-
-
+                                                    }
                                                 },
                                                 'delete' => function ($url,$model,$key) {
-																									if(!$model->activityBudgetChiefs && !$model->activityDailyBudgetChiefs){
+													if(!$model->activityBudgetChiefs && !$model->activityDailyBudgetChiefs){
                                                     $url = Url::toRoute(['/transfer/delete-ketua', 'id' => $model->id]);
                                                     return Html::a(
                                                         ' <span class="glyphicon glyphicon-trash"></span> |',
@@ -207,7 +207,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'template' => '{update} {delete}',
                                             'buttons' => [
                                                 'update' => function ($url,$model,$key) {
-
+                                                    if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
                                                     $url = Url::toRoute(['/transfer/update-departemen', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> |',
@@ -216,10 +216,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'title' => 'Update Anggaran',
                                                         ]
                                                     );
+                                                    }
                                                 },
                                                 'delete' => function ($url,$model,$key) {
-																									if(!$model->activityBudgetDepartments && !$model->activityDailyBudgetDeparts){
-
+													if(!$model->activityBudgetDepartments && !$model->activityDailyBudgetDeparts){
                                                     $url = Url::toRoute(['/transfer/delete-departemen', 'id' => $model->id]);
                                                     return Html::a(
                                                         ' <span class="glyphicon glyphicon-trash"></span> |',
@@ -272,7 +272,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'template' => '{update} {delete}',
                                             'buttons' => [
                                                 'update' => function ($url,$model,$key) {
-
+                                                    if (Yii::$app->user->identity->role != '2' && Yii::$app->user->identity->role != '3') {
                                                     $url = Url::toRoute(['/transfer/update-seksi', 'id' => $model->id]);
                                                     return Html::a(
                                                         '| <span class="glyphicon glyphicon-pencil"></span> |',
@@ -281,9 +281,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'title' => 'Update Anggaran',
                                                         ]
                                                     );
+                                                    }
                                                 },
                                                 'delete' => function ($url,$model,$key) {
-																									if(!$model->activityBudgetSections && !$model->activityDailyBudgetSections){
+													if(!$model->activityBudgetSections && !$model->activityDailyBudgetSections){
                                                     $url = Url::toRoute(['/transfer/delete-seksi', 'id' => $model->id]);
                                                     return Html::a(
                                                         ' <span class="glyphicon glyphicon-trash"></span> |',
