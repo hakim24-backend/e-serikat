@@ -383,6 +383,7 @@ class ActivityChiefController extends \yii\web\Controller
     {
 
       $role = Yii::$app->user->identity->role;
+      
       // retrieve existing Deposit data
       $model = Activity::find()->where(['id' => $id])->one();
 
