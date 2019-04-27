@@ -31,7 +31,11 @@ use yii\helpers\Url;
             $getRespo = \common\models\ActivityDailyResponsibility::find()->where(['activity_id'=>$value['id']])->one();
           }
          ?>
+		 <?php
+		  if($getRespo){
+		 ?>
         <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
+		 <?php }?>
         </a>
         </figure>
         <div class="padding">

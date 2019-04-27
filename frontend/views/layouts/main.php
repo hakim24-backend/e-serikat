@@ -107,8 +107,12 @@ use yii\helpers\Url;
                       <figure>
                         <a href="<?= Url::to(['kegiatan/detail','id'=>$activity->id])?>">
                           <?php $getRespo = \common\models\ActivityResponsibility::find()->where(['activity_id'=>$activity->id])->one() ?>
-                          <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
-                        </a>
+                           <?php
+							  if($getRespo){
+							 ?>
+						  <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
+							<?php }?>
+						</a>
                       </figure>
                       <div class="padding">
                         <h1><a href="<?= Url::to(['kegiatan/detail','id'=>$activity->id])?>"><?php echo $activity->title ?></a></h1>
@@ -132,8 +136,12 @@ use yii\helpers\Url;
                     <div class="inner">
                       <figure>
                         <a href="<?= Url::to(['kegiatan-rutin/detail','id'=>$activity->id])?>">
-                          <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
-                        </a>
+                          <?php
+							if($getRespo){
+						  ?>
+						  <img src="<?=Yii::$app->urlManagerBackend->createUrl(['/template/'.$getRespo->photo])?>" alt="Sample Article">
+							<?php }?>
+						</a>
                       </figure>
                       <div class="padding">
                         <h1><a href="<?= Url::to(['kegiatan-rutin/detail','id'=>$activity->id])?>"><?php echo $activity->title ?></a></h1>
