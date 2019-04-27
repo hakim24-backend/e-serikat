@@ -7,17 +7,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Budget */
 
-$this->title = $model->id;
+$this->title = 'Update Sumber Dana';
 $this->params['breadcrumbs'][] = ['label' => 'Budgets', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="budget-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </p>
 
@@ -44,7 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'budget_value',
-                'label'=>'Nilai Saldo'
+                'label'=>'Nilai Saldo',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->budget_value,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'budget_rek',

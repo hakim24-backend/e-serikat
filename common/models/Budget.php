@@ -50,7 +50,7 @@ class Budget extends \yii\db\ActiveRecord
             'budget_code' => 'Budget Code',
             'budget_year' => 'Budget Year',
             'budget_name' => 'Budget Name',
-            'budget_value' => 'Budget Value',
+            'budget_value' => 'Nilai Saldo',
             'budget_rek' => 'Budget Rek',
         ];
     }

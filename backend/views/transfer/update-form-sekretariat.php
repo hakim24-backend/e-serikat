@@ -21,6 +21,7 @@ use dosamigos\google\maps\services\DirectionsRequest;
 use dosamigos\google\maps\overlays\Polygon;
 use dosamigos\google\maps\layers\BicyclingLayer;
 use wbraganca\dynamicform\DynamicFormWidget;
+use kartik\money\MaskMoney;
 /* @var $this yii\web\View */
 
 /* @var $model common\models\Activity */
@@ -49,7 +50,22 @@ $list_seksi = array_values($array_seksi);
                 <label>Nilai Anggaran</label>
               </div>
               <div class="col-md-10">
-                <?= $form->field($model, 'secretariat_budget_value')->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
+                <?= $form->field($model, 'secretariat_budget_value')->widget(MaskMoney::classname(), [
+                    'options' => [
+                        'placeholder' => 'Masukkan Nilai Saldo',
+                        'required'=>true,
+                    ],
+                    'pluginOptions' => [
+                        'prefix' => 'Rp. ',
+                        'suffix' => '',
+                        'affixesStay' => true,
+                        'thousands' => '.',
+                        'decimal' => ',',
+                        'precision' => 0, 
+                        'allowZero' => false,
+                        'allowNegative' => false,
+                    ]
+                ]) ?>
               </div>
             </div>
     </div>
