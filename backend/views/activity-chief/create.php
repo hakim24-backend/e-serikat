@@ -22,7 +22,7 @@ use dosamigos\google\maps\layers\BicyclingLayer;
 use wbraganca\dynamicform\DynamicFormWidget;
 use common\models\User;
 use yii\helpers\ArrayHelper;
-
+use kartik\money\MaskMoney;
 /* @var $this yii\web\View */
 
 /* @var $model common\models\Activity */
@@ -78,8 +78,25 @@ $list_seksi = array_values($array_seksi);
                   <div class="form-group">
                       <label class="col-sm-4">Nilai Anggaran</label>
                       <div class="col-sm-8">
-                          <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 form-control nilai-anggaran', 'id'=>'value-budget']) ?>
-                      </div>
+                       <?php
+                        echo MaskMoney::widget([
+                              'name' => 'source_value',
+                              'value' => null,
+                              'pluginOptions' => [
+                                  'prefix' => 'Rp ',
+                                  'thousands' => '.',
+                                  'decimal' => ',',
+                                  'precision' => 0
+                              ],
+                              'options' => [
+                                'autofocus' => true, 
+                                'required'=>true, 
+                                'class'=>'col-sm-8 form-control nilai-anggaran', 
+                                'id'=>'value-budget'
+                              ]
+                          ]);
+                       ?>
+                       </div>
                   </div>
               </div>
               <br>
@@ -147,13 +164,14 @@ $list_seksi = array_values($array_seksi);
                 <label>Lokasi</label>
               </div>
               <div class="col-md-10">
-                <?=
-                	$form->field($model, 'place_activity')->widget(\kalyabin\maplocation\SelectMapLocationWidget::className(), [
-                	    'attributeLatitude' => 'place_activity_x',
-                	    'attributeLongitude' => 'place_activity_y',
-                	    'googleMapApiKey' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
-                	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;']
-                	])->label(false);
+                <?php
+
+                	// echo $form->field($model, 'place_activity')->widget(\kalyabin\maplocation\SelectMapLocationWidget::className(), [
+                	//     'attributeLatitude' => 'place_activity_x',
+                	//     'attributeLongitude' => 'place_activity_y',
+                	//     'googleMapApiKey' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
+                	//     'wrapperOptions' => ['style'=>'width: 100%; height: 200px;']
+                	// ])->label(false);
                 ?>
               </div>
             </div>
@@ -428,13 +446,14 @@ $('#jenis-asal').on('change',function(){
     });
 });
 
-$('.nilai-anggaran').on('change',function(){
+$('#value-budget').on('change',function(){
     var nilaisekarang = $('#nilai-sekarang').text();
-    var nilaianggaran = $('.nilai-anggaran').val();
+    var nilaianggaran = $('#value-budget').val();
     var tipe = $('#jenis-asal').val();
     var kode = $('#kode-asal').val();
 
-    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    var res = parseInt(nilaisekarang.replace("Rp ","").replace(".",""));
+ 
     if(parseInt(nilaianggaran) > res){
       alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
     }

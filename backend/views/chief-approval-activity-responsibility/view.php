@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
+use kartik\money\MaskMoney;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */
@@ -11,6 +12,10 @@ $this->title = 'Data Pertangungjawaban';
 $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 
 <?php if ($role->role == 7) { ?>
@@ -24,11 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'activity.activityBudgetDepartmentsOne.budget_value_sum',
-                'label'=>'Uang Muka'
+                'label'=>'Uang Muka',
+                'value' => function($model)
+                {
+                    return to_rp($model->activity->activityBudgetDepartmentsOne->budget_value_sum);
+                }
             ],
             [
                 'attribute'=>'activity.activityBudgetDepartmentsOne.budget_value_dp',
-                'label'=>'Uang Yang Terealisasikan'
+                'label'=>'Uang Yang Terealisasikan',
+                'value' => function($model)
+                {
+                    return to_rp($model->activity->activityBudgetDepartmentsOne->budget_value_dp);
+                }
             ],
             [
                 'attribute'=>'file',
@@ -57,11 +70,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'activity.activityBudgetSectionsOne.budget_value_sum',
-                'label'=>'Uang Muka'
+                'label'=>'Uang Muka',
+                'value' => function($model)
+                {
+                    return to_rp($model->activity->activityBudgetSectionsOne->budget_value_sum);
+                }
             ],
             [
                 'attribute'=>'activity.activityBudgetSectionsOne.budget_value_dp',
-                'label'=>'Uang Yang Terealisasikan'
+                'label'=>'Uang Yang Terealisasikan',
+                'value' => function($model)
+                {
+                    return to_rp($model->activity->activityBudgetSectionsOne->budget_value_dp);
+                }
             ],
             [
                 'attribute'=>'file',
