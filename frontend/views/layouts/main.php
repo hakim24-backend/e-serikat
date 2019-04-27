@@ -122,7 +122,6 @@ use yii\helpers\Url;
 						<h2 class="aside-title">Kegiatan <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h2>
 					</div>
 					<div class="aside-body">
-<<<<<<< HEAD
             <?php
                 $allActivity = \common\models\Activity::find()->where(['done'=>1])->all();
                 foreach ($allActivity as $key => $activity) { ?>
@@ -151,7 +150,6 @@ use yii\helpers\Url;
 					<div class="main_title2">
 						<h2 class="aside-title">Kegiatan Rutin <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h2>
 					</div>
-<<<<<<< HEAD
           <div class="aside-body">
             <?php
                 $allActivity = \common\models\ActivityDaily::find()->where(['done'=>1])->all();
