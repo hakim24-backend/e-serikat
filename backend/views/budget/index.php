@@ -56,6 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     [
                                     'header' => 'Nilai Saldo',
                                     'attribute' => 'budget_value',
+                                    'value' => function($model)
+                                      {
+                                        return "Rp " . number_format($model->budget_value,0,',','.');
+                                      }
                                     ],
 
 
