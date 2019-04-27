@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Transfer';
+$this->title = 'Alokasi Dana';
 $this->params['breadcrumbs'][] = $this->title;
 
 function to_rp($val)

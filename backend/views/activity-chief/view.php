@@ -21,6 +21,8 @@ use dosamigos\google\maps\services\DirectionsRequest;
 use dosamigos\google\maps\overlays\Polygon;
 use dosamigos\google\maps\layers\BicyclingLayer;
 use wbraganca\dynamicform\DynamicFormWidget;
+use kartik\money\MaskMoney;
+
 /* @var $this yii\web\View */
 
 /* @var $model common\models\Activity */
@@ -31,6 +33,10 @@ $Role = Yii::$app->user->identity->roleName();
 $seksi = User::find()->where(['role'=>8])->all();
 $array_seksi = ArrayHelper::map(User::find()->all(), 'id','name');
 $list_seksi = array_values($array_seksi);
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 
 <div class="activity-form">
@@ -56,7 +62,7 @@ $list_seksi = array_values($array_seksi);
                     <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                     <div class="col-sm-8">
 
-                        <?= $baru->chief_budget_value ?>
+                        <?= to_rp($baru->chief_budget_value) ?>
 
                     </div>
                 </div>
@@ -67,7 +73,20 @@ $list_seksi = array_values($array_seksi);
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran</label>
                     <div class="col-sm-8">
-                        <?= $form->field($budget, 'budget_value_sum')->textInput(['class' => 'form-control', 'disabled'=>true] )->label(false); ?>
+                        <?php
+                          echo $form->field($budget, 'budget_value_sum')->widget(MaskMoney::classname(), [
+                            'pluginOptions' => [
+                              'prefix' => 'Rp ',
+                              'thousands' => '.',
+                              'decimal' => ',',
+                              'precision' => 0
+                            ],
+                            'options' => [
+                              'disabled' => true,
+                            ]
+                        ])->label(false);
+                        ?>
+                        <!-- <?= $form->field($budget, 'budget_value_sum')->textInput(['class' => 'form-control', 'disabled'=>true] )->label(false); ?> -->
                     </div>
                 </div>
             </div>

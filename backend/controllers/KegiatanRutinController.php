@@ -622,6 +622,10 @@ class KegiatanRutinController extends Controller
     }
 
     public function actionNilaiAnggaran(){
+        function to_rp($val)
+        {
+            return "Rp " . number_format($val,0,',','.');
+        }
         $post = Yii::$app->request->post();
         if ($post['tipe']=='4') {
             $data = SecretariatBudget::findOne($post['kode']);
@@ -631,7 +635,7 @@ class KegiatanRutinController extends Controller
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
                         <div class='col-sm-8' id='nilai-sekarang'>
-                            Rp.".$data->secretariat_budget_value."
+                            ".to_rp($data->secretariat_budget_value)."
                         </div>
                     </div>
                 </div>
@@ -662,7 +666,7 @@ class KegiatanRutinController extends Controller
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
                         <div class='col-sm-8' id='nilai-sekarang'>
-                            ".$data->chief_budget_value."
+                            ".to_rp($data->chief_budget_value)."
                         </div>
                     </div>
                 </div>
@@ -693,7 +697,7 @@ class KegiatanRutinController extends Controller
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
                         <div class='col-sm-8' id='nilai-sekarang'>
-                            Rp. ".$data->department_budget_value."
+                            ".to_rp($data->department_budget_value)."
                         </div>
                     </div>
                 </div>
@@ -724,7 +728,7 @@ class KegiatanRutinController extends Controller
                     <div class='form-group'>
                         <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
                         <div class='col-sm-8' id='nilai-sekarang'>
-                            Rp.".$data->section_budget_value."
+                            ".to_rp($data->section_budget_value)."
                         </div>
                     </div>
                 </div>

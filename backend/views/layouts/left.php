@@ -45,7 +45,7 @@ $Role = Yii::$app->user->identity->roleName();
                       'url' => '#',
                       'items' => [
                           ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
-                          ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
+                          ['label' => 'Alokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
 
                       ],
                   ],
@@ -78,7 +78,7 @@ $Role = Yii::$app->user->identity->roleName();
                       'url' => '#',
                       'items' => [
                           ['label' => 'Sumber Dana', 'icon' => 'file-code-o', 'url' => ['/budget'],],
-                          ['label' => 'Relokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
+                          ['label' => 'Alokasi Dana', 'icon' => 'dashboard', 'url' => ['/transfer'],],
 
                       ],
                   ],
