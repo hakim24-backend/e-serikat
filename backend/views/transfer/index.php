@@ -10,6 +10,11 @@ use yii\widgets\Pjax;
 
 $this->title = 'Transfer';
 $this->params['breadcrumbs'][] = $this->title;
+
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 <div class="transfer-index">
 	<?php
@@ -66,6 +71,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'header' => 'Nilai Anggaran',
                                             'attribute' => 'secretariat_budget_value',
+                                            'value' => function($model)
+                                            {
+                                              return to_rp($model->secretariat_budget_value);
+                                            }
+                                            
                                         ],
                                         [
                                             'class' => 'yii\grid\ActionColumn',
@@ -134,6 +144,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'header' => 'Nilai Anggaran',
                                             'attribute' => 'chief_budget_value',
+                                            'value' => function($model)
+                                            {
+                                              return to_rp($model->chief_budget_value);
+                                            }
                                         ],
                                         [
                                             'class' => 'yii\grid\ActionColumn',
@@ -200,6 +214,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'header' => 'Nilai Anggaran',
                                             'attribute' => 'department_budget_value',
+                                            'value' => function($model)
+                                            {
+                                              return to_rp($model->department_budget_value);
+                                            }
                                         ],
                                         [
                                             'class' => 'yii\grid\ActionColumn',
@@ -265,6 +283,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'header' => 'Nilai Anggaran',
                                             'attribute' => 'section_budget_value',
+                                            'value' => function($model)
+                                            {
+                                              return to_rp($model->section_budget_value);
+                                            }
                                         ],
                                         [
                                             'class' => 'yii\grid\ActionColumn',
