@@ -446,8 +446,6 @@ $('.nilai-anggaran').on('change',function(){
     if(parseInt(nilaianggaran) > res){
       alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
     }
-
-
 });
 
 

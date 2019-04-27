@@ -6,7 +6,6 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
 use dosamigos\google\maps\services\DirectionsClient;
-
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\services\DirectionsWayPoint;
 use dosamigos\google\maps\services\TravelMode;
@@ -272,7 +271,7 @@ $list_seksi = array_values($array_seksi);
 
                           <tr>
 
-                              <th>Bagian Seksi</th>
+                              <th>Bagian Seksi</th> 
 
                               <th style="width: 450px;">Anggota Seksi</th>
 

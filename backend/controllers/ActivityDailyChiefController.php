@@ -145,6 +145,8 @@ class ActivityDailyChiefController extends Controller
                 $depId = \common\models\Department::find()->where(['id_chief' => $chiefId->id])->one();
 
                 $daily = new ActivityDaily();
+                // $daily = new Activity();
+                // $daily->type = 2;
                 $daily->finance_status = 0;
                 $daily->department_status = 1;
                 $daily->chief_status = 1;

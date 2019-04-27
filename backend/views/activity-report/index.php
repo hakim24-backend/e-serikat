@@ -134,7 +134,6 @@ $range = date('Y-m-d').' to '.date('Y-m-d');
 ?>
 <div class="activity-daily-index">
 <div class="box box-primary">
-
         <?php $form = ActiveForm::begin(['id' => 'dynamic-form', 'method'=>'get', 'options'=>['autocomplete'=>false]]); ?>
           <div class="box-header with-border">
             <label>Filter Data Kegiatan</label>

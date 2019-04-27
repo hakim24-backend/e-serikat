@@ -35,36 +35,37 @@ AppAsset::register($this);
  		<link rel="stylesheet" href="<?=Yii::$app->urlManagerFrontend->createUrl(['/scripts/sweetalert/dist/sweetalert.css'])?>">
  		<!-- Custom style -->
  		<link rel="stylesheet" href="<?=Yii::$app->urlManagerFrontend->createUrl(['/css/style.css'])?>">
- 		<link rel="stylesheet" href="<?=Yii::$app->urlManagerFrontend->createUrl(['/css/custom.css'])?>">
+ 		<link rel="stylesheet" href="<?=Yii::$app->urlManagerFrontend->createUrl(['/src/custom.css'])?>">
  		<link rel="stylesheet" href="<?=Yii::$app->urlManagerFrontend->createUrl(['/css/skins/green.css'])?>">
  	</head>
 
 <body class="skin-green">
   <header class="primary">
     <div class="firstbar">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 col-sm-12">
-            <div class="brand">
-              <a href="<?php echo Yii::$app->homeUrl; ?>">
-                <img src="<?=Yii::$app->urlManagerFrontend->createUrl(['/images/logo.png'])?>" alt="Magz Logo">
-              </a>
+        <div class="container marg-cust">
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <div class="brand">
+                <a href="<?php echo Yii::$app->homeUrl; ?>">
+                          <img src="<?=Yii::$app->urlManagerFrontend->createUrl(['/images/logo.png'])?>" alt="Magz Logo">
+                        </a>
+              </div>            
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+              <ul class="nav-icons">
+                <li><a href="<?php echo Yii::$app->urlManagerBackend->createUrl(''); ?>"><i class="ion-person"></i><div>Login</div></a></li>
+              </ul>
             </div>
           </div>
-          <!-- <div class="col-md-6 col-sm-12 text-right">
-            <ul class="nav-icons">
-              <li><a href="login.php"><i class="ion-person"></i><div>Login</div></a></li>
-            </ul>
-          </div> -->
         </div>
       </div>
-    </div>
   </header>
   <section class="home">
   	<div class="container">
   		<div class="row">
-  			<div class="col-md-8 col-sm-12 col-xs-12">
-  				<div class="row content-box">
+  			<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+  				<div class="content-box">
   					<div class="main_title2">
   						<h2 class="title-col">Artikel</h2>
   					</div>
@@ -73,7 +74,7 @@ AppAsset::register($this);
 
   				</div>
   			</div>
-        <div class="col-xs-6 col-md-4 sidebar" id="sidebar">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="sidebar">
           <div class="sidebar-title for-tablet">Sidebar</div>
           <aside class="side-box">
             <div class="main_title2">
@@ -136,7 +137,7 @@ AppAsset::register($this);
   <script src="<?=Yii::$app->urlManagerFrontend->createUrl(['/scripts/jquery-number/jquery.number.min.js'])?>"></script>
   <script src="<?=Yii::$app->urlManagerFrontend->createUrl(['/scripts/owlcarousel/dist/owl.carousel.min.js'])?>"></script>
   <script src="<?=Yii::$app->urlManagerFrontend->createUrl(['/scripts/magnific-popup/dist/jquery.magnific-popup.min.js'])?>"></script>
-  <script src="<?=Yii::$app->urlManagerFrontend->createUrl(['/scripts/easescroll/jquery.easeScroll.js'])?>"></script>
+  <!-- <script src="<?=Yii::$app->urlManagerFrontend->createUrl(['/scripts/easescroll/jquery.easeScroll.js'])?>"></script> -->
   <script src="<?=Yii::$app->urlManagerFrontend->createUrl(['/scripts/sweetalert/dist/sweetalert.min.js'])?>"></script>
   <script src="<?=Yii::$app->urlManagerFrontend->createUrl(['/scripts/toast/jquery.toast.min.js'])?>"></script>
   <script src="<?=Yii::$app->urlManagerFrontend->createUrl(['/js/e-magz.js'])?>"></script>
