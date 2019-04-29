@@ -1,5 +1,5 @@
 <?php
-
+use kartik\money\MaskMoney;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -34,6 +34,10 @@ $list_seksi = array_values($array_seksi);
 // $range = date('Y-m-d').' to '.date('Y-m-d');
 // $range_start = date('Y-m-d');
 // $range_end = date('Y-m-d');
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 
 <div class="activity-form">
@@ -59,7 +63,7 @@ $list_seksi = array_values($array_seksi);
                     <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                     <div class="col-sm-8">
 
-                        <?= $baru->department_budget_value ?>
+                        <?= to_rp($baru->department_budget_value) ?>
 
                     </div>
                 </div>
@@ -70,7 +74,19 @@ $list_seksi = array_values($array_seksi);
                 <div class="form-group">
                     <label class="col-sm-4">Uang Muka Anggaran</label>
                     <div class="col-sm-8">
-                        <?= $form->field($budget, 'budget_value_dp')->textInput(['class' => 'form-control', 'disabled'=>true])->label(false); ?>
+                    <?php
+                        echo $form->field($budget, 'budget_value_dp')->widget(MaskMoney::classname(), [
+                        'pluginOptions' => [
+                          'prefix' => 'Rp ',
+                          'thousands' => '.',
+                          'decimal' => ',',
+                          'precision' => 0
+                        ],
+                        'options' => [
+                          'disabled' => true,
+                        ]
+                      ])->label(false);
+                      ?>
                     </div>
                 </div>
             </div>
@@ -80,7 +96,19 @@ $list_seksi = array_values($array_seksi);
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran</label>
                     <div class="col-sm-8">
-                        <?= $form->field($budget, 'budget_value_sum')->textInput(['class' => 'form-control', 'disabled'=>true] )->label(false); ?>
+                    <?php
+                        echo $form->field($budget, 'budget_value_sum')->widget(MaskMoney::classname(), [
+                        'pluginOptions' => [
+                          'prefix' => 'Rp ',
+                          'thousands' => '.',
+                          'decimal' => ',',
+                          'precision' => 0
+                        ],
+                        'options' => [
+                          'disabled' => true,
+                        ]
+                      ])->label(false);
+                      ?>
                     </div>
                 </div>
             </div>

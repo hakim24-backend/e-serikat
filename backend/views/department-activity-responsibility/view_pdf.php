@@ -15,6 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
 $date = date('Y-m-d');
 
 $Role = Yii::$app->user->identity->roleName();
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 
 <html>
@@ -97,8 +101,8 @@ $Role = Yii::$app->user->identity->roleName();
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;">1</td>
               <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$lpj->description?></td>
-              <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_sum?></td>
-              <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_dp?></td>
+              <td class="text-center" style="border-bottom-style: hidden;"><?= to_rp($budget->budget_value_sum)?></td>
+              <td class="text-center" style="border-bottom-style: hidden;"><?= to_rp($budget->budget_value_dp)?></td>
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;"></td>
@@ -140,15 +144,15 @@ $Role = Yii::$app->user->identity->roleName();
            <tbody>
             <tr>
               <td colspan="4">Jumlah Uang yang dipertanggung jawabkan.</td>
-              <td class="text-center"><?=$budget->budget_value_sum?></td>
+              <td class="text-center"><?= to_rp($budget->budget_value_sum)?></td>
             </tr>
             <tr>
               <td colspan="4">Jumlah Uang yang Diterima.</td>
-              <td class="text-center"><?=$budget->budget_value_sum - $budget->budget_value_dp?></td>
+              <td class="text-center"><?= to_rp($budget->budget_value_sum - $budget->budget_value_dp)?></td>
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
-              <td class="text-center"><?=$baru->department_budget_value + $budget->budget_value_sum - $budget->budget_value_dp?></td>
+              <td class="text-center"><?=to_rp($baru->department_budget_value + $budget->budget_value_sum - $budget->budget_value_dp)?></td>
             </tr>
             <tr>
               <td colspan="5">Gresik, <?=$date?></td>
