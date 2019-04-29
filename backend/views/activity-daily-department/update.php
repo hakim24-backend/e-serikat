@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
 use yii\widgets\DetailView;
-
+use kartik\money\MaskMoney;
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
 
@@ -20,6 +20,10 @@ $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'i
 $this->params['breadcrumbs'][] = 'Update';
 
 $Role = Yii::$app->user->identity->roleName();
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 <div class="activity-daily-form">
 
@@ -39,7 +43,7 @@ $Role = Yii::$app->user->identity->roleName();
                 <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                 <div class="col-sm-8">
 
-                    <?= $baru->department_budget_value ?>
+                    <?= to_rp($baru->department_budget_value) ?>
 
                 </div>
             </div>
@@ -50,7 +54,25 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
-                    <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?>
+                <?php
+                        echo MaskMoney::widget([
+                            'name' => 'budget_value_sum',
+                            'value' => null,
+                            'pluginOptions' => [
+                                'prefix' => 'Rp ',
+                                'thousands' => '.',
+                                'decimal' => ',',
+                                'precision' => 0
+                            ],
+                            'options' => [
+                                'autofocus' => true, 
+                                'required'=>true, 
+                                'class'=>'col-sm-8 form-control nilai-anggaran', 
+                                'id'=>'value-budget'
+                            ]
+                        ]);
+                        ?>
+                    <!-- <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?> -->
                 </div>
             </div>
         </div>

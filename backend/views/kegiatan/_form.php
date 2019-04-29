@@ -21,6 +21,7 @@ use dosamigos\google\maps\services\DirectionsRequest;
 use dosamigos\google\maps\overlays\Polygon;
 use dosamigos\google\maps\layers\BicyclingLayer;
 use wbraganca\dynamicform\DynamicFormWidget;
+use kartik\money\MaskMoney;
 /* @var $this yii\web\View */
 
 /* @var $model common\models\Activity */
@@ -80,8 +81,10 @@ $list_seksi = array_values($array_seksi);
                   <div class="form-group">
                       <label class="col-sm-4">Kode Anggaran</label>
                       <div class="col-sm-8">
+
                           <?= Html::dropDownList('source_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8','id'=>'kode-asal']) ?>
-                      </div>
+                     
+                        </div>
                   </div>
               </div>
               <br>
@@ -92,8 +95,27 @@ $list_seksi = array_values($array_seksi);
                   <div class="form-group">
                       <label class="col-sm-4">Nilai Anggaran</label>
                       <div class="col-sm-8">
-                          <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 nilai-anggaran', 'id'=>'value-budget']) ?>
-                      </div>
+                      <?php
+                        echo MaskMoney::widget([
+                            'name' => 'source_value',
+                            'value' => null,
+                            'pluginOptions' => [
+                              'prefix' => 'Rp ',
+                              'thousands' => '.',
+                              'decimal' => ',',
+                              'precision' => 0
+                            ],
+                            'options' => [
+                            'autofocus' => true, 
+                            'required'=>true, 
+                            'class'=>'col-sm-8 form-control nilai-anggaran', 
+                            'id'=>'value-budget'
+                            ]
+                          ]);
+                        ?>
+                      <!-- <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 nilai-anggaran', 'id'=>'value-budget']) ?>
+                       -->
+                        </div>
                   </div>
               </div>
               <br>
@@ -412,7 +434,7 @@ HTML;
 
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-save']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>
 
@@ -436,17 +458,7 @@ $('#jenis-tujuan').on('change',function(){
     });
 });
 
-$('.nilai-anggaran').on('change',function(){
-    var nilaisekarang = $('#nilai-sekarang').text();
-    var nilaianggaran = $('.nilai-anggaran').val();
-    var tipe = $('#jenis-asal').val();
-    var kode = $('#kode-asal').val();
 
-    var res = parseInt(nilaisekarang.replace("Rp.",""));
-    if(parseInt(nilaianggaran) > res){
-      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
-    }
-});
 
 
 $('#jenis-asal').on('change',function(){
@@ -496,7 +508,34 @@ $('#kode-tujuan').on('change',function(){
        $('#nilai-anggaran-source').html(datas.message);
     });
 });
+$('#value-budget').on('change',function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
 
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');  
+  }
+
+});
+
+$(".btn-save").on('click', function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('#value-budget-disp').focus();
+      return false;
+  }
+});
 js;
 $this->registerJs($js);
 ?>

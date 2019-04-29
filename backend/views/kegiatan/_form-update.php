@@ -41,7 +41,10 @@ if($Role != "Sekretariat"){
   $minDate = 0;
   $maxDate = 0;
 }
-
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 
 <div class="activity-form">
@@ -63,9 +66,9 @@ if($Role != "Sekretariat"){
                     <div class="col-sm-8" id ="nilai-sekarang">
                         <?php
                         if($Role == "Sekretariat"){ ?>
-                        <?= $baru->secretariat_budget_value ?>
+                        <?= to_rp($baru->secretariat_budget_value) ?>
                         <?php }else if($Role == "Seksi"){ ?>
-                        <?= $baru->section_budget_value ?>
+                        <?= to_rp($baru->section_budget_value) ?>
                         <?php } ?>
                     </div>
                 </div>
@@ -76,8 +79,23 @@ if($Role != "Sekretariat"){
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran</label>
                     <div class="col-sm-8">
-                        <?= $form->field($budget, 'budget_value_sum')->textInput(['class'=>'nilai-anggaran'])->label(false); ?>
-                    </div>
+                    <?php
+                      echo $form->field($budget, 'budget_value_sum')->widget(\kartik\money\MaskMoney::classname(), [
+                      'pluginOptions' => [
+                        'prefix' => 'Rp ',
+                        'thousands' => '.',
+                        'decimal' => ',',
+                        'precision' => 0
+                      ],
+                      'options' => [
+                       // 'disabled' => true,
+                      ]
+                    ])->label(false);
+                    ?>
+<!--                         
+                    <?= $form->field($budget, 'budget_value_sum')->textInput(['class'=>'nilai-anggaran'])->label(false); ?>
+                     -->
+                  </div>
                 </div>
             </div>
             <br>

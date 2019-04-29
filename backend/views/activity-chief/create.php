@@ -407,7 +407,7 @@ HTML;
 
     <div class="form-group">
 
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-save']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>
 
@@ -455,11 +455,24 @@ $('#value-budget').on('change',function(){
  
     if(parseInt(nilaianggaran) > res){
       alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
-      $(".nilai-anggaran").val('0');
+     
     }
 
 });
 
+$(".btn-save").on('click', function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = parseInt(nilaisekarang.replace("Rp ","").replace(".",""));
+  if(parseInt(nilaianggaran) > res){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('#value-budget-disp').focus();
+      return false;
+  }
+});
 
 $('#kode-asal').on('change',function(){
     var tipe = $('#jenis-asal').val();
