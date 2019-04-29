@@ -47,49 +47,58 @@ class RelokasiController extends \yii\web\Controller
     {
     	if (Yii::$app->request->post()) {
     		$post = Yii::$app->request->post();
-            if ($post['jenis_sdm_source']=='4') {
+
+            if ($post['jenis_sdm_dest'] == null && $post['dest_sdm']==null) {
+                Yii::$app->getSession()->setFlash('danger', 'Tujuan Belum Diinputkan');
+                return $this->redirect(Yii::$app->request->referrer);
+            } else {
+
+                if ($post['jenis_sdm_source']=='4') {
                 $data = SecretariatBudget::findOne($post['source_sdm']);
                 $data->secretariat_budget_value=$data->secretariat_budget_value-(float)$post['source_value'];
                 $data->save();
                 $kode_asal = $data->secretariat_budget_code;
-            }elseif ($post['jenis_sdm_source']=='6') {
-                $data = ChiefBudget::findOne($post['source_sdm']);
-                $data->chief_budget_value=$data->chief_budget_value-(float)$post['source_value'];
-                $data->save();
-                $kode_asal = $data->chief_budget_code;
+                }elseif ($post['jenis_sdm_source']=='6') {
+                    $data = ChiefBudget::findOne($post['source_sdm']);
+                    $data->chief_budget_value=$data->chief_budget_value-(float)$post['source_value'];
+                    $data->save();
+                    $kode_asal = $data->chief_budget_code;
+                }elseif ($post['jenis_sdm_source']=='7') {
+                    $data = DepartmentBudget::findOne($post['source_sdm']);
+                    $data->department_budget_value=$data->department_budget_value-(float)$post['source_value'];
+                    $data->save();
+                    $kode_asal = $data->department_budget_code;
+                }elseif ($post['jenis_sdm_source']=='8') {
+                    $data = SectionBudget::findOne($post['source_sdm']);
+                    $data->section_budget_value=$data->section_budget_value-(float)$post['source_value'];
+                    $data->save();
+                    $kode_asal = $data->section_budget_code;
+                }
+                
+                if ($post['jenis_sdm_dest']=='4') {
+                    $data = SecretariatBudget::findOne($post['dest_sdm']);
+                    $data->secretariat_budget_value=$data->secretariat_budget_value+(float)$post['source_value'];
+                    $data->save();
+                    $kode_tujuan = $data->secretariat_budget_code;
+                }elseif ($post['jenis_sdm_dest']=='6') {
+                    $data = ChiefBudget::findOne($post['dest_sdm']);
+                    $data->chief_budget_value=$data->chief_budget_value+(float)$post['source_value'];
+                    $data->save();
+                    $kode_tujuan = $data->chief_budget_code;
+                }elseif ($post['jenis_sdm_dest']=='7') {
+                    $data = DepartmentBudget::findOne($post['dest_sdm']);
+                    $data->department_budget_value=$data->department_budget_value+(float)$post['source_value'];
+                    $data->save();
+                    $kode_tujuan = $data->department_budget_code;
+                }elseif ($post['jenis_sdm_dest']=='8') {
+                    $data = SectionBudget::findOne($post['dest_sdm']);
+                    $data->section_budget_value=$data->section_budget_value+(float)$post['source_value'];
+                    $data->save();
+                    $kode_tujuan = $data->section_budget_code;
+                }
+            }
 
-            }elseif ($post['jenis_sdm_source']=='7') {
-                $data = DepartmentBudget::findOne($post['source_sdm']);
-                $data->department_budget_value=$data->department_budget_value-(float)$post['source_value'];
-                $data->save();
-                $kode_asal = $data->department_budget_code;
-            }elseif ($post['jenis_sdm_source']=='8') {
-                $data = SectionBudget::findOne($post['source_sdm']);
-                $data->section_budget_value=$data->section_budget_value-(float)$post['source_value'];
-                $data->save();
-                $kode_asal = $data->section_budget_code;
-            }
-            if ($post['jenis_sdm_dest']=='4') {
-                $data = SecretariatBudget::findOne($post['dest_sdm']);
-                $data->secretariat_budget_value=$data->secretariat_budget_value+(float)$post['source_value'];
-                $data->save();
-                $kode_tujuan = $data->secretariat_budget_code;
-            }elseif ($post['jenis_sdm_dest']=='6') {
-                $data = ChiefBudget::findOne($post['dest_sdm']);
-                $data->chief_budget_value=$data->chief_budget_value+(float)$post['source_value'];
-                $data->save();
-                $kode_tujuan = $data->chief_budget_code;
-            }elseif ($post['jenis_sdm_dest']=='7') {
-                $data = DepartmentBudget::findOne($post['dest_sdm']);
-                $data->department_budget_value=$data->department_budget_value+(float)$post['source_value'];
-                $data->save();
-                $kode_tujuan = $data->department_budget_code;
-            }elseif ($post['jenis_sdm_dest']=='8') {
-                $data = SectionBudget::findOne($post['dest_sdm']);
-                $data->section_budget_value=$data->section_budget_value+(float)$post['source_value'];
-                $data->save();
-                $kode_tujuan = $data->section_budget_code;
-            }
+            
 
             $relokasi = new TransferRecord();
             $relokasi->code_source = $kode_asal;
@@ -158,6 +167,10 @@ class RelokasiController extends \yii\web\Controller
     }
 
     public function actionNilaiAnggaran(){
+        function to_rp($val)
+        {
+            return "Rp " . number_format($val,0,',','.');
+        }
     	$post = Yii::$app->request->post();
         // var_dump($post);die;
     	if ($post['tipe']=='4') {
@@ -167,8 +180,8 @@ class RelokasiController extends \yii\web\Controller
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-		                <div class='col-sm-8'>
-		                    ".$data->secretariat_budget_value."
+		                <div class='col-sm-8' id='nilai-sekarang'>
+		                    ".to_rp($data->secretariat_budget_value)."
 		                </div>
 		            </div>
 		        </div>
@@ -181,7 +194,7 @@ class RelokasiController extends \yii\web\Controller
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-		                <div class='col-sm-8'>
+		                <div class='col-sm-8' id='nilai-sekarang'>
 		                    0
 		                </div>
 		            </div>
@@ -198,8 +211,8 @@ class RelokasiController extends \yii\web\Controller
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-		                <div class='col-sm-8'>
-		                    ".$data->chief_budget_value."
+		                <div class='col-sm-8' id='nilai-sekarang'>
+		                    ".to_rp($data->chief_budget_value)."
 		                </div>
 		            </div>
 		        </div>
@@ -212,7 +225,7 @@ class RelokasiController extends \yii\web\Controller
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-		                <div class='col-sm-8'>
+		                <div class='col-sm-8' id='nilai-sekarang'>
 		                    0
 		                </div>
 		            </div>
@@ -229,8 +242,8 @@ class RelokasiController extends \yii\web\Controller
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-		                <div class='col-sm-8'>
-		                    ".$data->department_budget_value."
+		                <div class='col-sm-8' id='nilai-sekarang'>
+		                    ".to_rp($data->department_budget_value)."
 		                </div>
 		            </div>
 		        </div>
@@ -243,7 +256,7 @@ class RelokasiController extends \yii\web\Controller
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-		                <div class='col-sm-8'>
+		                <div class='col-sm-8' id='nilai-sekarang'>
 		                    0
 		                </div>
 		            </div>
@@ -260,8 +273,8 @@ class RelokasiController extends \yii\web\Controller
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-		                <div class='col-sm-8'>
-		                    ".$data->section_budget_value."
+		                <div class='col-sm-8' id='nilai-sekarang'>
+		                    ".to_rp($data->section_budget_value)."
 		                </div>
 		            </div>
 		        </div>
@@ -274,7 +287,7 @@ class RelokasiController extends \yii\web\Controller
     			 <div class='col-sm-12'>
 		            <div class='form-group'>
 		                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-		                <div class='col-sm-8'>
+		                <div class='col-sm-8' id='nilai-sekarang'>
 		                    0
 		                </div>
 		            </div>
@@ -289,7 +302,7 @@ class RelokasiController extends \yii\web\Controller
 			 <div class='col-sm-12'>
 	            <div class='form-group'>
 	                <label class='col-sm-4'>Nilai Anggaran Saat Ini</label>
-	                <div class='col-sm-8'>
+	                <div class='col-sm-8' id='nilai-sekarang'>
 	                    0
 	                </div>
 	            </div>

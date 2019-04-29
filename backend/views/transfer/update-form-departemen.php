@@ -52,7 +52,6 @@ $list_seksi = array_values($array_seksi);
               <div class="col-md-10">
                 <?= $form->field($model, 'department_budget_value')->widget(MaskMoney::classname(), [
                     'options' => [
-                        'placeholder' => 'Masukkan Nilai Saldo',
                         'required'=>true,
                     ],
                     'pluginOptions' => [

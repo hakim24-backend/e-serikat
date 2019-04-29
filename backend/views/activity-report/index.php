@@ -16,6 +16,11 @@ use common\models\Activity;
 $this->title = 'Laporan - Data Kegiatan';
 $this->params['breadcrumbs'][] = $this->title;
 
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
+
 $gridColumns = [
     ['class' => 'kartik\grid\SerialColumn',
     'options' =>[
@@ -70,11 +75,11 @@ $gridColumns = [
         'value' => function($data)
         {
             if($data->activityBudgetChiefsOne != null){
-                return $data->activityBudgetChiefsOne->budget_value_sum;
+                return to_rp($data->activityBudgetChiefsOne->budget_value_sum);
             }elseif ($data->activityBudgetDepartmentsOne != null) {
-                return $data->activityBudgetDepartmentsOne->budget_value_sum;
+                return to_rp($data->activityBudgetDepartmentsOne->budget_value_sum);
             }elseif($data->activitySectionsOne != null){
-                return $data->activityBudgetSectionsOne->budget_value_sum;
+                return to_rp($data->activityBudgetSectionsOne->budget_value_sum);
             }else{
                 return "-";
             }
@@ -300,11 +305,11 @@ ExportMenu::widget([
                                         'value' => function($data)
                                         {
                                             if($data->activityBudgetChiefsOne != null){
-                                                return $data->activityBudgetChiefsOne->budget_value_sum;
+                                                return to_rp($data->activityBudgetChiefsOne->budget_value_sum);
                                             }elseif ($data->activityBudgetDepartmentsOne != null) {
-                                                return $data->activityBudgetDepartmentsOne->budget_value_sum;
+                                                return to_rp($data->activityBudgetDepartmentsOne->budget_value_sum);
                                             }elseif($data->activitySectionsOne != null){
-                                                return $data->activityBudgetSectionsOne->budget_value_sum;
+                                                return to_rp($data->activityBudgetSectionsOne->budget_value_sum);
                                             }else{
                                                 return "-";
                                             }

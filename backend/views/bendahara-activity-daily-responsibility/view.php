@@ -23,11 +23,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetSecretariatsOne.budget_value_sum',
-                'label'=>'Uang Muka'
+                'label'=>'Uang Muka',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityDailyBudgetSecretariatsOne->budget_value_sum,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetSecretariatsOne.budget_value_dp',
-                'label'=>'Uang Yang Terealisasikan'
+                'label'=>'Uang Yang Terealisasikan',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityDailyBudgetSecretariatsOne->budget_value_dp,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'file',
@@ -55,11 +63,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetChiefsOne.budget_value_sum',
-                'label'=>'Uang Muka'
+                'label'=>'Uang Muka',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityDailyBudgetChiefsOne->budget_value_sum,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetChiefsOne.budget_value_dp',
-                'label'=>'Uang Yang Terealisasikan'
+                'label'=>'Uang Yang Terealisasikan',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityDailyBudgetChiefsOne->budget_value_dp,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'file',
@@ -87,11 +103,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetDepartsOne.budget_value_sum',
-                'label'=>'Uang Muka'
+                'label'=>'Uang Muka',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityDailyBudgetDepartsOne->budget_value_sum,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetDepartsOne.budget_value_dp',
-                'label'=>'Uang Yang Terealisasikan'
+                'label'=>'Uang Yang Terealisasikan',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityDailyBudgetDepartsOne->budget_value_dp,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'file',
@@ -119,11 +143,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetSectionsOne.budget_value_sum',
-                'label'=>'Uang Muka'
+                'label'=>'Uang Muka',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityDailyBudgetSectionsOne->budget_value_sum,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetSectionsOne.budget_value_dp',
-                'label'=>'Uang Yang Terealisasikan'
+                'label'=>'Uang Yang Terealisasikan',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityDailyBudgetSectionsOne->budget_value_dp,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'file',
