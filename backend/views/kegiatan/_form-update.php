@@ -496,6 +496,35 @@ $('#kode-tujuan').on('change',function(){
     });
 });
 
+$('#value-budget').on('change',function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');  
+  }
+
+});
+
+$(".btn-save").on('click', function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('#value-budget-disp').focus();
+      return false;
+  }
+});
+
 js;
 $this->registerJs($js);
 ?>
