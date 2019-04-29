@@ -50,6 +50,17 @@ $this->title = 'Pemindahan Dana';
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
                     <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8', 'id'=>'value-budget']) ?>
+
+                    <?php echo MaskMoney::widget([
+                        'name' => 'amount_german',
+                        'value' => 0.01,
+                        'pluginOptions' => [
+                            'prefix' => '€ ',
+                            'thousands' => '.',
+                            'decimal' => ',',
+                            'precision' => 2
+                        ],
+                    ]) ?>
                 </div>
             </div>
         </div>

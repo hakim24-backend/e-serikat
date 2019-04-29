@@ -36,6 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'header' => 'Nilai Anggaran',
                                 'attribute' => 'value',
+                                'value' => function($model)
+                                  {
+                                    return "Rp " . number_format($model->value,0,',','.');
+                                  }
                             ],
                         ],
                     ]);

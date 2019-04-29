@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\money\MaskMoney;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Budget */
@@ -15,29 +16,46 @@ $this->title = 'Data Sumber Dana';
 ?>
 
 <div class="budget-form">
+    <div class="box box-primary">
+        <div class="box-body">
+            <?php $form = ActiveForm::begin(); ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+        <!--     <?= $form->field($model, 'budget_code')->textInput(['maxlength' => true]) ?> -->
 
-<!--     <?= $form->field($model, 'budget_code')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'budget_year')->widget(DatePicker::classname(), [
+            'options' => ['placeholder' => 'Masukkan Tahun ...'],
+            'pluginOptions' => [
+                'format'=>'yyyy',
+                'minViewMode'=>'years',
+                'autoclose'=>true
+            ]
+            ])->label('Tahun Budget') ?>
 
-    <?= $form->field($model, 'budget_year')->widget(DatePicker::classname(), [
-    'options' => ['placeholder' => 'Masukkan Tahun ...'],
-    'pluginOptions' => [
-    	'format'=>'yyyy',
-    	'minViewMode'=>'years',
-        'autoclose'=>true
-    ]
-	])->label('Tahun Budget') ?>
+            <?= $form->field($model, 'budget_name')->textInput(['maxlength' => true, 'required'=>true])->label('Nama Budget') ?>
 
-    <?= $form->field($model, 'budget_name')->textInput(['maxlength' => true, 'required'=>true])->label('Nama Budget') ?>
+            <?= $form->field($model, 'budget_value')->widget(MaskMoney::classname(), [
+                'options' => [
+                    'placeholder' => 'Masukkan Nilai Saldo',
+                    'required'=>true,
+                ],
+                'pluginOptions' => [
+                    'prefix' => 'Rp. ',
+                    'suffix' => '',
+                    'affixesStay' => true,
+                    'thousands' => '.',
+                    'decimal' => ',',
+                    'precision' => 0, 
+                    'allowZero' => false,
+                    'allowNegative' => false,
+                ]
+            ]) ?>
 
-    <?= $form->field($model, 'budget_value')->textInput(['required'=>true])->label('Nilai Saldo') ?>
+            <div class="form-group">
+                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
+            </div>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-        <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
