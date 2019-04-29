@@ -10,7 +10,10 @@ $this->title = 'Form Pertanggung Jawaban';
 $this->params['breadcrumbs'][] = ['label' => 'Activity Responsibilities', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $Role = Yii::$app->user->identity->roleName();
-
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */
 /* @var $form yii\widgets\ActiveForm */
@@ -20,9 +23,9 @@ $Role = Yii::$app->user->identity->roleName();
   <div class="col-sm-12">
     <label>Dana Budget Sekarang : </label>
     <?php if ($Role == "Departemen") { ?>
-        <?= $baru->department_budget_value ?>
+        <?= to_rp($baru->department_budget_value) ?>
     <?php } elseif ($Role == "Seksi") { ?>
-        <?= $baru->section_budget_value ?>
+        <?= to_rp($baru->section_budget_value) ?>
    <?php } ?>
   </div>
   <br>
@@ -31,8 +34,21 @@ $Role = Yii::$app->user->identity->roleName();
     	'options'=>[
     	'enctype' => 'multipart/form-data'
     	]
-    ]); ?>
-    <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?>
+	]); ?>
+	<?php
+		echo $form->field($budget, 'budget_value_dp')->widget(\kartik\money\MaskMoney::classname(), [
+			'pluginOptions' => [
+			'prefix' => 'Rp ',
+			'thousands' => '.',
+			'decimal' => ',',
+			'precision' => 0
+			],
+			'options' => [
+				//'disabled' => true,
+			]
+		])->label(false);
+	?>
+    <!-- <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?> -->
 
     <?= $form->field($model, 'description')->textInput()->label('Deskripsi') ?>
 
