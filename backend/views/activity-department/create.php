@@ -451,9 +451,11 @@ $('.nilai-anggaran').on('change',function(){
     var res = parseInt(nilaisekarang.replace("Rp.",""));
     if(parseInt(nilaianggaran) > res){
       alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('.nilai-anggaran').val('0');
     }
     if(parseInt(nilaianggaran) < parseInt(uangmuka)){
       alert('Nilai Anggaran Lebih Kecil dari Uang Muka yang Diajukan. Mohon ubah nilai yang diinputkan !');
+      $('.nilai-anggaran').val('0');
     }
 
 });
@@ -468,9 +470,11 @@ $('.uang-muka ').on('change',function(){
     var res = parseInt(nilaisekarang.replace("Rp.",""));
     if(parseInt(uangmuka) > res){
       alert('Uang Muka Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('.nilai-anggaran').val('0');
     }
     if(parseInt(uangmuka) > parseInt(nilaianggaran)){
       alert('Uang Muka Lebih Besar dari Anggaran Yang Diajukan. Mohon ubah nilai yang diinputkan !');
+      $('.nilai-anggaran').val('0');
     }
 
 });

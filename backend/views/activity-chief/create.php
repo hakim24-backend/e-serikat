@@ -165,12 +165,12 @@ $list_seksi = array_values($array_seksi);
               <div class="col-md-10">
                 <?php
 
-                	// echo $form->field($model, 'place_activity')->widget(\kalyabin\maplocation\SelectMapLocationWidget::className(), [
-                	//     'attributeLatitude' => 'place_activity_x',
-                	//     'attributeLongitude' => 'place_activity_y',
-                	//     'googleMapApiKey' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
-                	//     'wrapperOptions' => ['style'=>'width: 100%; height: 200px;']
-                	// ])->label(false);
+                	echo $form->field($model, 'place_activity')->widget(\kalyabin\maplocation\SelectMapLocationWidget::className(), [
+                	    'attributeLatitude' => 'place_activity_x',
+                	    'attributeLongitude' => 'place_activity_y',
+                	    'googleMapApiKey' => 'AIzaSyDEJifTz-2J9QyeCN9F45uNcSozkeLqSaI',
+                	    'wrapperOptions' => ['style'=>'width: 100%; height: 200px;']
+                	])->label(false);
                 ?>
               </div>
             </div>
@@ -455,6 +455,7 @@ $('#value-budget').on('change',function(){
  
     if(parseInt(nilaianggaran) > res){
       alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $(".nilai-anggaran").val('0');
     }
 
 });
