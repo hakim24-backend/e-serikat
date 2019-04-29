@@ -16,6 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $Role = Yii::$app->user->identity->roleName();
 $date = date('Y-m-d');
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 
 <html>
@@ -219,9 +223,9 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>Sisa Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$baru->secretariat_budget_value + $budget->budget_value_sum?></td>
+                <td><?=to_rp($baru->secretariat_budget_value + $budget->budget_value_sum)?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$baru->section_budget_value + $budget->budget_value_sum?></td>
+                <td><?=to_rp($baru->section_budget_value + $budget->budget_value_sum)?></td>
             <?php } ?>
         </tr>
         <tr>
@@ -247,9 +251,9 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>Uang Muka Kegiatan</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_sum?></td>
+                <td><?=to_rp($budget->budget_value_sum)?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_sum?></td>
+                <td><?=to_rp($budget->budget_value_sum)?></td>
             <?php } ?>
         </tr>
         <tr>
@@ -274,9 +278,9 @@ $date = date('Y-m-d');
             <td>Uang Muka Kegiatan</td>
             <td>:</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td>Rp.<?=$budget->budget_value_sum ?></td>
+                <td><?=to_rp($budget->budget_value_sum) ?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td>Rp.<?=$budget->budget_value_sum ?></td>
+                <td><?=to_rp($budget->budget_value_sum) ?></td>
             <?php } ?>
             <td>&nbsp;</td>
             <td>&nbsp;</td>

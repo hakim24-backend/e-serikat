@@ -21,6 +21,7 @@ use dosamigos\google\maps\services\DirectionsRequest;
 use dosamigos\google\maps\overlays\Polygon;
 use dosamigos\google\maps\layers\BicyclingLayer;
 use wbraganca\dynamicform\DynamicFormWidget;
+use kartik\money\MaskMoney;
 /* @var $this yii\web\View */
 
 /* @var $model common\models\Activity */
@@ -77,22 +78,20 @@ function to_rp($val)
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran</label>
                     <div class="col-sm-8">
-                    <?php
-                      echo $form->field($budget, 'budget_value_sum')->widget(\kartik\money\MaskMoney::classname(), [
-                      'pluginOptions' => [
-                        'prefix' => 'Rp ',
-                        'thousands' => '.',
-                        'decimal' => ',',
-                        'precision' => 0
-                      ],
-                      'options' => [
-                        'disabled' => true,
-                      ]
-                    ])->label(false);
-                    ?>
-                        <!-- <?= $form->field($budget, 'budget_value_sum')->textInput(['class' => 'form-control', 'disabled'=>true] )->label(false); ?>
-                    -->
-                      </div>
+                        <?php
+                          echo $form->field($budget, 'budget_value_sum')->widget(MaskMoney::classname(), [
+                            'pluginOptions' => [
+                              'prefix' => 'Rp ',
+                              'thousands' => '.',
+                              'decimal' => ',',
+                              'precision' => 0
+                            ],
+                            'options' => [
+                              'disabled' => true,
+                            ]
+                        ])->label(false);
+                        ?>
+                    </div>
                 </div>
             </div>
             <br>
