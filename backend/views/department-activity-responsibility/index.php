@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                               }else{
                                                 $url = Url::toRoute(['/department-activity-responsibility/create', 'id' => $model['id']]);
                                                 return Html::a(
-                                                  '| <span class="glyphicon glyphicon-plus"></span>',
+                                                  '| <span class="glyphicon glyphicon-plus"></span> |',
                                                   $url,
                                                   [
                                                     'title' => 'Create Laporan Pertanggung Jawaban',
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                               }else{
                                                 $url = Url::toRoute(['/department-activity-daily-responsibility/create', 'id' => $model['id']]);
                                                 return Html::a(
-                                                  ' <span class="glyphicon glyphicon-plus"></span> | ',
+                                                  '| <span class="glyphicon glyphicon-plus"></span> | ',
                                                   $url,
                                                   [
                                                     'title' => 'Create Laporan Pertanggung Jawaban',
@@ -171,7 +171,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                            
                                               $url = Url::toRoute(['/activity-daily-department/view', 'id' => $model['id']]);
                                               return Html::a(
-                                                '|<span class="fa fa-eye"></span> |',
+                                                '<span class="fa fa-eye"></span> |',
 
                                                 $url,
                                                 [

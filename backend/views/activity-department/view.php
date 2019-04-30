@@ -72,28 +72,6 @@ function to_rp($val)
             <br>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label class="col-sm-4">Uang Muka Anggaran</label>
-                    <div class="col-sm-8">
-                    <?php
-                        echo $form->field($budget, 'budget_value_dp')->widget(MaskMoney::classname(), [
-                        'pluginOptions' => [
-                          'prefix' => 'Rp ',
-                          'thousands' => '.',
-                          'decimal' => ',',
-                          'precision' => 0
-                        ],
-                        'options' => [
-                          'disabled' => true,
-                        ]
-                      ])->label(false);
-                      ?>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div class="col-sm-12">
-                <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran</label>
                     <div class="col-sm-8">
                     <?php
