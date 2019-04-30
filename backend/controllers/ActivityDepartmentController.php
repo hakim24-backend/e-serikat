@@ -223,8 +223,7 @@ class ActivityDepartmentController extends \yii\web\Controller
 
         if ($role == 7) {
             $budget = ActivityBudgetDepartment::find()->where(['activity_id' => $model->id])->one();
-            $awal = ActivityBudgetDepartment::find()->where(['department_budget_id' => $budget])->one();
-            $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+            $baru = DepartmentBudget::find()->where(['id' => $budget->department_budget_id])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range_start = $model->date_start;
@@ -412,8 +411,7 @@ class ActivityDepartmentController extends \yii\web\Controller
 
       if ($role == 7) {
           $budget = ActivityBudgetDepartment::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetDepartment::find()->where(['department_budget_id' => $budget])->one();
-          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $budget->department_budget_id])->one();
           $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
@@ -469,15 +467,13 @@ class ActivityDepartmentController extends \yii\web\Controller
 
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model])->one();
-          $awal = ActivityBudgetDepartment::find()->where(['Department_budget_id'=>$budget])->one();
-          $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+          $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
           $department = Department::find()->where(['id'=>$model->department_code_id])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model->id])->all();
-          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model->id])->one();
-          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
-          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
-          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
-          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
+          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$model->id])->one();
+          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$model->id])->one();
+          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$model->id])->one();
+          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$model->id])->one();
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,
             'budget'=>$budget,

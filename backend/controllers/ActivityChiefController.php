@@ -215,8 +215,7 @@ class ActivityChiefController extends \yii\web\Controller
 
         if ($role == 6) {
             $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
-            $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-            $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+\            $baru = ChiefBudget::find()->where(['id' => $budget->chief_budget_id])->one();
             $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
@@ -406,8 +405,7 @@ class ActivityChiefController extends \yii\web\Controller
 
       if ($role == 6) {
           $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $baru = ChiefBudget::find()->where(['id' => $budget->chief_budget_id])->one();
           $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
@@ -463,8 +461,7 @@ class ActivityChiefController extends \yii\web\Controller
 
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model->id])->one();
-          $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-          $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$budget->chief_budget_id])->one();
           $chief = Chief::find()->where(['id'=>$model->chief_code_id])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model->id])->all();
           $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model->id])->one();
@@ -472,7 +469,7 @@ class ActivityChiefController extends \yii\web\Controller
           $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$model->id])->one();
           $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$model->id])->one();
           $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$model->id])->one();
-          $anggaran = $baru->chief_budget_value + $budget->budget_value_dp;
+          $anggaran = $baru->chief_budget_value + $budget->budget_value_sum;
 
 
         $content = $this->renderPartial('view_pdf',[

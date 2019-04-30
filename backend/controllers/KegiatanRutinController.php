@@ -110,9 +110,8 @@ class KegiatanRutinController extends Controller
 
         if ($role == "Sekretariat") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$budget->secretariat_budget_id])->one();
             $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
@@ -122,9 +121,8 @@ class KegiatanRutinController extends Controller
 
         } else if ($role == "Seksi") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
+            $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
             $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
@@ -297,8 +295,7 @@ class KegiatanRutinController extends Controller
         if ($role == "Sekretariat") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$budget->secretariat_budget_id])->one();
             $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
@@ -367,8 +364,7 @@ class KegiatanRutinController extends Controller
         } else if ($role == "Seksi") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
             $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
@@ -457,11 +453,10 @@ class KegiatanRutinController extends Controller
 
         if ($role == "Sekretariat") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$model])->one();
-            $sekreBudget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
+            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$budget->secretariat_budget_id])->one();
+            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+            $sekreBudget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
             if ($approve) {
                 $approve->delete();
                 $model->delete();
@@ -472,18 +467,17 @@ class KegiatanRutinController extends Controller
             }
             $model->delete();
 
-            $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
+            $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_sum;
             $baru->save();
 
             Yii::$app->getSession()->setFlash('success', 'Hapus Data Kegiatan Berhasil');
             return $this->redirect(['index']);
         } else if ($role == "Seksi") {
             $model = ActivityDaily::find()->where(['id'=>$id])->one();
-            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
-            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$model])->one();
-            $sekreBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
+            $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
+            $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
+            $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+            $sekreBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
             if ($approve) {
                 $approve->delete();
                 $model->delete();
@@ -494,7 +488,7 @@ class KegiatanRutinController extends Controller
             }
             $model->delete();
 
-            $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
+            $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_sum;
             $baru->save();
 
             Yii::$app->getSession()->setFlash('success', 'Hapus Data Kegiatan Berhasil');

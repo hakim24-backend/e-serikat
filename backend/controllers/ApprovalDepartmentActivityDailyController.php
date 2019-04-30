@@ -88,8 +88,7 @@ class ApprovalDepartmentActivityDailyController extends Controller
 
       if ($model->role == 8) {
           $budget = ActivityDailyBudgetSection::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id' => $budget])->one();
-          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $baru = SectionBudget::find()->where(['id' => $budget->section_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -142,15 +141,14 @@ class ApprovalDepartmentActivityDailyController extends Controller
 
             $modelSection = ActivityDaily::find()->where(['id'=>$id])->one();
             $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSection->id])->one();
-            $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-            $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+            $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
             $approve = ActivityDailyResponsibility::find()->where(['activity_id'=>$modelSection->id])->one();
             $departBudget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSection->id])->one();
 
             $modelSection->department_status=2;
             $modelSection->save(false);
 
-            $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
+            $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_sum;
             $baru->save();
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Ditolak');
