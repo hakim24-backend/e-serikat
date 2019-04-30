@@ -223,9 +223,9 @@ function to_rp($val)
             <td>&nbsp;</td>
             <td>Sisa Anggaran Saat Ini</td>
             <?php if ($Role == "Sekretariat") { ?>
-                <td><?=to_rp($baru->secretariat_budget_value + $budget->budget_value_sum)?></td>
+                <td><?=to_rp($baru->secretariat_budget_value)?></td>
             <?php } else if ($Role == "Seksi") { ?>
-                <td><?=to_rp($baru->section_budget_value + $budget->budget_value_sum)?></td>
+                <td><?=to_rp($baru->section_budget_value)?></td>
             <?php } ?>
         </tr>
         <tr>

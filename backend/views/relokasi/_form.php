@@ -91,7 +91,7 @@ $this->title = 'Pemindahan Dana';
             <div class="form-group">
                 <label class="col-sm-4">Sumber Dana</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('jenis_sdm_dest', null, [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-tujuan']) ?>
+                    <?= Html::dropDownList('jenis_sdm_dest', null, [4=>'Sekretariat',6=>'Ketua',7=>'Department',8=>'Seksi'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-tujuan-baru']) ?>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@ $this->title = 'Pemindahan Dana';
             <div class="form-group">
                 <label class="col-sm-4">Kode Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::dropDownList('dest_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8 form-control', 'id'=>'kode-tujuan']) ?>
+                    <?= Html::dropDownList('dest_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8 form-control', 'id'=>'kode-tujuan-baru']) ?>
                 </div>
             </div>
         </div>
@@ -169,6 +169,17 @@ $('#jenis-tujuan').on('change',function(){
     });
 });
 
+$('#jenis-tujuan-baru').on('change',function(){
+    var tipe = $('#jenis-tujuan-baru').val();
+    $.ajax({
+        url : "$url" + tipe,
+        dataType : 'html',
+        type : 'post'
+    }).done(function(data){
+       $('select#kode-tujuan-baru').html(data);
+    });
+});
+
 $('#jenis-asal').on('change',function(){
     var tipe = $('#jenis-asal').val();
     $.ajax({
@@ -214,6 +225,20 @@ $('#kode-tujuan').on('change',function(){
     }).done(function(data){
         datas = JSON.parse(data);
        $('#nilai-anggaran-source').html(datas.message);
+    });
+});
+
+$('#kode-tujuan-baru').on('change',function(){
+    var tipe = $('#jenis-tujuan-baru').val();
+    var kode = $('#kode-tujuan-baru').val();
+    $.ajax({
+        url : "$url2",
+        dataType : 'html',
+        type : 'post',
+        data: {
+            tipe: tipe,
+            kode: kode,
+        },
     });
 });
 
