@@ -158,10 +158,9 @@ class DepartmentApprovalActivityDailyResponsibilityController extends Controller
     public function actionReport($id) {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
-        $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
+        $sekre = Section::find()->where(['id'=>$baru->section_id])->one();
+        $sumber = Budget::find()->where(['id'=>$baru->section_budget_id])->one();
         $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
         $content = $this->renderPartial('view_pdf',[
             'model'=>$model,

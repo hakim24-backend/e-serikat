@@ -144,7 +144,7 @@ class ChiefController extends Controller
     public function actionUpdate($id)
     {
         $chief = Chief::find()->where(['id'=>$id])->one();
-        $model = User::find()->where(['id'=>$chief])->one();
+        $model = User::find()->where(['id'=>$chief->user_id])->one();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->name = $model->name;
@@ -175,11 +175,10 @@ class ChiefController extends Controller
     public function actionDelete($id)
     {
         $chief = Chief::find()->where(['id'=>$id])->one();
-        $department = Department::find()->where(['id_chief'=>$chief])->one();
-        $model = User::find()->where(['id'=>$chief])->one();
+        $department = Department::find()->where(['id_chief'=>$chief->id])->one();
+        $model = User::find()->where(['id'=>$chie->id])->one();
         $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
-        $id_user = User::find()->where(['id'=>$user])->one();
-        $permission = Chief::find()->where(['user_id'=>$id_user])->andWhere(['id'=>$id])->one();
+        $permission = Chief::find()->where(['user_id'=>$id_user->id])->andWhere(['id'=>$id])->one();
 
         if ($permission) {
             Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");

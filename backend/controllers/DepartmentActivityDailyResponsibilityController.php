@@ -109,8 +109,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
         $model = new ActivityDailyResponsibility();
         $activity = ActivityDaily::find()->where(['id'=>$id])->one();
         $modelBudget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$activity->id])->one();
-        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$modelBudget])->one();
-        $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+        $baru = DepartmentBudget::find()->where(['id'=>$modelBudget->department_budget_id])->one();
 
         if ($model->load(Yii::$app->request->post())&&$modelBudget->load(Yii::$app->request->post())) {
 
@@ -181,8 +180,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
         $model = ActivityDailyResponsibility::find()->where(['activity_id'=>$id])->one();
         $activity = ActivityDaily::find()->where(['id'=>$id])->one();
         $modelBudget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$activity->id])->one();
-        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$modelBudget])->one();
-        $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+        $baru = DepartmentBudget::find()->where(['id'=>$modelBudget->department_budget_id])->one();
         $oldDana = $modelBudget->budget_value_dp;
 
         $oldfiles = explode("**", $model->file);
@@ -288,12 +286,11 @@ class DepartmentActivityDailyResponsibilityController extends Controller
 
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
         $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model->id])->one();
-        $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-        $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
-        $sekre = Department::find()->where(['id'=>$baru])->one();
-        $departID = Section::find()->where(['id_depart'=>$sekre])->one();
-        $departName = Department::find()->where(['id'=>$departID])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
+        $sekre = Department::find()->where(['id'=>$baru->department_id])->one();
+        $departID = Section::find()->where(['id_depart'=>$sekre->id])->one();
+        $departName = Department::find()->where(['id'=>$departID->id_depart])->one();
+        $sumber = Budget::find()->where(['id'=>$baru->department_budget_id])->one();
         $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
 
         $content = $this->renderPartial('view_pdf',[

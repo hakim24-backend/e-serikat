@@ -177,18 +177,16 @@ class ChiefApprovalActivityResponsibilityController extends Controller
     if ($report->role == 7) {
         $model = Activity::find()->where(['id'=>$id])->one();
         $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model->id])->one();
-        $awal = ActivityBudgetDepartment::find()->where(['department_budget_id'=>$budget])->one();
-        $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
-        $sekre = Department::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
+        $sekre = Department::find()->where(['id'=>$baru->department_id])->one();
+        $sumber = Budget::find()->where(['id'=>$baru->department_budget_id])->one();
         $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
     } elseif ($report->role == 8) {
         $model = Activity::find()->where(['id'=>$id])->one();
         $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model->id])->one();
-        $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-        $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
-        $sekre = Section::find()->where(['id'=>$baru])->one();
-        $sumber = Budget::find()->where(['id'=>$baru])->one();
+        $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
+        $sekre = Section::find()->where(['id'=>$baru->section_id])->one();
+        $sumber = Budget::find()->where(['id'=>$baru->section_budget_id])->one();
         $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
     }
 
