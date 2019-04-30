@@ -480,7 +480,7 @@ class ActivityDepartmentController extends \yii\web\Controller
             'baru'=>$baru,
             'department'=>$department,
             'section'=>$section,
-            'mainMember'=>$mainMember,
+           // 'mainMember'=>$mainMember,
             'ketua'=>$ketua,
             'wakil'=>$wakil,
             'sekretaris'=>$sekretaris,

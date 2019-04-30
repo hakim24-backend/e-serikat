@@ -215,7 +215,8 @@ class ActivityChiefController extends \yii\web\Controller
 
         if ($role == 6) {
             $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
-\            $baru = ChiefBudget::find()->where(['id' => $budget->chief_budget_id])->one();
+            $baru = ChiefBudget::find()->where(['id' => $budget->chief_budget_id])->one();
+
             $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;

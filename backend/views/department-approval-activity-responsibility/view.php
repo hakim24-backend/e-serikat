@@ -55,6 +55,31 @@ function to_rp($val)
                 'format' => ['image',['width'=>'100']],
                 'label'=>'Foto'
             ],
+            [
+                'attribute'=>'activity.name_activity',
+                'label'=>'Nama Kegiatan',
+                
+                
+            ],
+            [
+                'attribute'=>'activity.title',
+                'label'=>'Judul Kegiatan'
+            ],
+            [
+                'attribute'=>'activity.background',
+                'label'=>'Latar Belakang Kegiatan',
+                
+            ],
+            [
+                'attribute'=>'activity.purpose',
+                'label'=>'Tujuan Kegiatan',
+                
+            ],
+            [
+                'attribute'=>'activity.target_activity',
+                'label'=>'Target Kegiatan',
+                
+            ]
         ],
     ]) ?>
 </div>

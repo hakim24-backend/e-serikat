@@ -49,6 +49,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => ['image',['width'=>'100']],
                 'label'=>'Foto'
             ],
+            [
+                'attribute'=>'activity.title',
+                'label'=>'Judul',
+                'value' => function ($model)
+                {
+                    return $model->activity->title;
+                }
+            ],
+            [
+                'attribute'=>'activity.description',
+                'label'=>'Deskripsi',
+                'value' => function ($model)
+                {
+                    return $model->activity->description;
+                }
+            ],
         ],
     ]) ?>
 </div>
@@ -88,6 +104,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>'../../web/template/'.$model->photo,
                 'format' => ['image',['width'=>'100']],
                 'label'=>'Foto'
+            ],
+            [
+                'attribute'=>'activity.title',
+                'label'=>'Judul',
+                'value' => function ($model)
+                {
+                    return $model->activity->title;
+                }
+            ],
+            [
+                'attribute'=>'activity.description',
+                'label'=>'Deskripsi',
+                'value' => function ($model)
+                {
+                    return $model->activity->description;
+                }
             ],
         ],
     ]) ?>
@@ -129,6 +161,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => ['image',['width'=>'100']],
                 'label'=>'Foto'
             ],
+            [
+                'attribute'=>'activity.title',
+                'label'=>'Judul',
+                'value' => function ($model)
+                {
+                    return $model->activity->title;
+                }
+            ],
+            [
+                'attribute'=>'activity.description',
+                'label'=>'Deskripsi',
+                'value' => function ($model)
+                {
+                    return $model->activity->description;
+                }
+            ],
         ],
     ]) ?>
 </div>
@@ -169,6 +217,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => ['image',['width'=>'100']],
                 'label'=>'Foto'
             ],
+            [
+                'attribute'=>'activity.title',
+                'label'=>'Judul',
+                'value' => function ($model)
+                {
+                    return $model->activity->title;
+                }
+            ],
+            [
+                'attribute'=>'activity.description',
+                'label'=>'Deskripsi',
+                'value' => function ($model)
+                {
+                    return $model->activity->description;
+                }
+            ],
+           
         ],
     ]) ?>
 </div>

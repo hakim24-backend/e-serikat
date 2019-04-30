@@ -34,7 +34,7 @@ function to_rp($val)
         ]
     ]); ?>
     <?php
-        echo $form->field($budget, 'budget_value_dp')->widget(\kartik\money\MaskMoney::classname(), [
+        echo $form->field($modelBudget, 'budget_value_dp')->widget(\kartik\money\MaskMoney::classname(), [
             'pluginOptions' => [
             'prefix' => 'Rp ',
             'thousands' => '.',

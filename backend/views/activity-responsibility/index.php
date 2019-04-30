@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '{create} {download}',
+                                'template' => '{create} {download}{view}',
                                 'buttons' => [
 
 
@@ -151,6 +151,37 @@ $this->params['breadcrumbs'][] = $this->title;
                                               );
 
                                             }
+                                          }
+                                        },
+                                        'view' => function($url, $model, $key)
+                                        {
+                                          if($model[0]=="kegiatan"){
+                                           
+                                              $url = Url::toRoute(['/kegiatan/view', 'id' => $model['id']]);
+                                              return Html::a(
+                                                '  <span class="fa fa-eye"></span> |',
+                                                $url,
+                                                [
+                                                  'title' => 'Download Pertanggungjawaban',
+                                                  'data-pjax' => 0,
+                                                 // 'target' => '_blank'
+                                                ]
+                                              );
+                                            
+                                          }else if($model[0]=="rutin"){
+                                           
+                                              $url = Url::toRoute(['/kegiatan-rutin/view', 'id' => $model['id']]);
+                                              return Html::a(
+                                                ' <span class="fa fa-eye"></span> |',
+                                                $url,
+                                                [
+                                                  'title' => 'Download Pertanggungjawaban',
+                                                  'data-pjax' => 0,
+                                                 // 'target' => '_blank'
+                                                ]
+                                              );
+
+                                            
                                           }
                                         }
                                     ]

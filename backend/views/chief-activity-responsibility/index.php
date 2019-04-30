@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => '{create} {download}',
+                                'template' => '{create} {download}{view}',
                                 'buttons' => [
 
 
@@ -148,6 +148,38 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                             }
                                           }
+                                      },'view' => function($url, $model, $key)
+                                      {
+                                        if($model[0]=="kegiatan"){
+                                         
+                                            $url = Url::toRoute(['/activity-chief/view', 'id' => $model['id']]);
+                                            return Html::a(
+                                              '| <span class="fa fa-eye"></span> |',
+                                              $url,
+                                              [
+                                                'title' => 'View Pertanggungjawaban',
+                                                'data-pjax' => 0,
+                                                'target' => '_blank'
+                                              ]
+                                            );
+
+                                          
+                                        }else if($model[0]=="rutin"){
+                                         
+                                            $url = Url::toRoute(['/activity-daily-chief/view', 'id' => $model['id']]);
+                                            return Html::a(
+                                              '| <span class="fa fa-eye"></span> |',
+
+                                              $url,
+                                              [
+                                                'title' => 'View Pertanggungjawaban',
+                                                'data-pjax' => 0,
+                                                'target' => '_blank'
+                                              ]
+                                            );
+
+                                          
+                                        }
                                       }
                                     ]
 

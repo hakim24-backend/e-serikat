@@ -16,6 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $Role = Yii::$app->user->identity->roleName();
 $date = date('Y-m-d');
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 
 <html>
@@ -185,7 +189,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td> Sisa Anggaran Saat Ini</td>
-                <td>Rp.<?=$baru->department_budget_value+$budget->budget_value_sum?></td>
+                <td><?= to_rp($baru->department_budget_value+$budget->budget_value_sum)?></td>
         </tr>
         <tr>
             <td>Waktu Pelaksanaan</td>
@@ -226,7 +230,7 @@ $date = date('Y-m-d');
         <tr>
             <td>Uang Muka Kegiatan</td>
             <td>:</td>
-                <td>Rp.<?=$budget->budget_value_sum ?></td>
+                <td><?= to_rp($budget->budget_value_sum) ?></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -241,7 +245,7 @@ $date = date('Y-m-d');
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Uang Muka Kegiatan</td>
-                <td>Rp.<?=$budget->budget_value_sum ?></td>
+                <td><?= to_rp($budget->budget_value_sum) ?></td>
         </tr>
     </tbody>
 </table>

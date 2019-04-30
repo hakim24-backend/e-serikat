@@ -18,7 +18,10 @@ $this->title = 'Update Data Kegiatan Rutin';
 $this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
-
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 $Role = Yii::$app->user->identity->roleName();
 ?>
 <div class="activity-daily-form">
@@ -39,7 +42,7 @@ $Role = Yii::$app->user->identity->roleName();
                 <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                 <div class="col-sm-8">
 
-                    <?= $baru->chief_budget_value ?>
+                    <?= to_rp($baru->chief_budget_value) ?>
 
                 </div>
             </div>
@@ -50,7 +53,21 @@ $Role = Yii::$app->user->identity->roleName();
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
-                    <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?>
+                <?php
+                    echo $form->field($budget, 'budget_value_sum')->widget(\kartik\money\MaskMoney::classname(), [
+                        'pluginOptions' => [
+                        'prefix' => 'Rp ',
+                        'thousands' => '.',
+                        'decimal' => ',',
+                        'precision' => 0
+                        ],
+                        'options' => [
+                            //'disabled' => true,
+                        ]
+                    ])->label(false);
+                    ?>
+                <!-- <?= $form->field($budget, 'budget_value_sum')->textInput( )->label(false); ?>
+                 -->
                 </div>
             </div>
         </div>
