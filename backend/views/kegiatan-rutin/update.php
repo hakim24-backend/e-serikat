@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
 use yii\widgets\DetailView;
+use kartik\money\MaskMoney;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
@@ -28,6 +29,10 @@ if($Role != "Sekretariat"){
   $minDate = 0;
   $maxDate = 0;
 }
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 <div class="activity-daily-form">
 
@@ -47,11 +52,11 @@ if($Role != "Sekretariat"){
                 <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
                 <div class="col-sm-8" id ="nilai-sekarang">
                     <?php if ($Role == "Super Admin"){ ?>
-                    <?= $baru->secretariat_budget_value ?>
+                    <?= to_rp($baru->secretariat_budget_value) ?>
                     <?php } elseif($Role == "Sekretariat"){ ?>
-                    <?= $baru->secretariat_budget_value ?>
+                    <?= to_rp($baru->secretariat_budget_value) ?>
                     <?php }else if($Role == "Seksi"){ ?>
-                    <?= $baru->section_budget_value ?>
+                    <?= to_rp($baru->section_budget_value) ?>
                     <?php } ?>
                 </div>
             </div>
@@ -62,7 +67,24 @@ if($Role != "Sekretariat"){
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
-                    <?= $form->field($budget, 'budget_value_sum')->textInput(['class'=>'nilai-anggaran'])->label(false); ?>
+                    <?php
+                        echo MaskMoney::widget([
+                            'name' => 'source_value',
+                            'value' => null,
+                            'pluginOptions' => [
+                              'prefix' => 'Rp ',
+                              'thousands' => '.',
+                              'decimal' => ',',
+                              'precision' => 0
+                            ],
+                            'options' => [
+                            'autofocus' => true, 
+                            'required'=>true, 
+                            'class'=>'col-sm-8 form-control nilai-anggaran', 
+                            'id'=>'value-budget'
+                            ]
+                        ]);
+                    ?>
                 </div>
             </div>
         </div>
@@ -215,6 +237,35 @@ $('#kode-tujuan').on('change',function(){
         datas = JSON.parse(data);
        $('#nilai-anggaran-source').html(datas.message);
     });
+});
+
+$('#value-budget').on('change',function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');  
+  }
+
+});
+
+$(".btn-save").on('click', function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('#value-budget-disp').focus();
+      return false;
+  }
 });
 
 js;

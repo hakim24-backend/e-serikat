@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
+use kartik\money\MaskMoney;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ActivityDaily */
@@ -69,7 +70,24 @@ if($Role != "Sekretariat"){
             <div class="form-group">
                 <label class="col-sm-4">Nilai Anggaran</label>
                 <div class="col-sm-8">
-                    <?= Html::textInput('source_value', '', ['autofocus' => true, 'required'=>true, 'type'=>'number', 'step'=>'any', 'min'=>0, 'class'=>'col-sm-8 nilai-anggaran', 'id'=>'value-budget']) ?>
+                    <?php
+                        echo MaskMoney::widget([
+                            'name' => 'source_value',
+                            'value' => null,
+                            'pluginOptions' => [
+                              'prefix' => 'Rp ',
+                              'thousands' => '.',
+                              'decimal' => ',',
+                              'precision' => 0
+                            ],
+                            'options' => [
+                            'autofocus' => true, 
+                            'required'=>true, 
+                            'class'=>'col-sm-8 form-control nilai-anggaran', 
+                            'id'=>'value-budget'
+                            ]
+                          ]);
+                    ?>
                 </div>
             </div>
         </div>
@@ -143,7 +161,7 @@ HTML;
 </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-save']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>
     <?php ActiveForm::end(); ?>
@@ -155,6 +173,7 @@ $url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');
 $url3 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/check-anggaran?value=');
 
 $js=<<<js
+
 $('#jenis-tujuan').on('change',function(){
     var tipe = $('#jenis-tujuan').val();
     $.ajax({
@@ -164,44 +183,6 @@ $('#jenis-tujuan').on('change',function(){
     }).done(function(data){
        $('select#kode-tujuan').html(data);
     });
-});
-
-$('.nilai-anggaran').on('change',function(){
-    var uangmuka = $('.uang-muka').val();
-    var nilaisekarang = $('#nilai-sekarang').text();
-    var nilaianggaran = $('.nilai-anggaran').val();
-    var tipe = $('#jenis-asal').val();
-    var kode = $('#kode-asal').val();
-
-    var res = parseInt(nilaisekarang.replace("Rp.",""));
-    if(parseInt(nilaianggaran) > res){
-      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
-      $('.nilai-anggaran').val('0');
-    }
-    if(parseInt(nilaianggaran) < parseInt(uangmuka)){
-      alert('Nilai Anggaran Lebih Kecil dari Uang Muka yang Diajukan. Mohon ubah nilai yang diinputkan !');
-      $('.nilai-anggaran').val('0');
-    }
-
-});
-
-$('.uang-muka ').on('change',function(){
-    var uangmuka = $('.uang-muka').val();
-    var nilaisekarang = $('#nilai-sekarang').text();
-    var nilaianggaran = $('.nilai-anggaran').val();
-    var tipe = $('#jenis-asal').val();
-    var kode = $('#kode-asal').val();
-
-    var res = parseInt(nilaisekarang.replace("Rp.",""));
-    if(parseInt(uangmuka) > res){
-      alert('Uang Muka Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
-      $('.nilai-anggaran').val('0');
-    }
-    if(parseInt(uangmuka) > parseInt(nilaianggaran)){
-      alert('Uang Muka Lebih Besar dari Anggaran Yang Diajukan. Mohon ubah nilai yang diinputkan !');
-      $('.nilai-anggaran').val('0');
-    }
-
 });
 
 $('#jenis-asal').on('change',function(){
@@ -250,6 +231,35 @@ $('#kode-tujuan').on('change',function(){
         datas = JSON.parse(data);
        $('#nilai-anggaran-source').html(datas.message);
     });
+});
+
+$('#value-budget').on('change',function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');  
+  }
+
+});
+
+$(".btn-save").on('click', function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('#value-budget-disp').focus();
+      return false;
+  }
 });
 
 js;

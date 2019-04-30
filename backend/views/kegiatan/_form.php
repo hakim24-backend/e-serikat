@@ -68,9 +68,9 @@ $list_seksi = array_values($array_seksi);
                       <label class="col-sm-4">Sumber Dana</label>
                       <div class="col-sm-8">
                           <?php if ($Role == "Sekretariat"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                          <?= Html::dropDownList('jenis_sdm_source', null, [4 => 'Sekretariat'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
                           <?php }else if($Role == "Seksi"){ ?>
-                          <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8', 'id'=>'jenis-asal']) ?>
+                          <?= Html::dropDownList('jenis_sdm_source', null , [8 => 'Seksi'], ['prompt' => 'Pilih Sumber Dana', 'class'=>'col-sm-8 form-control', 'id'=>'jenis-asal']) ?>
                           <?php } ?>
                       </div>
                   </div>
@@ -82,7 +82,7 @@ $list_seksi = array_values($array_seksi);
                       <label class="col-sm-4">Kode Anggaran</label>
                       <div class="col-sm-8">
 
-                          <?= Html::dropDownList('source_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8','id'=>'kode-asal']) ?>
+                          <?= Html::dropDownList('source_sdm', null, [], ['prompt' => 'Pilih Kode Anggaran', 'class'=>'col-sm-8 form-control','id'=>'kode-asal']) ?>
                      
                         </div>
                   </div>
@@ -508,6 +508,7 @@ $('#kode-tujuan').on('change',function(){
        $('#nilai-anggaran-source').html(datas.message);
     });
 });
+
 $('#value-budget').on('change',function(){
   var nilaisekarang = $('#nilai-sekarang').text();
   var nilaianggaran = $('#value-budget').val();

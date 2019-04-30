@@ -6,6 +6,7 @@ use kartik\file\FileInput;
 use yii\widgets\ActiveForm;
 use yii\web\Session;
 use yii\base\view;
+use kartik\money\MaskMoney;
 $Role = Yii::$app->user->identity->roleName();
 $this->title = 'Form Pertanggung Jawaban';
 $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
@@ -13,13 +14,17 @@ $this->params['breadcrumbs'][] = $this->title;
 /* @var $this yii\web\View */
 /* @var $model common\models\Approve */
 /* @var $form yii\widgets\ActiveForm */
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 
 <div class="approve-form">
   <div class="col-sm-12">
     <label>Dana Budget Sekarang : </label>
     <?php if ($Role == "Sekretariat") { ?>
-        <?= $baru->secretariat_budget_value ?>
+        <?= to_rp($baru->secretariat_budget_value) ?>
     <?php } elseif ($Role == "Seksi") { ?>
         <?= $baru->section_budget_value ?>
    <?php } ?>
@@ -32,9 +37,22 @@ $this->params['breadcrumbs'][] = $this->title;
     	]
     ]); ?>
 
-    <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?>
+    <!-- <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?> -->
 
-
+    <?php
+    echo $form->field($modelBudget, 'budget_value_dp')->widget(MaskMoney::classname(), [
+        'pluginOptions' => [
+        'prefix' => 'Rp ',
+        'thousands' => '.',
+        'decimal' => ',',
+        'precision' => 0
+        ],
+        'options' => [
+            'required'=>'required'
+        ]
+    ])->label('Realisasi Dana');
+    ?>
+    
     <?= $form->field($model, 'description')->textInput()->label('Uraian') ?>
 
 <!--     <?= $form->field($model, 'responsibility_value')->textInput() ?> -->
