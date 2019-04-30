@@ -23,6 +23,7 @@ use common\models\SecretariatBudget;
 use common\models\ChiefBudget;
 use common\models\DepartmentBudget;
 use common\models\SectionBudget;
+use common\models\ActivityBudgetChief;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
