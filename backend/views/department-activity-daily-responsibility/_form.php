@@ -22,6 +22,13 @@ $Role = Yii::$app->user->identity->roleName();
         <?= $baru->section_budget_value ?>
    <?php } ?>
   </div>
+
+  <br>
+  <div class="col-sm-12">
+    <label>Dana Yang diajukan : </label>
+        <?= to_rp($modelBudget->budget_value_sum) ?>
+  </div>
+  
   <br>
   <br>
     <?php $form = ActiveForm::begin([

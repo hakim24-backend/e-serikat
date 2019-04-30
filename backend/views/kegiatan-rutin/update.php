@@ -70,7 +70,7 @@ function to_rp($val)
                     <?php
                         echo MaskMoney::widget([
                             'name' => 'source_value',
-                            'value' => null,
+                            'value' => $budget->budget_value_sum,
                             'pluginOptions' => [
                               'prefix' => 'Rp ',
                               'thousands' => '.',

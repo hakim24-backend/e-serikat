@@ -29,6 +29,11 @@ function to_rp($val)
    <?php } ?>
   </div>
   <br>
+  <div class="col-sm-12">
+    <label>Dana Yang diajukan : </label>
+        <?= to_rp($modelBudget->budget_value_sum) ?>
+  </div>
+  <br>
   <br>
 
     <?php $form = ActiveForm::begin([

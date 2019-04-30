@@ -654,7 +654,6 @@ $role = Yii::$app->user->identity->role;
             'budget'=>$budget,
             'baru'=>$baru,
             'section'=>$section,
-            'mainMember'=>$mainMember,
             'ketua'=>$ketua,
             'wakil'=>$wakil,
             'sekretaris'=>$sekretaris,

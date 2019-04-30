@@ -28,6 +28,14 @@ function to_rp($val)
         <?= to_rp($baru->section_budget_value) ?>
    <?php } ?>
   </div>
+
+  <br>
+  <div class="col-sm-12">
+    <label>Dana Yang diajukan : </label>
+        <?= to_rp($modelBudget->budget_value_sum) ?>
+  </div>
+
+  
   <br>
   <br>
     <?php $form = ActiveForm::begin([
@@ -36,7 +44,7 @@ function to_rp($val)
     	]
 	]); ?>
 	<?php
-		echo $form->field($budget, 'budget_value_dp')->widget(\kartik\money\MaskMoney::classname(), [
+		echo $form->field($modelBudget, 'budget_value_dp')->widget(\kartik\money\MaskMoney::classname(), [
 			'pluginOptions' => [
 			'prefix' => 'Rp ',
 			'thousands' => '.',
