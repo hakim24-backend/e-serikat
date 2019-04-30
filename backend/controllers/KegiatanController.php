@@ -13,7 +13,6 @@ use common\models\ActivityBudgetSecretariat;
 use common\models\ActivityBudgetSection;
 use common\models\ActivityBudgetDepartment;
 use common\models\ActivityReject;
-use common\models\ActivityBudgetChief;
 use common\models\Approve;
 use common\models\User;
 use common\models\Section;
