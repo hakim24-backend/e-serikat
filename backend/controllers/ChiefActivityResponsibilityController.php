@@ -128,7 +128,7 @@ class ChiefActivityResponsibilityController extends Controller
         $activity = Activity::find()->where(['id'=>$id])->one();
         $modelBudget = ActivityBudgetChief::find()->where(['activity_id'=>$activity->id])->one();
         $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$modelBudget])->one();
-        $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+        $baru = ChiefBudget::find()->where(['id'=>$modelBudget->chief_budget_id])->one();
 
         if ($model->load(Yii::$app->request->post())&& $modelBudget->load(Yii::$app->request->post())) {
 
@@ -203,8 +203,7 @@ class ChiefActivityResponsibilityController extends Controller
         $model = ActivityResponsibility::find()->where(['activity_id'=>$id])->one();
         $activity = Activity::find()->where(['id'=>$id])->one();
         $modelBudget = ActivityBudgetChief::find()->where(['activity_id'=>$activity->id])->one();
-        $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$modelBudget])->one();
-        $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+        $baru = ChiefBudget::find()->where(['id'=>$modelBudget->chief_budget_id])->one();
         $oldDana = $modelBudget->budget_value_dp;
         $oldfiles = explode("**", $model->file);
         $oldPhotos = explode("**", $model->photo);
@@ -290,10 +289,9 @@ class ChiefActivityResponsibilityController extends Controller
 
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model->id])->one();
-          $awal = ActivityBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-          $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
-          $sekre = Chief::find()->where(['id'=>$baru])->one();
-          $sumber = Budget::find()->where(['id'=>$baru])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$budget->chief_budget_id])->one();
+          $sekre = Chief::find()->where(['id'=>$baru->chief_id])->one();
+          $sumber = Budget::find()->where(['id'=>$baru->chief_budget_id])->one();
           $lpj = ActivityResponsibility::find()->where(['activity_id'=>$model->id])->one();
 
         $content = $this->renderPartial('view_pdf',[

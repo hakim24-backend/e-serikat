@@ -150,8 +150,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
         if ($role == "Departemen") {
             $model = ActivityDaily::find()->where(['id' => $id])->one();
             $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model->id])->one();
-            $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
-            $baru = DepartmentBudget::find()->where(['id' => $awal->department_budget_id])->one();
+            $baru = DepartmentBudget::find()->where(['id' => $budget->department_budget_id])->one();
             $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
@@ -242,8 +241,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
       if ($model->role == 7) {
           $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
-          $baru = DepartmentBudget::find()->where(['id' => $awal->department_budget_id])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $budget->department_budget_id])->one();
           $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
@@ -269,8 +267,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
 
           $model = ActivityDaily::find()->where(['id'=>$id])->one();
           $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model->id])->one();
-          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-          $baru = DepartmentBudget::find()->where(['id'=>$awal->department_budget_id])->one();
+          $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
           $department = Department::find()->where(['id'=>$model->department_code_id])->one();
 
         $content = $this->renderPartial('view_pdf',[

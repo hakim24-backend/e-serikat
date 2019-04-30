@@ -89,8 +89,7 @@ class ActivityDailyChiefController extends Controller
 
       if ($model->role == 6) {
           $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-          $baru = ChiefBudget::find()->where(['id' => $awal->chief_budget_id])->one();
+          \$baru = ChiefBudget::find()->where(['id' => $budget->chief_budget_id])->one();
           $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
@@ -198,8 +197,7 @@ class ActivityDailyChiefController extends Controller
         if ($role == "Ketua") {
             $model = ActivityDaily::find()->where(['id' => $id])->one();
             $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model])->one();
-            $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-            $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+            $baru = ChiefBudget::find()->where(['id' => $budget->chief_budget_id])->one();
             $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start . ' to ' . $model->date_end;
             $range_start = $model->date_start;
@@ -294,8 +292,7 @@ class ActivityDailyChiefController extends Controller
 
           $model = ActivityDaily::find()->where(['id'=>$id])->one();
           $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model->id])->one();
-          $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-          $baru = ChiefBudget::find()->where(['id'=>$awal->chief_budget_id])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$budget->chief_budget_id])->one();
           $chief = Chief::find()->where(['id'=>$model->chief_code_id])->one();
 
         $content = $this->renderPartial('view_pdf',[

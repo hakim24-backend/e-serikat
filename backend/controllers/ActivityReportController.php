@@ -150,8 +150,7 @@ class ActivityReportController extends Controller
 
       if ($model->role == 4) {
           $budget = ActivityBudgetSecretariat::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id' => $budget])->one();
-          $baru = SecretariatBudget::find()->where(['id' => $awal])->one();
+          $baru = SecretariatBudget::find()->where(['id' => $budget->secretariat_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -159,8 +158,7 @@ class ActivityReportController extends Controller
           $oldBudget = $baru->secretariat_budget_value;
       } elseif ($model->role == 6) {
           $budget = ActivityBudgetChief::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-          $baru = ChiefBudget::find()->where(['id' => $awal])->one();
+          $baru = ChiefBudget::find()->where(['id' => $budget->chief_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -168,8 +166,7 @@ class ActivityReportController extends Controller
           $oldBudget = $baru->chief_budget_value;
       } elseif ($model->role == 7) {
           $budget = ActivityBudgetDepartment::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetDepartment::find()->where(['department_budget_id' => $budget])->one();
-          $baru = DepartmentBudget::find()->where(['id' => $awal])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $budget->department_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -177,8 +174,7 @@ class ActivityReportController extends Controller
           $oldBudget = $baru->department_budget_value;
       } elseif ($model->role == 8) {
           $budget = ActivityBudgetSection::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetSection::find()->where(['section_budget_id' => $budget])->one();
-          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $baru = SectionBudget::find()->where(['id' => $budget->section_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;

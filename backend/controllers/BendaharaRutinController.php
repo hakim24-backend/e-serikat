@@ -114,8 +114,7 @@ class BendaharaRutinController extends Controller
 
       if ($model->role == 6) {
           $budget = ActivityDailyBudgetChief::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id' => $budget])->one();
-          $baru = ChiefBudget::find()->where(['id' => $awal->chief_budget_id])->one();
+          $baru = ChiefBudget::find()->where(['id' => $budget->chief_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -125,8 +124,7 @@ class BendaharaRutinController extends Controller
 
       if ($model->role == 7) {
           $budget = ActivityDailyBudgetDepart::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id' => $budget])->one();
-          $baru = DepartmentBudget::find()->where(['id' => $awal->department_budget_id])->one();
+          $baru = DepartmentBudget::find()->where(['id' => $budget->department_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -136,8 +134,7 @@ class BendaharaRutinController extends Controller
 
       if ($model->role == 8) {
           $budget = ActivityDailyBudgetSection::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id' => $budget])->one();
-          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $baru = SectionBudget::find()->where(['id' => $budget->section_budget_id])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
           $range_end = $model->date_end;
@@ -172,47 +169,45 @@ class BendaharaRutinController extends Controller
             if ($reject->role == 4) {
                 $modelRutin = ActivityDaily::find()->where(['id'=>$id])->one();
                 $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$modelRutin])->one();
-                $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-                $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+                $baru = SecretariatBudget::find()->where(['id'=>$budget->secretariat_budget_id])->one();
+                $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_sum;
+                $baru->save();
 
                 $modelRutin->finance_status=2;
                 $modelRutin->save(false);
 
-                $baru->secretariat_budget_value=$baru->secretariat_budget_value+$budget->budget_value_dp;
-                $baru->save();
             } else if ($reject->role == 8) {
                 $modelSeksi = ActivityDaily::find()->where(['id'=>$id])->one();
                 $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$modelSeksi])->one();
-                $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-                $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+                $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
+
+                $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_sum;
+                $baru->save();
 
                 $modelSeksi->finance_status = 2;
                 $modelSeksi->save(false);
 
-                $baru->section_budget_value=$baru->section_budget_value+$budget->budget_value_dp;
-                $baru->save();
             } else if ($reject->role == 6) {
                 $modelChief = ActivityDaily::find()->where(['id'=>$id])->one();
                 $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$modelChief])->one();
-                $awal = ActivityDailyBudgetChief::find()->where(['chief_budget_id'=>$budget])->one();
-                $baru = ChiefBudget::find()->where(['id'=>$awal])->one();
+                $baru = ChiefBudget::find()->where(['id'=>$budget->chief_budget_id])->one();
+
+                $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_sum;
+                $baru->save(false);
 
                 $modelChief->finance_status = 2;
                 $modelChief->save(false);
-
-                $baru->chief_budget_value=$baru->chief_budget_value+$budget->budget_value_dp;
-                $baru->save(false);
             }else if ($reject->role == 7) {
                 $modelDep = ActivityDaily::find()->where(['id'=>$id])->one();
                 $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$modelDep])->one();
-                $awal = ActivityDailyBudgetDepart::find()->where(['department_budget_id'=>$budget])->one();
-                $baru = DepartmentBudget::find()->where(['id'=>$awal])->one();
+                $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
 
+                $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_sum;
+                $baru->save(false);
+                
                 $modelDep->finance_status = 2;
                 $modelDep->save(false);
 
-                $baru->department_budget_value=$baru->department_budget_value+$budget->budget_value_dp;
-                $baru->save(false);
             }
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Rutin Berhasil Ditolak');

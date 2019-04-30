@@ -142,8 +142,7 @@ $role = Yii::$app->user->identity->role;
 
       if ($role == 4) {
           $budget = ActivityBudgetSecretariat::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id' => $budget])->one();
-          $baru = SecretariatBudget::find()->where(['id' => $awal])->one();
+          $baru = SecretariatBudget::find()->where(['id' => $budget->secretariat_budget_id])->one();
           $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
@@ -152,8 +151,7 @@ $role = Yii::$app->user->identity->role;
           $oldBudget = $baru->secretariat_budget_value;
       } elseif ($role == 8) {
           $budget = ActivityBudgetSection::find()->where(['activity_id' => $model->id])->one();
-          $awal = ActivityBudgetSection::find()->where(['section_budget_id' => $budget])->one();
-          $baru = SectionBudget::find()->where(['id' => $awal])->one();
+          $baru = SectionBudget::find()->where(['id' => $budget->section_budget_id])->one();
           $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
           $range = $model->date_start . ' to ' . $model->date_end;
           $range_start = $model->date_start;
@@ -402,8 +400,7 @@ $role = Yii::$app->user->identity->role;
 
           if ($role == 4) {
             $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-            $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-            $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$budget->secretariat_budget_id])->one();
             $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
@@ -412,8 +409,7 @@ $role = Yii::$app->user->identity->role;
             $oldBudget = $baru->secretariat_budget_value;
           } elseif ($role == 8) {
             $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model->id])->one();
-            $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-            $baru = SectionBudget::find()->where(['id'=>$awal])->one();
+            $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
             $reject = ActivityReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
             $range = $model->date_start.' to '.$model->date_end;
             $range_start = $model->date_start;
@@ -633,28 +629,24 @@ $role = Yii::$app->user->identity->role;
         if ($role == 4) {
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
-          $awal = ActivityBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-          $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-          $kodeid = Secretariat::find()->where(['id'=>$baru])->one();
-          $section = ActivitySection::find()->where(['activity_id'=>$model])->all();
-          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model])->one();
-          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
-          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
-          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
-          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
+          $baru = SecretariatBudget::find()->where(['id'=>$budget->secretariat_budget_id])->one();
+          $kodeid = Secretariat::find()->where(['id'=>$baru->secretariat_id])->one();
+          $section = ActivitySection::find()->where(['activity_id'=>$model->id])->all();
+          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$model->id])->one();
+          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$model->id])->one();
+          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$model->id])->one();
+          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$model->id])->one();
 
         } else if ($role == 8) {
           $model = Activity::find()->where(['id'=>$id])->one();
           $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model->id])->one();
-          $awal = ActivityBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
-          $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
+          $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
           $kodeid = Section::find()->where(['id'=>$baru->section_id])->one();
           $section = ActivitySection::find()->where(['activity_id'=>$model->id])->all();
-          $mainMember = ActivityMainMember::find()->where(['activity_id'=>$model->id])->one();
-          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$mainMember])->one();
-          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$mainMember])->one();
-          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$mainMember])->one();
-          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$mainMember])->one();
+          $ketua = ActivityMainMember::find()->where(['name_committee'=>'Ketua'])->andWhere(['activity_id'=>$model->id])->one();
+          $wakil = ActivityMainMember::find()->where(['name_committee'=>'Wakil'])->andWhere(['activity_id'=>$model->id])->one();
+          $sekretaris = ActivityMainMember::find()->where(['name_committee'=>'Sekretaris'])->andWhere(['activity_id'=>$model->id])->one();
+          $bendahara = ActivityMainMember::find()->where(['name_committee'=>'Bendahara'])->andWhere(['activity_id'=>$model->id])->one();
         }
 
         $content = $this->renderPartial('view_pdf',[
@@ -939,7 +931,7 @@ $role = Yii::$app->user->identity->role;
             $data = SecretariatBudget::findOne($post['kode']);
             if ($data) {
                 // $ativity = ActivityDaily::find()->where(['id'=>'id'])->one();
-                $budgetSekre = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$data])->one();
+                $budgetSekre = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$data->id])->one();
                 // $hasilDP = $budgetSekre->budget_value_sum - $budgetSekre->budget_value_dp;
                 // $hasil =  ($hasilDP + $data->secretariat_budget_value) / 2;
                 $datas['message']= "
