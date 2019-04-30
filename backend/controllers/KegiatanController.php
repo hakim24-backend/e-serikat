@@ -11,7 +11,9 @@ use common\models\ActivitySectionMember;
 use common\models\ActivityResponsibility;
 use common\models\ActivityBudgetSecretariat;
 use common\models\ActivityBudgetSection;
+use common\models\ActivityBudgetDepartment;
 use common\models\ActivityReject;
+use common\models\ActivityBudgetChief;
 use common\models\Approve;
 use common\models\User;
 use common\models\Section;
@@ -167,7 +169,7 @@ $role = Yii::$app->user->identity->role;
               $range_start = $model->date_start;
               $range_end = $model->date_end;
               $oldDP = $budget->budget_value_dp;
-              $oldBudget = $baru->section_budget_value;
+              $oldBudget = $baru->secretariat_budget_value;
           } else if ($model->role == 6) {
               $budget = ActivityBudgetChief::find()->where(['activity_id'=>$model->id])->one();
               $baru = ChiefBudget::find()->where(['id'=>$budget->chief_budget_id])->one();
@@ -176,7 +178,7 @@ $role = Yii::$app->user->identity->role;
               $range_start = $model->date_start;
               $range_end = $model->date_end;
               $oldDP = $budget->budget_value_dp;
-              $oldBudget = $baru->section_budget_value;
+              $oldBudget = $baru->chief_budget_value;
           }else if ($model->role == 7) {
               $budget = ActivityBudgetDepartment::find()->where(['activity_id'=>$model->id])->one();
               $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
@@ -185,7 +187,7 @@ $role = Yii::$app->user->identity->role;
               $range_start = $model->date_start;
               $range_end = $model->date_end;
               $oldDP = $budget->budget_value_dp;
-              $oldBudget = $baru->section_budget_value;
+              $oldBudget = $baru->department_budget_value;
           }else if ($model->role == 8) {
               $budget = ActivityBudgetSection::find()->where(['activity_id'=>$model->id])->one();
               $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();

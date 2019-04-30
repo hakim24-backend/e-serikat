@@ -176,9 +176,9 @@ class ChiefController extends Controller
     {
         $chief = Chief::find()->where(['id'=>$id])->one();
         $department = Department::find()->where(['id_chief'=>$chief->id])->one();
-        $model = User::find()->where(['id'=>$chie->id])->one();
+        $model = User::find()->where(['id'=>$chief->id])->one();
         $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
-        $permission = Chief::find()->where(['user_id'=>$id_user->id])->andWhere(['id'=>$id])->one();
+        $permission = Chief::find()->where(['user_id'=>$user->id])->andWhere(['id'=>$id])->one();
 
         if ($permission) {
             Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
@@ -189,7 +189,6 @@ class ChiefController extends Controller
             return $this->redirect(Yii::$app->request->referrer);
             } else {
             $chief -> delete();
-            $model->delete();
             Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
             return $this->redirect(['index']);
             }
