@@ -180,9 +180,9 @@ class SectionController extends Controller
     public function actionDelete($id)
     {
         $section = Section::find()->where(['id'=>$id])->one();
-        $model = User::find()->where(['id'=>$section])->one();
+        $model = User::find()->where(['id'=> $section->user_id])->one();
         $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
-        $id_user = User::find()->where(['id'=>$user])->one();
+        $id_user = User::find()->where(['id'=>$user->id])->one();
         $permission = Section::find()->where(['user_id'=>$id_user])->andWhere(['id'=>$id])->one();
 
         if ($permission) {
