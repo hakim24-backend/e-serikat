@@ -59,6 +59,7 @@ function to_rp($val)
             </div>
         </div>
         <div class="box-body">
+          <?php if ($Role=="Sekretariat" || $Role=="Seksi") {?>
             <div class="col-sm-12">
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran Saat Ini</label>
@@ -75,6 +76,7 @@ function to_rp($val)
 
             <br>
             <br>
+          <?php } ?>
             <div class="col-sm-12">
                 <div class="form-group">
                     <label class="col-sm-4">Nilai Anggaran</label>

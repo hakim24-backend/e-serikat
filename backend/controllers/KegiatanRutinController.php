@@ -130,6 +130,50 @@ class KegiatanRutinController extends Controller
             $oldDP = $budget->budget_value_dp;
             $oldBudget = $baru->section_budget_value;
 
+        }else if ($role=="Sekertaris Umum" || $role=="Ketua Umum") {
+            $report = ActivityDaily::find()->where(['id'=>$id])->one();
+          if ($report->role == 4) {
+            $model = ActivityDaily::find()->where(['id'=>$id])->one();
+            $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
+            $baru = SecretariatBudget::find()->where(['id'=>$budget->secretariat_budget_id])->one();
+            $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
+            $range = $model->date_start . ' to ' . $model->date_end;
+            $range_start = $model->date_start;
+            $range_end = $model->date_end;
+            $oldDP = $budget->budget_value_dp;
+            $oldBudget = $baru->section_budget_value;
+          }else if ($report->role == 6) {
+              $model = ActivityDaily::find()->where(['id'=>$id])->one();
+              $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model->id])->one();
+              $baru = ChiefBudget::find()->where(['id'=>$budget->chief_budget_id])->one();
+              $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
+              $range = $model->date_start . ' to ' . $model->date_end;
+            $range_start = $model->date_start;
+            $range_end = $model->date_end;
+            $oldDP = $budget->budget_value_dp;
+            $oldBudget = $baru->section_budget_value;
+          }else if ($report->role == 7) {
+              $model = ActivityDaily::find()->where(['id'=>$id])->one();
+              $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model->id])->one();
+              $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
+              $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
+              $range = $model->date_start . ' to ' . $model->date_end;
+            $range_start = $model->date_start;
+            $range_end = $model->date_end;
+            $oldDP = $budget->budget_value_dp;
+            $oldBudget = $baru->section_budget_value;
+          } elseif ($report->role == 8) {
+              $model = ActivityDaily::find()->where(['id'=>$id])->one();
+              $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
+              $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
+              $reject = ActivityDailyReject::find()->where(['activity_id'=>$model->id])->orderBy(['id'=>SORT_DESC])->one();
+              $range = $model->date_start . ' to ' . $model->date_end;
+            $range_start = $model->date_start;
+            $range_end = $model->date_end;
+            $oldDP = $budget->budget_value_dp;
+            $oldBudget = $baru->section_budget_value;
+          }
+
         }
 
 

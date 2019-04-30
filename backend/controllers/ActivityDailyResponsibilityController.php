@@ -355,6 +355,38 @@ class ActivityDailyResponsibilityController extends Controller
         $sumber = Budget::find()->where(['id'=>$baru->section_budget_id])->one();
         $departName = Department::find()->where(['id'=>$sekre->id_depart])->one();
         $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+    }else if ($role=="Sekertaris Umum" || $role=="Ketua Umum") {
+      $report = ActivityDaily::find()->where(['id'=>$id])->one();
+
+      if ($report->role == 4) {
+        $model = ActivityDaily::find()->where(['id'=>$id])->one();
+        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
+        $baru = SecretariatBudget::find()->where(['id'=>$budget->secretariat_budget_id])->one();
+        $sekre = Secretariat::find()->where(['id'=>$baru->secretariat_id])->one();
+        $sumber = Budget::find()->where(['id'=>$baru->secretariat_budget_id])->one();
+        $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+      }else if ($report->role == 6) {
+          $model = ActivityDaily::find()->where(['id'=>$id])->one();
+          $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model->id])->one();
+          $baru = ChiefBudget::find()->where(['id'=>$budget->chief_budget_id])->one();
+          $sekre = Chief::find()->where(['id'=>$baru->chief_id])->one();
+          $sumber = Budget::find()->where(['id'=>$baru->chief_budget_id])->one();
+          $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+      }else if ($report->role == 7) {
+          $model = ActivityDaily::find()->where(['id'=>$id])->one();
+          $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model->id])->one();
+          $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
+          $sekre = Department::find()->where(['id'=>$baru->department_id])->one();
+          $sumber = Budget::find()->where(['id'=>$baru->department_budget_id])->one();
+          $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+      } elseif ($report->role == 8) {
+          $model = ActivityDaily::find()->where(['id'=>$id])->one();
+          $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
+          $baru = SectionBudget::find()->where(['id'=>$budget->section_budget_id])->one();
+          $sekre = Section::find()->where(['id'=>$baru->section_id])->one();
+          $sumber = Budget::find()->where(['id'=>$baru->section_budget_id])->one();
+          $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
+      }
     }
 
         $content = $this->renderPartial('view_pdf',[
