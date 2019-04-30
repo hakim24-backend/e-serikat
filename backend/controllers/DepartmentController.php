@@ -155,7 +155,7 @@ class DepartmentController extends Controller
     public function actionUpdate($id)
     {
         $depart = Department::find()->where(['id'=>$id])->one();
-        $model = User::find()->where(['id'=>$depart])->one();
+        $model = User::find()->where(['id'=>$depart->user_id])->one();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->name = $model->name;
@@ -186,11 +186,11 @@ class DepartmentController extends Controller
     public function actionDelete($id)
     {
         $depart = Department::find()->where(['id'=>$id])->one();
-        $section = Section::find()->where(['id_depart'=>$depart])->one();
-        $model = User::find()->where(['id'=>$depart])->one();
+        $section = Section::find()->where(['id_depart'=>$depart->id])->one();
+        $model = User::find()->where(['id'=>$depart->user_id])->one();
         $user = User::find()->where(['username'=>Yii::$app->user->identity->username])->one();
-        $id_user = User::find()->where(['id'=>$user])->one();
-        $permission = Department::find()->where(['user_id'=>$id_user])->andWhere(['id'=>$id])->one();
+      
+        $permission = Department::find()->where(['user_id'=>$user->id])->andWhere(['id'=>$id])->one();
 
         if ($permission) {
             Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");

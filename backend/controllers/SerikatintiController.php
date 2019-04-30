@@ -205,9 +205,9 @@ class SerikatintiController extends Controller
     {
         $model = User::find()->where(['role'=>$id])->one();
         $sekre = Secretariat::find()->where(['user_id'=>$model->id])->one();
-        $sekreBudget = SecretariatBudget::find()->where(['secretariat_id'=>$sekre])->one();
-        $coba = SecretariatBudget::find()->where(['secretariat_id'=>$sekre])->one();
-        $permission = User::find()->where(['username'=>Yii::$app->user->identity->username])->andWhere(['id'=>$model])->one();
+        $sekreBudget = SecretariatBudget::find()->where(['secretariat_id'=>$sekre->id])->one();
+        $coba = SecretariatBudget::find()->where(['secretariat_id'=>$sekre->id])->one();
+        $permission = User::find()->where(['username'=>Yii::$app->user->identity->username])->andWhere(['id'=>$model->id])->one();
 
         if ($permission) {
             Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
