@@ -171,7 +171,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                 if ($save && $budget->load(Yii::$app->request->post())) {
 
                     // $dp = $budget->budget_value_dp;
-                    $total = $budget->budget_value_sum;
+                    $total = (double)$post['source_value'];
                     $modal = $baru->department_budget_value;
 
 
@@ -198,7 +198,7 @@ class ActivityDailyDepartmentController extends \yii\web\Controller
                     }
 
                     // $budget->budget_value_dp = $budget->budget_value_dp;
-                    $budget->budget_value_sum = $budget->budget_value_sum;
+                    $budget->budget_value_sum = (double)$post['source_value'];
                     $budget->save(false);
 
                     $baru->department_budget_value = $oldBudgetBaru;
