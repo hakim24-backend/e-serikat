@@ -285,11 +285,20 @@ echo '-' . $model->id
               <td style="border-bottom-style: hidden;"></td>
             </tr>
             <tr>
+            
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
               <td style="border-bottom-style: hidden;"></td>
+
+              <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
+              <?php if ($Role == "Sekretariat") { ?>
+                <td class="text-center"><?=to_rp($baru->secretariat_budget_value)?></td>
+              <?php } elseif ($Role == "Seksi") { ?>
+                <td class="text-center"><?=to_rp($baru->section_budget_value)?></td>
+              <?php } ?>
+
             </tr>
             <tr>
               <td style="border-bottom-style: hidden;"></td>

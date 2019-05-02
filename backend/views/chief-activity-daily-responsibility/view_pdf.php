@@ -101,8 +101,8 @@ function to_rp($val)
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;">1</td>
               <td colspan="2" class="text-center" style="border-bottom-style: hidden;"><?=$model->title?></td>
-              <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_sum?></td>
-              <td class="text-center" style="border-bottom-style: hidden;"><?=$budget->budget_value_dp?></td>
+              <td class="text-center" style="border-bottom-style: hidden;"><?=to_rp($budget->budget_value_sum)?></td>
+              <td class="text-center" style="border-bottom-style: hidden;"><?=to_rp($budget->budget_value_dp)?></td>
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;"></td>
@@ -152,7 +152,7 @@ function to_rp($val)
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
-              <td class="text-center"><?= to_rp($baru->chief_budget_value + $budget->budget_value_sum - $budget->budget_value_dp)?></td>
+              <td class="text-center"><?= to_rp($baru->chief_budget_value)?></td>
             </tr>
             <tr>
               <td colspan="5">Gresik, <?=$date?></td>

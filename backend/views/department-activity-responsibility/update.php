@@ -54,7 +54,7 @@ function to_rp($val)
 			'options' => [
 				//'disabled' => true,
 			]
-		])->label(false);
+		])->label('Realisasi Dana');
 	?>
     <!-- <?= $form->field($modelBudget, 'budget_value_dp')->textInput(['required'=>true])->label('Realisasi Dana') ?> -->
 

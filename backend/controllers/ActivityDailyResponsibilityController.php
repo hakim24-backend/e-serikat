@@ -8,10 +8,13 @@ use common\models\Budget;
 use common\models\Department;
 use common\models\Secretariat;
 use common\models\Section;
+use common\models\Chief;
 use common\models\ActivityResponsibility;
 use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
 use common\models\ActivityDailyBudgetSection;
+use common\models\ActivityDailyBudgetChief;
+use common\models\ActivityDailyBudgetDepart;
 use common\models\Approve;
 use common\models\User;
 use common\models\TransferRecord;
@@ -188,6 +191,19 @@ class ActivityDailyResponsibilityController extends Controller
 
             if($role == 8){
               $model->responsibility_value = 0;
+
+              //pengurangan dan penambahan realisasi dana
+              if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+                //noaction
+              }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+                $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+                $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+              } else {
+                $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+                $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+              }
+
+              $baru->save(false);
               $modelBudget->save(false);
 
             }else if($role == 4){
@@ -290,6 +306,27 @@ class ActivityDailyResponsibilityController extends Controller
             }
             if($role == 8){
               $model->responsibility_value = 0;
+
+              //pengurangan dan penambahan realisasi dana
+              if ($oldDana == $modelBudget->budget_value_dp) {
+                  //noaction
+              }elseif ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+                  if ($oldDana > $modelBudget->budget_value_dp) {
+                    $rangeBudget = $oldDana-$modelBudget->budget_value_dp;
+                    $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+                  } else {
+                    $rangeBudget = $modelBudget->budget_value_dp-$oldDana;
+                    $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+                  }
+              } elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+                  $rangeBudget = $modelBudget->budget_value_sum - $modelBudget->budget_value_dp;
+                  $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+              } else {
+                  $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+                  $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+              }
+
+              $baru->save(false);
               $modelBudget->save(false);
 
             }else if($role == 4){

@@ -12,6 +12,8 @@ use common\models\ActivityDaily;
 use common\models\User;
 use common\models\ActivityBudgetSection;
 use common\models\ActivityBudgetSecretariat;
+use common\models\ActivityBudgetDepartment;
+use common\models\DepartmentBudget;
 use common\models\SectionBudget;
 use common\models\SecretariatBudget;
 use common\models\Department;
@@ -306,10 +308,36 @@ class ActivityResponsibilityController extends Controller
 
             if($role == 8){
               $model->responsibility_value = 0;
+
+              //pengurangan dan penambahan realisasi dana
+              if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+                //noaction
+              }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+                $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+                $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+              } else {
+                $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+                $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+              }
+
+              $baru->save(false);
               $modelBudget->save(false);
 
             }else if($role == 4){
               $model->responsibility_value = 2;
+
+              //pengurangan dan penambahan realisasi dana
+              if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+                //noaction
+              }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+                $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+                $baru->secretariat_budget_value = $baru->secretariat_budget_value+$rangeBudget;
+              } else {
+                $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+                $baru->secretariat_budget_value = $baru->secretariat_budget_value-$rangeBudget;
+              }
+
+              $baru->save(false);
               $modelBudget->save(false);
             }
 
@@ -413,10 +441,52 @@ class ActivityResponsibilityController extends Controller
 
             if($role == 8){
               $model->responsibility_value = 0;
+
+              //pengurangan dan penambahan realisasi dana
+              if ($oldDana == $modelBudget->budget_value_dp) {
+                  //noaction
+              }elseif ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+                  if ($oldDana > $modelBudget->budget_value_dp) {
+                    $rangeBudget = $oldDana-$modelBudget->budget_value_dp;
+                    $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+                  } else {
+                    $rangeBudget = $modelBudget->budget_value_dp-$oldDana;
+                    $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+                  }
+              } elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+                  $rangeBudget = $modelBudget->budget_value_sum - $modelBudget->budget_value_dp;
+                  $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+              } else {
+                  $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+                  $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+              }
+
+              $baru->save(false);
               $modelBudget->save(false);
 
             }else if($role == 4){
               $model->responsibility_value = 2;
+
+              //pengurangan dan penambahan realisasi dana
+              if ($oldDana == $modelBudget->budget_value_dp) {
+                  //noaction
+              }elseif ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+                  if ($oldDana > $modelBudget->budget_value_dp) {
+                    $rangeBudget = $oldDana-$modelBudget->budget_value_dp;
+                    $baru->secretariat_budget_value = $baru->secretariat_budget_value+$rangeBudget;
+                  } else {
+                    $rangeBudget = $modelBudget->budget_value_dp-$oldDana;
+                    $baru->secretariat_budget_value = $baru->secretariat_budget_value-$rangeBudget;
+                  }
+              } elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+                  $rangeBudget = $modelBudget->budget_value_sum - $modelBudget->budget_value_dp;
+                  $baru->secretariat_budget_value = $baru->secretariat_budget_value-$rangeBudget;
+              } else {
+                  $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+                  $baru->secretariat_budget_value = $baru->secretariat_budget_value+$rangeBudget;
+              }
+
+              $baru->save(false);
               $modelBudget->save(false);
             }
 

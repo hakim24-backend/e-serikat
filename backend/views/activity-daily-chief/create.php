@@ -161,7 +161,7 @@ echo '</div>';
 $url = Yii::$app->urlManager->createUrl('/kegiatan-rutin/kode-tujuan?id=');
 $url2 = Yii::$app->urlManager->createUrl('/kegiatan-rutin/nilai-anggaran');
 
-$js = <<<js
+$js=<<<js
 $('#jenis-tujuan').on('change',function(){
     var tipe = $('#jenis-tujuan').val();
     $.ajax({
@@ -183,33 +183,56 @@ $('#jenis-asal').on('change',function(){
        $('select#kode-asal').html(data);
     });
 });
+
+
 $('#value-budget').on('change',function(){
-    var nilaisekarang = $('#nilai-sekarang').text();
-    var nilaianggaran = $('#value-budget').val();
-    var tipe = $('#jenis-asal').val();
-    var kode = $('#kode-asal').val();
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
 
-    var res = parseInt(nilaisekarang.replace("Rp ","").replace(".",""));
-    
-    if(parseInt(nilaianggaran) > res){
-        alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
-      
-    }
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');  
+  }
 
 });
+
 $(".btn-save").on('click', function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('#value-budget-disp').focus();
+      return false;
+  }
+});
+
+$('.uang-muka ').on('change',function(){
+    var uangmuka = $('.uang-muka').val();
     var nilaisekarang = $('#nilai-sekarang').text();
-    var nilaianggaran = $('#value-budget').val();
+    var nilaianggaran = $('.nilai-anggaran').val();
     var tipe = $('#jenis-asal').val();
     var kode = $('#kode-asal').val();
 
-    var res = parseInt(nilaisekarang.replace("Rp ","").replace(".",""));
-    if(parseInt(nilaianggaran) > res){
-        alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
-        $('#value-budget-disp').focus();
-        return false;
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(uangmuka) > res){
+      alert('Uang Muka Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('.nilai-anggaran').val('0');
     }
+    if(parseInt(uangmuka) > parseInt(nilaianggaran)){
+      alert('Uang Muka Lebih Besar dari Anggaran Yang Diajukan. Mohon ubah nilai yang diinputkan !');
+      $('.nilai-anggaran').val('0');
+    }
+
 });
+
 $('#kode-asal').on('change',function(){
     var tipe = $('#jenis-asal').val();
     var kode = $('#kode-asal').val();

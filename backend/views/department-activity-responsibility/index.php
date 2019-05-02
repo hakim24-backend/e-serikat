@@ -138,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             if($dataRespo){
                                               $url = Url::toRoute(['/department-activity-daily-responsibility/report', 'id' => $model['id']]);
                                               return Html::a(
-                                                '| <span class="glyphicon glyphicon-download"></span> |',
+                                                ' <span class="glyphicon glyphicon-download"></span> |',
 
                                                 $url,
                                                 [

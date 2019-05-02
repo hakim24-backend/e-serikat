@@ -152,7 +152,7 @@ function to_rp($val)
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
-                <td class="text-center"><?=to_rp($baru->section_budget_value + $budget->budget_value_sum - $budget->budget_value_dp)?></td>
+                <td class="text-center"><?=to_rp($baru->section_budget_value)?></td>
             </tr>
             <tr>
               <td colspan="5">Gresik, <?=$date?></td>

@@ -308,6 +308,8 @@ ExportMenu::widget([
                                                 return to_rp($data->activityBudgetChiefsOne->budget_value_sum);
                                             }elseif ($data->activityBudgetDepartmentsOne != null) {
                                                 return to_rp($data->activityBudgetDepartmentsOne->budget_value_sum);
+                                            }elseif ($data->activityBudgetSecretariatsOne != null) {
+                                                return to_rp($data->activityBudgetSecretariatsOne->budget_value_sum);
                                             }elseif($data->activitySectionsOne != null){
                                                 return to_rp($data->activityBudgetSectionsOne->budget_value_sum);
                                             }else{

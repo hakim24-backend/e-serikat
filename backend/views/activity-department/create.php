@@ -84,7 +84,6 @@ $list_seksi = array_values($array_seksi);
               <br>
               <div id="nilai-anggaran-source">
               </div>
-
               <div class="col-sm-12">
                   <div class="form-group">
                       <label class="col-sm-4">Nilai Anggaran</label>

@@ -13,6 +13,8 @@ use common\models\ActivityDailyResponsibility;
 use common\models\ActivityDailyBudgetSecretariat;
 use common\models\ActivityDailyBudgetSection;
 use common\models\ActivityDailyReject;
+use common\models\ActivityDailyBudgetChief;
+use common\models\ActivityDailyBudgetDepart;
 use common\models\Approve;
 use common\models\User;
 use common\models\TransferRecord;
@@ -141,7 +143,7 @@ class KegiatanRutinController extends Controller
             $range_start = $model->date_start;
             $range_end = $model->date_end;
             $oldDP = $budget->budget_value_dp;
-            $oldBudget = $baru->section_budget_value;
+            $oldBudget = $baru->secretariat_budget_value;
           }else if ($report->role == 6) {
               $model = ActivityDaily::find()->where(['id'=>$id])->one();
               $budget = ActivityDailyBudgetChief::find()->where(['activity_id'=>$model->id])->one();
@@ -151,7 +153,7 @@ class KegiatanRutinController extends Controller
             $range_start = $model->date_start;
             $range_end = $model->date_end;
             $oldDP = $budget->budget_value_dp;
-            $oldBudget = $baru->section_budget_value;
+            $oldBudget = $baru->chief_budget_value;
           }else if ($report->role == 7) {
               $model = ActivityDaily::find()->where(['id'=>$id])->one();
               $budget = ActivityDailyBudgetDepart::find()->where(['activity_id'=>$model->id])->one();
@@ -161,7 +163,7 @@ class KegiatanRutinController extends Controller
             $range_start = $model->date_start;
             $range_end = $model->date_end;
             $oldDP = $budget->budget_value_dp;
-            $oldBudget = $baru->section_budget_value;
+            $oldBudget = $baru->department_budget_value;
           } elseif ($report->role == 8) {
               $model = ActivityDaily::find()->where(['id'=>$id])->one();
               $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
@@ -545,14 +547,14 @@ class KegiatanRutinController extends Controller
 
     if ($role == "Sekretariat") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model])->one();
-        $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget])->one();
-        $baru = SecretariatBudget::find()->where(['id'=>$awal])->one();
-        $kodeid = Secretariat::find()->where(['id'=>$baru])->one();
+        $budget = ActivityDailyBudgetSecretariat::find()->where(['activity_id'=>$model->id])->one();
+        $awal = ActivityDailyBudgetSecretariat::find()->where(['secretariat_budget_id'=>$budget->secretariat_budget_id])->one();
+        $baru = SecretariatBudget::find()->where(['id'=>$awal->secretariat_budget_id])->one();
+        $kodeid = Secretariat::find()->where(['id'=>$baru->secretariat_id])->one();
 
     } else if ($role == "Seksi") {
         $model = ActivityDaily::find()->where(['id'=>$id])->one();
-        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model])->one();
+        $budget = ActivityDailyBudgetSection::find()->where(['activity_id'=>$model->id])->one();
         $awal = ActivityDailyBudgetSection::find()->where(['section_budget_id'=>$budget])->one();
         $baru = SectionBudget::find()->where(['id'=>$awal->section_budget_id])->one();
         $kodeid = Section::find()->where(['id'=>$baru->section_id])->one();

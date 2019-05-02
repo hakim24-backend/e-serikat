@@ -77,24 +77,26 @@ $list_seksi = array_values($array_seksi);
                   <div class="form-group">
                       <label class="col-sm-4">Nilai Anggaran</label>
                       <div class="col-sm-8">
-                       <?php
-                        echo MaskMoney::widget([
-                              'name' => 'source_value',
-                              'value' => null,
-                              'pluginOptions' => [
-                                  'prefix' => 'Rp ',
-                                  'thousands' => '.',
-                                  'decimal' => ',',
-                                  'precision' => 0
-                              ],
-                              'options' => [
-                                'autofocus' => true, 
-                                'required'=>true, 
-                                'class'=>'col-sm-8 form-control nilai-anggaran', 
-                                'id'=>'value-budget'
-                              ]
-                          ]);
-                       ?>
+                       <?php echo MaskMoney::widget([
+                        'name' => 'source_value',
+                        'value' => null,
+                        'options' => [
+                            'autofocus' => true, 
+                            'required'=>true, 
+                            'class'=>'col-sm-8 form-control nilai-anggaran', 
+                            'id'=>'value-budget'
+                        ],
+                        'pluginOptions' => [
+                            'prefix' => 'Rp. ',
+                            'suffix' => '',
+                            'affixesStay' => true,
+                            'thousands' => '.',
+                            'decimal' => ',',
+                            'precision' => 0, 
+                            'allowZero' => false,
+                            'allowNegative' => false,
+                        ]
+                    ]); ?>
                        </div>
                   </div>
               </div>
@@ -117,9 +119,11 @@ $list_seksi = array_values($array_seksi);
                 <?= $form->field($model, 'name_activity')->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
               </div>
             </div>
+          </div>
+          <div class="form-group">
             <div class="col-md-12">
               <div class="col-md-2">
-                <label>Nama Kegiatan</label>
+                <label>Judul</label>
               </div>
               <div class="col-md-10">
                 <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'required' => true],['inputOptions'=>['autocomplete'=>'off']])->label(false) ?>
@@ -445,18 +449,18 @@ $('#jenis-asal').on('change',function(){
     });
 });
 
-$('#value-budget').on('change',function(){
-    var nilaisekarang = $('#nilai-sekarang').text();
-    var nilaianggaran = $('#value-budget').val();
-    var tipe = $('#jenis-asal').val();
-    var kode = $('#kode-asal').val();
 
-    var res = parseInt(nilaisekarang.replace("Rp ","").replace(".",""));
- 
-    if(parseInt(nilaianggaran) > res){
-      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
-     
-    }
+$('#value-budget').on('change',function(){
+  var nilaisekarang = $('#nilai-sekarang').text();
+  var nilaianggaran = $('#value-budget').val();
+  var tipe = $('#jenis-asal').val();
+  var kode = $('#kode-asal').val();
+
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
+      alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');  
+  }
 
 });
 
@@ -466,12 +470,32 @@ $(".btn-save").on('click', function(){
   var tipe = $('#jenis-asal').val();
   var kode = $('#kode-asal').val();
 
-  var res = parseInt(nilaisekarang.replace("Rp ","").replace(".",""));
-  if(parseInt(nilaianggaran) > res){
+  var res = nilaisekarang.replace("Rp ","").replace(/\./g,"");
+  
+  if(BigInt(nilaianggaran) > BigInt(res)){
       alert('Nilai Anggaran Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
       $('#value-budget-disp').focus();
       return false;
   }
+});
+
+$('.uang-muka ').on('change',function(){
+    var uangmuka = $('.uang-muka').val();
+    var nilaisekarang = $('#nilai-sekarang').text();
+    var nilaianggaran = $('.nilai-anggaran').val();
+    var tipe = $('#jenis-asal').val();
+    var kode = $('#kode-asal').val();
+
+    var res = parseInt(nilaisekarang.replace("Rp.",""));
+    if(parseInt(uangmuka) > res){
+      alert('Uang Muka Lebih Besar dari Nilai Anggaran Saat Ini. Mohon ubah nilai yang diinputkan !');
+      $('.nilai-anggaran').val('0');
+    }
+    if(parseInt(uangmuka) > parseInt(nilaianggaran)){
+      alert('Uang Muka Lebih Besar dari Anggaran Yang Diajukan. Mohon ubah nilai yang diinputkan !');
+      $('.nilai-anggaran').val('0');
+    }
+
 });
 
 $('#kode-asal').on('change',function(){

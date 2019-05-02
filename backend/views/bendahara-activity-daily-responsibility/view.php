@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'file',
                 'format'=>'raw',
-                'value'=>Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']),
+                'value'=> (($model->file != "" )? $model->file." <br>".Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']) : "-"),
                 'label'=>'File'
             ],
             [
@@ -152,7 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'file',
                 'format'=>'raw',
-                'value'=>Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']),
+                'value'=> (($model->file != "" )? $model->file." <br>".Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']) : "-"),
                 'label'=>'File'
             ],
             [
@@ -208,7 +208,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'file',
                 'format'=>'raw',
-                'value'=>Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']),
+                'value'=> (($model->file != "" )? $model->file." <br>".Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']) : "-"),
                 'label'=>'File'
             ],
             [
