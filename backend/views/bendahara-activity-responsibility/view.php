@@ -10,8 +10,17 @@ use yii\widgets\DetailView;
 $this->title = 'Data Pertangungjawaban';
 $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$url = Yii::$app->request->baseUrl."/template/";
+
 \yii\web\YiiAsset::register($this);
 ?>
+<style>
+    .img{
+        width: 300px !important;
+        height: auto;
+        margin-bottom:5px;
+    }
+</style>
 <?php if ($role->role == 4) { ?>
 <div class="approve-view">
     <?= DetailView::widget([
@@ -41,8 +50,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'photo',
-                'value'=>'../../web/template/'.$model->photo,
-                'format' => ['image',['width'=>'100']],
+                'value'=> function($model)
+                {
+                    $img = explode("**",$model->photo);
+                    $raw ="";
+                    foreach($img as $m)
+                    {
+                        $raw .= "<img src='".Yii::$app->request->baseUrl."/template/".$m."' class='img'/> <br>";
+                    }
+                    return $raw;
+                },
+                'format' => 'raw',
                 'label'=>'Foto'
             ],
             [
@@ -106,8 +124,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'photo',
-                'value'=>'../../web/template/'.$model->photo,
-                'format' => ['image',['width'=>'100']],
+                'value'=> function($model)
+                {
+                    $img = explode("**",$model->photo);
+                    $raw ="";
+                    foreach($img as $m)
+                    {
+                        $raw .= "<img src='".Yii::$app->request->baseUrl."/template/".$m."' class='img'/> <br>";
+                    }
+                    return $raw;
+                },
+                'format' => 'raw',
                 'label'=>'Foto'
             ],
             [
@@ -172,8 +199,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'photo',
-                'value'=>'../../web/template/'.$model->photo,
-                'format' => ['image',['width'=>'100']],
+                'value'=> function($model)
+                {
+                    $img = explode("**",$model->photo);
+                    $raw ="";
+                    foreach($img as $m)
+                    {
+                        $raw .= "<img src='".Yii::$app->request->baseUrl."/template/".$m."' class='img'/> <br>";
+                    }
+                    return $raw;
+                },
+                'format' => 'raw',
                 'label'=>'Foto'
             ],
             [
@@ -238,8 +274,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'photo',
-                'value'=>'../../web/template/'.$model->photo,
-                'format' => ['image',['width'=>'100']],
+                'value'=> function($model)
+                {
+                    $img = explode("**",$model->photo);
+                    $raw ="";
+                    foreach($img as $m)
+                    {
+                        $raw .= "<img src='".Yii::$app->request->baseUrl."/template/".$m."' class='img'/> <br>";
+                    }
+                    return $raw;
+                },
+                'format' => 'raw',
                 'label'=>'Foto'
             ],
             [

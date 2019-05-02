@@ -15,7 +15,7 @@ use kartik\money\MaskMoney;
 // $range_start = date('Y-m-d');
 // $range_end = date('Y-m-d');
 
-$this->title = 'Update Data Kegiatan Rutin Sekretariat';
+$this->title = 'Update Data Kegiatan Rutin';
 $this->params['breadcrumbs'][] = ['label' => 'Activity Dailies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -39,7 +39,7 @@ function to_rp($val)
     <?php $form = ActiveForm::begin(); ?>
     <div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title">Data Kegiatan Rutin Sekretariat</h3>
+        <h3 class="box-title">Data Kegiatan Rutin</h3>
 
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>

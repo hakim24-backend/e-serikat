@@ -158,6 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                           if($model[0]=="kegiatan"){
                                            
                                               $url = Url::toRoute(['/kegiatan/view', 'id' => $model['id']]);
+                                              
                                               return Html::a(
                                                 '  <span class="fa fa-eye"></span> |',
                                                 $url,

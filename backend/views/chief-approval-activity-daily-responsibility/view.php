@@ -16,6 +16,13 @@ function to_rp($val)
     return "Rp " . number_format($val,0,',','.');
 }
 ?>
+<style>
+    .img{
+        width: 300px !important;
+        height: auto;
+        margin-bottom:5px;
+    }
+</style>
 <?php if ($role->role == 7) { ?>
 <div class="approve-view">
     <?= DetailView::widget([
@@ -49,8 +56,17 @@ function to_rp($val)
             ],
             [
                 'attribute'=>'photo',
-                'value'=>'../../web/template/'.$model->photo,
-                'format' => ['image',['width'=>'100']],
+                'value'=> function($model)
+                {
+                    $img = explode("**",$model->photo);
+                    $raw ="";
+                    foreach($img as $m)
+                    {
+                        $raw .= "<img src='".Yii::$app->request->baseUrl."/template/".$m."' class='img'/> <br>";
+                    }
+                    return $raw;
+                },
+                'format' => 'raw',
                 'label'=>'Foto'
             ],
             [
@@ -89,8 +105,17 @@ function to_rp($val)
             ],
             [
                 'attribute'=>'photo',
-                'value'=>'../../web/template/'.$model->photo,
-                'format' => ['image',['width'=>'100']],
+                'value'=> function($model)
+                {
+                    $img = explode("**",$model->photo);
+                    $raw ="";
+                    foreach($img as $m)
+                    {
+                        $raw .= "<img src='".Yii::$app->request->baseUrl."/template/".$m."' class='img'/> <br>";
+                    }
+                    return $raw;
+                },
+                'format' => 'raw',
                 'label'=>'Foto'
             ],
             [

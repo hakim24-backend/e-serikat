@@ -310,33 +310,43 @@ class ActivityResponsibilityController extends Controller
               $model->responsibility_value = 0;
 
               //pengurangan dan penambahan realisasi dana
-              if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
-                //noaction
-              }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
-                $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
-                $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
-              } else {
-                $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
-                $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
-              }
 
+            //   if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+            //     //noaction
+            //   }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+            //     $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+            //     $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+            //   } else {
+            //     $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+            //     $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+            //   }
+             
               $baru->save(false);
               $modelBudget->save(false);
 
             }else if($role == 4){
+             //sekretariat
+
               $model->responsibility_value = 2;
 
               //pengurangan dan penambahan realisasi dana
-              if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
-                //noaction
-              }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
-                $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
-                $baru->secretariat_budget_value = $baru->secretariat_budget_value+$rangeBudget;
-              } else {
-                $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
-                $baru->secretariat_budget_value = $baru->secretariat_budget_value-$rangeBudget;
-              }
+              // if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+              //   //noaction
+              // }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+              //   $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+              //   $baru->secretariat_budget_value = $baru->secretariat_budget_value+$rangeBudget;
+              // } else {
+              //   $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+              //   $baru->secretariat_budget_value = $baru->secretariat_budget_value-$rangeBudget;
+              // }
 
+              //pengurangan dana berdasarkan kode
+              $budgetSekarang = $baru->secretariat_budget_value;
+              $diajukan = $modelBudget->budget_value_sum;
+              $realisasi = $modelBudget->budget_value_dp;
+              //echo $budgetSekarang."--- ". $diajukan." -- ". $realisasi;
+
+              //die();
               $baru->save(false);
               $modelBudget->save(false);
             }

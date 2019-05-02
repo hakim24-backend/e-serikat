@@ -157,16 +157,18 @@ function to_rp($val)
             </tr>
             <tr>
               <td colspan="4">Jumlah Uang yang Diterima.</td>
-              <td class="text-center"><?=to_rp($budget->budget_value_sum - $budget->budget_value_dp)?></td>
+              <td class="text-center"><?=to_rp($budget->budget_value_dp)?></td>
             </tr>
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
               <?php if ($Role == "Sekretariat") { ?>
-                <td class="text-center"><?=to_rp($baru->secretariat_budget_value)?></td>
+                <td class="text-center"><?=to_rp($budget->budget_value_dp - $budget->budget_value_sum)?></td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td class="text-center"><?=to_rp($baru->section_budget_value)?></td>
+                <td class="text-center"><?=to_rp($budget->budget_value_dp - $budget->budget_value_sum)?></td>
               <?php } ?>
+              <td class="text-center"><?=to_rp($budget->budget_value_dp - $budget->budget_value_sum)?></td>
             </tr>
+
             <tr>
               <td colspan="5">Gresik, <?=$date?></td>
             </tr>

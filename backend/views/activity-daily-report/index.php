@@ -71,6 +71,8 @@ $gridColumns = [
                 return to_rp($data->activityDailyBudgetDepartsOne->budget_value_sum);
             }elseif($data->activityDailyBudgetSectionsOne != null){
                 return to_rp($data->activityDailyBudgetSectionsOne->budget_value_sum);
+            }elseif($data->activityDailyBudgetSecretariatsOne != null){
+                return to_rp($data->activityDailyBudgetSecretariatsOne->budget_value_sum);
             }else{
                 return "-";
             }
@@ -293,7 +295,10 @@ ExportMenu::widget([
                                             return to_rp($data->activityDailyBudgetDepartsOne->budget_value_sum);
                                         }elseif($data->activityDailyBudgetSectionsOne != null){
                                             return to_rp($data->activityDailyBudgetSectionsOne->budget_value_sum);
-                                        }else{
+                                        }elseif($data->activityDailyBudgetSecretariatsOne != null){
+                                            return to_rp($data->activityDailyBudgetSecretariatsOne->budget_value_sum);
+                                        }
+                                        else{
                                             return "-";
                                         }
                                     }

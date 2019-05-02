@@ -193,15 +193,16 @@ class ActivityDailyResponsibilityController extends Controller
               $model->responsibility_value = 0;
 
               //pengurangan dan penambahan realisasi dana
-              if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
-                //noaction
-              }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
-                $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
-                $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
-              } else {
-                $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
-                $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
-              }
+              
+              // if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+              //   //noaction
+              // }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+              //   $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+              //   $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+              // } else {
+              //   $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+              //   $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+              // }
 
               $baru->save(false);
               $modelBudget->save(false);

@@ -152,15 +152,16 @@ class DepartmentActivityDailyResponsibilityController extends Controller
             $model->photo = $tmp;
 
             //pengurangan dan penambahan realisasi dana
-            if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
-              //noaction
-            }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
-              $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
-              $baru->department_budget_value = $baru->department_budget_value+$rangeBudget;
-            } else {
-              $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
-              $baru->department_budget_value = $baru->department_budget_value-$rangeBudget;
-            }
+            
+            // if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+            //   //noaction
+            // }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+            //   $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+            //   $baru->department_budget_value = $baru->department_budget_value+$rangeBudget;
+            // } else {
+            //   $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+            //   $baru->department_budget_value = $baru->department_budget_value-$rangeBudget;
+            // }
 
             $baru->save(false);
             $modelBudget->save(false);
@@ -321,7 +322,7 @@ class DepartmentActivityDailyResponsibilityController extends Controller
         $baru = DepartmentBudget::find()->where(['id'=>$budget->department_budget_id])->one();
         $sekre = Department::find()->where(['id'=>$baru->department_id])->one();
         $departID = Section::find()->where(['id_depart'=>$sekre->id])->one();
-        $departName = Department::find()->where(['id'=>$departID->id_depart])->one();
+        $departName = $sekre;
         $sumber = Budget::find()->where(['id'=>$baru->department_budget_id])->one();
         $lpj = ActivityDailyResponsibility::find()->where(['activity_id'=>$model->id])->one();
 

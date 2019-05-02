@@ -172,6 +172,22 @@ class BendaharaActivityResponsibilityController extends Controller
             $realOutput = $budget->budget_value_sum - $budget->budget_value_dp;
             $baru->department_budget_value=$baru->department_budget_value+$realOutput;
             $baru->save();
+        }else if($model->role == 5)
+        {
+            $modelBudget = ActivityBudgetDepartment::find()->where(['activity_id'=>$activity->id])->one();
+            $baru = DepartmentBudget::find()->where(['id'=>$modelBudget->department_budget_id])->one();
+
+            //bendahara
+            //pengurangan dan penambahan realisasi dana
+            if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+              //noaction
+            }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+              $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+              $baru->department_budget_value = $baru->department_budget_value+$rangeBudget;
+            } else {
+              $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+              $baru->department_budget_value = $baru->department_budget_value-$rangeBudget;
+            }
         }
 
             $model->done = 1;
@@ -179,6 +195,7 @@ class BendaharaActivityResponsibilityController extends Controller
             $responsibility->responsibility_value = 3;
             $responsibility->save(false);
         }
+
 
         Yii::$app->getSession()->setFlash('info', 'Kegiatan Berhasil Di Tutup');
         return $this->redirect(Yii::$app->request->referrer);
