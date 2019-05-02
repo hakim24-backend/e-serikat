@@ -162,9 +162,9 @@ function to_rp($val)
             <tr>
               <td colspan="4">Kekurangan / Sisa Uang Muka.</td>
               <?php if ($Role == "Sekretariat") { ?>
-                <td class="text-center"><?=to_rp($baru->secretariat_budget_value + $budget->budget_value_sum - $budget->budget_value_dp)?></td>
+                <td class="text-center"><?=to_rp($baru->secretariat_budget_value)?></td>
               <?php } elseif ($Role == "Seksi") { ?>
-                <td class="text-center"><?=to_rp($baru->section_budget_value + $budget->budget_value_sum - $budget->budget_value_dp)?></td>
+                <td class="text-center"><?=to_rp($baru->section_budget_value)?></td>
               <?php } ?>
             </tr>
             <tr>

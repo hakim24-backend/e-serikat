@@ -103,7 +103,7 @@ function to_rp($val)
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>Sisa Anggaran Saat Ini</td>
-            <td><?= to_rp($baru->department_budget_value + $budget->budget_value_sum)?></td>
+            <td><?= to_rp($baru->department_budget_value)?></td>
         </tr>
         <tr>
             <td>Waktu Pelaksanaan</td>

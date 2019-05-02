@@ -151,14 +151,26 @@ class DepartmentActivityDailyResponsibilityController extends Controller
             $tmp = rtrim($tmp,'**');
             $model->photo = $tmp;
 
+            //pengurangan dan penambahan realisasi dana
+            if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+              //noaction
+            }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+              $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+              $baru->department_budget_value = $baru->department_budget_value+$rangeBudget;
+            } else {
+              $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+              $baru->department_budget_value = $baru->department_budget_value-$rangeBudget;
+            }
+
+            $baru->save(false);
+            $modelBudget->save(false);
 
             $model->responsibility_value = 1;
             $model->activity_id = $activity->id ;
-
-            $modelBudget->save(false);
             $model->save(false);
+
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
-            return $this->redirect(['index']);
+            return $this->redirect(['department-activity-responsibility/index']);
         }
 
         return $this->render('create', [
@@ -240,12 +252,32 @@ class DepartmentActivityDailyResponsibilityController extends Controller
 
             }
 
+                //pengurangan dan penambahan realisasi dana
+                if ($oldDana == $modelBudget->budget_value_dp) {
+                    //noaction
+                }elseif ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+                    if ($oldDana > $modelBudget->budget_value_dp) {
+                      $rangeBudget = $oldDana-$modelBudget->budget_value_dp;
+                      $baru->section_budget_value = $baru->section_budget_value+$rangeBudget;
+                    } else {
+                      $rangeBudget = $modelBudget->budget_value_dp-$oldDana;
+                      $baru->section_budget_value = $baru->section_budget_value-$rangeBudget;
+                    }
+                } elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+                    $rangeBudget = $modelBudget->budget_value_sum - $modelBudget->budget_value_dp;
+                    $baru->department_budget_value = $baru->department_budget_value-$rangeBudget;
+                } else {
+                    $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+                    $baru->department_budget_value = $baru->department_budget_value+$rangeBudget;
+                }
 
+                $baru->save(false);
                 $modelBudget->save(false);
+                
                 $model->responsibility_value = 1;
                 $model->save(false);
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
-                return $this->redirect(['index']);
+                return $this->redirect(['department-activity-responsibility/index']);
 
         }
 

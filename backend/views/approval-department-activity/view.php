@@ -179,7 +179,7 @@ function to_rp($val)
         <div class="form-group">
             <label class="col-sm-4">Ketua</label>
             <div class="col-sm-8">
-                <?= Html::dropDownList('ketua', $ketua->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control', 'disabled'=>true]) ?>
+                <?= $ketua->name_member ?>
             </div>
         </div>
     </div>
@@ -187,7 +187,7 @@ function to_rp($val)
         <div class="form-group">
             <label class="col-sm-4">Wakil</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('wakil', $wakil->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control', 'disabled'=>true]) ?>
+              <?= $wakil->name_member ?>
             </div>
         </div>
     </div>
@@ -195,7 +195,7 @@ function to_rp($val)
         <div class="form-group">
             <label class="col-sm-4">Sekretaris</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('sekretaris', $sekretaris->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control', 'disabled'=>true]) ?>
+              <?= $sekretaris->name_member ?>
             </div>
         </div>
     </div>
@@ -203,7 +203,7 @@ function to_rp($val)
         <div class="form-group">
             <label class="col-sm-4">Bendahara</label>
             <div class="col-sm-8">
-              <?= Html::dropDownList('bendahara', $bendahara->name_member, ArrayHelper::map(User::find()->all(), 'name', 'name'), ['autofocus' => true, 'required'=>true,'class'=>'col-sm-8 form-control', 'disabled'=>true]) ?>
+              <?= $bendahara->name_member ?>
             </div>
         </div>
     </div>

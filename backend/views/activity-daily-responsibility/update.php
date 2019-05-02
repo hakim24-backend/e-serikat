@@ -26,7 +26,7 @@ function to_rp($val)
     <?php if ($Role == "Sekretariat") { ?>
         <?= to_rp($baru->secretariat_budget_value) ?>
     <?php } elseif ($Role == "Seksi") { ?>
-        <?= $baru->section_budget_value ?>
+        <?= to_rp($baru->section_budget_value) ?>
    <?php } ?>
   </div>
   <br>

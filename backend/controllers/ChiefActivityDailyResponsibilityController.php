@@ -142,10 +142,22 @@ class ChiefActivityDailyResponsibilityController extends Controller
           $tmp = rtrim($tmp,'**');
           $model->photo = $tmp;
 
-          $model->responsibility_value = 2;
-          $model->activity_id = $id ;
+          //pengurangan dan penambahan realisasi dana
+          if ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+            //noaction
+          }elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+            $rangeBudget = $modelBudget->budget_value_sum-$modelBudget->budget_value_dp;
+            $baru->chief_budget_value = $baru->chief_budget_value+$rangeBudget;
+          } else {
+            $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+            $baru->chief_budget_value = $baru->chief_budget_value-$rangeBudget;
+          }
+
+          $baru->save(false);
           $modelBudget->save(false);
 
+          $model->responsibility_value = 2;
+          $model->activity_id = $id ;
 
             $model->save(false);
             Yii::$app->getSession()->setFlash('success', 'Buat Data Pertanggungjawaban Berhasil');
@@ -211,9 +223,31 @@ class ChiefActivityDailyResponsibilityController extends Controller
             }
 
 
+                //pengurangan dan penambahan realisasi dana
+                if ($oldDana == $modelBudget->budget_value_dp) {
+                    //noaction
+                }elseif ($modelBudget->budget_value_sum == $modelBudget->budget_value_dp) {
+                    if ($oldDana > $modelBudget->budget_value_dp) {
+                      $rangeBudget = $oldDana-$modelBudget->budget_value_dp;
+                      $baru->chief_budget_value = $baru->chief_budget_value+$rangeBudget;
+                    } else {
+                      $rangeBudget = $modelBudget->budget_value_dp-$oldDana;
+                      $baru->chief_budget_value = $baru->chief_budget_value-$rangeBudget;
+                    }
+                } elseif ($modelBudget->budget_value_sum > $modelBudget->budget_value_dp) {
+                    $rangeBudget = $modelBudget->budget_value_sum - $modelBudget->budget_value_dp;
+                    $baru->chief_budget_value = $baru->chief_budget_value+$rangeBudget;
+                } else {
+                    $rangeBudget = $modelBudget->budget_value_dp-$modelBudget->budget_value_sum;
+                    $baru->chief_budget_value = $baru->chief_budget_value-$rangeBudget;
+                }
+
+                $baru->save(false);
                 $modelBudget->save(false);
+
                 $model->responsibility_value = 2;
                 $model->save(false);
+
                 Yii::$app->getSession()->setFlash('success', 'Update Data Pertanggungjawaban Berhasil');
                 return $this->redirect(['chief-activity-responsibility/index']);
 

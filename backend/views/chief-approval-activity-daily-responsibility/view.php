@@ -11,6 +11,10 @@ $this->title = 'Data Pertangungjawaban';
 $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 <?php if ($role->role == 7) { ?>
 <div class="approve-view">
@@ -23,11 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetDepartsOne.budget_value_sum',
-                'label'=>'Uang Muka'
+                'label'=>'Uang Muka',
+                'value' => function($model)
+                {
+                    return to_rp($model->activity->activityDailyBudgetDepartsOne->budget_value_sum);
+                }
             ],
             [
                 'attribute'=>'activity.activityDailyBudgetDepartsOne.budget_value_dp',
-                'label'=>'Uang Yang Terealisasikan'
+                'label'=>'Uang Yang Terealisasikan',
+                'value' => function($model)
+                {
+                    return to_rp($model->activity->activityDailyBudgetDepartsOne->budget_value_dp);
+                }
             ],
             [
                 'attribute'=>'file',
@@ -72,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'file',
                 'format'=>'raw',
-                'value'=>Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']),
+                'value'=> (($model->file != "" )? $model->file." <br>".Html::a('Download File', ['download', 'id' => $model->id], ['class' => 'btn btn-primary']) : "-"),
                 'label'=>'File'
             ],
             [
