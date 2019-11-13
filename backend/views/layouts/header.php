@@ -60,3 +60,21 @@ use yii\helpers\Url;
         </div>
     </nav>
 </header>
+
+<?php
+Modal::begin([
+    'header' => 'Tambah Data Dokter',
+    'id' => 'modal',
+    'size' => 'modal-md',
+]);
+echo "<div id='modalContent'></div>";
+Modal::end();
+?>
+
+<script>
+    $('.modalButton').on('click', function () {
+        $('#modal').modal('show')
+        .find('#modalContent')
+        .load($(this).attr('value'));
+    });
+</script>

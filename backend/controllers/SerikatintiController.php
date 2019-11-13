@@ -204,35 +204,19 @@ class SerikatintiController extends Controller
     public function actionDelete($id)
     {
         $model = User::find()->where(['role'=>$id])->one();
-        $sekre = Secretariat::find()->where(['user_id'=>$model->id])->one();
-        $sekreBudget = SecretariatBudget::find()->where(['secretariat_id'=>$sekre->id])->one();
-        $coba = SecretariatBudget::find()->where(['secretariat_id'=>$sekre->id])->one();
-        $permission = User::find()->where(['username'=>Yii::$app->user->identity->username])->andWhere(['id'=>$model->id])->one();
+        $model->delete();
+        Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
+        return $this->redirect(['index']);
+    }
 
-        if ($permission) {
-            Yii::$app->getSession()->setFlash('error', "Tidak Bisa Hapus Karena Login");
-            return $this->redirect(Yii::$app->request->referrer);
-        } elseif($coba){
-             Yii::$app->getSession()->setFlash('error', 'Tidak Bisa Hapus Karena Ada Data Di Tabel Sekretrariat sekreBudget');
-             return $this->redirect(Yii::$app->request->referrer);
-        }else {
-            if ($sekreBudget) {
-            $sekreBudget->delete();
-            $sekre->delete();
-            $model->delete();
-            Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
-            return $this->redirect(['index']);
-            }elseif($sekre){
-            $sekre->delete();
-            $model->delete();
-            Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
-            return $this->redirect(['index']);
-            }else{
-            $model->delete();
-            Yii::$app->getSession()->setFlash('success', 'Hapus Akun Berhasil');
-            return $this->redirect(['index']);
-            }
-        }
+    public function actionReset($id)
+    {
+        $model = User::find()->where(['role'=>$id])->one();
+        $password = 123456;
+        $model->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+        $model->save(false);
+        Yii::$app->getSession()->setFlash('success', 'Reset Password Berhasil');
+        return $this->redirect(['index']);
     }
 
     /**

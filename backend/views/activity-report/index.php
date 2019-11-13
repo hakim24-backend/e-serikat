@@ -69,22 +69,41 @@ $gridColumns = [
     [
         'header' => 'Uang Muka',
         'headerOptions' =>[
+            'style' => 'width:10%'
+        ],
+        'format'=> 'raw',
+        'value' => function($data)
+        {
+            if ($data->role == 4) {
+                return to_rp($data->activityBudgetSecretariatsOne->budget_value_sum);
+            } elseif ($data->role == 6) {
+                return to_rp($data->activityBudgetChiefsOne->budget_value_sum);
+            } elseif ($data->role == 7) {
+                return to_rp($data->activityBudgetDepartmentsOne->budget_value_sum);
+            } elseif ($data->role == 8) {
+                return to_rp($data->activityBudgetSectionsOne->budget_value_sum);
+            }
+        }
+    ],
+
+    [
+        'header' => 'Uang Realisasi',
+        'headerOptions' =>[
             'style' => 'width:15%'
         ],
         'format'=> 'raw',
         'value' => function($data)
         {
-            if($data->activityBudgetChiefsOne != null){
-                return to_rp($data->activityBudgetChiefsOne->budget_value_sum);
-            }elseif ($data->activityBudgetDepartmentsOne != null) {
-                return to_rp($data->activityBudgetDepartmentsOne->budget_value_sum);
-            }elseif($data->activitySectionsOne != null){
-                return to_rp($data->activityBudgetSectionsOne->budget_value_sum);
-            }else{
-                return "-";
+            if ($data->role == 4) {
+                return to_rp($data->activityBudgetSecretariatsOne->budget_value_dp);
+            } elseif ($data->role == 6) {
+                return to_rp($data->activityBudgetChiefsOne->budget_value_dp);
+            } elseif ($data->role == 7) {
+                return to_rp($data->activityBudgetDepartmentsOne->budget_value_dp);
+            } elseif ($data->role == 8) {
+                return to_rp($data->activityBudgetSectionsOne->budget_value_dp);
             }
         }
-        //'attribute' => 'activityBudgetChiefsOne.budget_value_sum',
     ],
 
     [
@@ -299,21 +318,39 @@ ExportMenu::widget([
                                     [
                                         'header' => 'Uang Muka',
                                         'headerOptions' =>[
+                                            'style' => 'width:10%'
+                                        ],
+                                        'format'=> 'raw',
+                                        'value' => function($data)
+                                        {
+                                            if ($data->role == 4) {
+                                                return to_rp($data->activityBudgetSecretariatsOne->budget_value_sum);
+                                            } elseif ($data->role == 6) {
+                                                return to_rp($data->activityBudgetChiefsOne->budget_value_sum);
+                                            } elseif ($data->role == 7) {
+                                                return to_rp($data->activityBudgetDepartmentsOne->budget_value_sum);
+                                            } elseif ($data->role == 8) {
+                                                return to_rp($data->activityBudgetSectionsOne->budget_value_sum);
+                                            }
+                                        }
+                                    ],
+
+                                    [
+                                        'header' => 'Uang Realisasi',
+                                        'headerOptions' =>[
                                             'style' => 'width:15%'
                                         ],
                                         'format'=> 'raw',
                                         'value' => function($data)
                                         {
-                                            if($data->activityBudgetChiefsOne != null){
-                                                return to_rp($data->activityBudgetChiefsOne->budget_value_sum);
-                                            }elseif ($data->activityBudgetDepartmentsOne != null) {
-                                                return to_rp($data->activityBudgetDepartmentsOne->budget_value_sum);
-                                            }elseif ($data->activityBudgetSecretariatsOne != null) {
-                                                return to_rp($data->activityBudgetSecretariatsOne->budget_value_sum);
-                                            }elseif($data->activitySectionsOne != null){
-                                                return to_rp($data->activityBudgetSectionsOne->budget_value_sum);
-                                            }else{
-                                                return "-";
+                                            if ($data->role == 4) {
+                                                return to_rp($data->activityBudgetSecretariatsOne->budget_value_dp);
+                                            } elseif ($data->role == 6) {
+                                                return to_rp($data->activityBudgetChiefsOne->budget_value_dp);
+                                            } elseif ($data->role == 7) {
+                                                return to_rp($data->activityBudgetDepartmentsOne->budget_value_dp);
+                                            } elseif ($data->role == 8) {
+                                                return to_rp($data->activityBudgetSectionsOne->budget_value_dp);
                                             }
                                         }
                                     ],

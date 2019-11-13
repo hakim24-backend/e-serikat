@@ -166,10 +166,10 @@ function to_rp($val)
               <td colspan="4" class="text-center">Menyetujui</td>
             </tr>
             <tr>
-              <td width="25%">KADEP</td>
+              <td class="text-center" width="25%">KADEP</td>
               <td class="text-center" width="25%">KETUA</td>
-              <td class="text-center" width="25%">SEKERTARIS UMUM</td>
-              <td class="text-center" width="25%">BENDAHARA </td>
+              <td class="text-center" width="25%">SEKERTARIS</td>
+              <td class="text-center" width="25%">BENDAHARA</td>
             </tr>
             <tr>
               <td class="text-center" style="border-bottom-style: hidden;"></td>
@@ -223,9 +223,9 @@ function to_rp($val)
 
             <tr>
               <td></td>
-              <td></td>
-              <td></td>
-              <td class="text-center">Telah disetujui oleh System<div style="margin-top: 100px;"></div></td>
+              <td class="text-center">telah disetujui sistem</td>
+              <td class="text-center">telah disetujui sistem</td>
+              <td class="text-center"><div style="margin-top: 100px;"></div></td>
               <td class="text-center"><div style="margin-top: 100px;"></div></td>
             </tr>
             <tr>

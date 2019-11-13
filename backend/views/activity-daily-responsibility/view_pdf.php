@@ -166,7 +166,6 @@ function to_rp($val)
               <?php } elseif ($Role == "Seksi") { ?>
                 <td class="text-center"><?=to_rp($budget->budget_value_dp - $budget->budget_value_sum)?></td>
               <?php } ?>
-              <td class="text-center"><?=to_rp($budget->budget_value_dp - $budget->budget_value_sum)?></td>
             </tr>
 
             <tr>
@@ -188,12 +187,12 @@ function to_rp($val)
            </tr>
            <tr>
              <?php if ($Role == "Sekretariat") { ?>
-               <td class="text-center" width="40%">SEKRETARIS UMUM</td>
+               <td class="text-center" width="40%">SEKRETARIS</td>
                <td class="text-center" width="40%">BENDAHARA </td>
              <?php } elseif ($Role == "Seksi") { ?>
                <td width="20%" class="text-center">KADEP</td>
                <td class="text-center" width="20%">KETUA</td>
-               <td class="text-center" width="20%">SEKRETARIS UMUM</td>
+               <td class="text-center" width="20%">SEKRETARIS</td>
                <td class="text-center" width="20%">BENDAHARA </td>
              <?php } ?>
            </tr>
@@ -293,8 +292,8 @@ function to_rp($val)
              </tr>
              <tr>
                <td></td>
-               <td></td>
-               <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
+               <td class="text-center">telah disetujui sistem</td>
+               <td class="text-center">telah disetujui sistem<div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
                <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
                <td></td>
              </tr>

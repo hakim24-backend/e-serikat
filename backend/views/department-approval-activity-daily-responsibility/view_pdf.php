@@ -214,7 +214,7 @@ function to_rp($val)
             </tr>
             <tr>
               <td></td>
-              <td></td>
+              <td class="text-center">telah disetujui sistem</td>
               <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
               <td class="text-center"><div style="margin-top: 100px;"><p style="font-size: 11.5px;"></p></div></td>
             </tr>

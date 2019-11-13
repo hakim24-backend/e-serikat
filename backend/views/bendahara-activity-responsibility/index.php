@@ -7,9 +7,15 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 use common\models\ActivityResponsibility;
+use common\models\Activity;
+use common\models\ActivityDaily;
 use common\models\ActivityDailyResponsibility;
 $this->title = 'Data Pertanggung Jawaban Kegiatan Rutin';
 $this->params['breadcrumbs'][] = $this->title;
+function to_rp($val)
+{
+    return "Rp " . number_format($val,0,',','.');
+}
 ?>
 <div class="activity-daily-index">
 
@@ -33,12 +39,106 @@ $this->params['breadcrumbs'][] = $this->title;
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn'],
 
-                                            [
+                                    [
                                         'header' => 'Judul',
                                         'headerOptions' =>[
-                                        'style' => 'width:50%'
+                                        'style' => 'width:25%'
                                         ],
                                         'attribute' => 'title',
+                                    ],
+
+                                    [
+                                        'header' => 'Dana terealisasi',
+                                        'headerOptions' =>[
+                                        'style' => 'width:10%'
+                                        ],
+                                        'format' => 'raw',
+                                        'value' => function($model){
+                                          if($model[0]=="kegiatan"){
+                                           $data = Activity::find()->where(['id'=>$model['id']])->one();
+                                           if($data->role == 4)
+                                           {
+                                             return to_rp($data->activityBudgetSecretariatsOne->budget_value_dp);
+                                           }
+                                           else if($data->role == 6)
+                                           {
+                                               return to_rp($data->activityBudgetChiefsOne->budget_value_dp);
+                                           }
+                                           else if($data->role == 7)
+                                           {
+                                             return to_rp($data->activityBudgetDepartmentsOne->budget_value_dp);
+                                           }
+                                           else if($data->role == 8)
+                                           {
+                                             return to_rp($data->activityBudgetSectionsOne->budget_value_dp);
+                                           }
+                                         }else if($model[0]=="rutin"){
+                                           $data = ActivityDaily::find()->where(['id'=>$model['id']])->one();
+                                           if($data->role == 4)
+                                           {
+                                             return to_rp($data->activityDailyBudgetSecretariatsOne->budget_value_dp);
+                                           }
+                                           else if($data->role == 6)
+                                           {
+                                               return to_rp($data->activityDailyBudgetChiefsOne->budget_value_dp);
+                                           }
+                                           else if($data->role == 7)
+                                           {
+                                             return to_rp($data->activityDailyBudgetDepartsOne->budget_value_dp);
+                                           }
+                                           else if($data->role == 8)
+                                           {
+                                             return to_rp($data->activityDailyBudgetSectionsOne->budget_value_dp);
+                                           }
+                                         }
+                                        }
+                                    ],
+
+                                    [
+                                        'header' => 'Saldo',
+                                        'headerOptions' =>[
+                                        'style' => 'width:10%'
+                                        ],
+                                        'format' => 'raw',
+                                        'value' => function($model){
+                                          if($model[0]=="kegiatan"){
+                                           $data = Activity::find()->where(['id'=>$model['id']])->one();
+                                           if($data->role == 4)
+                                           {
+                                             return to_rp($data->activityBudgetSecretariatsOne->budget_value_sum);
+                                           }
+                                           else if($data->role == 6)
+                                           {
+                                               return to_rp($data->activityBudgetChiefsOne->budget_value_sum);
+                                           }
+                                           else if($data->role == 7)
+                                           {
+                                             return to_rp($data->activityBudgetDepartmentsOne->budget_value_sum);
+                                           }
+                                           else if($data->role == 8)
+                                           {
+                                             return to_rp($data->activityBudgetSectionsOne->budget_value_sum);
+                                           }
+                                         }else if($model[0]=="rutin"){
+                                           $data = ActivityDaily::find()->where(['id'=>$model['id']])->one();
+                                           if($data->role == 4)
+                                           {
+                                             return to_rp($data->activityDailyBudgetSecretariatsOne->budget_value_sum);
+                                           }
+                                           else if($data->role == 6)
+                                           {
+                                               return to_rp($data->activityDailyBudgetChiefsOne->budget_value_sum);
+                                           }
+                                           else if($data->role == 7)
+                                           {
+                                             return to_rp($data->activityDailyBudgetDepartsOne->budget_value_sum);
+                                           }
+                                           else if($data->role == 8)
+                                           {
+                                             return to_rp($data->activityDailyBudgetSectionsOne->budget_value_sum);
+                                           }
+                                         }
+                                        }
                                     ],
 
                                     [

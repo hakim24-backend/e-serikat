@@ -65,16 +65,34 @@ $gridColumns = [
     'format'=> 'raw',
     'value' => function($data)
         {
-            if($data->activityDailyBudgetChiefsOne != null){
-                return to_rp($data->activityDailyBudgetChiefsOne->budget_value_sum);
-            }elseif ($data->activityDailyBudgetDepartsOne != null) {
-                return to_rp($data->activityDailyBudgetDepartsOne->budget_value_sum);
-            }elseif($data->activityDailyBudgetSectionsOne != null){
-                return to_rp($data->activityDailyBudgetSectionsOne->budget_value_sum);
-            }elseif($data->activityDailyBudgetSecretariatsOne != null){
+            if ($data->role == 4) {
                 return to_rp($data->activityDailyBudgetSecretariatsOne->budget_value_sum);
-            }else{
-                return "-";
+            } elseif ($data->role == 6) {
+                return to_rp($data->activityDailyBudgetChiefsOne->budget_value_sum);
+            } elseif ($data->role == 7) {
+                return to_rp($data->activityDailyBudgetDepartsOne->budget_value_sum);
+            } elseif ($data->role == 8) {
+                return to_rp($data->activityDailyBudgetSectionsOne->budget_value_sum);
+            }
+        }
+    ],
+
+    [
+    'header' => 'Uang Realisasi',
+    'headerOptions' =>[
+        'style' => 'width:15%'
+    ],
+    'format'=> 'raw',
+    'value' => function($data)
+        {
+            if ($data->role == 4) {
+                return to_rp($data->activityDailyBudgetSecretariatsOne->budget_value_dp);
+            } elseif ($data->role == 6) {
+                return to_rp($data->activityDailyBudgetChiefsOne->budget_value_dp);
+            } elseif ($data->role == 7) {
+                return to_rp($data->activityDailyBudgetDepartsOne->budget_value_dp);
+            } elseif ($data->role == 8) {
+                return to_rp($data->activityDailyBudgetSectionsOne->budget_value_dp);
             }
         }
     ],
@@ -289,17 +307,34 @@ ExportMenu::widget([
                                 'format'=> 'raw',
                                 'value' => function($data)
                                     {
-                                        if($data->activityDailyBudgetChiefsOne != null){
-                                            return to_rp($data->activityDailyBudgetChiefsOne->budget_value_sum);
-                                        }elseif ($data->activityDailyBudgetDepartsOne != null) {
-                                            return to_rp($data->activityDailyBudgetDepartsOne->budget_value_sum);
-                                        }elseif($data->activityDailyBudgetSectionsOne != null){
-                                            return to_rp($data->activityDailyBudgetSectionsOne->budget_value_sum);
-                                        }elseif($data->activityDailyBudgetSecretariatsOne != null){
+                                        if ($data->role == 4) {
                                             return to_rp($data->activityDailyBudgetSecretariatsOne->budget_value_sum);
+                                        } elseif ($data->role == 6) {
+                                            return to_rp($data->activityDailyBudgetChiefsOne->budget_value_sum);
+                                        } elseif ($data->role == 7) {
+                                            return to_rp($data->activityDailyBudgetDepartsOne->budget_value_sum);
+                                        } elseif ($data->role == 8) {
+                                            return to_rp($data->activityDailyBudgetSectionsOne->budget_value_sum);
                                         }
-                                        else{
-                                            return "-";
+                                    }
+                                ],
+
+                                [
+                                'header' => 'Uang Realisasi',
+                                'headerOptions' =>[
+                                    'style' => 'width:15%'
+                                ],
+                                'format'=> 'raw',
+                                'value' => function($data)
+                                    {
+                                        if ($data->role == 4) {
+                                            return to_rp($data->activityDailyBudgetSecretariatsOne->budget_value_dp);
+                                        } elseif ($data->role == 6) {
+                                            return to_rp($data->activityDailyBudgetChiefsOne->budget_value_dp);
+                                        } elseif ($data->role == 7) {
+                                            return to_rp($data->activityDailyBudgetDepartsOne->budget_value_dp);
+                                        } elseif ($data->role == 8) {
+                                            return to_rp($data->activityDailyBudgetSectionsOne->budget_value_dp);
                                         }
                                     }
                                 ],

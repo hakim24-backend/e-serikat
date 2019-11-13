@@ -26,7 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
   <div class="col-sm-12">
     <label>Dana Budget Sekarang : </label>
     <?php if ($Role == "Ketua") { ?>
-        <?= to_rp($baru->chief_budget_value) ?>
+        <div id="budget_now">
+            <?= to_rp($baru->chief_budget_value) ?>
+        </div><br>
     <?php } elseif ($Role == "Seksi") { ?>
         <?= to_rp($baru->section_budget_value) ?>
    <?php } ?>
@@ -35,7 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
   <br>
   <div class="col-sm-12">
     <label>Dana Yang diajukan : </label>
-        <?= to_rp($modelBudget->budget_value_sum) ?>
+        <div>
+            <?= to_rp($modelBudget->budget_value_sum) ?>
+        </div><br>
   </div>
 
   
@@ -100,10 +104,32 @@ $this->params['breadcrumbs'][] = $this->title;
 	]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-save']) ?>
         <a class="btn btn-danger" href="<?= Url::to(Yii::$app->request->referrer);?>">Batal</a>
     </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php 
+  
+$this->registerJs("
+
+  $('.btn-save').on('click',function(){
+    var id_budget_now = $('#budget_now').text();
+    var budget_fix  = id_budget_now.replace('Rp ','').replace(/\./g,'');
+    var id_realisasi = $('#activitybudgetchief-budget_value_dp-disp').val();
+    var realisasi_fix = id_realisasi.replace('Rp ','').replace(/\./g,'');
+
+    if(BigInt(budget_fix) < BigInt(realisasi_fix)){
+        alert('Realisasi dana tidak boleh melebihi dana budget sekarang');
+        $('#activitybudgetchief-budget_value_dp-disp').focus();
+        return false;
+    }
+
+  });
+ 
+");
+
+?>

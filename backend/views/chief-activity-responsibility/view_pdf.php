@@ -166,7 +166,7 @@ function to_rp($val)
              </tr>
              <tr>
                <td class="text-center" width="25%">KETUA</td>
-               <td class="text-center" width="25%">SEKERTARIS UMUM </td>
+               <td class="text-center" width="25%">SEKERTARIS</td>
                <td class="text-center" width="25%">BENDAHARA </td>
              </tr>
              <tr>
@@ -207,7 +207,7 @@ function to_rp($val)
              </tr>
              <tr>
                <td></td>
-               <td class="text-center"><div style="margin-top: 100px;"></div></td>
+               <td class="text-center">telah disetujui sistem<div style="margin-top: 100px;"></div></td>
                <td class="text-center"><div style="margin-top: 100px;"></div></td>
                <td></td>
              </tr>

@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Action',
-                                'template' => ' {edit}  {delete} ',
+                                'template' => ' {edit} {reset} {delete}',
                                 'buttons' => [
 
 
@@ -78,6 +78,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                             );
                                         }
                                     },
+                                    'reset' => function ($url, $model)
+                                    {
+                                        if ($model->users) {
+                                            $url = Url::toRoute(['/serikatinti/reset', 'id' => $model->id]);
+                                            return Html::a(
+                                                '<span class="glyphicon glyphicon-refresh"></span>',
+                                                $url,
+                                                [
+                                                    'title' => 'Reset Password',
+                                                ]
+                                            );
+                                        } else {
+                                            //noaction
+                                        }
+                                    },
                                     'delete' => function ($url, $model) {
                                       if($model->users){
                                         $url = Url::toRoute(['/serikatinti/delete', 'id' => $model->id]);
@@ -88,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                         ]);
                                       }
-                                    },
+                                    }
                                 ]
                             ],
                         ],

@@ -11,7 +11,6 @@ $this->title = 'Data Pertangungjawaban';
 $this->params['breadcrumbs'][] = ['label' => 'Approves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $url = Yii::$app->request->baseUrl."/template/";
-
 \yii\web\YiiAsset::register($this);
 ?>
 <style>
@@ -40,7 +39,11 @@ $url = Yii::$app->request->baseUrl."/template/";
             ],
             [
                 'attribute'=>'activity.activityBudgetSecretariatsOne.budget_value_dp',
-                'label'=>'Uang Yang Terealisasikan'
+                'label'=>'Uang Yang Terealisasikan',
+                'value' => function($model)
+                  {
+                    return "Rp " . number_format($model->activity->activityBudgetSecretariatsOne->budget_value_dp,0,',','.');
+                  }
             ],
             [
                 'attribute'=>'file',
